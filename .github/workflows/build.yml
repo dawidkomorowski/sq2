@@ -1,0 +1,33 @@
+name: Build
+
+permissions:
+  checks: write
+
+on:
+  push:
+    branches: [master]
+
+defaults:
+  run:
+    shell: powershell
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 6.0.x
+
+      - name: Publish solution
+        run: dotnet publish SQ2.sln --configuration Release -p:BuildNumber=$env:GITHUB_RUN_NUMBER --output ./publish
+
+      - name: Upload published package as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SQ2.${{ env.PublishVersion }}
+          path: ./publish
