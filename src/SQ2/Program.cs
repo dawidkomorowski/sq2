@@ -1,4 +1,5 @@
 ﻿using System;
+using Geisha.Engine.Windows;
 
 namespace SQ2;
 
@@ -10,6 +11,6 @@ internal static class Program
     [STAThread]
     static void Main()
     {
-        //WindowsApplication.Run(new DemoApp());
+        WindowsApplication.Run(new SQ2Game());
     }
 }
