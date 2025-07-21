@@ -29,6 +29,7 @@ jobs:
         run: |
           dotnet publish SQ2.sln --configuration Release -p:BuildNumber=$env:GITHUB_RUN_NUMBER
           $env:PACKAGE_VERSION = (Get-Item -Path "$env:PUBLISH_DIR/SQ2.exe").VersionInfo.ProductVersion.Split('+')[0]
+          Write-Host "PACKAGE_VERSION=$env:PACKAGE_VERSION"
 
       - name: Upload published package as artifact
         uses: actions/upload-artifact@v4
