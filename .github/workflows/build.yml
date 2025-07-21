@@ -14,6 +14,8 @@ defaults:
 jobs:
   build:
     runs-on: windows-latest
+    env:
+      PUBLISH_DIR: ./src/SQ2/bin/Release/net6.0-windows/win-x64/publish
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -24,10 +26,12 @@ jobs:
           dotnet-version: 6.0.x
 
       - name: Publish solution
-        run: dotnet publish SQ2.sln --configuration Release -p:BuildNumber=$env:GITHUB_RUN_NUMBER --output ./publish
+        run: |
+          dotnet publish SQ2.sln --configuration Release -p:BuildNumber=$env:GITHUB_RUN_NUMBER
+          $env:PACKAGE_VERSION = (Get-Item -Path "$env:PUBLISH_DIR/SQ2.exe").VersionInfo.ProductVersion.Split('+')[0]
 
       - name: Upload published package as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: SQ2.${{ env.PublishVersion }}
-          path: ./publish
+          name: SQ2.${{ env.PACKAGE_VERSION }}
+          path: ${{ env.PUBLISH_DIR }}
