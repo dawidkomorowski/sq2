@@ -10,6 +10,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <BuildNumber>0</BuildNumber>
+    <VersionPrefix>0.1.$(BuildNumber)</VersionPrefix>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Geisha.Engine.Windows" Version="0.10.0" />
   </ItemGroup>
