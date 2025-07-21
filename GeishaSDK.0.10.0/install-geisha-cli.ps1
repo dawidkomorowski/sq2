@@ -1,0 +1,1 @@
+dotnet tool update --global --add-source .\tools Geisha.Cli
