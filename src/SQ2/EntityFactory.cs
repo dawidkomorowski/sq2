@@ -1,0 +1,64 @@
+﻿using System;
+using Geisha.Engine.Core.Assets;
+using Geisha.Engine.Core.Components;
+using Geisha.Engine.Core.Math;
+using Geisha.Engine.Core.SceneModel;
+using Geisha.Engine.Input.Components;
+using Geisha.Engine.Physics.Components;
+using Geisha.Engine.Rendering;
+using Geisha.Engine.Rendering.Components;
+
+namespace SQ2;
+
+internal sealed class EntityFactory
+{
+    private readonly IAssetStore _assetStore;
+
+    public EntityFactory(IAssetStore assetStore)
+    {
+        _assetStore = assetStore;
+    }
+
+    public Entity CreateDevControls(Scene scene)
+    {
+        var entity = scene.CreateEntity();
+        entity.CreateComponent<DevControlsComponent>();
+        return entity;
+    }
+
+    public Entity CreatePlayer(Scene scene, double x, double y)
+    {
+        var entity = scene.CreateEntity();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = new Vector2(x, y);
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("ff2c22e2-d8b9-4e7e-b6fa-e1926e98465b")));
+        var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
+        rectangleColliderComponent.Dimensions = new Vector2(24, 24);
+        var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
+        kinematicRigidBody2DComponent.EnableCollisionResponse = true;
+        entity.CreateComponent<InputComponent>();
+        entity.CreateComponent<PlayerComponent>();
+        return entity;
+    }
+
+    public Entity CreateLevelTile(Scene scene, int tx, int ty)
+    {
+        var entity = scene.CreateEntity();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = new Vector2(tx * GlobalSettings.TileSize.Width, ty * GlobalSettings.TileSize.Height);
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("c68e1612-a44b-4535-88d0-7a8a223a9546")));
+        entity.CreateComponent<TileColliderComponent>();
+        return entity;
+    }
+
+    public Entity CreateCamera(Scene scene)
+    {
+        var entity = scene.CreateEntity();
+        entity.CreateComponent<Transform2DComponent>();
+        var cameraComponent = entity.CreateComponent<CameraComponent>();
+        cameraComponent.ViewRectangle = GlobalSettings.ViewSize;
+        return entity;
+    }
+}

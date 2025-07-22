@@ -1,10 +1,4 @@
-﻿using System;
-using Geisha.Engine.Core.Assets;
-using Geisha.Engine.Core.Components;
-using Geisha.Engine.Core.Math;
-using Geisha.Engine.Core.SceneModel;
-using Geisha.Engine.Rendering;
-using Geisha.Engine.Rendering.Components;
+﻿using Geisha.Engine.Core.SceneModel;
 
 namespace SQ2;
 
@@ -12,45 +6,53 @@ namespace SQ2;
 internal sealed class DefaultSceneBehaviorFactory : ISceneBehaviorFactory
 {
     private const string DefaultSceneBehaviorName = "Default";
-    private readonly IAssetStore _assetStore;
+    private readonly EntityFactory _entityFactory;
 
-    public DefaultSceneBehaviorFactory(IAssetStore assetStore)
+    public DefaultSceneBehaviorFactory(EntityFactory entityFactory)
     {
-        _assetStore = assetStore;
+        _entityFactory = entityFactory;
     }
 
     public string BehaviorName => DefaultSceneBehaviorName;
 
-    public SceneBehavior Create(Scene scene) => new DefaultSceneBehavior(scene, _assetStore);
+    public SceneBehavior Create(Scene scene) => new DefaultSceneBehavior(scene, _entityFactory);
 
     private sealed class DefaultSceneBehavior : SceneBehavior
     {
-        private readonly IAssetStore _assetStore;
+        private readonly EntityFactory _entityFactory;
 
-        public DefaultSceneBehavior(Scene scene, IAssetStore assetStore) : base(scene)
+        public DefaultSceneBehavior(Scene scene, EntityFactory entityFactory) : base(scene)
         {
-            _assetStore = assetStore;
+            _entityFactory = entityFactory;
         }
 
         public override string Name => DefaultSceneBehaviorName;
 
         protected override void OnLoaded()
         {
-            var e = Scene.CreateEntity();
-            e.CreateComponent<Transform2DComponent>();
-            var cameraComponent = e.CreateComponent<CameraComponent>();
-            cameraComponent.ViewRectangle = new Vector2(1280/4d, 720/4d);
+            _entityFactory.CreateDevControls(Scene);
 
-            var entity = Scene.CreateEntity();
-            entity.CreateComponent<Transform2DComponent>();
-            var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
-            spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("c68e1612-a44b-4535-88d0-7a8a223a9546")));
+            _entityFactory.CreateCamera(Scene);
 
-            var e2 = Scene.CreateEntity();
-            var t = e2.CreateComponent<Transform2DComponent>();
-            t.Translation = new Vector2(0, 21);
-            var spriteRendererComponent2 = e2.CreateComponent<SpriteRendererComponent>();
-            spriteRendererComponent2.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("ff2c22e2-d8b9-4e7e-b6fa-e1926e98465b")));
+            _entityFactory.CreatePlayer(Scene, 0, 21);
+
+            _entityFactory.CreateLevelTile(Scene, -2, -3);
+
+            const int bx1 = -2;
+            const int by1 = -4;
+            _entityFactory.CreateLevelTile(Scene, bx1, by1);
+            _entityFactory.CreateLevelTile(Scene, bx1 + 1, by1);
+            _entityFactory.CreateLevelTile(Scene, bx1 + 2, by1);
+            _entityFactory.CreateLevelTile(Scene, bx1 + 3, by1);
+            _entityFactory.CreateLevelTile(Scene, bx1 + 4, by1);
+
+            const int bx2 = 3;
+            const int by2 = -1;
+            _entityFactory.CreateLevelTile(Scene, bx2, by2);
+            _entityFactory.CreateLevelTile(Scene, bx2 + 1, by2);
+            _entityFactory.CreateLevelTile(Scene, bx2 + 2, by2);
+            _entityFactory.CreateLevelTile(Scene, bx2 + 3, by2);
+            _entityFactory.CreateLevelTile(Scene, bx2 + 4, by2);
         }
     }
 }

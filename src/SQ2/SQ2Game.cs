@@ -17,11 +17,29 @@ internal class SQ2Game : Game
             {
                 StartUpSceneBehavior = "Default",
                 ShowFps = true
+            },
+            Rendering = configuration.Rendering with
+            {
+                ScreenWidth = GlobalSettings.WindowSize.Width,
+                ScreenHeight = GlobalSettings.WindowSize.Height
+            },
+            Physics = configuration.Physics with
+            {
+                TileSize = GlobalSettings.TileSize,
+                RenderCollisionGeometry = true
             }
         };
 
     public override void RegisterComponents(IComponentsRegistry componentsRegistry)
     {
+        // Common services
+        componentsRegistry.RegisterSingleInstance<EntityFactory>();
+
+        // Scene behaviors
         componentsRegistry.RegisterSceneBehaviorFactory<DefaultSceneBehaviorFactory>();
+
+        // Components
+        componentsRegistry.RegisterComponentFactory<DevControlsComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<PlayerComponentFactory>();
     }
 }
