@@ -58,3 +58,6 @@ nunit-*.xml
 
 # Not ignore Geisha SDK
 !/GeishaSDK.0.10.0/*/*.nupkg
+
+# Tiled session file
+*.tiled-session
