@@ -6,7 +6,8 @@
     "extensionsPath": "extensions",
     "folders": [
         ".",
-        "../Assets/TileSets"
+        "../Assets/TileSets",
+        "../Assets/Maps"
     ],
     "properties": [
     ],
