@@ -15,7 +15,8 @@ internal class SQ2Game : Game
         {
             Core = configuration.Core with
             {
-                StartUpSceneBehavior = "Default"
+                StartUpSceneBehavior = "Default",
+                ShowFps = true
             }
         };
 

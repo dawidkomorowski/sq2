@@ -45,6 +45,12 @@ internal sealed class DefaultSceneBehaviorFactory : ISceneBehaviorFactory
             entity.CreateComponent<Transform2DComponent>();
             var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
             spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("c68e1612-a44b-4535-88d0-7a8a223a9546")));
+
+            var e2 = Scene.CreateEntity();
+            var t = e2.CreateComponent<Transform2DComponent>();
+            t.Translation = new Vector2(0, 21);
+            var spriteRendererComponent2 = e2.CreateComponent<SpriteRendererComponent>();
+            spriteRendererComponent2.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("ff2c22e2-d8b9-4e7e-b6fa-e1926e98465b")));
         }
     }
 }
