@@ -14,6 +14,7 @@ internal sealed class PlayerComponent : BehaviorComponent
 {
     private KinematicRigidBody2DComponent? _kinematicRigidBody2DComponent;
     private RectangleColliderComponent? _rectangleColliderComponent;
+    private Transform2DComponent? _transform2DComponent;
     private InputComponent? _inputComponent;
     private Transform2DComponent? _cameraTransform;
 
@@ -25,6 +26,7 @@ internal sealed class PlayerComponent : BehaviorComponent
     {
         _kinematicRigidBody2DComponent = Entity.GetComponent<KinematicRigidBody2DComponent>();
         _rectangleColliderComponent = Entity.GetComponent<RectangleColliderComponent>();
+        _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
         _inputComponent = Entity.GetComponent<InputComponent>();
 
         _cameraTransform = Scene.RootEntities.Single(e => e.HasComponent<CameraComponent>()).GetComponent<Transform2DComponent>();
@@ -85,9 +87,17 @@ internal sealed class PlayerComponent : BehaviorComponent
     public override void OnUpdate(GameTime gameTime)
     {
         // Basic camera follow.
+        Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
         Debug.Assert(_cameraTransform != null, nameof(_cameraTransform) + " != null");
-        var playerPosition = Entity.GetComponent<Transform2DComponent>().Translation;
-        _cameraTransform.Translation = playerPosition;
+
+        const double minDistance = 30;
+        var distanceToPlayer = _cameraTransform.Translation.Distance(_transform2DComponent.Translation);
+        if (distanceToPlayer > minDistance)
+        {
+            var factor = distanceToPlayer - minDistance;
+            var directionToPlayer = (_transform2DComponent.Translation - _cameraTransform.Translation).Unit;
+            _cameraTransform.Translation += directionToPlayer * factor;
+        }
     }
 }
 
