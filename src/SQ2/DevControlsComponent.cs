@@ -10,10 +10,12 @@ namespace SQ2;
 internal sealed class DevControlsComponent : BehaviorComponent
 {
     private readonly IEngineManager _engineManager;
+    private readonly ISceneManager _sceneManager;
 
-    public DevControlsComponent(Entity entity, IEngineManager engineManager) : base(entity)
+    public DevControlsComponent(Entity entity, IEngineManager engineManager, ISceneManager sceneManager) : base(entity)
     {
         _engineManager = engineManager;
+        _sceneManager = sceneManager;
     }
 
     public override void OnStart()
@@ -33,11 +35,23 @@ internal sealed class DevControlsComponent : BehaviorComponent
                             HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Escape)
                         }
                     }
+                },
+                new ActionMapping
+                {
+                    ActionName = "Reload",
+                    HardwareActions =
+                    {
+                        new HardwareAction
+                        {
+                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.F5)
+                        }
+                    }
                 }
             }
         };
 
         inputComponent.BindAction("Exit", _engineManager.ScheduleEngineShutdown);
+        inputComponent.BindAction("Reload", () => { _sceneManager.LoadEmptyScene("GameWorld", SceneLoadMode.PreserveAssets); });
     }
 }
 
@@ -45,11 +59,13 @@ internal sealed class DevControlsComponent : BehaviorComponent
 internal sealed class DevControlsComponentFactory : ComponentFactory<DevControlsComponent>
 {
     private readonly IEngineManager _engineManager;
+    private readonly ISceneManager _sceneManager;
 
-    public DevControlsComponentFactory(IEngineManager engineManager)
+    public DevControlsComponentFactory(IEngineManager engineManager, ISceneManager sceneManager)
     {
         _engineManager = engineManager;
+        _sceneManager = sceneManager;
     }
 
-    protected override DevControlsComponent CreateComponent(Entity entity) => new(entity, _engineManager);
+    protected override DevControlsComponent CreateComponent(Entity entity) => new(entity, _engineManager, _sceneManager);
 }

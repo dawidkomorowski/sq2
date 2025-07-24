@@ -12,5 +12,36 @@
     "properties": [
     ],
     "propertyTypes": [
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 1,
+            "members": [
+                {
+                    "name": "AssetId",
+                    "type": "string",
+                    "value": ""
+                }
+            ],
+            "name": "WorldTile",
+            "type": "class",
+            "useAs": [
+                "tile",
+                "project"
+            ]
+        },
+        {
+            "color": "#ffff007f",
+            "drawFill": true,
+            "id": 2,
+            "members": [
+            ],
+            "name": "PlayerSpawnPoint",
+            "type": "class",
+            "useAs": [
+                "object",
+                "project"
+            ]
+        }
     ]
 }

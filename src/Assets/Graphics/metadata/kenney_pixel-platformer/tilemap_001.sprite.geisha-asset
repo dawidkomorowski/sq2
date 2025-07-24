@@ -1,1 +1,1 @@
-{"AssetId":"c68e1612-a44b-4535-88d0-7a8a223a9546","AssetType":"Geisha.Engine.Rendering.Sprite","ContentFormat":"Json","Content":{"TextureAssetId":"845df26d-3a45-43ac-9e3f-79d2c605daa8","SourceUV":{"X":0,"Y":0},"SourceDimensions":{"X":18,"Y":18},"Pivot":{"X":9,"Y":9},"PixelsPerUnit":1}}
+{"AssetId":"8a309a59-e5bb-4796-99f3-a8b10df6faab","AssetType":"Geisha.Engine.Rendering.Sprite","ContentFormat":"Json","Content":{"TextureAssetId":"845df26d-3a45-43ac-9e3f-79d2c605daa8","SourceUV":{"X":19,"Y":0},"SourceDimensions":{"X":18,"Y":18},"Pivot":{"X":9,"Y":9},"PixelsPerUnit":1}}

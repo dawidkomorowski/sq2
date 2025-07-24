@@ -15,8 +15,9 @@ internal class SQ2Game : Game
         {
             Core = configuration.Core with
             {
-                StartUpSceneBehavior = "Default",
-                ShowFps = true
+                StartUpSceneBehavior = "GameWorld",
+                ShowFps = true,
+                ShowRootEntitiesCount = true
             },
             Rendering = configuration.Rendering with
             {
@@ -26,7 +27,7 @@ internal class SQ2Game : Game
             Physics = configuration.Physics with
             {
                 TileSize = GlobalSettings.TileSize,
-                RenderCollisionGeometry = true
+                RenderCollisionGeometry = false
             }
         };
 
@@ -36,7 +37,7 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterSingleInstance<EntityFactory>();
 
         // Scene behaviors
-        componentsRegistry.RegisterSceneBehaviorFactory<DefaultSceneBehaviorFactory>();
+        componentsRegistry.RegisterSceneBehaviorFactory<GameWorldBehaviorFactory>();
 
         // Components
         componentsRegistry.RegisterComponentFactory<DevControlsComponentFactory>();

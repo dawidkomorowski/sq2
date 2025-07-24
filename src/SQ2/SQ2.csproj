@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="Geisha.Engine.Windows" Version="0.11.0" />
+    <PackageReference Include="Geisha.Extensions.Tiled" Version="0.11.0" />
   </ItemGroup>
 
   <ItemGroup>
