@@ -94,9 +94,10 @@ internal sealed class PlayerComponent : BehaviorComponent
         var distanceToPlayer = _cameraTransform.Translation.Distance(_transform2DComponent.Translation);
         if (distanceToPlayer > minDistance)
         {
-            var factor = distanceToPlayer - minDistance;
+            const double baseVelocity = 20;
+            var distanceFactor = distanceToPlayer - minDistance;
             var directionToPlayer = (_transform2DComponent.Translation - _cameraTransform.Translation).Unit;
-            _cameraTransform.Translation += directionToPlayer * factor;
+            _cameraTransform.Translation += directionToPlayer * distanceFactor * baseVelocity * gameTime.DeltaTimeSeconds;
         }
     }
 }
