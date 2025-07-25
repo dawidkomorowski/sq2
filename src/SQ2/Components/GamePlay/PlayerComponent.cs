@@ -1,14 +1,16 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Input.Components;
+using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
 using Geisha.Engine.Rendering.Components;
 
-namespace SQ2;
+namespace SQ2.Components.GamePlay;
 
 internal sealed class PlayerComponent : BehaviorComponent
 {
@@ -64,17 +66,30 @@ internal sealed class PlayerComponent : BehaviorComponent
             _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(velocity);
         }
 
-        // Basic jumping.
-        var canJump = false;
+        var contacts = Array.Empty<Contact2D>();
         if (_rectangleColliderComponent.IsColliding)
         {
-            foreach (var contact2D in _rectangleColliderComponent.GetContacts())
+            contacts = _rectangleColliderComponent.GetContacts();
+        }
+
+        // Check for collisions with other entities.
+        foreach (var contact2D in contacts)
+        {
+            if (contact2D.OtherCollider.Entity.Root.HasComponent<SpikesComponent>())
             {
-                if (contact2D.CollisionNormal.Y > 0)
-                {
-                    canJump = true;
-                    break;
-                }
+                Respawn();
+                return;
+            }
+        }
+
+        // Basic jumping.
+        var canJump = false;
+        foreach (var contact2D in contacts)
+        {
+            if (contact2D.CollisionNormal.Y > 0)
+            {
+                canJump = true;
+                break;
             }
         }
 
@@ -99,6 +114,14 @@ internal sealed class PlayerComponent : BehaviorComponent
             var directionToPlayer = (_transform2DComponent.Translation - _cameraTransform.Translation).Unit;
             _cameraTransform.Translation += directionToPlayer * distanceFactor * baseVelocity * gameTime.DeltaTimeSeconds;
         }
+    }
+
+    private void Respawn()
+    {
+        Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
+
+        var spawnPoint = Scene.RootEntities.First(e => e.HasComponent<PlayerSpawnPointComponent>()).GetComponent<Transform2DComponent>().Translation;
+        _transform2DComponent.Translation = spawnPoint;
     }
 }
 

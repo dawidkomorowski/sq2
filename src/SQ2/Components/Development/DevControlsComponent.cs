@@ -5,7 +5,7 @@ using Geisha.Engine.Input;
 using Geisha.Engine.Input.Components;
 using Geisha.Engine.Input.Mapping;
 
-namespace SQ2;
+namespace SQ2.Components.Development;
 
 internal sealed class DevControlsComponent : BehaviorComponent
 {

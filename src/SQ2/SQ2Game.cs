@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
 using Geisha.Engine;
+using SQ2.Components.Development;
+using SQ2.Components.GamePlay;
 
 namespace SQ2;
 
@@ -40,8 +42,12 @@ internal class SQ2Game : Game
         // Scene behaviors
         componentsRegistry.RegisterSceneBehaviorFactory<GameWorldBehaviorFactory>();
 
-        // Components
+        // Development Components
         componentsRegistry.RegisterComponentFactory<DevControlsComponentFactory>();
+
+        // GamePlay Components
         componentsRegistry.RegisterComponentFactory<PlayerComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<PlayerSpawnPointComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<SpikesComponentFactory>();
     }
 }

@@ -25,6 +25,17 @@
             ]
         },
         {
+            "id": 3,
+            "name": "TileType",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "Geometry",
+                "Spikes"
+            ],
+            "valuesAsFlags": false
+        },
+        {
             "color": "#ffa0a0a4",
             "drawFill": true,
             "id": 1,
@@ -33,6 +44,12 @@
                     "name": "AssetId",
                     "type": "string",
                     "value": ""
+                },
+                {
+                    "name": "TileType",
+                    "propertyType": "TileType",
+                    "type": "string",
+                    "value": "Geometry"
                 }
             ],
             "name": "WorldTile",

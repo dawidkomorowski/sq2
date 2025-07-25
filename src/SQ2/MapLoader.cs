@@ -6,6 +6,7 @@ using Geisha.Extensions.Tiled;
 
 namespace SQ2;
 
+// ReSharper disable once ClassNeverInstantiated.Global
 internal sealed class MapLoader
 {
     private readonly EntityFactory _entityFactory;
@@ -35,7 +36,16 @@ internal sealed class MapLoader
                 if (tile.Type == "WorldTile")
                 {
                     var assetId = new AssetId(new Guid(tile.Properties["AssetId"].StringValue));
-                    _entityFactory.CreateWorldTile(scene, tx, ty, assetId);
+                    var tileType = tile.Properties["TileType"].StringValue;
+                    switch (tileType)
+                    {
+                        case "Geometry":
+                            _entityFactory.CreateGeometry(scene, tx, ty, assetId);
+                            break;
+                        case "Spikes":
+                            _entityFactory.CreateSpikes(scene, tx, ty, assetId);
+                            break;
+                    }
                 }
             }
         }
@@ -48,6 +58,7 @@ internal sealed class MapLoader
 
             if (tileObject.Type == "PlayerSpawnPoint")
             {
+                _entityFactory.CreatePlayerSpawnPoint(scene, x, y);
                 _entityFactory.CreatePlayer(scene, x, y);
             }
         }
