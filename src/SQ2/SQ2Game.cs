@@ -35,6 +35,7 @@ internal class SQ2Game : Game
     {
         // Common services
         componentsRegistry.RegisterSingleInstance<EntityFactory>();
+        componentsRegistry.RegisterSingleInstance<MapLoader>();
 
         // Scene behaviors
         componentsRegistry.RegisterSceneBehaviorFactory<GameWorldBehaviorFactory>();
