@@ -24,7 +24,8 @@ internal class SQ2Game : Game
             Rendering = configuration.Rendering with
             {
                 ScreenWidth = DevConfig.WindowSize?.Width ?? GlobalSettings.WindowSize.Width,
-                ScreenHeight = DevConfig.WindowSize?.Height ?? GlobalSettings.WindowSize.Height
+                ScreenHeight = DevConfig.WindowSize?.Height ?? GlobalSettings.WindowSize.Height,
+                EnableVSync = true
             },
             Physics = configuration.Physics with
             {
