@@ -6,12 +6,24 @@
     "extensionsPath": "extensions",
     "folders": [
         ".",
-        "../Assets/TileSets",
-        "../Assets/Maps"
+        "../Assets"
     ],
     "properties": [
     ],
     "propertyTypes": [
+        {
+            "color": "#ffff007f",
+            "drawFill": true,
+            "id": 2,
+            "members": [
+            ],
+            "name": "PlayerSpawnPoint",
+            "type": "class",
+            "useAs": [
+                "object",
+                "project"
+            ]
+        },
         {
             "color": "#ffa0a0a4",
             "drawFill": true,
@@ -27,19 +39,6 @@
             "type": "class",
             "useAs": [
                 "tile",
-                "project"
-            ]
-        },
-        {
-            "color": "#ffff007f",
-            "drawFill": true,
-            "id": 2,
-            "members": [
-            ],
-            "name": "PlayerSpawnPoint",
-            "type": "class",
-            "useAs": [
-                "object",
                 "project"
             ]
         }

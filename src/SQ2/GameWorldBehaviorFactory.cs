@@ -39,7 +39,7 @@ internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
 
             _entityFactory.CreateCamera(Scene);
 
-            var tmxPath = Path.Combine("Assets", "Maps", "test.tmx");
+            var tmxPath = DevConfig.MapFile ?? Path.Combine("Assets", "Maps", "level_01.tmx");
             var tileMap = TileMap.LoadFromFile(tmxPath);
             var tileLayer = tileMap.TileLayers.Single(tl => tl.Name == "GamePlayTiles");
             for (var tx = 0; tx < tileLayer.Width; tx++)
