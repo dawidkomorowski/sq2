@@ -42,6 +42,7 @@ internal sealed class PlayerComponent : BehaviorComponent
 
         // Basic gravity simulation.
         // TODO Maybe move it to GlobalSettings?
+        // TODO Gravity is duplicated in EnemyComponent.
         var gravity = new Vector2(0, -500);
 
         _kinematicRigidBody2DComponent.LinearVelocity += gravity * GameTime.FixedDeltaTimeSeconds;
@@ -76,6 +77,12 @@ internal sealed class PlayerComponent : BehaviorComponent
         foreach (var contact2D in contacts)
         {
             if (contact2D.OtherCollider.Entity.Root.HasComponent<SpikesComponent>())
+            {
+                Respawn();
+                return;
+            }
+
+            if (contact2D.OtherCollider.Entity.Root.HasComponent<EnemyComponent>())
             {
                 Respawn();
                 return;

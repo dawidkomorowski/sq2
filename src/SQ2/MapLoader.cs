@@ -47,6 +47,17 @@ internal sealed class MapLoader
                             break;
                     }
                 }
+
+                if (tile.Type == "CharacterTile")
+                {
+                    var characterType = tile.Properties["CharacterType"].StringValue;
+                    switch (characterType)
+                    {
+                        case "Enemy_Blue_Small":
+                            _entityFactory.CreateEnemy(scene, tx, ty);
+                            break;
+                    }
+                }
             }
         }
 

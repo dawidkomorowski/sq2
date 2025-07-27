@@ -12,6 +12,36 @@
     ],
     "propertyTypes": [
         {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 4,
+            "members": [
+                {
+                    "name": "CharacterType",
+                    "propertyType": "CharacterType",
+                    "type": "string",
+                    "value": "Enemy_Blue_Small"
+                }
+            ],
+            "name": "CharacterTile",
+            "type": "class",
+            "useAs": [
+                "tile",
+                "project"
+            ]
+        },
+        {
+            "id": 5,
+            "name": "CharacterType",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "Enemy_Blue_Small",
+                "Enemy_Blue_Big"
+            ],
+            "valuesAsFlags": false
+        },
+        {
             "color": "#ffff007f",
             "drawFill": true,
             "id": 2,
