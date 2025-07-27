@@ -38,6 +38,17 @@ internal sealed class EntityFactory
         return entity;
     }
 
+    public Entity CreatePlayerCheckPoint(Scene scene, int tx, int ty, AssetId assetId)
+    {
+        var entity = scene.CreateEntity();
+        entity.CreateComponent<PlayerCheckPointComponent>();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = new Vector2(tx * GlobalSettings.TileSize.Width, ty * GlobalSettings.TileSize.Height);
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+        return entity;
+    }
+
     public Entity CreatePlayer(Scene scene, double x, double y)
     {
         var entity = scene.CreateEntity();

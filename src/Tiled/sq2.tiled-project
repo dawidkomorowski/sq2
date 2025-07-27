@@ -61,7 +61,8 @@
             "type": "enum",
             "values": [
                 "Geometry",
-                "Spikes"
+                "Spikes",
+                "CheckPoint"
             ],
             "valuesAsFlags": false
         },

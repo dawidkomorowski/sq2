@@ -31,4 +31,10 @@
    <property name="TileType" propertytype="TileType" value="Spikes"/>
   </properties>
  </tile>
+ <tile id="86" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="677b676e-d1c8-44c0-8c26-6ef0e5fcacbb"/>
+   <property name="TileType" propertytype="TileType" value="CheckPoint"/>
+  </properties>
+ </tile>
 </tileset>

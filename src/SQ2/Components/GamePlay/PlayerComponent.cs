@@ -19,6 +19,9 @@ internal sealed class PlayerComponent : BehaviorComponent
     private Transform2DComponent? _transform2DComponent;
     private InputComponent? _inputComponent;
     private Transform2DComponent? _cameraTransform;
+    private PlayerSpawnPointComponent? _playerSpawnPointComponent;
+    private PlayerCheckPointComponent[] _checkPoints = Array.Empty<PlayerCheckPointComponent>();
+    private int _currentCheckPointIndex = -1;
 
     public PlayerComponent(Entity entity) : base(entity)
     {
@@ -32,6 +35,12 @@ internal sealed class PlayerComponent : BehaviorComponent
         _inputComponent = Entity.GetComponent<InputComponent>();
 
         _cameraTransform = Scene.RootEntities.Single(e => e.HasComponent<CameraComponent>()).GetComponent<Transform2DComponent>();
+        _playerSpawnPointComponent = Scene.RootEntities.Single(e => e.HasComponent<PlayerSpawnPointComponent>()).GetComponent<PlayerSpawnPointComponent>();
+
+        _checkPoints = Scene.RootEntities
+            .Where(e => e.HasComponent<PlayerCheckPointComponent>())
+            .Select(e => e.GetComponent<PlayerCheckPointComponent>())
+            .ToArray();
     }
 
     public override void OnFixedUpdate()
@@ -39,6 +48,7 @@ internal sealed class PlayerComponent : BehaviorComponent
         Debug.Assert(_kinematicRigidBody2DComponent != null, nameof(_kinematicRigidBody2DComponent) + " != null");
         Debug.Assert(_rectangleColliderComponent != null, nameof(_rectangleColliderComponent) + " != null");
         Debug.Assert(_inputComponent != null, nameof(_inputComponent) + " != null");
+        Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
 
         // Basic gravity simulation.
         // TODO Maybe move it to GlobalSettings?
@@ -104,6 +114,16 @@ internal sealed class PlayerComponent : BehaviorComponent
         {
             _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithY(200);
         }
+
+        // Check for checkpoints.
+        for (var i = 0; i < _checkPoints.Length; i++)
+        {
+            var checkPointComponent = _checkPoints[i];
+            if (checkPointComponent.Entity.GetComponent<Transform2DComponent>().Translation.Distance(_transform2DComponent.Translation) < 10)
+            {
+                _currentCheckPointIndex = i;
+            }
+        }
     }
 
     public override void OnUpdate(GameTime gameTime)
@@ -126,9 +146,29 @@ internal sealed class PlayerComponent : BehaviorComponent
     private void Respawn()
     {
         Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
+        Debug.Assert(_playerSpawnPointComponent != null, nameof(_playerSpawnPointComponent) + " != null");
 
-        var spawnPoint = Scene.RootEntities.First(e => e.HasComponent<PlayerSpawnPointComponent>()).GetComponent<Transform2DComponent>().Translation;
-        _transform2DComponent.Translation = spawnPoint;
+        foreach (var entity in Scene.RootEntities)
+        {
+            if (entity.HasComponent<EnemyComponent>())
+            {
+                entity.GetComponent<EnemyComponent>().Respawn();
+            }
+        }
+
+        if (_currentCheckPointIndex < 0)
+        {
+            _transform2DComponent.Translation = _playerSpawnPointComponent.Entity.GetComponent<Transform2DComponent>().Translation;
+        }
+        else if (_currentCheckPointIndex < _checkPoints.Length)
+        {
+            _transform2DComponent.Translation = _checkPoints[_currentCheckPointIndex].Entity.GetComponent<Transform2DComponent>().Translation;
+        }
+        else
+        {
+            // No more checkpoints, respawn at the start.
+            _transform2DComponent.Translation = _playerSpawnPointComponent.Entity.GetComponent<Transform2DComponent>().Translation;
+        }
     }
 }
 

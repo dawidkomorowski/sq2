@@ -45,6 +45,9 @@ internal sealed class MapLoader
                         case "Spikes":
                             _entityFactory.CreateSpikes(scene, tx, ty, assetId);
                             break;
+                        case "CheckPoint":
+                            _entityFactory.CreatePlayerCheckPoint(scene, tx, ty, assetId);
+                            break;
                     }
                 }
 

@@ -6,6 +6,7 @@ using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
 using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace SQ2.Components.GamePlay;
 
@@ -13,9 +14,11 @@ internal sealed class EnemyComponent : BehaviorComponent
 {
     private KinematicRigidBody2DComponent? _kinematicRigidBody2DComponent;
     private RectangleColliderComponent? _rectangleColliderComponent;
+    private Transform2DComponent? _transform2DComponent;
 
     private const double BaseVelocity = 20;
     private double _currentVelocity = BaseVelocity;
+    private Vector2 _startPosition;
 
     public EnemyComponent(Entity entity) : base(entity)
     {
@@ -25,6 +28,9 @@ internal sealed class EnemyComponent : BehaviorComponent
     {
         _kinematicRigidBody2DComponent = Entity.GetComponent<KinematicRigidBody2DComponent>();
         _rectangleColliderComponent = Entity.GetComponent<RectangleColliderComponent>();
+        _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
+
+        _startPosition = _transform2DComponent.Translation;
     }
 
     public override void OnFixedUpdate()
@@ -56,14 +62,14 @@ internal sealed class EnemyComponent : BehaviorComponent
 
         foreach (var contact2D in contacts)
         {
-            if (contact2D.CollisionNormal.X < 0)
+            if (contact2D.CollisionNormal.X < 0 && !contact2D.OtherCollider.Entity.HasComponent<PlayerComponent>())
             {
                 // Enemy hit a wall on the right side, change direction.
                 _currentVelocity = -BaseVelocity;
                 break;
             }
 
-            if (contact2D.CollisionNormal.X > 0)
+            if (contact2D.CollisionNormal.X > 0 && !contact2D.OtherCollider.Entity.HasComponent<PlayerComponent>())
             {
                 // Enemy hit a wall on the left side, change direction.
                 _currentVelocity = BaseVelocity;
@@ -78,8 +84,17 @@ internal sealed class EnemyComponent : BehaviorComponent
     {
         // Implement enemy behavior during regular updates.
     }
+
+    public void Respawn()
+    {
+        Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
+
+        _transform2DComponent.Translation = _startPosition;
+        _currentVelocity = BaseVelocity;
+    }
 }
 
+// ReSharper disable once ClassNeverInstantiated.Global
 internal sealed class EnemyComponentFactory : ComponentFactory<EnemyComponent>
 {
     protected override EnemyComponent CreateComponent(Entity entity) => new(entity);
