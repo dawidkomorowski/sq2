@@ -77,6 +77,17 @@ internal sealed class PlayerComponent : BehaviorComponent
             _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(velocity);
         }
 
+        // Flip player sprite based on movement direction.
+        if (_kinematicRigidBody2DComponent.LinearVelocity.X > 0)
+        {
+            _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with { Scale = new Vector2(-1, 1) });
+        }
+
+        if (_kinematicRigidBody2DComponent.LinearVelocity.X < 0)
+        {
+            _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with { Scale = new Vector2(1, 1) });
+        }
+
         var contacts = Array.Empty<Contact2D>();
         if (_rectangleColliderComponent.IsColliding)
         {
