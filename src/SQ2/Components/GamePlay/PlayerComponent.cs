@@ -132,13 +132,15 @@ internal sealed class PlayerComponent : BehaviorComponent
         Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
         Debug.Assert(_cameraTransform != null, nameof(_cameraTransform) + " != null");
 
+        var playerPosition = _transform2DComponent.InterpolatedTransform.Translation;
+
         const double minDistance = 30;
-        var distanceToPlayer = _cameraTransform.Translation.Distance(_transform2DComponent.Translation);
+        var distanceToPlayer = _cameraTransform.Translation.Distance(playerPosition);
         if (distanceToPlayer > minDistance)
         {
             const double baseVelocity = 20;
             var distanceFactor = distanceToPlayer - minDistance;
-            var directionToPlayer = (_transform2DComponent.Translation - _cameraTransform.Translation).Unit;
+            var directionToPlayer = (playerPosition - _cameraTransform.Translation).Unit;
             _cameraTransform.Translation += directionToPlayer * distanceFactor * baseVelocity * gameTime.DeltaTimeSeconds;
         }
     }
@@ -158,16 +160,25 @@ internal sealed class PlayerComponent : BehaviorComponent
 
         if (_currentCheckPointIndex < 0)
         {
-            _transform2DComponent.Translation = _playerSpawnPointComponent.Entity.GetComponent<Transform2DComponent>().Translation;
+            _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with
+            {
+                Translation = _playerSpawnPointComponent.Entity.GetComponent<Transform2DComponent>().Translation
+            });
         }
         else if (_currentCheckPointIndex < _checkPoints.Length)
         {
-            _transform2DComponent.Translation = _checkPoints[_currentCheckPointIndex].Entity.GetComponent<Transform2DComponent>().Translation;
+            _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with
+            {
+                Translation = _checkPoints[_currentCheckPointIndex].Entity.GetComponent<Transform2DComponent>().Translation
+            });
         }
         else
         {
             // No more checkpoints, respawn at the start.
-            _transform2DComponent.Translation = _playerSpawnPointComponent.Entity.GetComponent<Transform2DComponent>().Translation;
+            _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with
+            {
+                Translation = _playerSpawnPointComponent.Entity.GetComponent<Transform2DComponent>().Translation
+            });
         }
     }
 }

@@ -55,6 +55,7 @@ internal sealed class EntityFactory
         entity.CreateComponent<PlayerComponent>();
         entity.CreateComponent<InputComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.IsInterpolated = true;
         transform2DComponent.Translation = new Vector2(x, y);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("ff2c22e2-d8b9-4e7e-b6fa-e1926e98465b")));
