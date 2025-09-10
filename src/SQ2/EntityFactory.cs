@@ -57,12 +57,17 @@ internal sealed class EntityFactory
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.IsInterpolated = true;
         transform2DComponent.Translation = new Vector2(x, y);
-        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
-        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("ff2c22e2-d8b9-4e7e-b6fa-e1926e98465b")));
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(14, 22);
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
         kinematicRigidBody2DComponent.EnableCollisionResponse = true;
+
+        var spriteEntity = entity.CreateChildEntity();
+        var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
+        spriteTransform2DComponent.Translation = new Vector2(0, 1);
+        var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("ff2c22e2-d8b9-4e7e-b6fa-e1926e98465b")));
+
         return entity;
     }
 
