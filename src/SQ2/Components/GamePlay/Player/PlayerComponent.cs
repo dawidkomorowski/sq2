@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Input.Components;
 using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
-using Geisha.Engine.Rendering.Components;
 using SQ2.Components.GamePlay.Common;
 using SQ2.Components.GamePlay.Enemies;
 
@@ -20,7 +18,6 @@ internal sealed class PlayerComponent : BehaviorComponent
     private RectangleColliderComponent? _rectangleColliderComponent;
     private Transform2DComponent? _transform2DComponent;
     private InputComponent? _inputComponent;
-    private Transform2DComponent? _cameraTransform;
     private PlayerSpawnPointComponent? _playerSpawnPointComponent;
     private PlayerCheckPointComponent[] _checkPoints = Array.Empty<PlayerCheckPointComponent>();
     private int _currentCheckPointIndex = -1;
@@ -36,7 +33,6 @@ internal sealed class PlayerComponent : BehaviorComponent
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
         _inputComponent = Entity.GetComponent<InputComponent>();
 
-        _cameraTransform = Scene.RootEntities.Single(e => e.HasComponent<CameraComponent>()).GetComponent<Transform2DComponent>();
         _playerSpawnPointComponent = Scene.RootEntities.Single(e => e.HasComponent<PlayerSpawnPointComponent>()).GetComponent<PlayerSpawnPointComponent>();
 
         _checkPoints = Scene.RootEntities
@@ -131,25 +127,6 @@ internal sealed class PlayerComponent : BehaviorComponent
             {
                 _currentCheckPointIndex = i;
             }
-        }
-    }
-
-    public override void OnUpdate(GameTime gameTime)
-    {
-        // Basic camera follow.
-        Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
-        Debug.Assert(_cameraTransform != null, nameof(_cameraTransform) + " != null");
-
-        var playerPosition = _transform2DComponent.InterpolatedTransform.Translation;
-
-        const double minDistance = 30;
-        var distanceToPlayer = _cameraTransform.Translation.Distance(playerPosition);
-        if (distanceToPlayer > minDistance)
-        {
-            const double baseVelocity = 20;
-            var distanceFactor = distanceToPlayer - minDistance;
-            var directionToPlayer = (playerPosition - _cameraTransform.Translation).Unit;
-            _cameraTransform.Translation += directionToPlayer * distanceFactor * baseVelocity * gameTime.DeltaTimeSeconds;
         }
     }
 

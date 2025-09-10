@@ -149,6 +149,7 @@ internal sealed class EntityFactory
         entity.CreateComponent<Transform2DComponent>();
         var cameraComponent = entity.CreateComponent<CameraComponent>();
         cameraComponent.ViewRectangle = GlobalSettings.ViewSize;
+        entity.CreateComponent<CameraMovementComponent>();
         return entity;
     }
 

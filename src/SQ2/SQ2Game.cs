@@ -49,10 +49,14 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<DevControlsComponentFactory>();
 
         // GamePlay Components
+        // Player
+        componentsRegistry.RegisterComponentFactory<CameraMovementComponentFactory>();
         componentsRegistry.RegisterComponentFactory<PlayerComponentFactory>();
         componentsRegistry.RegisterComponentFactory<PlayerSpawnPointComponentFactory>();
         componentsRegistry.RegisterComponentFactory<PlayerCheckPointComponentFactory>();
-        componentsRegistry.RegisterComponentFactory<SpikesComponentFactory>();
+        // Enemies
         componentsRegistry.RegisterComponentFactory<EnemyComponentFactory>();
+        // Other
+        componentsRegistry.RegisterComponentFactory<SpikesComponentFactory>();
     }
 }
