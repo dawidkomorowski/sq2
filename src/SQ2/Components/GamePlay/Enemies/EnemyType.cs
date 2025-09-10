@@ -1,4 +1,4 @@
-﻿namespace SQ2.Components.GamePlay;
+﻿namespace SQ2.Components.GamePlay.Enemies;
 
 internal enum EnemyType
 {

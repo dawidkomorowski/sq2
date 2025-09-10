@@ -9,8 +9,10 @@ using Geisha.Engine.Input.Components;
 using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
 using Geisha.Engine.Rendering.Components;
+using SQ2.Components.GamePlay.Common;
+using SQ2.Components.GamePlay.Enemies;
 
-namespace SQ2.Components.GamePlay;
+namespace SQ2.Components.GamePlay.Player;
 
 internal sealed class PlayerComponent : BehaviorComponent
 {

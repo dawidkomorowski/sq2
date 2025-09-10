@@ -2,7 +2,7 @@
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Physics.Components;
 
-namespace SQ2.Components.GamePlay;
+namespace SQ2.Components.GamePlay.Common;
 
 internal static class GravityPhysics
 {

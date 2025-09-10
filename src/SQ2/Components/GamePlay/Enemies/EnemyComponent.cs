@@ -4,10 +4,12 @@ using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
+using SQ2.Components.GamePlay.Common;
+using SQ2.Components.GamePlay.Player;
 using System;
 using System.Diagnostics;
 
-namespace SQ2.Components.GamePlay;
+namespace SQ2.Components.GamePlay.Enemies;
 
 internal sealed class EnemyComponent : BehaviorComponent
 {

@@ -1,6 +1,6 @@
 ﻿using Geisha.Engine.Core.SceneModel;
 
-namespace SQ2.Components.GamePlay;
+namespace SQ2.Components.GamePlay.Player;
 
 internal sealed class PlayerSpawnPointComponent : Component
 {

@@ -2,6 +2,8 @@
 using Geisha.Engine;
 using SQ2.Components.Development;
 using SQ2.Components.GamePlay;
+using SQ2.Components.GamePlay.Enemies;
+using SQ2.Components.GamePlay.Player;
 
 namespace SQ2;
 
