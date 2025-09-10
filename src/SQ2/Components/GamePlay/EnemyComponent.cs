@@ -6,7 +6,6 @@ using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
 using System;
 using System.Diagnostics;
-using System.Linq;
 
 namespace SQ2.Components.GamePlay;
 
