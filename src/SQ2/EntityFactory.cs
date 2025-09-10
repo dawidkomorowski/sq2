@@ -43,7 +43,7 @@ internal sealed class EntityFactory
         var entity = scene.CreateEntity();
         entity.CreateComponent<PlayerCheckPointComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = new Vector2(tx * GlobalSettings.TileSize.Width, ty * GlobalSettings.TileSize.Height);
+        transform2DComponent.Translation = GetTilePosition(tx, ty);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
         return entity;
@@ -75,7 +75,7 @@ internal sealed class EntityFactory
     {
         var entity = scene.CreateEntity();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = new Vector2(tx * GlobalSettings.TileSize.Width, ty * GlobalSettings.TileSize.Height);
+        transform2DComponent.Translation = GetTilePosition(tx, ty);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
         entity.CreateComponent<TileColliderComponent>();
@@ -87,7 +87,7 @@ internal sealed class EntityFactory
         var entity = scene.CreateEntity();
         entity.CreateComponent<SpikesComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = new Vector2(tx * GlobalSettings.TileSize.Width, ty * GlobalSettings.TileSize.Height);
+        transform2DComponent.Translation = GetTilePosition(tx, ty);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
 
@@ -104,7 +104,7 @@ internal sealed class EntityFactory
         var entity = scene.CreateEntity();
         entity.CreateComponent<EnemyComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = new Vector2(tx * GlobalSettings.TileSize.Width, ty * GlobalSettings.TileSize.Height);
+        transform2DComponent.Translation = GetTilePosition(tx, ty);
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(15, 13);
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
@@ -124,7 +124,7 @@ internal sealed class EntityFactory
         var entity = scene.CreateEntity();
         entity.CreateComponent<EnemyComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = new Vector2(tx * GlobalSettings.TileSize.Width, ty * GlobalSettings.TileSize.Height);
+        transform2DComponent.Translation = GetTilePosition(tx, ty);
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(14, 15);
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
@@ -147,4 +147,6 @@ internal sealed class EntityFactory
         cameraComponent.ViewRectangle = GlobalSettings.ViewSize;
         return entity;
     }
+
+    private static Vector2 GetTilePosition(int tx, int ty) => new(tx * GlobalSettings.TileSize.Width, ty * GlobalSettings.TileSize.Height);
 }
