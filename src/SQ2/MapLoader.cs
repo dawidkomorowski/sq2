@@ -57,7 +57,10 @@ internal sealed class MapLoader
                     switch (characterType)
                     {
                         case "Enemy_Blue_Small":
-                            _entityFactory.CreateEnemy(scene, tx, ty);
+                            _entityFactory.CreateBlueEnemy(scene, tx, ty);
+                            break;
+                        case "Enemy_Red":
+                            _entityFactory.CreateRedEnemy(scene, tx, ty);
                             break;
                     }
                 }

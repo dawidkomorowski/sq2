@@ -37,7 +37,9 @@
             "type": "enum",
             "values": [
                 "Enemy_Blue_Small",
-                "Enemy_Blue_Big"
+                "Enemy_Blue_Big",
+                "Enemy_Red",
+                "Enemy_Yellow"
             ],
             "valuesAsFlags": false
         },
