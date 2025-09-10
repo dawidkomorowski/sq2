@@ -93,8 +93,15 @@ internal sealed class PlayerComponent : BehaviorComponent
 
             if (contact2D.OtherCollider.Entity.Root.HasComponent<EnemyComponent>())
             {
-                Respawn();
-                return;
+                if (contact2D.CollisionNormal.Y > 0 && contact2D.OtherCollider.Entity.Root.GetComponent<EnemyComponent>().EnemyType is EnemyType.BlueSmall)
+                {
+                    _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithY(200);
+                }
+                else
+                {
+                    Respawn();
+                    return;
+                }
             }
         }
 

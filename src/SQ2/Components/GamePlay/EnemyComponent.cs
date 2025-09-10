@@ -23,6 +23,8 @@ internal sealed class EnemyComponent : BehaviorComponent
     {
     }
 
+    public EnemyType EnemyType { get; set; }
+
     public override void OnStart()
     {
         _kinematicRigidBody2DComponent = Entity.GetComponent<KinematicRigidBody2DComponent>();

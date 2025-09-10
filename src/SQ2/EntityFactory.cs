@@ -102,7 +102,8 @@ internal sealed class EntityFactory
     public Entity CreateBlueEnemy(Scene scene, int tx, int ty)
     {
         var entity = scene.CreateEntity();
-        entity.CreateComponent<EnemyComponent>();
+        var enemyComponent = entity.CreateComponent<EnemyComponent>();
+        enemyComponent.EnemyType = EnemyType.BlueSmall;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = GetTilePosition(tx, ty);
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
@@ -122,7 +123,8 @@ internal sealed class EntityFactory
     public Entity CreateRedEnemy(Scene scene, int tx, int ty)
     {
         var entity = scene.CreateEntity();
-        entity.CreateComponent<EnemyComponent>();
+        var enemyComponent = entity.CreateComponent<EnemyComponent>();
+        enemyComponent.EnemyType = EnemyType.Red;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = GetTilePosition(tx, ty);
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
