@@ -50,19 +50,7 @@ internal sealed class PlayerComponent : BehaviorComponent
         Debug.Assert(_inputComponent != null, nameof(_inputComponent) + " != null");
         Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
 
-        // Basic gravity simulation.
-        // TODO Maybe move it to GlobalSettings?
-        // TODO Gravity is duplicated in EnemyComponent.
-        var gravity = new Vector2(0, -500);
-
-        _kinematicRigidBody2DComponent.LinearVelocity += gravity * GameTime.FixedDeltaTimeSeconds;
-
-        // Limit vertical velocity.
-        const int limit = -200;
-        if (_kinematicRigidBody2DComponent.LinearVelocity.Y < limit)
-        {
-            _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithY(limit);
-        }
+        GravityPhysics.Update(_kinematicRigidBody2DComponent);
 
         // Basic player movement.
         const double velocity = 80;

@@ -37,20 +37,7 @@ internal sealed class EnemyComponent : BehaviorComponent
         Debug.Assert(_kinematicRigidBody2DComponent != null, nameof(_kinematicRigidBody2DComponent) + " != null");
         Debug.Assert(_rectangleColliderComponent != null, nameof(_rectangleColliderComponent) + " != null");
 
-        // Basic gravity simulation.
-        // TODO Maybe move it to GlobalSettings?
-        // TODO Gravity is duplicated in PlayerComponent.
-        var gravity = new Vector2(0, -500);
-
-        _kinematicRigidBody2DComponent.LinearVelocity += gravity * GameTime.FixedDeltaTimeSeconds;
-
-        // Limit vertical velocity.
-        const int limit = -200;
-        if (_kinematicRigidBody2DComponent.LinearVelocity.Y < limit)
-        {
-            _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithY(limit);
-        }
-
+        GravityPhysics.Update(_kinematicRigidBody2DComponent);
 
         // Basic enemy movement logic.
         var contacts = Array.Empty<Contact2D>();
