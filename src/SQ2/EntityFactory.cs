@@ -107,6 +107,7 @@ internal sealed class EntityFactory
         var enemyComponent = entity.CreateComponent<EnemyComponent>();
         enemyComponent.EnemyType = EnemyType.BlueSmall;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.IsInterpolated = true;
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(15, 13);
@@ -128,6 +129,7 @@ internal sealed class EntityFactory
         var enemyComponent = entity.CreateComponent<EnemyComponent>();
         enemyComponent.EnemyType = EnemyType.Red;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.IsInterpolated = true;
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(14, 15);
@@ -150,6 +152,7 @@ internal sealed class EntityFactory
         yellowEnemyComponent.NeutralSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("410b9b9c-0d87-4118-b711-75a51ada575e")));
         yellowEnemyComponent.AngrySprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("18a00a7d-c552-47a2-9b96-02e44b723a87")));
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.IsInterpolated = true;
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(18, 18);

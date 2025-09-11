@@ -15,7 +15,7 @@ namespace SQ2.Components.GamePlay.Enemies;
 
 internal sealed class YellowEnemyComponent : BehaviorComponent
 {
-    private const bool EnableDebugRendering = true;
+    private const bool EnableDebugRendering = false;
     private readonly IDebugRenderer _debugRenderer;
     private Transform2DComponent? _transform2DComponent;
     private KinematicRigidBody2DComponent? _kinematicRigidBody2DComponent;
@@ -34,8 +34,8 @@ internal sealed class YellowEnemyComponent : BehaviorComponent
         _debugRenderer = debugRenderer;
     }
 
-    public Sprite NeutralSprite { get; set; }
-    public Sprite AngrySprite { get; set; }
+    public Sprite? NeutralSprite { get; set; }
+    public Sprite? AngrySprite { get; set; }
 
     public override void OnStart()
     {
