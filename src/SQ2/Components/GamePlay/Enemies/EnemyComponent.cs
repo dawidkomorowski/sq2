@@ -18,7 +18,7 @@ internal sealed class EnemyComponent : BehaviorComponent
     private Transform2DComponent? _transform2DComponent;
 
     private const double BaseVelocity = 20;
-    private double _currentVelocity = BaseVelocity;
+    private double _currentVelocity = -BaseVelocity;
     private Vector2 _startPosition;
 
     public EnemyComponent(Entity entity) : base(entity)
@@ -83,7 +83,7 @@ internal sealed class EnemyComponent : BehaviorComponent
         Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
 
         _transform2DComponent.Translation = _startPosition;
-        _currentVelocity = BaseVelocity;
+        _currentVelocity = -BaseVelocity;
     }
 }
 

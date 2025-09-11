@@ -119,9 +119,18 @@ internal sealed class YellowEnemyComponent : BehaviorComponent
 
         if (_rectangleColliderComponent.IsColliding)
         {
-            _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithY(0);
-            _state = State.OnGround;
-            _stateTimer = TimeSpan.Zero;
+            var contacts = _rectangleColliderComponent.GetContacts();
+            foreach (var contact in contacts)
+            {
+                if (contact.CollisionNormal.Y > 0)
+                {
+                    _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithY(0);
+                    _state = State.OnGround;
+                    _stateTimer = TimeSpan.Zero;
+
+                    return;
+                }
+            }
         }
     }
 
