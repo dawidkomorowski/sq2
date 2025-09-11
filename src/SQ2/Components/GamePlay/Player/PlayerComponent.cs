@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Linq;
 using Geisha.Engine.Core.Components;
-using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Input.Components;
 using Geisha.Engine.Physics;
@@ -121,7 +120,7 @@ internal sealed class PlayerComponent : BehaviorComponent
         }
     }
 
-    private void Respawn()
+    public void Respawn()
     {
         Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
         Debug.Assert(_playerSpawnPointComponent != null, nameof(_playerSpawnPointComponent) + " != null");

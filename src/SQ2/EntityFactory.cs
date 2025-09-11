@@ -45,7 +45,7 @@ internal sealed class EntityFactory
         var entity = scene.CreateEntity();
         entity.CreateComponent<PlayerCheckPointComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = GetTilePosition(tx, ty);
+        transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
         return entity;
@@ -77,7 +77,7 @@ internal sealed class EntityFactory
     {
         var entity = scene.CreateEntity();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = GetTilePosition(tx, ty);
+        transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
         entity.CreateComponent<TileColliderComponent>();
@@ -89,7 +89,7 @@ internal sealed class EntityFactory
         var entity = scene.CreateEntity();
         entity.CreateComponent<SpikesComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = GetTilePosition(tx, ty);
+        transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
 
@@ -107,7 +107,7 @@ internal sealed class EntityFactory
         var enemyComponent = entity.CreateComponent<EnemyComponent>();
         enemyComponent.EnemyType = EnemyType.BlueSmall;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = GetTilePosition(tx, ty);
+        transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(15, 13);
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
@@ -128,7 +128,7 @@ internal sealed class EntityFactory
         var enemyComponent = entity.CreateComponent<EnemyComponent>();
         enemyComponent.EnemyType = EnemyType.Red;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = GetTilePosition(tx, ty);
+        transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(14, 15);
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
@@ -143,6 +143,22 @@ internal sealed class EntityFactory
         return entity;
     }
 
+    public Entity CreateYellowEnemy(Scene scene, int tx, int ty)
+    {
+        var entity = scene.CreateEntity();
+        entity.CreateComponent<YellowEnemyComponent>();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
+        var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
+        rectangleColliderComponent.Dimensions = new Vector2(18, 18);
+        var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
+        kinematicRigidBody2DComponent.EnableCollisionResponse = false;
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("410b9b9c-0d87-4118-b711-75a51ada575e")));
+
+        return entity;
+    }
+
     public Entity CreateCamera(Scene scene)
     {
         var entity = scene.CreateEntity();
@@ -152,6 +168,4 @@ internal sealed class EntityFactory
         entity.CreateComponent<CameraMovementComponent>();
         return entity;
     }
-
-    private static Vector2 GetTilePosition(int tx, int ty) => new(tx * GlobalSettings.TileSize.Width, ty * GlobalSettings.TileSize.Height);
 }

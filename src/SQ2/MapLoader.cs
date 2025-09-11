@@ -62,6 +62,9 @@ internal sealed class MapLoader
                         case "Enemy_Red":
                             _entityFactory.CreateRedEnemy(scene, tx, ty);
                             break;
+                        case "Enemy_Yellow":
+                            _entityFactory.CreateYellowEnemy(scene, tx, ty);
+                            break;
                     }
                 }
             }

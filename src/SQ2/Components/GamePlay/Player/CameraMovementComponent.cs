@@ -2,7 +2,7 @@
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.SceneModel;
 using System.Diagnostics;
-using System.Linq;
+using SQ2.Components.GamePlay.Common;
 
 namespace SQ2.Components.GamePlay.Player;
 
@@ -18,7 +18,7 @@ internal sealed class CameraMovementComponent : BehaviorComponent
     public override void OnStart()
     {
         _cameraTransform = Entity.GetComponent<Transform2DComponent>();
-        _playerTransform = Scene.RootEntities.Single(e => e.HasComponent<PlayerComponent>()).GetComponent<Transform2DComponent>();
+        _playerTransform = Query.GetPlayerTransform2DComponent(Scene);
     }
 
     public override void OnUpdate(GameTime gameTime)
