@@ -48,7 +48,7 @@ internal sealed class PlayerComponent : BehaviorComponent
         Debug.Assert(_inputComponent != null, nameof(_inputComponent) + " != null");
         Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
 
-        GravityPhysics.Update(_kinematicRigidBody2DComponent);
+        Movement.ApplyGravity(_kinematicRigidBody2DComponent);
 
         // Basic player movement.
         const double velocity = 80;
@@ -61,17 +61,6 @@ internal sealed class PlayerComponent : BehaviorComponent
         if (_inputComponent.HardwareInput.KeyboardInput.Right)
         {
             _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(velocity);
-        }
-
-        // Flip player sprite based on movement direction.
-        if (_kinematicRigidBody2DComponent.LinearVelocity.X > 0)
-        {
-            _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with { Scale = new Vector2(-1, 1) });
-        }
-
-        if (_kinematicRigidBody2DComponent.LinearVelocity.X < 0)
-        {
-            _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with { Scale = new Vector2(1, 1) });
         }
 
         var contacts = Array.Empty<Contact2D>();
@@ -118,6 +107,8 @@ internal sealed class PlayerComponent : BehaviorComponent
         {
             _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithY(200);
         }
+
+        Movement.UpdateSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
 
         // Check for checkpoints.
         for (var i = 0; i < _checkPoints.Length; i++)

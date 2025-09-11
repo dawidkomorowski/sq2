@@ -40,8 +40,9 @@ internal sealed class EnemyComponent : BehaviorComponent
     {
         Debug.Assert(_kinematicRigidBody2DComponent != null, nameof(_kinematicRigidBody2DComponent) + " != null");
         Debug.Assert(_rectangleColliderComponent != null, nameof(_rectangleColliderComponent) + " != null");
+        Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
 
-        GravityPhysics.Update(_kinematicRigidBody2DComponent);
+        Movement.ApplyGravity(_kinematicRigidBody2DComponent);
 
         // Basic enemy movement logic.
         var contacts = Array.Empty<Contact2D>();
@@ -68,6 +69,8 @@ internal sealed class EnemyComponent : BehaviorComponent
         }
 
         _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(_currentVelocity);
+
+        Movement.UpdateSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
     }
 
     public override void OnUpdate(GameTime gameTime)
