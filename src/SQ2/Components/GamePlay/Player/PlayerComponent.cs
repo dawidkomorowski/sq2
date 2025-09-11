@@ -131,6 +131,11 @@ internal sealed class PlayerComponent : BehaviorComponent
             {
                 entity.GetComponent<EnemyComponent>().Respawn();
             }
+
+            if (entity.HasComponent<YellowEnemyComponent>())
+            {
+                entity.GetComponent<YellowEnemyComponent>().Respawn();
+            }
         }
 
         if (_currentCheckPointIndex < 0)
