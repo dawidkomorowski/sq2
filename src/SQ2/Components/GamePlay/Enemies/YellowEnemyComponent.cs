@@ -202,7 +202,10 @@ internal sealed class YellowEnemyComponent : BehaviorComponent
         Debug.Assert(_spriteRendererComponent != null, nameof(_spriteRendererComponent) + " != null");
         Debug.Assert(_kinematicRigidBody2DComponent != null, nameof(_kinematicRigidBody2DComponent) + " != null");
 
-        _transform2DComponent.Translation = _startPosition;
+        _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with
+        {
+            Translation = _startPosition
+        });
         _state = State.Ready;
         _spriteRendererComponent.Sprite = NeutralSprite;
         _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;

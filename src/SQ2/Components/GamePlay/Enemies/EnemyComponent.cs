@@ -82,7 +82,10 @@ internal sealed class EnemyComponent : BehaviorComponent
     {
         Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
 
-        _transform2DComponent.Translation = _startPosition;
+        _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with
+        {
+            Translation = _startPosition
+        });
         _currentVelocity = -BaseVelocity;
     }
 }
