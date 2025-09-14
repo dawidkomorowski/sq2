@@ -23,6 +23,7 @@ internal sealed class PlayerComponent : BehaviorComponent
     private PlayerSpawnPointComponent? _playerSpawnPointComponent;
     private PlayerCheckPointComponent[] _checkPoints = Array.Empty<PlayerCheckPointComponent>();
     private int _currentCheckPointIndex = -1;
+    private int _jumpPressFrames = 0;
 
     public PlayerComponent(Entity entity) : base(entity)
     {
@@ -130,13 +131,30 @@ internal sealed class PlayerComponent : BehaviorComponent
             linearVelocity = linearVelocity.WithX(Math.Sign(linearVelocity.X) * maxSpeed);
         }
 
-        _kinematicRigidBody2DComponent.LinearVelocity = linearVelocity;
-        
-        // Basic jumping.
-        if (isOnGround && _inputComponent.HardwareInput.KeyboardInput.Up)
+        // Jumping.
+        const int maxJumpPressFrames = 30;
+        const double baseJumpSpeed = 150;
+        const double longJumpAcceleration = 500;
+
+        if (_inputComponent.HardwareInput.KeyboardInput.Up && _jumpPressFrames is > 0 and < maxJumpPressFrames)
         {
-            _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithY(200);
+            _jumpPressFrames++;
+            var jumpAcceleration = longJumpAcceleration - longJumpAcceleration * _jumpPressFrames / maxJumpPressFrames;
+            linearVelocity = linearVelocity.WithY(linearVelocity.Y + jumpAcceleration * GameTime.FixedDeltaTimeSeconds);
         }
+
+        if (_inputComponent.HardwareInput.KeyboardInput.Up && isOnGround && _jumpPressFrames == 0)
+        {
+            _jumpPressFrames++;
+            linearVelocity = linearVelocity.WithY(baseJumpSpeed);
+        }
+
+        if (!_inputComponent.HardwareInput.KeyboardInput.Up)
+        {
+            _jumpPressFrames = 0;
+        }
+
+        _kinematicRigidBody2DComponent.LinearVelocity = linearVelocity;
 
         Movement.UpdateSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
 
