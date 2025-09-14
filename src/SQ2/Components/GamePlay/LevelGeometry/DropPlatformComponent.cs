@@ -2,6 +2,7 @@
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics.Components;
+using SQ2.Components.GamePlay.Player;
 
 namespace SQ2.Components.GamePlay.LevelGeometry;
 
@@ -36,7 +37,7 @@ internal sealed class DropPlatformComponent : BehaviorComponent
             var contacts = _rectangleColliderComponent.GetContacts();
             foreach (var contact in contacts)
             {
-                if (contact.CollisionNormal.Y < 0)
+                if (contact.CollisionNormal.Y < 0 && contact.OtherCollider.Entity.HasComponent<PlayerComponent>())
                 {
                     hasLoad = true;
                     break;
@@ -61,7 +62,14 @@ internal sealed class DropPlatformComponent : BehaviorComponent
         }
     }
 
-    // TODO: Add reset to start position when player respawns on a checkpoint
+    public void Respawn()
+    {
+        _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with
+        {
+            Translation = _startPosition
+        });
+        _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
+    }
 }
 
 // ReSharper disable once ClassNeverInstantiated.Global

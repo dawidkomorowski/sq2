@@ -117,6 +117,7 @@ internal sealed class EntityFactory
         spriteTransform2DComponent.Translation = new Vector2(0, -GlobalSettings.TileSize.Height / 4 + 0.5);
         var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+        spriteRendererComponent.OrderInLayer = -1;
 
         return entity;
     }
