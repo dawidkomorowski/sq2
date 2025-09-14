@@ -8,8 +8,8 @@ using Geisha.Engine.Physics.Components;
 using Geisha.Engine.Rendering;
 using Geisha.Engine.Rendering.Components;
 using SQ2.Components.Development;
-using SQ2.Components.GamePlay;
 using SQ2.Components.GamePlay.Enemies;
+using SQ2.Components.GamePlay.LevelGeometry;
 using SQ2.Components.GamePlay.Player;
 
 namespace SQ2;
@@ -98,6 +98,26 @@ internal sealed class EntityFactory
         collisionTransform2DComponent.Translation = new Vector2(0, -GlobalSettings.TileSize.Height / 4d);
         var rectangleColliderComponent = collisionEntity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(GlobalSettings.TileSize.Width - 2, (GlobalSettings.TileSize.Height / 2d) - 2);
+        return entity;
+    }
+
+    public Entity CreateDropPlatform(Scene scene, int tx, int ty, AssetId assetId)
+    {
+        var entity = scene.CreateEntity();
+        entity.CreateComponent<DropPlatformComponent>();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.IsInterpolated = true;
+        transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty) + new Vector2(0, GlobalSettings.TileSize.Height / 4);
+        var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
+        rectangleColliderComponent.Dimensions = new Vector2(GlobalSettings.TileSize.Width, GlobalSettings.TileSize.Height / 2);
+        entity.CreateComponent<KinematicRigidBody2DComponent>();
+
+        var spriteEntity = entity.CreateChildEntity();
+        var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
+        spriteTransform2DComponent.Translation = new Vector2(0, -GlobalSettings.TileSize.Height / 4 + 0.5);
+        var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+
         return entity;
     }
 

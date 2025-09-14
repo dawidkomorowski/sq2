@@ -37,4 +37,10 @@
    <property name="TileType" propertytype="TileType" value="CheckPoint"/>
   </properties>
  </tile>
+ <tile id="146" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="480595cf-54cc-403b-8266-114a03110641"/>
+   <property name="TileType" propertytype="TileType" value="DropPlatform"/>
+  </properties>
+ </tile>
 </tileset>

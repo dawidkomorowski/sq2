@@ -8,6 +8,7 @@ using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
 using SQ2.Components.GamePlay.Common;
 using SQ2.Components.GamePlay.Enemies;
+using SQ2.Components.GamePlay.LevelGeometry;
 
 namespace SQ2.Components.GamePlay.Player;
 

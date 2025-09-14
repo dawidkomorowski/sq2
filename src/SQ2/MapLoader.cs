@@ -48,6 +48,9 @@ internal sealed class MapLoader
                         case "CheckPoint":
                             _entityFactory.CreatePlayerCheckPoint(scene, tx, ty, assetId);
                             break;
+                        case "DropPlatform":
+                            _entityFactory.CreateDropPlatform(scene, tx, ty, assetId);
+                            break;
                     }
                 }
 

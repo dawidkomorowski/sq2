@@ -64,7 +64,8 @@
             "values": [
                 "Geometry",
                 "Spikes",
-                "CheckPoint"
+                "CheckPoint",
+                "DropPlatform"
             ],
             "valuesAsFlags": false
         },

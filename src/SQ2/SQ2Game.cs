@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using Geisha.Engine;
 using SQ2.Components.Development;
-using SQ2.Components.GamePlay;
 using SQ2.Components.GamePlay.Enemies;
+using SQ2.Components.GamePlay.LevelGeometry;
 using SQ2.Components.GamePlay.Player;
 
 namespace SQ2;
@@ -57,7 +57,8 @@ internal class SQ2Game : Game
         // Enemies
         componentsRegistry.RegisterComponentFactory<EnemyComponentFactory>();
         componentsRegistry.RegisterComponentFactory<YellowEnemyComponentFactory>();
-        // Other
+        // Level Geometry
         componentsRegistry.RegisterComponentFactory<SpikesComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<DropPlatformComponentFactory>();
     }
 }
