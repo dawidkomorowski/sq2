@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
+using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Input.Components;
 using Geisha.Engine.Physics;
@@ -48,21 +50,6 @@ internal sealed class PlayerComponent : BehaviorComponent
         Debug.Assert(_inputComponent != null, nameof(_inputComponent) + " != null");
         Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
 
-        Movement.ApplyGravity(_kinematicRigidBody2DComponent);
-
-        // Basic player movement.
-        const double velocity = 80;
-        _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(0);
-        if (_inputComponent.HardwareInput.KeyboardInput.Left)
-        {
-            _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(-velocity);
-        }
-
-        if (_inputComponent.HardwareInput.KeyboardInput.Right)
-        {
-            _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(velocity);
-        }
-
         var contacts = Array.Empty<Contact2D>();
         if (_rectangleColliderComponent.IsColliding)
         {
@@ -92,18 +79,61 @@ internal sealed class PlayerComponent : BehaviorComponent
             }
         }
 
-        // Basic jumping.
-        var canJump = false;
+        var isOnGround = false;
         foreach (var contact2D in contacts)
         {
             if (contact2D.CollisionNormal.Y > 0)
             {
-                canJump = true;
+                isOnGround = true;
                 break;
             }
         }
 
-        if (canJump && _inputComponent.HardwareInput.KeyboardInput.Up)
+        Movement.ApplyGravity(_kinematicRigidBody2DComponent);
+
+        // Horizontal movement.
+        const double maxSpeed = 100;
+        const double acceleration = 250;
+        const double deceleration = 450;
+
+        var linearVelocity = _kinematicRigidBody2DComponent.LinearVelocity;
+        //_kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(0);
+        if (_inputComponent.HardwareInput.KeyboardInput.Left)
+        {
+            var effectiveAcceleration = linearVelocity.X > 0 ? deceleration : acceleration;
+            var verticalVelocity = linearVelocity.X - effectiveAcceleration * GameTime.FixedDeltaTimeSeconds;
+            linearVelocity = linearVelocity.WithX(verticalVelocity);
+        }
+
+        if (_inputComponent.HardwareInput.KeyboardInput.Right)
+        {
+            var effectiveAcceleration = linearVelocity.X < 0 ? deceleration : acceleration;
+            var verticalVelocity = linearVelocity.X + effectiveAcceleration * GameTime.FixedDeltaTimeSeconds;
+            linearVelocity = linearVelocity.WithX(verticalVelocity);
+        }
+
+        if (_inputComponent.HardwareInput.KeyboardInput is { Left: false, Right: false })
+        {
+            if (Math.Abs(linearVelocity.X) < deceleration * GameTime.FixedDeltaTimeSeconds)
+            {
+                linearVelocity = linearVelocity.WithX(0);
+            }
+            else
+            {
+                var verticalVelocity = linearVelocity.X - Math.Sign(linearVelocity.X) * deceleration * GameTime.FixedDeltaTimeSeconds;
+                linearVelocity = linearVelocity.WithX(verticalVelocity);
+            }
+        }
+
+        if (Math.Abs(linearVelocity.X) > maxSpeed)
+        {
+            linearVelocity = linearVelocity.WithX(Math.Sign(linearVelocity.X) * maxSpeed);
+        }
+
+        _kinematicRigidBody2DComponent.LinearVelocity = linearVelocity;
+        
+        // Basic jumping.
+        if (isOnGround && _inputComponent.HardwareInput.KeyboardInput.Up)
         {
             _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithY(200);
         }
@@ -125,6 +155,7 @@ internal sealed class PlayerComponent : BehaviorComponent
     {
         Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
         Debug.Assert(_playerSpawnPointComponent != null, nameof(_playerSpawnPointComponent) + " != null");
+        Debug.Assert(_kinematicRigidBody2DComponent != null, nameof(_kinematicRigidBody2DComponent) + " != null");
 
         foreach (var entity in Scene.RootEntities)
         {
@@ -143,6 +174,8 @@ internal sealed class PlayerComponent : BehaviorComponent
                 entity.GetComponent<DropPlatformComponent>().Respawn();
             }
         }
+
+        _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
 
         if (_currentCheckPointIndex < 0)
         {
