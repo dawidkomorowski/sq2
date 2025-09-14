@@ -12,7 +12,7 @@
 
   <PropertyGroup>
     <BuildNumber>0</BuildNumber>
-    <VersionPrefix>0.2.$(BuildNumber)</VersionPrefix>
+    <VersionPrefix>0.3.$(BuildNumber)</VersionPrefix>
   </PropertyGroup>
 
   <ItemGroup>
