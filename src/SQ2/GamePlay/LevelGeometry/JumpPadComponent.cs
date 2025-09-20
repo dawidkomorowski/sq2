@@ -20,8 +20,8 @@ internal sealed class JumpPadComponent : BehaviorComponent
     {
     }
 
-    public Sprite HighSprite { get; set; }
-    public Sprite LowSprite { get; set; }
+    public Sprite? HighSprite { get; set; }
+    public Sprite? LowSprite { get; set; }
 
     public override void OnStart()
     {
