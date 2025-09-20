@@ -51,6 +51,9 @@ internal sealed class MapLoader
                         case "DropPlatform":
                             _entityFactory.CreateDropPlatform(scene, tx, ty, assetId);
                             break;
+                        case "JumpPad":
+                            _entityFactory.CreateJumpPad(scene, tx, ty);
+                            break;
                     }
                 }
 

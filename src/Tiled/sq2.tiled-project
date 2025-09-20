@@ -65,7 +65,8 @@
                 "Geometry",
                 "Spikes",
                 "CheckPoint",
-                "DropPlatform"
+                "DropPlatform",
+                "JumpPad"
             ],
             "valuesAsFlags": false
         },

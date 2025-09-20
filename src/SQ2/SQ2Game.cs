@@ -32,7 +32,7 @@ internal class SQ2Game : Game
             Physics = configuration.Physics with
             {
                 TileSize = GlobalSettings.TileSize,
-                RenderCollisionGeometry = false
+                RenderCollisionGeometry = true
             }
         };
 
@@ -60,5 +60,6 @@ internal class SQ2Game : Game
         // Level Geometry
         componentsRegistry.RegisterComponentFactory<SpikesComponentFactory>();
         componentsRegistry.RegisterComponentFactory<DropPlatformComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<JumpPadComponentFactory>();
     }
 }

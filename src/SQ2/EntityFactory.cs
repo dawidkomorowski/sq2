@@ -122,6 +122,25 @@ internal sealed class EntityFactory
         return entity;
     }
 
+    public Entity CreateJumpPad(Scene scene, int tx, int ty)
+    {
+        var entity = scene.CreateEntity();
+        var jumpPadComponent = entity.CreateComponent<JumpPadComponent>();
+        jumpPadComponent.HighSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("afa34cd1-0643-4551-9a0d-76558521b9e7")));
+        jumpPadComponent.LowSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("120bb5b7-2f24-4f72-902c-b516ac2334d7")));
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty) + new Vector2(0, -2);
+        var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
+        rectangleColliderComponent.Dimensions = new Vector2(GlobalSettings.TileSize.Width, 14);
+
+        var spriteEntity = entity.CreateChildEntity();
+        var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
+        spriteTransform2DComponent.Translation = new Vector2(0, 2);
+        spriteEntity.CreateComponent<SpriteRendererComponent>();
+
+        return entity;
+    }
+
     public Entity CreateBlueEnemy(Scene scene, int tx, int ty)
     {
         var entity = scene.CreateEntity();

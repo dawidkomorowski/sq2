@@ -19,6 +19,11 @@ internal static class Query
         return scene.RootEntities.Single(e => e.HasComponent<PlayerComponent>()).GetComponent<RectangleColliderComponent>();
     }
 
+    public static KinematicRigidBody2DComponent GetPlayerKinematicRigidBody2DComponent(Scene scene)
+    {
+        return scene.RootEntities.Single(e => e.HasComponent<PlayerComponent>()).GetComponent<KinematicRigidBody2DComponent>();
+    }
+
     public static PlayerComponent GetPlayerComponent(Scene scene)
     {
         return scene.RootEntities.Single(e => e.HasComponent<PlayerComponent>()).GetComponent<PlayerComponent>();

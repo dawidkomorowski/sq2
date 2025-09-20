@@ -37,6 +37,12 @@
    <property name="TileType" propertytype="TileType" value="CheckPoint"/>
   </properties>
  </tile>
+ <tile id="108" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="afa34cd1-0643-4551-9a0d-76558521b9e7"/>
+   <property name="TileType" propertytype="TileType" value="JumpPad"/>
+  </properties>
+ </tile>
  <tile id="146" type="WorldTile">
   <properties>
    <property name="AssetId" value="480595cf-54cc-403b-8266-114a03110641"/>
