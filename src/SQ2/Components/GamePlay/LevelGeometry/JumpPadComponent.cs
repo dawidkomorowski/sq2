@@ -55,7 +55,7 @@ internal sealed class JumpPadComponent : BehaviorComponent
             if (IsPlayerOnJumpPad())
             {
                 _spriteRendererComponent.Sprite = LowSprite;
-                _launchTimer = 30; // Delay jump to allow for animation to play
+                _launchTimer = 3; // Delay jump to allow for animation to play
             }
         }
     }
