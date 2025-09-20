@@ -19,6 +19,8 @@ internal sealed class CameraMovementComponent : BehaviorComponent
     {
         _cameraTransform = Entity.GetComponent<Transform2DComponent>();
         _playerTransform = Query.GetPlayerTransform2DComponent(Scene);
+
+        _cameraTransform.Translation = _playerTransform.InterpolatedTransform.Translation;
     }
 
     public override void OnUpdate(GameTime gameTime)

@@ -57,8 +57,8 @@ internal sealed class EntityFactory
         entity.CreateComponent<PlayerComponent>();
         entity.CreateComponent<InputComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.IsInterpolated = true;
         transform2DComponent.Translation = new Vector2(x, y);
+        transform2DComponent.IsInterpolated = true;
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(14, 22);
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
@@ -116,8 +116,8 @@ internal sealed class EntityFactory
         var entity = scene.CreateEntity();
         entity.CreateComponent<DropPlatformComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.IsInterpolated = true;
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty) + new Vector2(0, GlobalSettings.TileSize.Height / 4);
+        transform2DComponent.IsInterpolated = true;
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(GlobalSettings.TileSize.Width, GlobalSettings.TileSize.Height / 2);
         entity.CreateComponent<KinematicRigidBody2DComponent>();
@@ -157,8 +157,8 @@ internal sealed class EntityFactory
         var enemyComponent = entity.CreateComponent<EnemyComponent>();
         enemyComponent.EnemyType = EnemyType.BlueSmall;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.IsInterpolated = true;
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
+        transform2DComponent.IsInterpolated = true;
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(15, 13);
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
@@ -179,8 +179,8 @@ internal sealed class EntityFactory
         var enemyComponent = entity.CreateComponent<EnemyComponent>();
         enemyComponent.EnemyType = EnemyType.Red;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.IsInterpolated = true;
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
+        transform2DComponent.IsInterpolated = true;
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(14, 15);
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
@@ -202,8 +202,8 @@ internal sealed class EntityFactory
         yellowEnemyComponent.NeutralSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("410b9b9c-0d87-4118-b711-75a51ada575e")));
         yellowEnemyComponent.AngrySprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("18a00a7d-c552-47a2-9b96-02e44b723a87")));
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.IsInterpolated = true;
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
+        transform2DComponent.IsInterpolated = true;
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(18, 18);
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
