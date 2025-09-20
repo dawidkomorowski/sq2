@@ -19,11 +19,12 @@ internal sealed class PlayerComponent : BehaviorComponent
     private KinematicRigidBody2DComponent? _kinematicRigidBody2DComponent;
     private RectangleColliderComponent? _rectangleColliderComponent;
     private Transform2DComponent? _transform2DComponent;
-    private InputComponent? _inputComponent;
+    private InputComponent _inputComponent = null!;
     private PlayerSpawnPointComponent? _playerSpawnPointComponent;
     private PlayerCheckPointComponent[] _checkPoints = Array.Empty<PlayerCheckPointComponent>();
     private int _currentCheckPointIndex = -1;
-    private int _jumpPressFrames = 0;
+    private int _jumpPressFrames;
+    private bool _lastJumpPressState;
 
     public PlayerComponent(Entity entity) : base(entity)
     {
@@ -48,7 +49,6 @@ internal sealed class PlayerComponent : BehaviorComponent
     {
         Debug.Assert(_kinematicRigidBody2DComponent != null, nameof(_kinematicRigidBody2DComponent) + " != null");
         Debug.Assert(_rectangleColliderComponent != null, nameof(_rectangleColliderComponent) + " != null");
-        Debug.Assert(_inputComponent != null, nameof(_inputComponent) + " != null");
         Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
 
         var contacts = Array.Empty<Contact2D>();
@@ -92,13 +92,32 @@ internal sealed class PlayerComponent : BehaviorComponent
 
         Movement.ApplyGravity(_kinematicRigidBody2DComponent);
 
-        // Horizontal movement.
+        var linearVelocity = _kinematicRigidBody2DComponent.LinearVelocity;
+
+        linearVelocity = HorizontalMovementLogic(linearVelocity);
+        linearVelocity = JumpLogic(linearVelocity, isOnGround);
+
+        _kinematicRigidBody2DComponent.LinearVelocity = linearVelocity;
+
+        Movement.UpdateSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
+
+        // Check for checkpoints.
+        for (var i = 0; i < _checkPoints.Length; i++)
+        {
+            var checkPointComponent = _checkPoints[i];
+            if (checkPointComponent.Entity.GetComponent<Transform2DComponent>().Translation.Distance(_transform2DComponent.Translation) < 10)
+            {
+                _currentCheckPointIndex = i;
+            }
+        }
+    }
+
+    private Vector2 HorizontalMovementLogic(Vector2 linearVelocity)
+    {
         const double maxSpeed = 100;
         const double acceleration = 250;
         const double deceleration = 450;
 
-        var linearVelocity = _kinematicRigidBody2DComponent.LinearVelocity;
-        //_kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(0);
         if (_inputComponent.HardwareInput.KeyboardInput.Left)
         {
             var effectiveAcceleration = linearVelocity.X > 0 ? deceleration : acceleration;
@@ -131,7 +150,11 @@ internal sealed class PlayerComponent : BehaviorComponent
             linearVelocity = linearVelocity.WithX(Math.Sign(linearVelocity.X) * maxSpeed);
         }
 
-        // Jumping.
+        return linearVelocity;
+    }
+
+    private Vector2 JumpLogic(Vector2 linearVelocity, bool isOnGround)
+    {
         const int maxJumpPressFrames = 30;
         const double baseJumpSpeed = 150;
         const double longJumpAcceleration = 500;
@@ -143,7 +166,7 @@ internal sealed class PlayerComponent : BehaviorComponent
             linearVelocity = linearVelocity.WithY(linearVelocity.Y + jumpAcceleration * GameTime.FixedDeltaTimeSeconds);
         }
 
-        if (_inputComponent.HardwareInput.KeyboardInput.Up && isOnGround && _jumpPressFrames == 0)
+        if (isOnGround && _jumpPressFrames == 0 && _inputComponent.HardwareInput.KeyboardInput.Up && !_lastJumpPressState)
         {
             _jumpPressFrames++;
             linearVelocity = linearVelocity.WithY(baseJumpSpeed);
@@ -154,19 +177,9 @@ internal sealed class PlayerComponent : BehaviorComponent
             _jumpPressFrames = 0;
         }
 
-        _kinematicRigidBody2DComponent.LinearVelocity = linearVelocity;
+        _lastJumpPressState = _inputComponent.HardwareInput.KeyboardInput.Up;
 
-        Movement.UpdateSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
-
-        // Check for checkpoints.
-        for (var i = 0; i < _checkPoints.Length; i++)
-        {
-            var checkPointComponent = _checkPoints[i];
-            if (checkPointComponent.Entity.GetComponent<Transform2DComponent>().Translation.Distance(_transform2DComponent.Translation) < 10)
-            {
-                _currentCheckPointIndex = i;
-            }
-        }
+        return linearVelocity;
     }
 
     public void Respawn()
