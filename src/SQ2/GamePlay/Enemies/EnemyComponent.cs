@@ -1,15 +1,15 @@
-﻿using Geisha.Engine.Core;
+﻿using System;
+using System.Diagnostics;
+using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
-using SQ2.Components.GamePlay.Common;
-using SQ2.Components.GamePlay.Player;
-using System;
-using System.Diagnostics;
+using SQ2.GamePlay.Common;
+using SQ2.GamePlay.Player;
 
-namespace SQ2.Components.GamePlay.Enemies;
+namespace SQ2.GamePlay.Enemies;
 
 internal sealed class EnemyComponent : BehaviorComponent
 {

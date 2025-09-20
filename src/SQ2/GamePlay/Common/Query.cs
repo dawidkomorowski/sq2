@@ -3,9 +3,10 @@ using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics.Components;
-using SQ2.Components.GamePlay.Player;
+using SQ2.Core;
+using SQ2.GamePlay.Player;
 
-namespace SQ2.Components.GamePlay.Common;
+namespace SQ2.GamePlay.Common;
 
 internal static class Query
 {

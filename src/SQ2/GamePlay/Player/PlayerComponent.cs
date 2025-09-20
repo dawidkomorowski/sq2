@@ -8,11 +8,11 @@ using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Input.Components;
 using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
-using SQ2.Components.GamePlay.Common;
-using SQ2.Components.GamePlay.Enemies;
-using SQ2.Components.GamePlay.LevelGeometry;
+using SQ2.GamePlay.Common;
+using SQ2.GamePlay.Enemies;
+using SQ2.GamePlay.LevelGeometry;
 
-namespace SQ2.Components.GamePlay.Player;
+namespace SQ2.GamePlay.Player;
 
 internal sealed class PlayerComponent : BehaviorComponent
 {

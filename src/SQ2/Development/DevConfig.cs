@@ -2,7 +2,7 @@
 using System.Text.Json;
 using Geisha.Engine.Core.Math;
 
-namespace SQ2;
+namespace SQ2.Development;
 
 internal static class DevConfig
 {

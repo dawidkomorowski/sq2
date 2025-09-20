@@ -4,7 +4,7 @@ using Geisha.Engine.Core.Assets;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Extensions.Tiled;
 
-namespace SQ2;
+namespace SQ2.Core;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 internal sealed class MapLoader

@@ -8,10 +8,11 @@ using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics.Components;
 using Geisha.Engine.Rendering;
 using Geisha.Engine.Rendering.Components;
-using SQ2.Components.GamePlay.Common;
-using SQ2.Components.GamePlay.Player;
+using SQ2.Core;
+using SQ2.GamePlay.Common;
+using SQ2.GamePlay.Player;
 
-namespace SQ2.Components.GamePlay.Enemies;
+namespace SQ2.GamePlay.Enemies;
 
 internal sealed class YellowEnemyComponent : BehaviorComponent
 {

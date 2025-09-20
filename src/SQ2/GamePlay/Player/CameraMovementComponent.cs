@@ -1,10 +1,10 @@
-﻿using Geisha.Engine.Core;
+﻿using System.Diagnostics;
+using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.SceneModel;
-using System.Diagnostics;
-using SQ2.Components.GamePlay.Common;
+using SQ2.GamePlay.Common;
 
-namespace SQ2.Components.GamePlay.Player;
+namespace SQ2.GamePlay.Player;
 
 internal sealed class CameraMovementComponent : BehaviorComponent
 {

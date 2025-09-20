@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using Geisha.Engine.Core.SceneModel;
+using SQ2.Core;
+using SQ2.Development;
 
 namespace SQ2;
 

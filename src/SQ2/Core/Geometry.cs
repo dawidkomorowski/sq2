@@ -1,7 +1,7 @@
 ﻿using System;
 using Geisha.Engine.Core.Math;
 
-namespace SQ2;
+namespace SQ2.Core;
 
 internal static class Geometry
 {

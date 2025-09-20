@@ -2,9 +2,9 @@
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics.Components;
-using SQ2.Components.GamePlay.Player;
+using SQ2.GamePlay.Player;
 
-namespace SQ2.Components.GamePlay.LevelGeometry;
+namespace SQ2.GamePlay.LevelGeometry;
 
 internal sealed class DropPlatformComponent : BehaviorComponent
 {

@@ -3,7 +3,7 @@ using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Physics.Components;
 
-namespace SQ2.Components.GamePlay.Common;
+namespace SQ2.GamePlay.Common;
 
 internal static class Movement
 {

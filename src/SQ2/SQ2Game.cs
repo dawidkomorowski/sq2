@@ -1,9 +1,10 @@
 ﻿using System.Reflection;
 using Geisha.Engine;
-using SQ2.Components.Development;
-using SQ2.Components.GamePlay.Enemies;
-using SQ2.Components.GamePlay.LevelGeometry;
-using SQ2.Components.GamePlay.Player;
+using SQ2.Core;
+using SQ2.Development;
+using SQ2.GamePlay.Enemies;
+using SQ2.GamePlay.LevelGeometry;
+using SQ2.GamePlay.Player;
 
 namespace SQ2;
 
@@ -32,7 +33,7 @@ internal class SQ2Game : Game
             Physics = configuration.Physics with
             {
                 TileSize = GlobalSettings.TileSize,
-                RenderCollisionGeometry = false
+                RenderCollisionGeometry = true
             }
         };
 

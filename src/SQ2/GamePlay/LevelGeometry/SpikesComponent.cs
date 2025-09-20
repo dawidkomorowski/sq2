@@ -1,6 +1,6 @@
 ﻿using Geisha.Engine.Core.SceneModel;
 
-namespace SQ2.Components.GamePlay.LevelGeometry;
+namespace SQ2.GamePlay.LevelGeometry;
 
 internal sealed class SpikesComponent : Component
 {

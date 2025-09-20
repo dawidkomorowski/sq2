@@ -1,6 +1,6 @@
 ﻿using Geisha.Engine.Core.SceneModel;
 
-namespace SQ2.Components.GamePlay.Player;
+namespace SQ2.GamePlay.Player;
 
 internal sealed class PlayerCheckPointComponent : Component
 {

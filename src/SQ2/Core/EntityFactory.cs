@@ -7,12 +7,12 @@ using Geisha.Engine.Input.Components;
 using Geisha.Engine.Physics.Components;
 using Geisha.Engine.Rendering;
 using Geisha.Engine.Rendering.Components;
-using SQ2.Components.Development;
-using SQ2.Components.GamePlay.Enemies;
-using SQ2.Components.GamePlay.LevelGeometry;
-using SQ2.Components.GamePlay.Player;
+using SQ2.Development;
+using SQ2.GamePlay.Enemies;
+using SQ2.GamePlay.LevelGeometry;
+using SQ2.GamePlay.Player;
 
-namespace SQ2;
+namespace SQ2.Core;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 internal sealed class EntityFactory
@@ -97,7 +97,7 @@ internal sealed class EntityFactory
         var collisionTransform2DComponent = collisionEntity.CreateComponent<Transform2DComponent>();
         collisionTransform2DComponent.Translation = new Vector2(0, -GlobalSettings.TileSize.Height / 4d);
         var rectangleColliderComponent = collisionEntity.CreateComponent<RectangleColliderComponent>();
-        rectangleColliderComponent.Dimensions = new Vector2(GlobalSettings.TileSize.Width - 2, (GlobalSettings.TileSize.Height / 2d) - 2);
+        rectangleColliderComponent.Dimensions = new Vector2(GlobalSettings.TileSize.Width - 2, GlobalSettings.TileSize.Height / 2d - 2);
         return entity;
     }
 
