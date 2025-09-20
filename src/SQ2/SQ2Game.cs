@@ -33,7 +33,7 @@ internal class SQ2Game : Game
             Physics = configuration.Physics with
             {
                 TileSize = GlobalSettings.TileSize,
-                RenderCollisionGeometry = true
+                RenderCollisionGeometry = false
             }
         };
 
