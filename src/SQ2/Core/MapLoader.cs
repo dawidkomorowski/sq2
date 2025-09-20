@@ -43,7 +43,8 @@ internal sealed class MapLoader
                             _entityFactory.CreateGeometry(scene, tx, ty, assetId);
                             break;
                         case "Spikes":
-                            _entityFactory.CreateSpikes(scene, tx, ty, assetId);
+                            var orientation = GetOrientationFromGlobalTileId(tile.GlobalTileId);
+                            _entityFactory.CreateSpikes(scene, tx, ty, assetId, orientation);
                             break;
                         case "CheckPoint":
                             _entityFactory.CreatePlayerCheckPoint(scene, tx, ty, assetId);
@@ -88,5 +89,30 @@ internal sealed class MapLoader
                 _entityFactory.CreatePlayer(scene, x, y);
             }
         }
+    }
+
+    private static Orientation GetOrientationFromGlobalTileId(GlobalTileId globalTileId)
+    {
+        if (!globalTileId.HasFlippingFlags)
+        {
+            return Orientation.Up;
+        }
+
+        if (globalTileId is { FlippedHorizontally: true, FlippedVertically: true, FlippedDiagonally: false })
+        {
+            return Orientation.Down;
+        }
+
+        if (globalTileId is { FlippedHorizontally: true, FlippedVertically: false, FlippedDiagonally: true })
+        {
+            return Orientation.Right;
+        }
+
+        if (globalTileId is { FlippedHorizontally: false, FlippedVertically: true, FlippedDiagonally: true })
+        {
+            return Orientation.Left;
+        }
+
+        throw new ArgumentOutOfRangeException(nameof(globalTileId), $"Unsupported tile id '{globalTileId}' for orientation.");
     }
 }

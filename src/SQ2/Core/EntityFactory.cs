@@ -84,7 +84,7 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateSpikes(Scene scene, int tx, int ty, AssetId assetId)
+    public Entity CreateSpikes(Scene scene, int tx, int ty, AssetId assetId, Orientation orientation)
     {
         var entity = scene.CreateEntity();
         entity.CreateComponent<SpikesComponent>();
@@ -98,6 +98,16 @@ internal sealed class EntityFactory
         collisionTransform2DComponent.Translation = new Vector2(0, -GlobalSettings.TileSize.Height / 4d);
         var rectangleColliderComponent = collisionEntity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(GlobalSettings.TileSize.Width - 2, GlobalSettings.TileSize.Height / 2d - 2);
+
+        transform2DComponent.Rotation = orientation switch
+        {
+            Orientation.Up => 0,
+            Orientation.Down => Math.PI,
+            Orientation.Left => Math.PI / 2,
+            Orientation.Right => -Math.PI / 2,
+            _ => transform2DComponent.Rotation
+        };
+
         return entity;
     }
 
