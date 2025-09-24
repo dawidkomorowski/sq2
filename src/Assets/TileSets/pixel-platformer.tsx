@@ -25,10 +25,22 @@
    <property name="TileType" propertytype="TileType" value="Geometry"/>
   </properties>
  </tile>
+ <tile id="51" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="c3c01a5f-09af-42f7-8100-65d891ee03ef"/>
+   <property name="TileType" propertytype="TileType" value="Ladder"/>
+  </properties>
+ </tile>
  <tile id="68" type="WorldTile">
   <properties>
    <property name="AssetId" value="535f9a07-38d9-4e83-afd5-f35f54d76ad1"/>
    <property name="TileType" propertytype="TileType" value="Spikes"/>
+  </properties>
+ </tile>
+ <tile id="71" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="5c5820fb-340c-42fd-840d-d7f11e0094dc"/>
+   <property name="TileType" propertytype="TileType" value="Ladder"/>
   </properties>
  </tile>
  <tile id="86" type="WorldTile">

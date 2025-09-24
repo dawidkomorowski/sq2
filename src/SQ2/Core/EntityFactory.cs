@@ -151,6 +151,17 @@ internal sealed class EntityFactory
         return entity;
     }
 
+    public Entity CreateLadder(Scene scene, int tx, int ty, AssetId assetId)
+    {
+        var entity = scene.CreateEntity();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+
+        return entity;
+    }
+
     public Entity CreateBlueEnemy(Scene scene, int tx, int ty)
     {
         var entity = scene.CreateEntity();

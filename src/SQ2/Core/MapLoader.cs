@@ -55,6 +55,9 @@ internal sealed class MapLoader
                         case "JumpPad":
                             _entityFactory.CreateJumpPad(scene, tx, ty);
                             break;
+                        case "Ladder":
+                            _entityFactory.CreateLadder(scene, tx, ty, assetId);
+                            break;
                     }
                 }
 
