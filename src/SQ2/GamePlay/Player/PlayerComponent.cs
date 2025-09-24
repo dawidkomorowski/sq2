@@ -5,7 +5,9 @@ using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
+using Geisha.Engine.Input;
 using Geisha.Engine.Input.Components;
+using Geisha.Engine.Input.Mapping;
 using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
 using SQ2.GamePlay.Common;
@@ -16,6 +18,10 @@ namespace SQ2.GamePlay.Player;
 
 internal sealed class PlayerComponent : BehaviorComponent
 {
+    private const string MoveLeftAction = "MoveLeft";
+    private const string MoveRightAction = "MoveRight";
+    private const string JumpAction = "Jump";
+
     private KinematicRigidBody2DComponent? _kinematicRigidBody2DComponent;
     private RectangleColliderComponent? _rectangleColliderComponent;
     private Transform2DComponent? _transform2DComponent;
@@ -24,7 +30,7 @@ internal sealed class PlayerComponent : BehaviorComponent
     private PlayerCheckPointComponent[] _checkPoints = Array.Empty<PlayerCheckPointComponent>();
     private int _currentCheckPointIndex = -1;
     private int _jumpPressFrames;
-    private bool _lastJumpPressState;
+    private bool _lastJumpState;
 
     public PlayerComponent(Entity entity) : base(entity)
     {
@@ -36,6 +42,46 @@ internal sealed class PlayerComponent : BehaviorComponent
         _rectangleColliderComponent = Entity.GetComponent<RectangleColliderComponent>();
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
         _inputComponent = Entity.GetComponent<InputComponent>();
+
+        _inputComponent.InputMapping = new InputMapping
+        {
+            ActionMappings =
+            {
+                new ActionMapping
+                {
+                    ActionName = MoveLeftAction,
+                    HardwareActions =
+                    {
+                        new HardwareAction
+                        {
+                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Left)
+                        }
+                    }
+                },
+                new ActionMapping
+                {
+                    ActionName = MoveRightAction,
+                    HardwareActions =
+                    {
+                        new HardwareAction
+                        {
+                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Right)
+                        }
+                    }
+                },
+                new ActionMapping
+                {
+                    ActionName = JumpAction,
+                    HardwareActions =
+                    {
+                        new HardwareAction
+                        {
+                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Space)
+                        }
+                    }
+                }
+            }
+        };
 
         _playerSpawnPointComponent = Scene.RootEntities.Single(e => e.HasComponent<PlayerSpawnPointComponent>()).GetComponent<PlayerSpawnPointComponent>();
 
@@ -118,21 +164,24 @@ internal sealed class PlayerComponent : BehaviorComponent
         const double acceleration = 250;
         const double deceleration = 450;
 
-        if (_inputComponent.HardwareInput.KeyboardInput.Left)
+        var moveLeftState = _inputComponent.GetActionState(MoveLeftAction);
+        var moveRightState = _inputComponent.GetActionState(MoveRightAction);
+
+        if (moveLeftState)
         {
             var effectiveAcceleration = linearVelocity.X > 0 ? deceleration : acceleration;
             var verticalVelocity = linearVelocity.X - effectiveAcceleration * GameTime.FixedDeltaTimeSeconds;
             linearVelocity = linearVelocity.WithX(verticalVelocity);
         }
 
-        if (_inputComponent.HardwareInput.KeyboardInput.Right)
+        if (moveRightState)
         {
             var effectiveAcceleration = linearVelocity.X < 0 ? deceleration : acceleration;
             var verticalVelocity = linearVelocity.X + effectiveAcceleration * GameTime.FixedDeltaTimeSeconds;
             linearVelocity = linearVelocity.WithX(verticalVelocity);
         }
 
-        if (_inputComponent.HardwareInput.KeyboardInput is { Left: false, Right: false })
+        if (!moveLeftState && !moveRightState)
         {
             if (Math.Abs(linearVelocity.X) < deceleration * GameTime.FixedDeltaTimeSeconds)
             {
@@ -159,25 +208,27 @@ internal sealed class PlayerComponent : BehaviorComponent
         const double baseJumpSpeed = 150;
         const double longJumpAcceleration = 500;
 
-        if (_inputComponent.HardwareInput.KeyboardInput.Up && _jumpPressFrames is > 0 and < maxJumpPressFrames)
+        var jumpState = _inputComponent.GetActionState(JumpAction);
+
+        if (jumpState && _jumpPressFrames is > 0 and < maxJumpPressFrames)
         {
             _jumpPressFrames++;
             var jumpAcceleration = longJumpAcceleration - longJumpAcceleration * _jumpPressFrames / maxJumpPressFrames;
             linearVelocity = linearVelocity.WithY(linearVelocity.Y + jumpAcceleration * GameTime.FixedDeltaTimeSeconds);
         }
 
-        if (isOnGround && _jumpPressFrames == 0 && _inputComponent.HardwareInput.KeyboardInput.Up && !_lastJumpPressState)
+        if (isOnGround && _jumpPressFrames == 0 && jumpState && !_lastJumpState)
         {
             _jumpPressFrames++;
             linearVelocity = linearVelocity.WithY(baseJumpSpeed);
         }
 
-        if (!_inputComponent.HardwareInput.KeyboardInput.Up)
+        if (!jumpState)
         {
             _jumpPressFrames = 0;
         }
 
-        _lastJumpPressState = _inputComponent.HardwareInput.KeyboardInput.Up;
+        _lastJumpState = jumpState;
 
         return linearVelocity;
     }
