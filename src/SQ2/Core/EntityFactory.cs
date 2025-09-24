@@ -154,10 +154,13 @@ internal sealed class EntityFactory
     public Entity CreateLadder(Scene scene, int tx, int ty, AssetId assetId)
     {
         var entity = scene.CreateEntity();
+        var ladderComponent = entity.CreateComponent<LadderComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+
+        ladderComponent.HitBox = new AxisAlignedRectangle(transform2DComponent.Translation, new Vector2(8, 8));
 
         return entity;
     }

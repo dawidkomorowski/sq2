@@ -1,8 +1,6 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
-using Geisha.Engine.Core;
+﻿using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
+using Geisha.Engine.Core.Diagnostics;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Input;
@@ -13,27 +11,45 @@ using Geisha.Engine.Physics.Components;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Enemies;
 using SQ2.GamePlay.LevelGeometry;
+using System;
+using System.Diagnostics;
+using System.Linq;
 
 namespace SQ2.GamePlay.Player;
 
 internal sealed class PlayerComponent : BehaviorComponent
 {
+    // Input Actions
     private const string MoveLeftAction = "MoveLeft";
     private const string MoveRightAction = "MoveRight";
+    private const string MoveUpAction = "MoveUp";
+    private const string MoveDownAction = "MoveDown";
     private const string JumpAction = "Jump";
 
+    // Debugging
+    private readonly IDebugRenderer _debugRenderer;
+
+    // Movement and Physics
     private KinematicRigidBody2DComponent? _kinematicRigidBody2DComponent;
     private RectangleColliderComponent? _rectangleColliderComponent;
     private Transform2DComponent? _transform2DComponent;
     private InputComponent _inputComponent = null!;
-    private PlayerSpawnPointComponent? _playerSpawnPointComponent;
-    private PlayerCheckPointComponent[] _checkPoints = Array.Empty<PlayerCheckPointComponent>();
-    private int _currentCheckPointIndex = -1;
     private int _jumpPressFrames;
     private bool _lastJumpState;
 
-    public PlayerComponent(Entity entity) : base(entity)
+    // Ladders
+    private readonly Vector2 _ladderClimbRange = new(8, 16);
+    private AxisAlignedRectangle[] _ladderHitBoxes = Array.Empty<AxisAlignedRectangle>();
+    private int _reclimbAfterJumpCooldown;
+
+    // Respawn and Checkpoints
+    private PlayerSpawnPointComponent? _playerSpawnPointComponent;
+    private PlayerCheckPointComponent[] _checkPoints = Array.Empty<PlayerCheckPointComponent>();
+    private int _currentCheckPointIndex = -1;
+
+    public PlayerComponent(Entity entity, IDebugRenderer debugRenderer) : base(entity)
     {
+        _debugRenderer = debugRenderer;
     }
 
     public override void OnStart()
@@ -71,6 +87,28 @@ internal sealed class PlayerComponent : BehaviorComponent
                 },
                 new ActionMapping
                 {
+                    ActionName = MoveUpAction,
+                    HardwareActions =
+                    {
+                        new HardwareAction
+                        {
+                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Up)
+                        }
+                    }
+                },
+                new ActionMapping
+                {
+                    ActionName = MoveDownAction,
+                    HardwareActions =
+                    {
+                        new HardwareAction
+                        {
+                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Down)
+                        }
+                    }
+                },
+                new ActionMapping
+                {
                     ActionName = JumpAction,
                     HardwareActions =
                     {
@@ -88,6 +126,11 @@ internal sealed class PlayerComponent : BehaviorComponent
         _checkPoints = Scene.RootEntities
             .Where(e => e.HasComponent<PlayerCheckPointComponent>())
             .Select(e => e.GetComponent<PlayerCheckPointComponent>())
+            .ToArray();
+
+        _ladderHitBoxes = Scene.RootEntities
+            .Where(e => e.HasComponent<LadderComponent>())
+            .Select(e => e.GetComponent<LadderComponent>().HitBox)
             .ToArray();
     }
 
@@ -136,14 +179,37 @@ internal sealed class PlayerComponent : BehaviorComponent
             }
         }
 
-        Movement.ApplyGravity(_kinematicRigidBody2DComponent);
+        var isOnLadder = IsOnLadder();
 
-        var linearVelocity = _kinematicRigidBody2DComponent.LinearVelocity;
+        if (_reclimbAfterJumpCooldown > 0)
+        {
+            _reclimbAfterJumpCooldown--;
+        }
 
-        linearVelocity = HorizontalMovementLogic(linearVelocity);
-        linearVelocity = JumpLogic(linearVelocity, isOnGround);
+        if (isOnLadder && !isOnGround)
+        {
+            var linearVelocity = _kinematicRigidBody2DComponent.LinearVelocity;
 
-        _kinematicRigidBody2DComponent.LinearVelocity = linearVelocity;
+            linearVelocity = ClimbLadderLogic(linearVelocity);
+
+            _kinematicRigidBody2DComponent.LinearVelocity = linearVelocity;
+        }
+        else
+        {
+            Movement.ApplyGravity(_kinematicRigidBody2DComponent);
+
+            var linearVelocity = _kinematicRigidBody2DComponent.LinearVelocity;
+
+            linearVelocity = HorizontalMovementLogic(linearVelocity);
+            linearVelocity = JumpLogic(linearVelocity, isOnGround);
+
+            if (isOnLadder && _inputComponent.GetActionState(MoveUpAction))
+            {
+                linearVelocity = ClimbLadderLogic(linearVelocity);
+            }
+
+            _kinematicRigidBody2DComponent.LinearVelocity = linearVelocity;
+        }
 
         Movement.UpdateSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
 
@@ -156,6 +222,18 @@ internal sealed class PlayerComponent : BehaviorComponent
                 _currentCheckPointIndex = i;
             }
         }
+    }
+
+    public override void OnUpdate(GameTime gameTime)
+    {
+        Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
+
+        foreach (var ladderHitBox in _ladderHitBoxes)
+        {
+            _debugRenderer.DrawRectangle(ladderHitBox, Color.Red, Matrix3x3.Identity);
+        }
+
+        _debugRenderer.DrawRectangle(new AxisAlignedRectangle(_transform2DComponent.Translation, _ladderClimbRange), Color.Black, Matrix3x3.Identity);
     }
 
     private Vector2 HorizontalMovementLogic(Vector2 linearVelocity)
@@ -233,6 +311,66 @@ internal sealed class PlayerComponent : BehaviorComponent
         return linearVelocity;
     }
 
+    private bool IsOnLadder()
+    {
+        Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
+
+        var playerHitBox = new AxisAlignedRectangle(_transform2DComponent.Translation, _ladderClimbRange);
+        foreach (var ladderHitBox in _ladderHitBoxes)
+        {
+            if (ladderHitBox.Overlaps(playerHitBox)) return true;
+        }
+
+        return false;
+    }
+
+    private Vector2 ClimbLadderLogic(Vector2 linearVelocity)
+    {
+        Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
+
+        if (_reclimbAfterJumpCooldown > 0)
+        {
+            return linearVelocity;
+        }
+
+        const double climbSpeed = 40;
+
+        linearVelocity = new Vector2(0, 0);
+
+        if (_inputComponent.GetActionState(MoveLeftAction))
+        {
+            linearVelocity += new Vector2(-climbSpeed, 0);
+        }
+
+        if (_inputComponent.GetActionState(MoveRightAction))
+        {
+            linearVelocity += new Vector2(climbSpeed, 0);
+        }
+
+        if (_inputComponent.GetActionState(MoveUpAction))
+        {
+            linearVelocity += new Vector2(0, climbSpeed);
+        }
+
+        if (_inputComponent.GetActionState(MoveDownAction))
+        {
+            linearVelocity += new Vector2(0, -climbSpeed);
+        }
+
+        var jumpState = _inputComponent.GetActionState(JumpAction);
+
+        if (jumpState && !_lastJumpState)
+        {
+            var jumpDirection = -Math.Sign(_transform2DComponent.Scale.X);
+            linearVelocity += new Vector2(150 * jumpDirection, 50);
+            _reclimbAfterJumpCooldown = 10; // Prevent re-climbing immediately after jump
+        }
+
+        _lastJumpState = jumpState;
+
+        return linearVelocity;
+    }
+
     public void Respawn()
     {
         Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
@@ -287,5 +425,12 @@ internal sealed class PlayerComponent : BehaviorComponent
 // ReSharper disable once ClassNeverInstantiated.Global
 internal sealed class PlayerComponentFactory : ComponentFactory<PlayerComponent>
 {
-    protected override PlayerComponent CreateComponent(Entity entity) => new(entity);
+    private readonly IDebugRenderer _debugRenderer;
+
+    public PlayerComponentFactory(IDebugRenderer debugRenderer)
+    {
+        _debugRenderer = debugRenderer;
+    }
+
+    protected override PlayerComponent CreateComponent(Entity entity) => new(entity, _debugRenderer);
 }
