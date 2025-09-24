@@ -9,6 +9,7 @@ using Geisha.Engine.Physics.Components;
 using Geisha.Engine.Rendering;
 using Geisha.Engine.Rendering.Components;
 using SQ2.Core;
+using SQ2.Development;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
 
@@ -16,7 +17,7 @@ namespace SQ2.GamePlay.Enemies;
 
 internal sealed class YellowEnemyComponent : BehaviorComponent
 {
-    private const bool EnableDebugRendering = false;
+    private readonly bool _enableDebugDraw = DevConfig.DebugDraw.YellowEnemy;
     private readonly IDebugRenderer _debugRenderer;
     private Transform2DComponent? _transform2DComponent;
     private KinematicRigidBody2DComponent? _kinematicRigidBody2DComponent;
@@ -191,7 +192,7 @@ internal sealed class YellowEnemyComponent : BehaviorComponent
 
     public override void OnUpdate(GameTime gameTime)
     {
-        if (EnableDebugRendering)
+        if (_enableDebugDraw)
         {
             _debugRenderer.DrawRectangle(_detector, Color.Red, Matrix3x3.Identity);
         }

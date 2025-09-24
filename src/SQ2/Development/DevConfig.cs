@@ -11,6 +11,12 @@ internal static class DevConfig
     public static Size? WindowSize => ReadConfig()?.WindowSize;
     public static string? MapFile => ReadConfig()?.MapFile;
 
+    public static class DebugDraw
+    {
+        public static bool YellowEnemy => ReadConfig()?.DebugDraw?.YellowEnemy ?? false;
+        public static bool Ladders => ReadConfig()?.DebugDraw?.Ladders ?? false;
+    }
+
     private static DevConfigFile? ReadConfig()
     {
         if (!File.Exists(ConfigPath))
@@ -31,5 +37,12 @@ internal static class DevConfig
     {
         public Size? WindowSize { get; init; }
         public string? MapFile { get; init; }
+        public DebugDrawFileSection? DebugDraw { get; init; }
+    }
+
+    private sealed record DebugDrawFileSection
+    {
+        public bool? YellowEnemy { get; init; }
+        public bool? Ladders { get; init; }
     }
 }

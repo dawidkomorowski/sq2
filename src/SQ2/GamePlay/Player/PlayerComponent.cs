@@ -14,6 +14,7 @@ using SQ2.GamePlay.LevelGeometry;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using SQ2.Development;
 
 namespace SQ2.GamePlay.Player;
 
@@ -27,6 +28,7 @@ internal sealed class PlayerComponent : BehaviorComponent
     private const string JumpAction = "Jump";
 
     // Debugging
+    private readonly bool _enableDebugDraw = DevConfig.DebugDraw.Ladders;
     private readonly IDebugRenderer _debugRenderer;
 
     // Movement and Physics
@@ -228,12 +230,15 @@ internal sealed class PlayerComponent : BehaviorComponent
     {
         Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
 
-        foreach (var ladderHitBox in _ladderHitBoxes)
+        if (_enableDebugDraw)
         {
-            _debugRenderer.DrawRectangle(ladderHitBox, Color.Red, Matrix3x3.Identity);
-        }
+            foreach (var ladderHitBox in _ladderHitBoxes)
+            {
+                _debugRenderer.DrawRectangle(ladderHitBox, Color.Red, Matrix3x3.Identity);
+            }
 
-        _debugRenderer.DrawRectangle(new AxisAlignedRectangle(_transform2DComponent.Translation, _ladderClimbRange), Color.Black, Matrix3x3.Identity);
+            _debugRenderer.DrawRectangle(new AxisAlignedRectangle(_transform2DComponent.Translation, _ladderClimbRange), Color.Red, Matrix3x3.Identity);
+        }
     }
 
     private Vector2 HorizontalMovementLogic(Vector2 linearVelocity)
