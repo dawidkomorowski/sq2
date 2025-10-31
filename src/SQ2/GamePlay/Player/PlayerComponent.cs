@@ -139,48 +139,16 @@ internal sealed class PlayerComponent : BehaviorComponent
     public override void OnFixedUpdate()
     {
         Debug.Assert(_kinematicRigidBody2DComponent != null, nameof(_kinematicRigidBody2DComponent) + " != null");
-        Debug.Assert(_rectangleColliderComponent != null, nameof(_rectangleColliderComponent) + " != null");
         Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
 
-        var contacts = Array.Empty<Contact2D>();
-        if (_rectangleColliderComponent.IsColliding)
+        var contacts = GetPlayerContacts();
+
+        if (CheckForCollisionsWithOtherEntities(contacts))
         {
-            contacts = _rectangleColliderComponent.GetContacts();
+            return;
         }
 
-        // Check for collisions with other entities.
-        foreach (var contact2D in contacts)
-        {
-            if (contact2D.OtherCollider.Entity.Root.HasComponent<SpikesComponent>())
-            {
-                Respawn();
-                return;
-            }
-
-            if (contact2D.OtherCollider.Entity.Root.HasComponent<EnemyComponent>())
-            {
-                if (contact2D.CollisionNormal.Y > 0 && contact2D.OtherCollider.Entity.Root.GetComponent<EnemyComponent>().EnemyType is EnemyType.BlueSmall)
-                {
-                    _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithY(200);
-                }
-                else
-                {
-                    Respawn();
-                    return;
-                }
-            }
-        }
-
-        var isOnGround = false;
-        foreach (var contact2D in contacts)
-        {
-            if (contact2D.CollisionNormal.Y > 0)
-            {
-                isOnGround = true;
-                break;
-            }
-        }
-
+        var isOnGround = IsOnGround(contacts);
         var isOnLadder = IsOnLadder();
 
         if (_reclimbAfterJumpCooldown > 0)
@@ -239,6 +207,60 @@ internal sealed class PlayerComponent : BehaviorComponent
 
             _debugRenderer.DrawRectangle(new AxisAlignedRectangle(_transform2DComponent.Translation, _ladderClimbRange), Color.Red, Matrix3x3.Identity);
         }
+    }
+
+    private Contact2D[] GetPlayerContacts()
+    {
+        Debug.Assert(_rectangleColliderComponent != null, nameof(_rectangleColliderComponent) + " != null");
+        return !_rectangleColliderComponent.IsColliding ? Array.Empty<Contact2D>() : _rectangleColliderComponent.GetContacts();
+    }
+
+    private bool CheckForCollisionsWithOtherEntities(Contact2D[] contacts)
+    {
+        Debug.Assert(_kinematicRigidBody2DComponent != null, nameof(_kinematicRigidBody2DComponent) + " != null");
+
+        foreach (var contact2D in contacts)
+        {
+            if (contact2D.OtherCollider.Entity.Root.HasComponent<SpikesComponent>())
+            {
+                Respawn();
+                return true;
+            }
+
+            if (contact2D.OtherCollider.Entity.Root.HasComponent<EnemyComponent>())
+            {
+                if (contact2D.CollisionNormal.Y > 0 && contact2D.OtherCollider.Entity.Root.GetComponent<EnemyComponent>().EnemyType is EnemyType.BlueSmall)
+                {
+                    _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithY(200);
+                }
+                else
+                {
+                    Respawn();
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private static bool IsOnGround(Contact2D[] contacts)
+    {
+        foreach (var contact2D in contacts)
+        {
+            if (contact2D.CollisionNormal.Y > 0)
+            {
+                // Ignore jump pads when checking for ground because they automatically launch the player.
+                if (contact2D.OtherCollider.Entity.Root.HasComponent<JumpPadComponent>())
+                {
+                    continue;
+                }
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private Vector2 HorizontalMovementLogic(Vector2 linearVelocity)
