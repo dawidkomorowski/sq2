@@ -405,6 +405,11 @@ internal sealed class PlayerComponent : BehaviorComponent
             {
                 entity.GetComponent<DropPlatformComponent>().Respawn();
             }
+
+            if (entity.HasComponent<MovingPlatformComponent>())
+            {
+                entity.GetComponent<MovingPlatformComponent>().Respawn();
+            }
         }
 
         _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;

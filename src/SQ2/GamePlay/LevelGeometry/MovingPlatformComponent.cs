@@ -18,6 +18,7 @@ internal sealed class MovingPlatformComponent : BehaviorComponent
     private Transform2DComponent _transform2DComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;
     private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
+    private Vector2 _initialPosition;
     private Direction _direction = Direction.ToEnd;
 
     public MovingPlatformComponent(Entity entity, IDebugRenderer debugRenderer) : base(entity)
@@ -33,6 +34,8 @@ internal sealed class MovingPlatformComponent : BehaviorComponent
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
         _rectangleColliderComponent = Entity.GetComponent<RectangleColliderComponent>();
         _kinematicRigidBody2DComponent = Entity.GetComponent<KinematicRigidBody2DComponent>();
+
+        _initialPosition = _transform2DComponent.Translation;
     }
 
     public override void OnFixedUpdate()
@@ -80,6 +83,16 @@ internal sealed class MovingPlatformComponent : BehaviorComponent
             _debugRenderer.DrawCircle(new Circle(StartPosition, 2), Color.Red);
             _debugRenderer.DrawCircle(new Circle(EndPosition, 2), Color.Blue);
         }
+    }
+
+    public void Respawn()
+    {
+        _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with
+        {
+            Translation = _initialPosition
+        });
+        _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
+        _direction = Direction.ToEnd;
     }
 
     private enum Direction
