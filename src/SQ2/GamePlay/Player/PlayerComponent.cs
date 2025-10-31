@@ -344,23 +344,25 @@ internal sealed class PlayerComponent : BehaviorComponent
 
         if (_inputComponent.GetActionState(MoveLeftAction))
         {
-            linearVelocity += new Vector2(-climbSpeed, 0);
+            linearVelocity += new Vector2(-1, 0);
         }
 
         if (_inputComponent.GetActionState(MoveRightAction))
         {
-            linearVelocity += new Vector2(climbSpeed, 0);
+            linearVelocity += new Vector2(1, 0);
         }
 
         if (_inputComponent.GetActionState(MoveUpAction))
         {
-            linearVelocity += new Vector2(0, climbSpeed);
+            linearVelocity += new Vector2(0, 1);
         }
 
         if (_inputComponent.GetActionState(MoveDownAction))
         {
-            linearVelocity += new Vector2(0, -climbSpeed);
+            linearVelocity += new Vector2(0, -1);
         }
+
+        linearVelocity = linearVelocity.OfLength(climbSpeed);
 
         var jumpState = _inputComponent.GetActionState(JumpAction);
 
