@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="18" tileheight="18" infinite="0" nextlayerid="3" nextobjectid="32">
+ <tileset firstgid="1" source="../../Assets/TileSets/pixel-platformer.tsx"/>
+ <tileset firstgid="181" source="../../Assets/TileSets/pixel-platformer-characters.tsx"/>
+ <layer id="1" name="GamePlayTiles" width="30" height="20">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,2,3,3,3,3,3,3,3,3,3,3,3,3,3,4,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="2" name="GamePlayObjects">
+  <object id="1" name="Player Spawn Point" type="PlayerSpawnPoint" x="201.227" y="166.761">
+   <point/>
+  </object>
+  <object id="17" type="MovingPlatform" gid="148" x="306" y="198" width="18" height="18">
+   <properties>
+    <property name="EndPosition" type="object" value="21"/>
+    <property name="StartPosition" type="object" value="29"/>
+   </properties>
+  </object>
+  <object id="21" name="Platform 1 End" x="351" y="189">
+   <point/>
+  </object>
+  <object id="23" type="MovingPlatform" gid="148" x="360" y="126" width="18" height="18">
+   <properties>
+    <property name="EndPosition" type="object" value="24"/>
+    <property name="StartPosition" type="object" value="30"/>
+   </properties>
+  </object>
+  <object id="24" name="Platform 2 End" x="369" y="63">
+   <point/>
+  </object>
+  <object id="26" type="MovingPlatform" gid="148" x="288" y="54" width="18" height="18">
+   <properties>
+    <property name="EndPosition" type="object" value="27"/>
+    <property name="StartPosition" type="object" value="31"/>
+   </properties>
+  </object>
+  <object id="27" name="Platform 3 End" x="207" y="45">
+   <point/>
+  </object>
+  <object id="29" name="Platform 1 Start" x="279" y="189">
+   <point/>
+  </object>
+  <object id="30" name="Platform 2 Start" x="369" y="153">
+   <point/>
+  </object>
+  <object id="31" name="Platform 3 Start" x="333" y="45">
+   <point/>
+  </object>
+ </objectgroup>
+</map>

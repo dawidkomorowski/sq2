@@ -44,6 +44,29 @@
             "valuesAsFlags": false
         },
         {
+            "color": "#ff00ffff",
+            "drawFill": true,
+            "id": 6,
+            "members": [
+                {
+                    "name": "EndPosition",
+                    "type": "object",
+                    "value": 0
+                },
+                {
+                    "name": "StartPosition",
+                    "type": "object",
+                    "value": 0
+                }
+            ],
+            "name": "MovingPlatform",
+            "type": "class",
+            "useAs": [
+                "object",
+                "project"
+            ]
+        },
+        {
             "color": "#ffff007f",
             "drawFill": true,
             "id": 2,

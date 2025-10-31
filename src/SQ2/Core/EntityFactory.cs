@@ -132,6 +132,29 @@ internal sealed class EntityFactory
         return entity;
     }
 
+    public Entity CreateMovingPlatform(Scene scene, double x, double y, double sx, double sy, double ex, double ey)
+    {
+        var entity = scene.CreateEntity();
+        var movingPlatformComponent = entity.CreateComponent<MovingPlatformComponent>();
+        movingPlatformComponent.StartPosition = new Vector2(sx, sy) + new Vector2(-GlobalSettings.TileSize.Width / 2, GlobalSettings.TileSize.Height * 0.75);
+        movingPlatformComponent.EndPosition = new Vector2(ex, ey) + new Vector2(-GlobalSettings.TileSize.Width / 2, GlobalSettings.TileSize.Height * 0.75);
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = new Vector2(x, y) + new Vector2(GlobalSettings.TileSize.Width / 2, GlobalSettings.TileSize.Height * 0.75);
+        transform2DComponent.IsInterpolated = true;
+        var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
+        rectangleColliderComponent.Dimensions = new Vector2(GlobalSettings.TileSize.Width, GlobalSettings.TileSize.Height / 2);
+        entity.CreateComponent<KinematicRigidBody2DComponent>();
+
+        var spriteEntity = entity.CreateChildEntity();
+        var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
+        spriteTransform2DComponent.Translation = new Vector2(0, -GlobalSettings.TileSize.Height / 4 + 0.5);
+        var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("e3801ac8-1361-425b-9ca4-48f4fd4b3a4f")));
+        spriteRendererComponent.OrderInLayer = -1;
+
+        return entity;
+    }
+
     public Entity CreateJumpPad(Scene scene, int tx, int ty)
     {
         var entity = scene.CreateEntity();

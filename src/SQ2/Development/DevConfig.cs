@@ -15,6 +15,7 @@ internal static class DevConfig
     {
         public static bool YellowEnemy => ReadConfig()?.DebugDraw?.YellowEnemy ?? false;
         public static bool Ladders => ReadConfig()?.DebugDraw?.Ladders ?? false;
+        public static bool MovingPlatforms => ReadConfig()?.DebugDraw?.MovingPlatforms ?? false;
     }
 
     private static DevConfigFile? ReadConfig()
@@ -44,5 +45,6 @@ internal static class DevConfig
     {
         public bool? YellowEnemy { get; init; }
         public bool? Ladders { get; init; }
+        public bool? MovingPlatforms { get; init; }
     }
 }

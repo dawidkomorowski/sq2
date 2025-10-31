@@ -61,6 +61,7 @@ internal class SQ2Game : Game
         // Level Geometry
         componentsRegistry.RegisterComponentFactory<SpikesComponentFactory>();
         componentsRegistry.RegisterComponentFactory<DropPlatformComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<MovingPlatformComponentFactory>();
         componentsRegistry.RegisterComponentFactory<JumpPadComponentFactory>();
         componentsRegistry.RegisterComponentFactory<LadderComponentFactory>();
     }

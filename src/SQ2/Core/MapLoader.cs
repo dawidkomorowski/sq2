@@ -91,6 +91,21 @@ internal sealed class MapLoader
                 _entityFactory.CreatePlayerSpawnPoint(scene, x, y);
                 _entityFactory.CreatePlayer(scene, x, y);
             }
+
+            if (tileObject.Type == "MovingPlatform" && tileObject is TiledObject.Tile tile)
+            {
+                var startObjectId = tile.Properties["StartPosition"].ObjectValue;
+                var endObjectId = tile.Properties["EndPosition"].ObjectValue;
+                var startPositionObject = objectLayer.Objects.Single(o => o.Id == startObjectId);
+                var endPositionObject = objectLayer.Objects.Single(o => o.Id == endObjectId);
+
+                var sx = startPositionObject.X;
+                var sy = -startPositionObject.Y;
+                var ex = endPositionObject.X;
+                var ey = -endPositionObject.Y;
+
+                _entityFactory.CreateMovingPlatform(scene, x, y, sx, sy, ex, ey);
+            }
         }
     }
 
