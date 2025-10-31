@@ -3,8 +3,11 @@ using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Diagnostics;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
+using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
 using SQ2.Development;
+using System;
+using SQ2.GamePlay.Player;
 
 namespace SQ2.GamePlay.LevelGeometry;
 
@@ -13,6 +16,7 @@ internal sealed class MovingPlatformComponent : BehaviorComponent
     private readonly bool _enableDebugDraw = DevConfig.DebugDraw.MovingPlatforms;
     private readonly IDebugRenderer _debugRenderer;
     private Transform2DComponent _transform2DComponent = null!;
+    private RectangleColliderComponent _rectangleColliderComponent = null!;
     private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
     private Direction _direction = Direction.ToEnd;
 
@@ -27,6 +31,7 @@ internal sealed class MovingPlatformComponent : BehaviorComponent
     public override void OnStart()
     {
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
+        _rectangleColliderComponent = Entity.GetComponent<RectangleColliderComponent>();
         _kinematicRigidBody2DComponent = Entity.GetComponent<KinematicRigidBody2DComponent>();
     }
 
@@ -55,6 +60,17 @@ internal sealed class MovingPlatformComponent : BehaviorComponent
 
         var moveDirection = toTarget.Unit;
         _kinematicRigidBody2DComponent.LinearVelocity = moveDirection * moveSpeed;
+
+        // Move player along with the platform
+        var contacts = _rectangleColliderComponent.IsColliding ? _rectangleColliderComponent.GetContacts() : Array.Empty<Contact2D>();
+        foreach (var contact2D in contacts)
+        {
+            if (contact2D.CollisionNormal.Y < 0 && contact2D.OtherCollider.Entity.HasComponent<PlayerComponent>())
+            {
+                var playerTransform = contact2D.OtherCollider.Entity.GetComponent<Transform2DComponent>();
+                playerTransform.Translation += _kinematicRigidBody2DComponent.LinearVelocity.WithY(0) * GameTime.FixedDeltaTimeSeconds;
+            }
+        }
     }
 
     public override void OnUpdate(GameTime gameTime)

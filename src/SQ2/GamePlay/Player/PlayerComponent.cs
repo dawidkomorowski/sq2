@@ -205,7 +205,7 @@ internal sealed class PlayerComponent : BehaviorComponent
 
     private Contact2D[] GetPlayerContacts()
     {
-        return !_rectangleColliderComponent.IsColliding ? Array.Empty<Contact2D>() : _rectangleColliderComponent.GetContacts();
+        return _rectangleColliderComponent.IsColliding ? _rectangleColliderComponent.GetContacts() : Array.Empty<Contact2D>();
     }
 
     private bool CheckForCollisionsWithOtherEntities(Contact2D[] contacts)
