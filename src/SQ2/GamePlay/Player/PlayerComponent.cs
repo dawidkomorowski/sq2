@@ -40,7 +40,7 @@ internal sealed class PlayerComponent : BehaviorComponent
     private bool _lastJumpState;
 
     // Ladders
-    private readonly Vector2 _ladderClimbRange = new(8, 16);
+    private readonly Vector2 _ladderClimbRange = new(9, 9);
     private AxisAlignedRectangle[] _ladderHitBoxes = Array.Empty<AxisAlignedRectangle>();
     private int _reclimbAfterJumpCooldown;
 
