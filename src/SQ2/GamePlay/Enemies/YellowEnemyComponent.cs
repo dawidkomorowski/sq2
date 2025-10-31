@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Diagnostics;
@@ -19,13 +18,13 @@ internal sealed class YellowEnemyComponent : BehaviorComponent
 {
     private readonly bool _enableDebugDraw = DevConfig.DebugDraw.YellowEnemy;
     private readonly IDebugRenderer _debugRenderer;
-    private Transform2DComponent? _transform2DComponent;
-    private KinematicRigidBody2DComponent? _kinematicRigidBody2DComponent;
-    private RectangleColliderComponent? _rectangleColliderComponent;
-    private SpriteRendererComponent? _spriteRendererComponent;
-    private Transform2DComponent? _playerTransform2DComponent;
-    private RectangleColliderComponent? _playerRectangleColliderComponent;
-    private PlayerComponent? _playerComponent;
+    private Transform2DComponent _transform2DComponent = null!;
+    private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
+    private RectangleColliderComponent _rectangleColliderComponent = null!;
+    private SpriteRendererComponent _spriteRendererComponent = null!;
+    private Transform2DComponent _playerTransform2DComponent = null!;
+    private RectangleColliderComponent _playerRectangleColliderComponent = null!;
+    private PlayerComponent _playerComponent = null!;
     private Vector2 _startPosition;
     private AxisAlignedRectangle _detector;
     private State _state = State.Ready;
@@ -82,10 +81,7 @@ internal sealed class YellowEnemyComponent : BehaviorComponent
 
     private void ReadyStateUpdate()
     {
-        Debug.Assert(_playerTransform2DComponent != null, nameof(_playerTransform2DComponent) + " != null");
-        Debug.Assert(_playerRectangleColliderComponent != null, nameof(_playerRectangleColliderComponent) + " != null");
-        Debug.Assert(_spriteRendererComponent != null, nameof(_spriteRendererComponent) + " != null");
-
+        // ReSharper disable once InconsistentNaming
         var playerAABB = new AxisAlignedRectangle(_playerTransform2DComponent.Translation, _playerRectangleColliderComponent.Dimensions);
         if (_detector.Overlaps(playerAABB))
         {
@@ -107,9 +103,6 @@ internal sealed class YellowEnemyComponent : BehaviorComponent
 
     private void FallingStateUpdate()
     {
-        Debug.Assert(_kinematicRigidBody2DComponent != null, nameof(_kinematicRigidBody2DComponent) + " != null");
-        Debug.Assert(_rectangleColliderComponent != null, nameof(_rectangleColliderComponent) + " != null");
-
         const double fallingAcceleration = 500;
         const double maxFallingSpeed = 250;
 
@@ -138,8 +131,6 @@ internal sealed class YellowEnemyComponent : BehaviorComponent
 
     private void OnGroundStateUpdate()
     {
-        Debug.Assert(_spriteRendererComponent != null, nameof(_spriteRendererComponent) + " != null");
-
         _stateTimer += GameTime.FixedDeltaTime;
 
         if (_stateTimer >= TimeSpan.FromMilliseconds(250))
@@ -155,9 +146,6 @@ internal sealed class YellowEnemyComponent : BehaviorComponent
 
     private void LiftingStateUpdate()
     {
-        Debug.Assert(_kinematicRigidBody2DComponent != null, nameof(_kinematicRigidBody2DComponent) + " != null");
-        Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
-
         const double liftingSpeed = 100;
 
         _kinematicRigidBody2DComponent.LinearVelocity = new Vector2(0, liftingSpeed);
@@ -172,8 +160,6 @@ internal sealed class YellowEnemyComponent : BehaviorComponent
 
     private void KillPlayerOnContact()
     {
-        Debug.Assert(_rectangleColliderComponent != null, nameof(_rectangleColliderComponent) + " != null");
-        Debug.Assert(_playerComponent != null, nameof(_playerComponent) + " != null");
         if (!_rectangleColliderComponent.IsColliding)
         {
             return;
@@ -200,10 +186,6 @@ internal sealed class YellowEnemyComponent : BehaviorComponent
 
     public void Respawn()
     {
-        Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
-        Debug.Assert(_spriteRendererComponent != null, nameof(_spriteRendererComponent) + " != null");
-        Debug.Assert(_kinematicRigidBody2DComponent != null, nameof(_kinematicRigidBody2DComponent) + " != null");
-
         _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with
         {
             Translation = _startPosition
@@ -215,7 +197,6 @@ internal sealed class YellowEnemyComponent : BehaviorComponent
 
     private AxisAlignedRectangle CreateDetector()
     {
-        Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
         var (tx, ty) = Geometry.GetTileCoordinates(_transform2DComponent.Translation);
         var detectorHeight = 0;
 

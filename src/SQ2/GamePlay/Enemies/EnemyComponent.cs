@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
@@ -13,9 +12,9 @@ namespace SQ2.GamePlay.Enemies;
 
 internal sealed class EnemyComponent : BehaviorComponent
 {
-    private KinematicRigidBody2DComponent? _kinematicRigidBody2DComponent;
-    private RectangleColliderComponent? _rectangleColliderComponent;
-    private Transform2DComponent? _transform2DComponent;
+    private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
+    private RectangleColliderComponent _rectangleColliderComponent = null!;
+    private Transform2DComponent _transform2DComponent = null!;
 
     private const double BaseVelocity = 20;
     private double _currentVelocity = -BaseVelocity;
@@ -38,10 +37,6 @@ internal sealed class EnemyComponent : BehaviorComponent
 
     public override void OnFixedUpdate()
     {
-        Debug.Assert(_kinematicRigidBody2DComponent != null, nameof(_kinematicRigidBody2DComponent) + " != null");
-        Debug.Assert(_rectangleColliderComponent != null, nameof(_rectangleColliderComponent) + " != null");
-        Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
-
         Movement.ApplyGravity(_kinematicRigidBody2DComponent);
 
         // Basic enemy movement logic.
@@ -80,8 +75,6 @@ internal sealed class EnemyComponent : BehaviorComponent
 
     public void Respawn()
     {
-        Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
-
         _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with
         {
             Translation = _startPosition

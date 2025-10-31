@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Geisha.Engine.Core;
+﻿using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.SceneModel;
 using SQ2.GamePlay.Common;
@@ -8,8 +7,8 @@ namespace SQ2.GamePlay.Player;
 
 internal sealed class CameraMovementComponent : BehaviorComponent
 {
-    private Transform2DComponent? _cameraTransform;
-    private Transform2DComponent? _playerTransform;
+    private Transform2DComponent _cameraTransform = null!;
+    private Transform2DComponent _playerTransform = null!;
 
     public CameraMovementComponent(Entity entity) : base(entity)
     {
@@ -26,9 +25,6 @@ internal sealed class CameraMovementComponent : BehaviorComponent
     public override void OnUpdate(GameTime gameTime)
     {
         // Basic camera follow.
-        Debug.Assert(_cameraTransform != null, nameof(_cameraTransform) + " != null");
-        Debug.Assert(_playerTransform != null, nameof(_playerTransform) + " != null");
-
         var playerPosition = _playerTransform.InterpolatedTransform.Translation;
 
         const double minDistance = 30;

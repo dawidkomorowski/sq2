@@ -12,7 +12,6 @@ using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Enemies;
 using SQ2.GamePlay.LevelGeometry;
 using System;
-using System.Diagnostics;
 using System.Linq;
 using SQ2.Development;
 
@@ -32,9 +31,9 @@ internal sealed class PlayerComponent : BehaviorComponent
     private readonly IDebugRenderer _debugRenderer;
 
     // Movement and Physics
-    private KinematicRigidBody2DComponent? _kinematicRigidBody2DComponent;
-    private RectangleColliderComponent? _rectangleColliderComponent;
-    private Transform2DComponent? _transform2DComponent;
+    private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
+    private RectangleColliderComponent _rectangleColliderComponent = null!;
+    private Transform2DComponent _transform2DComponent = null!;
     private InputComponent _inputComponent = null!;
     private int _jumpPressFrames;
     private bool _lastJumpState;
@@ -45,7 +44,7 @@ internal sealed class PlayerComponent : BehaviorComponent
     private int _reclimbAfterJumpCooldown;
 
     // Respawn and Checkpoints
-    private PlayerSpawnPointComponent? _playerSpawnPointComponent;
+    private PlayerSpawnPointComponent _playerSpawnPointComponent = null!;
     private PlayerCheckPointComponent[] _checkPoints = Array.Empty<PlayerCheckPointComponent>();
     private int _currentCheckPointIndex = -1;
 
@@ -138,9 +137,6 @@ internal sealed class PlayerComponent : BehaviorComponent
 
     public override void OnFixedUpdate()
     {
-        Debug.Assert(_kinematicRigidBody2DComponent != null, nameof(_kinematicRigidBody2DComponent) + " != null");
-        Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
-
         var contacts = GetPlayerContacts();
 
         if (CheckForCollisionsWithOtherEntities(contacts))
@@ -196,8 +192,6 @@ internal sealed class PlayerComponent : BehaviorComponent
 
     public override void OnUpdate(GameTime gameTime)
     {
-        Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
-
         if (_enableDebugDraw)
         {
             foreach (var ladderHitBox in _ladderHitBoxes)
@@ -211,14 +205,11 @@ internal sealed class PlayerComponent : BehaviorComponent
 
     private Contact2D[] GetPlayerContacts()
     {
-        Debug.Assert(_rectangleColliderComponent != null, nameof(_rectangleColliderComponent) + " != null");
         return !_rectangleColliderComponent.IsColliding ? Array.Empty<Contact2D>() : _rectangleColliderComponent.GetContacts();
     }
 
     private bool CheckForCollisionsWithOtherEntities(Contact2D[] contacts)
     {
-        Debug.Assert(_kinematicRigidBody2DComponent != null, nameof(_kinematicRigidBody2DComponent) + " != null");
-
         foreach (var contact2D in contacts)
         {
             if (contact2D.OtherCollider.Entity.Root.HasComponent<SpikesComponent>())
@@ -340,8 +331,6 @@ internal sealed class PlayerComponent : BehaviorComponent
 
     private bool IsOnLadder()
     {
-        Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
-
         var playerHitBox = new AxisAlignedRectangle(_transform2DComponent.Translation, _ladderClimbRange);
         foreach (var ladderHitBox in _ladderHitBoxes)
         {
@@ -353,8 +342,6 @@ internal sealed class PlayerComponent : BehaviorComponent
 
     private Vector2 ClimbLadderLogic(Vector2 linearVelocity)
     {
-        Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
-
         if (_reclimbAfterJumpCooldown > 0)
         {
             return linearVelocity;
@@ -402,10 +389,6 @@ internal sealed class PlayerComponent : BehaviorComponent
 
     public void Respawn()
     {
-        Debug.Assert(_transform2DComponent != null, nameof(_transform2DComponent) + " != null");
-        Debug.Assert(_playerSpawnPointComponent != null, nameof(_playerSpawnPointComponent) + " != null");
-        Debug.Assert(_kinematicRigidBody2DComponent != null, nameof(_kinematicRigidBody2DComponent) + " != null");
-
         foreach (var entity in Scene.RootEntities)
         {
             if (entity.HasComponent<EnemyComponent>())
