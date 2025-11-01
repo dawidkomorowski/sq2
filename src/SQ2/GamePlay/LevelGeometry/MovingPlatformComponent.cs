@@ -7,11 +7,12 @@ using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
 using SQ2.Development;
 using System;
+using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
 
 namespace SQ2.GamePlay.LevelGeometry;
 
-internal sealed class MovingPlatformComponent : BehaviorComponent
+internal sealed class MovingPlatformComponent : BehaviorComponent, IRespawnable
 {
     private readonly bool _enableDebugDraw = DevConfig.DebugDraw.MovingPlatforms;
     private readonly IDebugRenderer _debugRenderer;

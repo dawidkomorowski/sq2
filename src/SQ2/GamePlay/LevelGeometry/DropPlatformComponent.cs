@@ -2,11 +2,12 @@
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics.Components;
+using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
 
 namespace SQ2.GamePlay.LevelGeometry;
 
-internal sealed class DropPlatformComponent : BehaviorComponent
+internal sealed class DropPlatformComponent : BehaviorComponent, IRespawnable
 {
     private Transform2DComponent _transform2DComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;

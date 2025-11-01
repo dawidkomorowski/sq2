@@ -10,7 +10,7 @@ using SQ2.GamePlay.Player;
 
 namespace SQ2.GamePlay.Enemies;
 
-internal sealed class EnemyComponent : BehaviorComponent
+internal sealed class EnemyComponent : BehaviorComponent, IRespawnable
 {
     private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;

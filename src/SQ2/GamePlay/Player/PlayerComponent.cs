@@ -389,28 +389,7 @@ internal sealed class PlayerComponent : BehaviorComponent
 
     public void Respawn()
     {
-        foreach (var entity in Scene.RootEntities)
-        {
-            if (entity.HasComponent<EnemyComponent>())
-            {
-                entity.GetComponent<EnemyComponent>().Respawn();
-            }
-
-            if (entity.HasComponent<YellowEnemyComponent>())
-            {
-                entity.GetComponent<YellowEnemyComponent>().Respawn();
-            }
-
-            if (entity.HasComponent<DropPlatformComponent>())
-            {
-                entity.GetComponent<DropPlatformComponent>().Respawn();
-            }
-
-            if (entity.HasComponent<MovingPlatformComponent>())
-            {
-                entity.GetComponent<MovingPlatformComponent>().Respawn();
-            }
-        }
+        RespawnService.RespawnAll(Scene);
 
         _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
 

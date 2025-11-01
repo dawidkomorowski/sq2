@@ -14,7 +14,7 @@ using SQ2.GamePlay.Player;
 
 namespace SQ2.GamePlay.Enemies;
 
-internal sealed class YellowEnemyComponent : BehaviorComponent
+internal sealed class YellowEnemyComponent : BehaviorComponent, IRespawnable
 {
     private readonly bool _enableDebugDraw = DevConfig.DebugDraw.YellowEnemy;
     private readonly IDebugRenderer _debugRenderer;
