@@ -2,6 +2,7 @@
 using Geisha.Engine.Core.SceneModel;
 using SQ2.Core;
 using SQ2.Development;
+using SQ2.GamePlay.Common;
 
 namespace SQ2;
 
@@ -37,6 +38,8 @@ internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
 
         protected override void OnLoaded()
         {
+            RespawnService.Reset();
+
             _entityFactory.CreateDevControls(Scene);
             _entityFactory.CreateCamera(Scene);
 

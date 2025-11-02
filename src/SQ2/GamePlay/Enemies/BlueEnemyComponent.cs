@@ -4,6 +4,7 @@ using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
+using SQ2.Core;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
 
@@ -11,6 +12,7 @@ namespace SQ2.GamePlay.Enemies;
 
 internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable
 {
+    private readonly EntityFactory _entityFactory;
     private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;
     private Transform2DComponent _transform2DComponent = null!;
@@ -19,8 +21,9 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable
     private double _currentVelocity = -BaseVelocity;
     private Vector2 _startPosition;
 
-    public BlueEnemyComponent(Entity entity) : base(entity)
+    public BlueEnemyComponent(Entity entity, EntityFactory entityFactory) : base(entity)
     {
+        _entityFactory = entityFactory;
     }
 
     public override void OnStart()
@@ -49,13 +52,14 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable
                     var playerKinematicComponent = playerComponent.Entity.GetComponent<KinematicRigidBody2DComponent>();
                     playerKinematicComponent.LinearVelocity = playerKinematicComponent.LinearVelocity.WithY(200);
 
-                    Entity.RemoveAfterFixedTimeStep();
+                    Die();
                 }
                 else
                 {
                     playerComponent.KillPlayer();
-                    break;
                 }
+
+                break;
             }
 
             if (contact2D.CollisionNormal.X < 0)
@@ -86,10 +90,28 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable
         });
         _currentVelocity = -BaseVelocity;
     }
+
+    private void Die()
+    {
+        Entity.RemoveAfterFixedTimeStep();
+
+        RespawnService.AddOneTimeRespawnAction(() =>
+        {
+            var (tx, ty) = Geometry.GetTileCoordinates(_startPosition);
+            _entityFactory.CreateBlueEnemy(Scene, tx, ty);
+        });
+    }
 }
 
 // ReSharper disable once ClassNeverInstantiated.Global
 internal sealed class BlueEnemyComponentFactory : ComponentFactory<BlueEnemyComponent>
 {
-    protected override BlueEnemyComponent CreateComponent(Entity entity) => new(entity);
+    private readonly EntityFactory _entityFactory;
+
+    public BlueEnemyComponentFactory(EntityFactory entityFactory)
+    {
+        _entityFactory = entityFactory;
+    }
+
+    protected override BlueEnemyComponent CreateComponent(Entity entity) => new(entity, _entityFactory);
 }
