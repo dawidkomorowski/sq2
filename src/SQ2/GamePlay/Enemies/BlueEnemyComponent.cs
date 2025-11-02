@@ -48,6 +48,8 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable
                 {
                     var playerKinematicComponent = playerComponent.Entity.GetComponent<KinematicRigidBody2DComponent>();
                     playerKinematicComponent.LinearVelocity = playerKinematicComponent.LinearVelocity.WithY(200);
+
+                    Entity.RemoveAfterFixedTimeStep();
                 }
                 else
                 {
