@@ -217,19 +217,6 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
                 KillPlayer();
                 return true;
             }
-
-            if (contact2D.OtherCollider.Entity.Root.HasComponent<EnemyComponent>())
-            {
-                if (contact2D.CollisionNormal.Y > 0 && contact2D.OtherCollider.Entity.Root.GetComponent<EnemyComponent>().EnemyType is EnemyType.BlueSmall)
-                {
-                    _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithY(200);
-                }
-                else
-                {
-                    KillPlayer();
-                    return true;
-                }
-            }
         }
 
         return false;

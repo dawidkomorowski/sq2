@@ -1,5 +1,4 @@
 ﻿using System;
-using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
@@ -10,7 +9,7 @@ using SQ2.GamePlay.Player;
 
 namespace SQ2.GamePlay.Enemies;
 
-internal sealed class EnemyComponent : BehaviorComponent, IRespawnable
+internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable
 {
     private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;
@@ -20,11 +19,9 @@ internal sealed class EnemyComponent : BehaviorComponent, IRespawnable
     private double _currentVelocity = -BaseVelocity;
     private Vector2 _startPosition;
 
-    public EnemyComponent(Entity entity) : base(entity)
+    public BlueEnemyComponent(Entity entity) : base(entity)
     {
     }
-
-    public EnemyType EnemyType { get; set; }
 
     public override void OnStart()
     {
@@ -39,23 +36,34 @@ internal sealed class EnemyComponent : BehaviorComponent, IRespawnable
     {
         Movement.ApplyGravity(_kinematicRigidBody2DComponent);
 
-        // Basic enemy movement logic.
-        var contacts = Array.Empty<Contact2D>();
-        if (_rectangleColliderComponent.IsColliding)
-        {
-            contacts = _rectangleColliderComponent.GetContacts();
-        }
+        var contacts = _rectangleColliderComponent.IsColliding ? _rectangleColliderComponent.GetContacts() : Array.Empty<Contact2D>();
 
         foreach (var contact2D in contacts)
         {
-            if (contact2D.CollisionNormal.X < 0 && !contact2D.OtherCollider.Entity.HasComponent<PlayerComponent>())
+            if (contact2D.OtherCollider.Entity.HasComponent<PlayerComponent>())
+            {
+                var playerComponent = contact2D.OtherCollider.Entity.GetComponent<PlayerComponent>();
+
+                if (contact2D.CollisionNormal.Y < 0)
+                {
+                    var playerKinematicComponent = playerComponent.Entity.GetComponent<KinematicRigidBody2DComponent>();
+                    playerKinematicComponent.LinearVelocity = playerKinematicComponent.LinearVelocity.WithY(200);
+                }
+                else
+                {
+                    playerComponent.KillPlayer();
+                    break;
+                }
+            }
+
+            if (contact2D.CollisionNormal.X < 0)
             {
                 // Enemy hit a wall on the right side, change direction.
                 _currentVelocity = -BaseVelocity;
                 break;
             }
 
-            if (contact2D.CollisionNormal.X > 0 && !contact2D.OtherCollider.Entity.HasComponent<PlayerComponent>())
+            if (contact2D.CollisionNormal.X > 0)
             {
                 // Enemy hit a wall on the left side, change direction.
                 _currentVelocity = BaseVelocity;
@@ -66,11 +74,6 @@ internal sealed class EnemyComponent : BehaviorComponent, IRespawnable
         _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(_currentVelocity);
 
         Movement.UpdateSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
-    }
-
-    public override void OnUpdate(GameTime gameTime)
-    {
-        // Implement enemy behavior during regular updates.
     }
 
     public void Respawn()
@@ -84,7 +87,7 @@ internal sealed class EnemyComponent : BehaviorComponent, IRespawnable
 }
 
 // ReSharper disable once ClassNeverInstantiated.Global
-internal sealed class EnemyComponentFactory : ComponentFactory<EnemyComponent>
+internal sealed class BlueEnemyComponentFactory : ComponentFactory<BlueEnemyComponent>
 {
-    protected override EnemyComponent CreateComponent(Entity entity) => new(entity);
+    protected override BlueEnemyComponent CreateComponent(Entity entity) => new(entity);
 }
