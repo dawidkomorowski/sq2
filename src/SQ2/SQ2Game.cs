@@ -57,6 +57,7 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<PlayerCheckPointComponentFactory>();
         // Enemies
         componentsRegistry.RegisterComponentFactory<BlueEnemyComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<BlueEnemyDeathAnimationComponentFactory>();
         componentsRegistry.RegisterComponentFactory<RedEnemyComponentFactory>();
         componentsRegistry.RegisterComponentFactory<YellowEnemyComponentFactory>();
         // Level Geometry

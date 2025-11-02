@@ -12,6 +12,8 @@ namespace SQ2.GamePlay.Enemies;
 
 internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable
 {
+    internal static readonly Vector2 SpriteOffset = new(-1, 5);
+
     private readonly EntityFactory _entityFactory;
     private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;
@@ -100,6 +102,8 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable
             var (tx, ty) = Geometry.GetTileCoordinates(_startPosition);
             _entityFactory.CreateBlueEnemy(Scene, tx, ty);
         });
+
+        _entityFactory.CreateBlueEnemyDeathAnimation(Scene, _transform2DComponent.Translation + SpriteOffset);
     }
 }
 

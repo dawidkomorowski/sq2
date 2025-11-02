@@ -202,10 +202,21 @@ internal sealed class EntityFactory
 
         var spriteEntity = entity.CreateChildEntity();
         var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
-        spriteTransform2DComponent.Translation = new Vector2(-1, 5);
+        spriteTransform2DComponent.Translation = BlueEnemyComponent.SpriteOffset;
         var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("31fbfb4d-988a-4382-85f9-f41c63bd4f27")));
 
+        return entity;
+    }
+
+    public Entity CreateBlueEnemyDeathAnimation(Scene scene, Vector2 position)
+    {
+        var entity = scene.CreateEntity();
+        entity.CreateComponent<BlueEnemyDeathAnimationComponent>();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = position;
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("31fbfb4d-988a-4382-85f9-f41c63bd4f27")));
         return entity;
     }
 
