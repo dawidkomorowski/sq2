@@ -17,7 +17,7 @@ using SQ2.Development;
 
 namespace SQ2.GamePlay.Player;
 
-internal sealed class PlayerComponent : BehaviorComponent
+internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 {
     // Input Actions
     private const string MoveLeftAction = "MoveLeft";
@@ -214,7 +214,7 @@ internal sealed class PlayerComponent : BehaviorComponent
         {
             if (contact2D.OtherCollider.Entity.Root.HasComponent<SpikesComponent>())
             {
-                Respawn();
+                KillPlayer();
                 return true;
             }
 
@@ -226,7 +226,7 @@ internal sealed class PlayerComponent : BehaviorComponent
                 }
                 else
                 {
-                    Respawn();
+                    KillPlayer();
                     return true;
                 }
             }
@@ -387,10 +387,13 @@ internal sealed class PlayerComponent : BehaviorComponent
         return linearVelocity;
     }
 
-    public void Respawn()
+    public void KillPlayer()
     {
         RespawnService.RespawnAll(Scene);
+    }
 
+    public void Respawn()
+    {
         _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
 
         if (_currentCheckPointIndex < 0)

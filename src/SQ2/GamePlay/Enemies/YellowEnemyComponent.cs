@@ -170,7 +170,7 @@ internal sealed class YellowEnemyComponent : BehaviorComponent, IRespawnable
         {
             if (contact.OtherCollider.Entity.HasComponent<PlayerComponent>())
             {
-                _playerComponent.Respawn();
+                _playerComponent.KillPlayer();
                 break;
             }
         }
