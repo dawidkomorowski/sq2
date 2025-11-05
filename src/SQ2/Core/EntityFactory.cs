@@ -1,4 +1,6 @@
 ﻿using System;
+using Geisha.Engine.Animation;
+using Geisha.Engine.Animation.Components;
 using Geisha.Engine.Core.Assets;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
@@ -103,8 +105,11 @@ internal sealed class EntityFactory
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
-        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
         spriteRendererComponent.OrderInLayer = 1;
+        var spriteAnimationComponent = entity.CreateComponent<SpriteAnimationComponent>();
+        spriteAnimationComponent.AddAnimation("WaterSurfaceAnimation", _assetStore.GetAsset<SpriteAnimation>(assetId));
+        spriteAnimationComponent.PlayInLoop = true;
+        spriteAnimationComponent.PlayAnimation("WaterSurfaceAnimation");
         return entity;
     }
 

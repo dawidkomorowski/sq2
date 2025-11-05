@@ -27,7 +27,7 @@
  </tile>
  <tile id="33" type="WorldTile">
   <properties>
-   <property name="AssetId" value="5c6ece85-44d4-4168-bae1-9203c891fc18"/>
+   <property name="AssetId" value="22769c0b-b6e0-4595-a2ae-46724a430fab"/>
    <property name="TileType" propertytype="TileType" value="WaterSurface"/>
   </properties>
  </tile>
@@ -39,7 +39,7 @@
  </tile>
  <tile id="53" type="WorldTile">
   <properties>
-   <property name="AssetId" value="9c8be84d-e654-4dfa-b83b-2a39e5c1b86b"/>
+   <property name="AssetId" value="22769c0b-b6e0-4595-a2ae-46724a430fab"/>
    <property name="TileType" propertytype="TileType" value="WaterSurface"/>
   </properties>
  </tile>
