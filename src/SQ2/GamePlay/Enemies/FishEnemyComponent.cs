@@ -65,7 +65,7 @@ internal sealed class FishEnemyComponent : BehaviorComponent, IRespawnable
             }
         }
 
-        Movement.UpdateSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
+        Movement.UpdateVerticalSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
     }
 
     public void Respawn()

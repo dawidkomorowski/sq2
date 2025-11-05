@@ -20,7 +20,7 @@ internal static class Movement
         }
     }
 
-    public static void UpdateSpriteFacing(Transform2DComponent transform, KinematicRigidBody2DComponent kinematicBody)
+    public static void UpdateHorizontalSpriteFacing(Transform2DComponent transform, KinematicRigidBody2DComponent kinematicBody)
     {
         if (kinematicBody.LinearVelocity.X > 0)
         {
@@ -30,6 +30,19 @@ internal static class Movement
         if (kinematicBody.LinearVelocity.X < 0)
         {
             transform.SetTransformImmediate(transform.Transform with { Scale = new Vector2(1, 1) });
+        }
+    }
+
+    public static void UpdateVerticalSpriteFacing(Transform2DComponent transform, KinematicRigidBody2DComponent kinematicBody)
+    {
+        if (kinematicBody.LinearVelocity.Y > 0)
+        {
+            transform.SetTransformImmediate(transform.Transform with { Scale = new Vector2(1, 1) });
+        }
+
+        if (kinematicBody.LinearVelocity.Y < 0)
+        {
+            transform.SetTransformImmediate(transform.Transform with { Scale = new Vector2(1, -1) });
         }
     }
 }

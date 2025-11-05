@@ -177,7 +177,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
             _kinematicRigidBody2DComponent.LinearVelocity = linearVelocity;
         }
 
-        Movement.UpdateSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
+        Movement.UpdateHorizontalSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
 
         // Check for checkpoints.
         for (var i = 0; i < _checkPoints.Length; i++)

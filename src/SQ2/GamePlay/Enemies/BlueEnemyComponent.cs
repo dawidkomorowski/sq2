@@ -81,7 +81,7 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable
 
         _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(_currentVelocity);
 
-        Movement.UpdateSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
+        Movement.UpdateHorizontalSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
     }
 
     public void Respawn()
