@@ -19,7 +19,43 @@ internal sealed class MapLoader
     public void LoadMap(Scene scene, string mapFilePath)
     {
         var tileMap = TileMap.LoadFromFile(mapFilePath);
-        var tileLayer = tileMap.TileLayers.Single(tl => tl.Name == "GamePlayTiles");
+
+        foreach (var tileLayer in tileMap.TileLayers)
+        {
+            LoadTileLayer(scene, tileLayer);
+        }
+
+        var objectLayer = tileMap.ObjectLayers.Single(ol => ol.Name == "GamePlayObjects");
+        foreach (var tileObject in objectLayer.Objects)
+        {
+            var x = tileObject.X - GlobalSettings.TileSize.Width / 2d;
+            var y = -(tileObject.Y - GlobalSettings.TileSize.Height / 2d);
+
+            if (tileObject.Type == "PlayerSpawnPoint")
+            {
+                _entityFactory.CreatePlayerSpawnPoint(scene, x, y);
+                _entityFactory.CreatePlayer(scene, x, y);
+            }
+
+            if (tileObject.Type == "MovingPlatform" && tileObject is TiledObject.Tile tile)
+            {
+                var startObjectId = tile.Properties["StartPosition"].ObjectValue;
+                var endObjectId = tile.Properties["EndPosition"].ObjectValue;
+                var startPositionObject = objectLayer.Objects.Single(o => o.Id == startObjectId);
+                var endPositionObject = objectLayer.Objects.Single(o => o.Id == endObjectId);
+
+                var sx = startPositionObject.X;
+                var sy = -startPositionObject.Y;
+                var ex = endPositionObject.X;
+                var ey = -endPositionObject.Y;
+
+                _entityFactory.CreateMovingPlatform(scene, x, y, sx, sy, ex, ey);
+            }
+        }
+    }
+
+    private void LoadTileLayer(Scene scene, TileLayer tileLayer)
+    {
         for (var w = 0; w < tileLayer.Width; w++)
         {
             for (var h = 0; h < tileLayer.Height; h++)
@@ -81,36 +117,11 @@ internal sealed class MapLoader
                         case "Enemy_Yellow":
                             _entityFactory.CreateYellowEnemy(scene, tx, ty);
                             break;
+                        case "Enemy_Fish":
+                            _entityFactory.CreateFishEnemy(scene, tx, ty);
+                            break;
                     }
                 }
-            }
-        }
-
-        var objectLayer = tileMap.ObjectLayers.Single(ol => ol.Name == "GamePlayObjects");
-        foreach (var tileObject in objectLayer.Objects)
-        {
-            var x = tileObject.X - GlobalSettings.TileSize.Width / 2d;
-            var y = -(tileObject.Y - GlobalSettings.TileSize.Height / 2d);
-
-            if (tileObject.Type == "PlayerSpawnPoint")
-            {
-                _entityFactory.CreatePlayerSpawnPoint(scene, x, y);
-                _entityFactory.CreatePlayer(scene, x, y);
-            }
-
-            if (tileObject.Type == "MovingPlatform" && tileObject is TiledObject.Tile tile)
-            {
-                var startObjectId = tile.Properties["StartPosition"].ObjectValue;
-                var endObjectId = tile.Properties["EndPosition"].ObjectValue;
-                var startPositionObject = objectLayer.Objects.Single(o => o.Id == startObjectId);
-                var endPositionObject = objectLayer.Objects.Single(o => o.Id == endObjectId);
-
-                var sx = startPositionObject.X;
-                var sy = -startPositionObject.Y;
-                var ex = endPositionObject.X;
-                var ey = -endPositionObject.Y;
-
-                _entityFactory.CreateMovingPlatform(scene, x, y, sx, sy, ex, ey);
             }
         }
     }

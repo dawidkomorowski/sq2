@@ -39,7 +39,8 @@
                 "Enemy_Blue_Small",
                 "Enemy_Blue_Big",
                 "Enemy_Red",
-                "Enemy_Yellow"
+                "Enemy_Yellow",
+                "Enemy_Fish"
             ],
             "valuesAsFlags": false
         },

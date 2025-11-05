@@ -7,6 +7,11 @@
    <property name="CharacterType" propertytype="CharacterType" value="Enemy_Yellow"/>
   </properties>
  </tile>
+ <tile id="13" type="CharacterTile">
+  <properties>
+   <property name="CharacterType" propertytype="CharacterType" value="Enemy_Fish"/>
+  </properties>
+ </tile>
  <tile id="15" type="CharacterTile">
   <properties>
    <property name="CharacterType" propertytype="CharacterType" value="Enemy_Red"/>

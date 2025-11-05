@@ -288,6 +288,23 @@ internal sealed class EntityFactory
         return entity;
     }
 
+    public Entity CreateFishEnemy(Scene scene, int tx, int ty)
+    {
+        var entity = scene.CreateEntity();
+        entity.CreateComponent<FishEnemyComponent>();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
+        transform2DComponent.IsInterpolated = true;
+        var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
+        rectangleColliderComponent.Dimensions = new Vector2(11, 15);
+        var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
+        kinematicRigidBody2DComponent.EnableCollisionResponse = false;
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("e2bea61d-b96e-4548-8ea0-2eb18aa5f180")));
+
+        return entity;
+    }
+
     public Entity CreateCamera(Scene scene)
     {
         var entity = scene.CreateEntity();
