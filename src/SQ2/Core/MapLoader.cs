@@ -42,6 +42,12 @@ internal sealed class MapLoader
                         case "Geometry":
                             _entityFactory.CreateGeometry(scene, tx, ty, assetId);
                             break;
+                        case "WaterDeep":
+                            _entityFactory.CreateWaterDeep(scene, tx, ty, assetId);
+                            break;
+                        case "WaterSurface":
+                            _entityFactory.CreateWaterSurface(scene, tx, ty, assetId);
+                            break;
                         case "Spikes":
                             var orientation = GetOrientationFromGlobalTileId(tile.GlobalTileId);
                             _entityFactory.CreateSpikes(scene, tx, ty, assetId, orientation);

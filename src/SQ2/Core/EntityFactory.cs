@@ -84,6 +84,30 @@ internal sealed class EntityFactory
         return entity;
     }
 
+    public Entity CreateWaterDeep(Scene scene, int tx, int ty, AssetId assetId)
+    {
+        var entity = scene.CreateEntity();
+        entity.CreateComponent<WaterDeepComponent>();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+        spriteRendererComponent.OrderInLayer = 1;
+        entity.CreateComponent<TileColliderComponent>();
+        return entity;
+    }
+
+    public Entity CreateWaterSurface(Scene scene, int tx, int ty, AssetId assetId)
+    {
+        var entity = scene.CreateEntity();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+        spriteRendererComponent.OrderInLayer = 1;
+        return entity;
+    }
+
     public Entity CreateSpikes(Scene scene, int tx, int ty, AssetId assetId, Orientation orientation)
     {
         var entity = scene.CreateEntity();

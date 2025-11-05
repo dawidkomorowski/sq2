@@ -217,6 +217,12 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
                 KillPlayer();
                 return true;
             }
+
+            if (contact2D.OtherCollider.Entity.Root.HasComponent<WaterDeepComponent>())
+            {
+                KillPlayer();
+                return true;
+            }
         }
 
         return false;

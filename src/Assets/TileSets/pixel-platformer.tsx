@@ -25,10 +25,22 @@
    <property name="TileType" propertytype="TileType" value="Geometry"/>
   </properties>
  </tile>
+ <tile id="33" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="5c6ece85-44d4-4168-bae1-9203c891fc18"/>
+   <property name="TileType" propertytype="TileType" value="WaterSurface"/>
+  </properties>
+ </tile>
  <tile id="51" type="WorldTile">
   <properties>
    <property name="AssetId" value="c3c01a5f-09af-42f7-8100-65d891ee03ef"/>
    <property name="TileType" propertytype="TileType" value="Ladder"/>
+  </properties>
+ </tile>
+ <tile id="53" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="9c8be84d-e654-4dfa-b83b-2a39e5c1b86b"/>
+   <property name="TileType" propertytype="TileType" value="WaterSurface"/>
   </properties>
  </tile>
  <tile id="68" type="WorldTile">
@@ -41,6 +53,12 @@
   <properties>
    <property name="AssetId" value="5c5820fb-340c-42fd-840d-d7f11e0094dc"/>
    <property name="TileType" propertytype="TileType" value="Ladder"/>
+  </properties>
+ </tile>
+ <tile id="73" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="325dd237-4a19-49d7-ac94-87c13287c4d7"/>
+   <property name="TileType" propertytype="TileType" value="WaterDeep"/>
   </properties>
  </tile>
  <tile id="86" type="WorldTile">
