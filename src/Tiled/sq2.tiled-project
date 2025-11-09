@@ -45,6 +45,24 @@
             "valuesAsFlags": false
         },
         {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 7,
+            "members": [
+                {
+                    "name": "JumpOffset",
+                    "type": "int",
+                    "value": 0
+                }
+            ],
+            "name": "FishEnemy",
+            "type": "class",
+            "useAs": [
+                "object",
+                "project"
+            ]
+        },
+        {
             "color": "#ff00ffff",
             "drawFill": true,
             "id": 6,

@@ -21,12 +21,16 @@ internal sealed class FishEnemyComponent : BehaviorComponent, IRespawnable
     {
     }
 
+    public int JumpOffset { get; set; }
+
     public override void OnStart()
     {
         _kinematicRigidBody2DComponent = Entity.GetComponent<KinematicRigidBody2DComponent>();
         _rectangleColliderComponent = Entity.GetComponent<RectangleColliderComponent>();
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
         _startPosition = _transform2DComponent.Translation;
+
+        _jumpCooldown = JumpOffset;
     }
 
     public override void OnFixedUpdate()
@@ -42,15 +46,10 @@ internal sealed class FishEnemyComponent : BehaviorComponent, IRespawnable
             }
         }
 
-        if (_jumpCooldown > 0)
-        {
-            _jumpCooldown--;
-        }
-
         if (_jumpCooldown == 0)
         {
             _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithY(300);
-            _jumpCooldown = 180; // Cooldown of 3 second assuming 60 FPS
+            _jumpCooldown = 60; // Cooldown of 1 second assuming 60 FPS
         }
         else
         {
@@ -62,6 +61,7 @@ internal sealed class FishEnemyComponent : BehaviorComponent, IRespawnable
             {
                 _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithY(0);
                 _transform2DComponent.Translation = _startPosition;
+                _jumpCooldown--;
             }
         }
 
@@ -75,7 +75,7 @@ internal sealed class FishEnemyComponent : BehaviorComponent, IRespawnable
             Translation = _startPosition
         });
         _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
-        _jumpCooldown = 0;
+        _jumpCooldown = JumpOffset;
     }
 }
 

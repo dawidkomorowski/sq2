@@ -288,12 +288,12 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateFishEnemy(Scene scene, int tx, int ty)
+    public Entity CreateFishEnemy(Scene scene, double x, double y)
     {
         var entity = scene.CreateEntity();
         entity.CreateComponent<FishEnemyComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
+        transform2DComponent.Translation = new Vector2(x, y) + new Vector2(9, 12);
         transform2DComponent.IsInterpolated = true;
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(11, 15);
