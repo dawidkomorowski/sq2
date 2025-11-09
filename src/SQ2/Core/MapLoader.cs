@@ -90,9 +90,6 @@ internal sealed class MapLoader
                         case "Enemy_Yellow":
                             _entityFactory.CreateYellowEnemy(scene, tx, ty);
                             break;
-                        case "Enemy_Fish":
-                            _entityFactory.CreateFishEnemy(scene, tx, ty);
-                            break;
                     }
                 }
             }
@@ -129,7 +126,13 @@ internal sealed class MapLoader
 
             if (tileObject.Type == "FishEnemy")
             {
-                _entityFactory.CreateFishEnemy(scene, x, y);
+                var jumpOffset = 0;
+                if (tileObject.Properties.TryGetProperty("JumpOffset", out var prop))
+                {
+                    jumpOffset = prop?.IntValue ?? 0;
+                }
+
+                _entityFactory.CreateFishEnemy(scene, x, y, jumpOffset);
             }
         }
     }

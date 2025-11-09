@@ -288,10 +288,11 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateFishEnemy(Scene scene, double x, double y)
+    public Entity CreateFishEnemy(Scene scene, double x, double y, int jumpOffset)
     {
         var entity = scene.CreateEntity();
-        entity.CreateComponent<FishEnemyComponent>();
+        var fishEnemyComponent = entity.CreateComponent<FishEnemyComponent>();
+        fishEnemyComponent.JumpOffset = jumpOffset;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = new Vector2(x, y) + new Vector2(9, 12);
         transform2DComponent.IsInterpolated = true;

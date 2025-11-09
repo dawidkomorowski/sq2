@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="18" tileheight="18" infinite="0" nextlayerid="4" nextobjectid="12">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="18" tileheight="18" infinite="0" nextlayerid="4" nextobjectid="13">
  <tileset firstgid="1" source="../../Assets/TileSets/pixel-platformer.tsx"/>
  <tileset firstgid="181" source="../../Assets/TileSets/pixel-platformer-characters.tsx"/>
  <layer id="1" name="GamePlayTiles" width="30" height="20">
@@ -32,9 +32,22 @@
   </object>
   <object id="5" type="FishEnemy" gid="194" x="234" y="252" width="24" height="24"/>
   <object id="6" type="FishEnemy" gid="194" x="162" y="252" width="24" height="24"/>
-  <object id="8" type="FishEnemy" gid="194" x="252" y="252" width="24" height="24"/>
+  <object id="8" type="FishEnemy" gid="194" x="252" y="252" width="24" height="24">
+   <properties>
+    <property name="JumpOffset" type="int" value="30"/>
+   </properties>
+  </object>
   <object id="9" type="FishEnemy" gid="194" x="360" y="252" width="24" height="24"/>
-  <object id="10" type="FishEnemy" gid="194" x="396" y="252" width="24" height="24"/>
-  <object id="11" type="FishEnemy" gid="194" x="432" y="252" width="24" height="24"/>
+  <object id="10" type="FishEnemy" gid="194" x="396" y="252" width="24" height="24">
+   <properties>
+    <property name="JumpOffset" type="int" value="20"/>
+   </properties>
+  </object>
+  <object id="11" type="FishEnemy" gid="194" x="432" y="252" width="24" height="24">
+   <properties>
+    <property name="JumpOffset" type="int" value="40"/>
+   </properties>
+  </object>
+  <object id="12" type="FishEnemy" gid="194" x="180" y="252" width="24" height="24"/>
  </objectgroup>
 </map>
