@@ -15,6 +15,8 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable
     internal static readonly Vector2 SpriteOffset = new(-1, 5);
 
     private readonly EntityFactory _entityFactory;
+    private readonly RespawnService _respawnService;
+
     private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;
     private Transform2DComponent _transform2DComponent = null!;
@@ -23,9 +25,10 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable
     private double _currentVelocity = -BaseVelocity;
     private Vector2 _startPosition;
 
-    public BlueEnemyComponent(Entity entity, EntityFactory entityFactory) : base(entity)
+    public BlueEnemyComponent(Entity entity, EntityFactory entityFactory, RespawnService respawnService) : base(entity)
     {
         _entityFactory = entityFactory;
+        _respawnService = respawnService;
     }
 
     public override void OnStart()
@@ -97,7 +100,7 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable
     {
         Entity.RemoveAfterFixedTimeStep();
 
-        RespawnService.AddOneTimeRespawnAction(() =>
+        _respawnService.AddOneTimeRespawnAction(() =>
         {
             var (tx, ty) = Geometry.GetTileCoordinates(_startPosition);
             _entityFactory.CreateBlueEnemy(Scene, tx, ty);
@@ -111,11 +114,13 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable
 internal sealed class BlueEnemyComponentFactory : ComponentFactory<BlueEnemyComponent>
 {
     private readonly EntityFactory _entityFactory;
+    private readonly RespawnService _respawnService;
 
-    public BlueEnemyComponentFactory(EntityFactory entityFactory)
+    public BlueEnemyComponentFactory(EntityFactory entityFactory, RespawnService respawnService)
     {
         _entityFactory = entityFactory;
+        _respawnService = respawnService;
     }
 
-    protected override BlueEnemyComponent CreateComponent(Entity entity) => new(entity, _entityFactory);
+    protected override BlueEnemyComponent CreateComponent(Entity entity) => new(entity, _entityFactory, _respawnService);
 }

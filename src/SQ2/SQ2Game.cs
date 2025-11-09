@@ -2,6 +2,7 @@
 using Geisha.Engine;
 using SQ2.Core;
 using SQ2.Development;
+using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Enemies;
 using SQ2.GamePlay.LevelGeometry;
 using SQ2.GamePlay.Player;
@@ -21,6 +22,7 @@ internal class SQ2Game : Game
             Core = configuration.Core with
             {
                 StartUpSceneBehavior = "GameWorld",
+                CustomGameLoopSteps = new[] { "RespawnSystem" },
                 ShowFps = true,
                 ShowRootEntitiesCount = true
             },
@@ -48,6 +50,10 @@ internal class SQ2Game : Game
 
         // Development Components
         componentsRegistry.RegisterComponentFactory<DevControlsComponentFactory>();
+
+        // GamePlay systems and services
+        componentsRegistry.RegisterSingleInstance<RespawnService>();
+        componentsRegistry.RegisterSystem<RespawnSystem>();
 
         // GamePlay Components
         // Player

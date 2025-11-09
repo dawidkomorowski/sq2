@@ -44,13 +44,15 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
     private int _reclimbAfterJumpCooldown;
 
     // Respawn and Checkpoints
+    private readonly RespawnService _respawnService;
     private PlayerSpawnPointComponent _playerSpawnPointComponent = null!;
     private PlayerCheckPointComponent[] _checkPoints = Array.Empty<PlayerCheckPointComponent>();
     private int _currentCheckPointIndex = -1;
 
-    public PlayerComponent(Entity entity, IDebugRenderer debugRenderer) : base(entity)
+    public PlayerComponent(Entity entity, IDebugRenderer debugRenderer, RespawnService respawnService) : base(entity)
     {
         _debugRenderer = debugRenderer;
+        _respawnService = respawnService;
     }
 
     public override void OnStart()
@@ -388,7 +390,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
     public void KillPlayer()
     {
-        RespawnService.RespawnAll(Scene);
+        _respawnService.RequestRespawn();
     }
 
     public void Respawn()
@@ -424,11 +426,13 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 internal sealed class PlayerComponentFactory : ComponentFactory<PlayerComponent>
 {
     private readonly IDebugRenderer _debugRenderer;
+    private readonly RespawnService _respawnService;
 
-    public PlayerComponentFactory(IDebugRenderer debugRenderer)
+    public PlayerComponentFactory(IDebugRenderer debugRenderer, RespawnService respawnService)
     {
         _debugRenderer = debugRenderer;
+        _respawnService = respawnService;
     }
 
-    protected override PlayerComponent CreateComponent(Entity entity) => new(entity, _debugRenderer);
+    protected override PlayerComponent CreateComponent(Entity entity) => new(entity, _debugRenderer, _respawnService);
 }

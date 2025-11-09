@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Geisha.Engine.Core;
 using Geisha.Engine.Core.SceneModel;
+using Geisha.Engine.Core.Systems;
 
 namespace SQ2.GamePlay.Common;
 
@@ -9,16 +11,30 @@ internal interface IRespawnable
     void Respawn();
 }
 
-internal static class RespawnService
+// ReSharper disable once ClassNeverInstantiated.Global
+internal sealed class RespawnService
 {
-    private static readonly List<Action> OneTimeRespawnActions = new();
+    private readonly List<Action> _oneTimeRespawnActions = new();
 
-    public static void Reset()
+    public void RequestRespawn()
     {
-        OneTimeRespawnActions.Clear();
+        RespawnRequested = true;
     }
 
-    public static void RespawnAll(Scene scene)
+    public void AddOneTimeRespawnAction(Action respawnAction)
+    {
+        _oneTimeRespawnActions.Add(respawnAction);
+    }
+
+    internal bool RespawnRequested { get; private set; }
+
+    internal void Reset()
+    {
+        _oneTimeRespawnActions.Clear();
+        RespawnRequested = false;
+    }
+
+    internal void HandleRespawn(Scene scene)
     {
         foreach (var entity in scene.AllEntities)
         {
@@ -31,16 +47,60 @@ internal static class RespawnService
             }
         }
 
-        foreach (var action in OneTimeRespawnActions)
+        foreach (var action in _oneTimeRespawnActions)
         {
             action();
         }
 
-        OneTimeRespawnActions.Clear();
+        _oneTimeRespawnActions.Clear();
+
+        RespawnRequested = false;
+    }
+}
+
+// ReSharper disable once ClassNeverInstantiated.Global
+internal sealed class RespawnSystem : ICustomSystem
+{
+    private readonly ISceneManager _sceneManager;
+    private readonly RespawnService _respawnService;
+
+    public RespawnSystem(ISceneManager sceneManager, RespawnService respawnService)
+    {
+        _sceneManager = sceneManager;
+        _respawnService = respawnService;
     }
 
-    public static void AddOneTimeRespawnAction(Action respawnAction)
+    public string Name => "RespawnSystem";
+
+    public void ProcessFixedUpdate()
     {
-        OneTimeRespawnActions.Add(respawnAction);
+        if (_respawnService.RespawnRequested)
+        {
+            _respawnService.HandleRespawn(_sceneManager.CurrentScene);
+        }
+    }
+
+    public void ProcessUpdate(GameTime gameTime)
+    {
+    }
+
+    public void OnEntityCreated(Entity entity)
+    {
+    }
+
+    public void OnEntityRemoved(Entity entity)
+    {
+    }
+
+    public void OnEntityParentChanged(Entity entity, Entity? oldParent, Entity? newParent)
+    {
+    }
+
+    public void OnComponentCreated(Component component)
+    {
+    }
+
+    public void OnComponentRemoved(Component component)
+    {
     }
 }
