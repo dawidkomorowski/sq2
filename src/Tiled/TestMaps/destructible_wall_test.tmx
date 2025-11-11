@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="18" tileheight="18" infinite="0" nextlayerid="3" nextobjectid="14">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="18" tileheight="18" infinite="0" nextlayerid="3" nextobjectid="23">
  <tileset firstgid="1" source="../../Assets/TileSets/pixel-platformer.tsx"/>
  <tileset firstgid="181" source="../../Assets/TileSets/pixel-platformer-characters.tsx"/>
  <layer id="1" name="GamePlayTiles" width="30" height="20">
   <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+1,0,0,0,0,0,2,3,3,3,3,3,3,3,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,2,3,4,69,69,69,2,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,
@@ -49,6 +49,37 @@
   <object id="12" type="DestructibleWall" gid="7" x="234" y="198" width="18" height="18">
    <properties>
     <property name="Button" type="object" value="9"/>
+   </properties>
+  </object>
+  <object id="14" type="DestructibleWall" gid="7" x="108" y="144" width="18" height="18">
+   <properties>
+    <property name="Button" type="object" value="0"/>
+   </properties>
+  </object>
+  <object id="15" name="Button" type="Button" gid="149" x="144" y="54" width="18" height="18"/>
+  <object id="16" type="DestructibleWall" gid="7" x="18" y="72" width="18" height="18">
+   <properties>
+    <property name="Button" type="object" value="15"/>
+   </properties>
+  </object>
+  <object id="17" type="DestructibleWall" gid="7" x="36" y="72" width="18" height="18">
+   <properties>
+    <property name="Button" type="object" value="15"/>
+   </properties>
+  </object>
+  <object id="18" type="DestructibleWall" gid="7" x="54" y="72" width="18" height="18">
+   <properties>
+    <property name="Button" type="object" value="15"/>
+   </properties>
+  </object>
+  <object id="19" type="DestructibleWall" gid="7" x="72" y="72" width="18" height="18">
+   <properties>
+    <property name="Button" type="object" value="15"/>
+   </properties>
+  </object>
+  <object id="20" type="DestructibleWall" gid="7" x="90" y="72" width="18" height="18">
+   <properties>
+    <property name="Button" type="object" value="15"/>
    </properties>
   </object>
  </objectgroup>

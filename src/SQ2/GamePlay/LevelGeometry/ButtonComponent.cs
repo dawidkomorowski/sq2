@@ -5,6 +5,7 @@ using Geisha.Engine.Physics.Components;
 using Geisha.Engine.Rendering;
 using Geisha.Engine.Rendering.Components;
 using System;
+using System.Collections.Generic;
 using SQ2.GamePlay.Common;
 
 namespace SQ2.GamePlay.LevelGeometry;
@@ -20,8 +21,12 @@ internal sealed class ButtonComponent : BehaviorComponent, IRespawnable
     {
     }
 
+    public int ObjectId { get; set; }
+
     public Sprite? PressedSprite { get; set; }
     public Sprite? ReleasedSprite { get; set; }
+
+    public List<Action> OnPressedActions { get; } = new();
 
     public override void OnStart()
     {
@@ -50,6 +55,11 @@ internal sealed class ButtonComponent : BehaviorComponent, IRespawnable
     {
         _isPressed = true;
         _spriteRendererComponent.Sprite = PressedSprite;
+
+        foreach (var action in OnPressedActions)
+        {
+            action.Invoke();
+        }
     }
 
     public void Respawn()

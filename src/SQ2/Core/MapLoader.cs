@@ -140,16 +140,18 @@ internal sealed class MapLoader
 
             if (tiledObject.Type == "DestructibleWall" && tiledObject is TiledObject.Tile)
             {
+                var buttonId = tiledObject.Properties["Button"].ObjectValue;
+
                 var xx = x + GlobalSettings.TileSize.Width / 2d;
                 var yy = y + GlobalSettings.TileSize.Height / 2d;
-                _entityFactory.CreateDestructibleWall(scene, xx, yy);
+                _entityFactory.CreateDestructibleWall(scene, xx, yy, buttonId);
             }
 
             if (tiledObject.Type == "Button" && tiledObject is TiledObject.Tile)
             {
                 var xx = x + GlobalSettings.TileSize.Width / 2d;
                 var yy = y + GlobalSettings.TileSize.Height / 2d;
-                _entityFactory.CreateButton(scene, xx, yy);
+                _entityFactory.CreateButton(scene, xx, yy, tiledObject.Id);
             }
         }
     }

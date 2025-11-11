@@ -75,5 +75,6 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<JumpPadComponentFactory>();
         componentsRegistry.RegisterComponentFactory<LadderComponentFactory>();
         componentsRegistry.RegisterComponentFactory<ButtonComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<DestructibleWallComponentFactory>();
     }
 }

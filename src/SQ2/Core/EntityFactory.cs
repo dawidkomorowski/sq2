@@ -232,9 +232,11 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateDestructibleWall(Scene scene, double x, double y)
+    public Entity CreateDestructibleWall(Scene scene, double x, double y, int buttonId)
     {
         var entity = scene.CreateEntity();
+        var destructibleWallComponent = entity.CreateComponent<DestructibleWallComponent>();
+        destructibleWallComponent.ButtonId = buttonId;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = new Vector2(x, y);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
@@ -243,10 +245,11 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateButton(Scene scene, double x, double y)
+    public Entity CreateButton(Scene scene, double x, double y, int objectId)
     {
         var entity = scene.CreateEntity();
         var buttonComponent = entity.CreateComponent<ButtonComponent>();
+        buttonComponent.ObjectId = objectId;
         buttonComponent.PressedSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("22061613-dde7-4909-88f9-a0897673b9cd")));
         buttonComponent.ReleasedSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("7fa96723-2c98-4597-991d-1bbaf2fa43e5")));
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
