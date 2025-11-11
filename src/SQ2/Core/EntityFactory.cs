@@ -232,6 +232,33 @@ internal sealed class EntityFactory
         return entity;
     }
 
+    public Entity CreateDestructibleWall(Scene scene, double x, double y)
+    {
+        var entity = scene.CreateEntity();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = new Vector2(x, y);
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("9ba1d62b-7ffa-4732-a2c8-180f044281e4")));
+        entity.CreateComponent<TileColliderComponent>();
+        return entity;
+    }
+
+    public Entity CreateButton(Scene scene, double x, double y)
+    {
+        var entity = scene.CreateEntity();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = new Vector2(x, y - 7);
+        var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
+        rectangleColliderComponent.Dimensions = new Vector2(15, 4);
+
+        var spriteEntity = entity.CreateChildEntity();
+        var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
+        spriteTransform2DComponent.Translation = new Vector2(0, 7);
+        var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("7fa96723-2c98-4597-991d-1bbaf2fa43e5")));
+        return entity;
+    }
+
     public Entity CreateBlueEnemy(Scene scene, int tx, int ty)
     {
         var entity = scene.CreateEntity();

@@ -101,21 +101,21 @@ internal sealed class MapLoader
 
     private void LoadObjectLayer(Scene scene, ObjectLayer objectLayer)
     {
-        foreach (var tileObject in objectLayer.Objects)
+        foreach (var tiledObject in objectLayer.Objects)
         {
-            var x = tileObject.X - GlobalSettings.TileSize.Width / 2d;
-            var y = -(tileObject.Y - GlobalSettings.TileSize.Height / 2d);
+            var x = tiledObject.X - GlobalSettings.TileSize.Width / 2d;
+            var y = -(tiledObject.Y - GlobalSettings.TileSize.Height / 2d);
 
-            if (tileObject.Type == "PlayerSpawnPoint")
+            if (tiledObject.Type == "PlayerSpawnPoint")
             {
                 _entityFactory.CreatePlayerSpawnPoint(scene, x, y);
                 _entityFactory.CreatePlayer(scene, x, y);
             }
 
-            if (tileObject.Type == "MovingPlatform" && tileObject is TiledObject.Tile tile)
+            if (tiledObject.Type == "MovingPlatform" && tiledObject is TiledObject.Tile)
             {
-                var startObjectId = tile.Properties["StartPosition"].ObjectValue;
-                var endObjectId = tile.Properties["EndPosition"].ObjectValue;
+                var startObjectId = tiledObject.Properties["StartPosition"].ObjectValue;
+                var endObjectId = tiledObject.Properties["EndPosition"].ObjectValue;
                 var startPositionObject = objectLayer.Objects.Single(o => o.Id == startObjectId);
                 var endPositionObject = objectLayer.Objects.Single(o => o.Id == endObjectId);
 
@@ -127,15 +127,29 @@ internal sealed class MapLoader
                 _entityFactory.CreateMovingPlatform(scene, x, y, sx, sy, ex, ey);
             }
 
-            if (tileObject.Type == "FishEnemy")
+            if (tiledObject.Type == "FishEnemy" && tiledObject is TiledObject.Tile)
             {
                 var jumpOffset = 0;
-                if (tileObject.Properties.TryGetProperty("JumpOffset", out var prop))
+                if (tiledObject.Properties.TryGetProperty("JumpOffset", out var prop))
                 {
                     jumpOffset = prop?.IntValue ?? 0;
                 }
 
                 _entityFactory.CreateFishEnemy(scene, x, y, jumpOffset);
+            }
+
+            if (tiledObject.Type == "DestructibleWall" && tiledObject is TiledObject.Tile)
+            {
+                var xx = x + GlobalSettings.TileSize.Width / 2d;
+                var yy = y + GlobalSettings.TileSize.Height / 2d;
+                _entityFactory.CreateDestructibleWall(scene, xx, yy);
+            }
+
+            if (tiledObject.Type == "Button" && tiledObject is TiledObject.Tile)
+            {
+                var xx = x + GlobalSettings.TileSize.Width / 2d;
+                var yy = y + GlobalSettings.TileSize.Height / 2d;
+                _entityFactory.CreateButton(scene, xx, yy);
             }
         }
     }
