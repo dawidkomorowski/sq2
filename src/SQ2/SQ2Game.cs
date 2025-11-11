@@ -6,6 +6,7 @@ using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Enemies;
 using SQ2.GamePlay.LevelGeometry;
 using SQ2.GamePlay.Player;
+using SQ2.VFX;
 
 namespace SQ2;
 
@@ -48,14 +49,14 @@ internal class SQ2Game : Game
         // Scene behaviors
         componentsRegistry.RegisterSceneBehaviorFactory<GameWorldBehaviorFactory>();
 
-        // Development Components
+        // Development components
         componentsRegistry.RegisterComponentFactory<DevControlsComponentFactory>();
 
-        // GamePlay systems and services
+        // Gameplay systems and services
         componentsRegistry.RegisterSingleInstance<RespawnService>();
         componentsRegistry.RegisterSystem<RespawnSystem>();
 
-        // GamePlay Components
+        // Gameplay components
         // Player
         componentsRegistry.RegisterComponentFactory<CameraMovementComponentFactory>();
         componentsRegistry.RegisterComponentFactory<PlayerComponentFactory>();
@@ -76,5 +77,8 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<LadderComponentFactory>();
         componentsRegistry.RegisterComponentFactory<ButtonComponentFactory>();
         componentsRegistry.RegisterComponentFactory<DestructibleWallComponentFactory>();
+
+        // VFX
+        componentsRegistry.RegisterComponentFactory<WallParticleComponentFactory>();
     }
 }

@@ -13,6 +13,7 @@ using SQ2.Development;
 using SQ2.GamePlay.Enemies;
 using SQ2.GamePlay.LevelGeometry;
 using SQ2.GamePlay.Player;
+using SQ2.VFX;
 
 namespace SQ2.Core;
 
@@ -261,6 +262,28 @@ internal sealed class EntityFactory
         var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
         spriteTransform2DComponent.Translation = new Vector2(0, 6);
         spriteEntity.CreateComponent<SpriteRendererComponent>();
+        return entity;
+    }
+
+    public Entity CreateWallParticleBig(Scene scene, Vector2 position)
+    {
+        return CreateWallParticle(scene, position, new AssetId(new Guid("eb3b76a8-8e41-4229-9c4d-1e99849ca44e")));
+    }
+
+    public Entity CreateWallParticleSmall(Scene scene, Vector2 position)
+    {
+        return CreateWallParticle(scene, position, new AssetId(new Guid("62fb2ae4-b5df-42b3-928c-149bfc85cfc5")));
+    }
+
+    private Entity CreateWallParticle(Scene scene, Vector2 position, AssetId assetId)
+    {
+        var entity = scene.CreateEntity();
+        entity.CreateComponent<WallParticleComponent>();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = position;
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+        spriteRendererComponent.OrderInLayer = 1;
         return entity;
     }
 
