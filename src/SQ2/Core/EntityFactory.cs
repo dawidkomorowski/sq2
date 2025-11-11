@@ -246,16 +246,18 @@ internal sealed class EntityFactory
     public Entity CreateButton(Scene scene, double x, double y)
     {
         var entity = scene.CreateEntity();
+        var buttonComponent = entity.CreateComponent<ButtonComponent>();
+        buttonComponent.PressedSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("22061613-dde7-4909-88f9-a0897673b9cd")));
+        buttonComponent.ReleasedSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("7fa96723-2c98-4597-991d-1bbaf2fa43e5")));
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = new Vector2(x, y - 7);
+        transform2DComponent.Translation = new Vector2(x, y - 6);
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
-        rectangleColliderComponent.Dimensions = new Vector2(15, 4);
+        rectangleColliderComponent.Dimensions = new Vector2(15, 5);
 
         var spriteEntity = entity.CreateChildEntity();
         var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
-        spriteTransform2DComponent.Translation = new Vector2(0, 7);
-        var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
-        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("7fa96723-2c98-4597-991d-1bbaf2fa43e5")));
+        spriteTransform2DComponent.Translation = new Vector2(0, 6);
+        spriteEntity.CreateComponent<SpriteRendererComponent>();
         return entity;
     }
 
