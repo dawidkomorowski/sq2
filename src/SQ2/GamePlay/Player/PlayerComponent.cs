@@ -13,6 +13,7 @@ using SQ2.GamePlay.Enemies;
 using SQ2.GamePlay.LevelGeometry;
 using System;
 using System.Linq;
+using Geisha.Engine.Animation.Components;
 using SQ2.Development;
 
 namespace SQ2.GamePlay.Player;
@@ -31,12 +32,18 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
     private readonly IDebugRenderer _debugRenderer;
 
     // Movement and Physics
-    private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
+    private KinematicRigidBody2DComponent _kinematicBodyComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;
     private Transform2DComponent _transform2DComponent = null!;
     private InputComponent _inputComponent = null!;
     private int _jumpPressFrames;
     private bool _lastJumpState;
+
+    // Animation
+    private SpriteAnimationComponent _spriteAnimationComponent = null!;
+    private Transform2DComponent _spriteTransformComponent = null!;
+    private Transform2D _spriteDefaultTransform;
+    private double _ladderClimgingAnimationTimer;
 
     // Ladders
     private readonly Vector2 _ladderClimbRange = new(9, 9);
@@ -57,10 +64,13 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
     public override void OnStart()
     {
-        _kinematicRigidBody2DComponent = Entity.GetComponent<KinematicRigidBody2DComponent>();
+        _kinematicBodyComponent = Entity.GetComponent<KinematicRigidBody2DComponent>();
         _rectangleColliderComponent = Entity.GetComponent<RectangleColliderComponent>();
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
         _inputComponent = Entity.GetComponent<InputComponent>();
+        _spriteAnimationComponent = Entity.Children[0].GetComponent<SpriteAnimationComponent>();
+        _spriteTransformComponent = Entity.Children[0].GetComponent<Transform2DComponent>();
+        _spriteDefaultTransform = _spriteTransformComponent.Transform;
 
         _inputComponent.InputMapping = new InputMapping
         {
@@ -156,17 +166,17 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
         if (isOnLadder && !isOnGround)
         {
-            var linearVelocity = _kinematicRigidBody2DComponent.LinearVelocity;
+            var linearVelocity = _kinematicBodyComponent.LinearVelocity;
 
             linearVelocity = ClimbLadderLogic(linearVelocity);
 
-            _kinematicRigidBody2DComponent.LinearVelocity = linearVelocity;
+            _kinematicBodyComponent.LinearVelocity = linearVelocity;
         }
         else
         {
-            Movement.ApplyGravity(_kinematicRigidBody2DComponent);
+            Movement.ApplyGravity(_kinematicBodyComponent);
 
-            var linearVelocity = _kinematicRigidBody2DComponent.LinearVelocity;
+            var linearVelocity = _kinematicBodyComponent.LinearVelocity;
 
             linearVelocity = HorizontalMovementLogic(linearVelocity);
             linearVelocity = JumpLogic(linearVelocity, isOnGround);
@@ -176,10 +186,12 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
                 linearVelocity = ClimbLadderLogic(linearVelocity);
             }
 
-            _kinematicRigidBody2DComponent.LinearVelocity = linearVelocity;
+            _kinematicBodyComponent.LinearVelocity = linearVelocity;
         }
 
-        Movement.UpdateHorizontalSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
+        Movement.UpdateHorizontalSpriteFacing(_transform2DComponent, _kinematicBodyComponent);
+
+        UpdateAnimationState(_kinematicBodyComponent.LinearVelocity, isOnGround, isOnLadder);
 
         // Check for checkpoints.
         for (var i = 0; i < _checkPoints.Length; i++)
@@ -388,6 +400,63 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
         return linearVelocity;
     }
 
+    private void UpdateAnimationState(Vector2 linearVelocity, bool isOnGround, bool isOnLadder)
+    {
+        _spriteTransformComponent.Transform = _spriteDefaultTransform;
+
+        if (isOnGround)
+        {
+            // On ground
+            if (linearVelocity.X != 0)
+            {
+                // Moving
+                if (!_spriteAnimationComponent.IsPlaying)
+                {
+                    // ReSharper disable once CompareOfFloatsByEqualityOperator
+                    if (_spriteAnimationComponent.Position == 0.5)
+                    {
+                        // Landing
+                        _spriteAnimationComponent.Position = 0;
+                    }
+                    else
+                    {
+                        _spriteAnimationComponent.Position = 0.5;
+                    }
+
+                    _spriteAnimationComponent.Resume();
+                }
+            }
+            else
+            {
+                // Idle
+                _spriteAnimationComponent.Pause();
+                _spriteAnimationComponent.Position = 0;
+            }
+        }
+        else
+        {
+            if (isOnLadder)
+            {
+                // Climbing ladder
+                _spriteAnimationComponent.Pause();
+                _spriteAnimationComponent.Position = 0;
+
+                if (linearVelocity != Vector2.Zero)
+                {
+                    _ladderClimgingAnimationTimer += GameTime.FixedDeltaTimeSeconds;
+                    var leaningAngle = Math.Sin(_ladderClimgingAnimationTimer * 15) * 4;
+                    _spriteTransformComponent.Rotation = Angle.Deg2Rad(leaningAngle);
+                }
+            }
+            else
+            {
+                // In air
+                _spriteAnimationComponent.Pause();
+                _spriteAnimationComponent.Position = 0.5;
+            }
+        }
+    }
+
     public void KillPlayer()
     {
         _respawnService.RequestRespawn();
@@ -395,7 +464,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
     public void Respawn()
     {
-        _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
+        _kinematicBodyComponent.LinearVelocity = Vector2.Zero;
 
         if (_currentCheckPointIndex < 0)
         {
