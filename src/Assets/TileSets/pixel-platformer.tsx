@@ -73,6 +73,12 @@
    <property name="TileType" propertytype="TileType" value="JumpPad"/>
   </properties>
  </tile>
+ <tile id="124" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="e1e4ae6b-83d6-41ff-8677-e807a50b8e8c"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
  <tile id="146" type="WorldTile">
   <properties>
    <property name="AssetId" value="480595cf-54cc-403b-8266-114a03110641"/>

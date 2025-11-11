@@ -90,6 +90,17 @@ internal sealed class EntityFactory
         return entity;
     }
 
+    public Entity CreateDecor(Scene scene, int tx, int ty, AssetId assetId, int layer)
+    {
+        var entity = scene.CreateEntity();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+        spriteRendererComponent.OrderInLayer = layer * 10; // Multiply by 10 to leave space for other entities in the same layer
+        return entity;
+    }
+
     public Entity CreateWaterDeep(Scene scene, int tx, int ty, AssetId assetId)
     {
         var entity = scene.CreateEntity();

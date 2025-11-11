@@ -110,7 +110,8 @@
                 "JumpPad",
                 "Ladder",
                 "WaterDeep",
-                "WaterSurface"
+                "WaterSurface",
+                "Decor"
             ],
             "valuesAsFlags": false
         },

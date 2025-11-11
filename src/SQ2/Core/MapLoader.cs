@@ -73,6 +73,9 @@ internal sealed class MapLoader
                         case "Ladder":
                             _entityFactory.CreateLadder(scene, tx, ty, assetId);
                             break;
+                        case "Decor":
+                            _entityFactory.CreateDecor(scene, tx, ty, assetId, 0);
+                            break;
                     }
                 }
 
