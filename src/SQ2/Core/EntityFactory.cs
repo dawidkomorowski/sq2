@@ -302,8 +302,12 @@ internal sealed class EntityFactory
         var spriteEntity = entity.CreateChildEntity();
         var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
         spriteTransform2DComponent.Translation = BlueEnemyComponent.SpriteOffset;
-        var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
-        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("31fbfb4d-988a-4382-85f9-f41c63bd4f27")));
+        spriteEntity.CreateComponent<SpriteRendererComponent>();
+        var spriteAnimationComponent = spriteEntity.CreateComponent<SpriteAnimationComponent>();
+        spriteAnimationComponent.AddAnimation("Walk", _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("be3e253b-a4b2-4662-8624-bf1a5b73ea74"))));
+        spriteAnimationComponent.PlayInLoop = true;
+        spriteAnimationComponent.PlaybackSpeed = 3;
+        spriteAnimationComponent.PlayAnimation("Walk");
 
         return entity;
     }
