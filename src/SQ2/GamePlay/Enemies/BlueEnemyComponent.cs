@@ -106,7 +106,8 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable
             _entityFactory.CreateBlueEnemy(Scene, tx, ty);
         });
 
-        _entityFactory.CreateBlueEnemyDeathAnimation(Scene, _transform2DComponent.Translation + SpriteOffset);
+        var offset = new Vector2(SpriteOffset.X * _transform2DComponent.Scale.X, SpriteOffset.Y);
+        _entityFactory.CreateBlueEnemyDeathAnimation(Scene, _transform2DComponent.Translation + offset, _transform2DComponent.Scale);
     }
 }
 

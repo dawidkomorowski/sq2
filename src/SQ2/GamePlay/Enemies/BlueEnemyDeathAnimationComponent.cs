@@ -8,6 +8,9 @@ namespace SQ2.GamePlay.Enemies;
 internal sealed class BlueEnemyDeathAnimationComponent : BehaviorComponent
 {
     private Transform2DComponent _transform2DComponent = null!;
+    private Transform2D _initialTransform;
+    private Transform2D _targetTransform;
+    private double _elapsedTime;
 
     public BlueEnemyDeathAnimationComponent(Entity entity) : base(entity)
     {
@@ -16,21 +19,28 @@ internal sealed class BlueEnemyDeathAnimationComponent : BehaviorComponent
     public override void OnStart()
     {
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
+
+        _initialTransform = _transform2DComponent.Transform;
+        _targetTransform = new Transform2D(
+            _initialTransform.Translation + new Vector2(0, -11),
+            _initialTransform.Rotation,
+            new Vector2(_initialTransform.Scale.X * 2, 0)
+        );
     }
 
     public override void OnUpdate(GameTime gameTime)
     {
-        const double shrinkSpeed = 1.5;
-        var currentScale = _transform2DComponent.Scale;
-        var newScale = currentScale - new Vector2(-2, 4) * gameTime.DeltaTimeSeconds * shrinkSpeed;
-        if (newScale.Y <= 0)
+        const double animationDuration = 0.2;
+        _elapsedTime += gameTime.DeltaTimeSeconds;
+
+        if (_elapsedTime > animationDuration)
         {
             Entity.RemoveAfterFullFrame();
             return;
         }
 
-        _transform2DComponent.Scale = newScale;
-        _transform2DComponent.Translation -= new Vector2(0, 45) * gameTime.DeltaTimeSeconds * shrinkSpeed;
+        var progress = _elapsedTime / animationDuration;
+        _transform2DComponent.Transform = Transform2D.Lerp(_initialTransform, _targetTransform, progress);
     }
 }
 

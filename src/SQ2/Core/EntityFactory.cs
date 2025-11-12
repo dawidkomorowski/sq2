@@ -308,12 +308,13 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateBlueEnemyDeathAnimation(Scene scene, Vector2 position)
+    public Entity CreateBlueEnemyDeathAnimation(Scene scene, Vector2 position, Vector2 scale)
     {
         var entity = scene.CreateEntity();
         entity.CreateComponent<BlueEnemyDeathAnimationComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = position;
+        transform2DComponent.Scale = scale;
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("31fbfb4d-988a-4382-85f9-f41c63bd4f27")));
         return entity;
