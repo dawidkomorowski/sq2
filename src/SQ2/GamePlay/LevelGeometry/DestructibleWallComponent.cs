@@ -1,9 +1,11 @@
-﻿using Geisha.Engine.Core.Components;
+﻿using System.Linq;
+using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics.Components;
 using Geisha.Engine.Rendering.Components;
 using SQ2.Core;
 using SQ2.GamePlay.Common;
+using SQ2.GamePlay.Player;
 
 namespace SQ2.GamePlay.LevelGeometry;
 
@@ -12,6 +14,7 @@ internal sealed class DestructibleWallComponent : BehaviorComponent, IRespawnabl
     private readonly EntityFactory _entityFactory;
     private Transform2DComponent _transform2DComponent = null!;
     private SpriteRendererComponent _spriteRendererComponent = null!;
+    private CameraMovementComponent _cameraMovementComponent = null!;
     private bool _isDestroyed;
 
     public DestructibleWallComponent(Entity entity, EntityFactory entityFactory) : base(entity)
@@ -25,6 +28,7 @@ internal sealed class DestructibleWallComponent : BehaviorComponent, IRespawnabl
     {
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
         _spriteRendererComponent = Entity.GetComponent<SpriteRendererComponent>();
+        _cameraMovementComponent = Scene.RootEntities.Single(e => e.HasComponent<CameraMovementComponent>()).GetComponent<CameraMovementComponent>();
 
         foreach (var entity in Scene.RootEntities)
         {
@@ -51,6 +55,8 @@ internal sealed class DestructibleWallComponent : BehaviorComponent, IRespawnabl
         _entityFactory.CreateWallParticleBig(Scene, _transform2DComponent.Translation);
         _entityFactory.CreateWallParticleSmall(Scene, _transform2DComponent.Translation);
         _entityFactory.CreateWallParticleSmall(Scene, _transform2DComponent.Translation);
+
+        _cameraMovementComponent.ShakeCamera();
     }
 
     public void Respawn()

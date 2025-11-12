@@ -1,5 +1,7 @@
-﻿using Geisha.Engine.Core;
+﻿using System;
+using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
+using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using SQ2.GamePlay.Common;
 
@@ -9,6 +11,7 @@ internal sealed class CameraMovementComponent : BehaviorComponent
 {
     private Transform2DComponent _cameraTransform = null!;
     private Transform2DComponent _playerTransform = null!;
+    private TimeSpan _shakeDuration = TimeSpan.Zero;
 
     public CameraMovementComponent(Entity entity) : base(entity)
     {
@@ -24,7 +27,7 @@ internal sealed class CameraMovementComponent : BehaviorComponent
 
     public override void OnUpdate(GameTime gameTime)
     {
-        // Basic camera follow.
+        // Camera follow.
         var playerPosition = _playerTransform.InterpolatedTransform.Translation;
 
         const double minDistance = 30;
@@ -36,6 +39,25 @@ internal sealed class CameraMovementComponent : BehaviorComponent
             var directionToPlayer = (playerPosition - _cameraTransform.Translation).Unit;
             _cameraTransform.Translation += directionToPlayer * distanceFactor * baseVelocity * gameTime.DeltaTimeSeconds;
         }
+
+        // Camera shake.
+        if (_shakeDuration > TimeSpan.Zero)
+        {
+            const double shakeIntensity = 4;
+            var shakeOffsetX = (Random.Shared.NextDouble() * 2 - 1) * shakeIntensity;
+            var shakeOffsetY = (Random.Shared.NextDouble() * 2 - 1) * shakeIntensity;
+            _cameraTransform.Translation += new Vector2(shakeOffsetX, shakeOffsetY);
+            _shakeDuration -= gameTime.DeltaTime;
+            if (_shakeDuration < TimeSpan.Zero)
+            {
+                _shakeDuration = TimeSpan.Zero;
+            }
+        }
+    }
+
+    public void ShakeCamera()
+    {
+        _shakeDuration = TimeSpan.FromSeconds(0.5);
     }
 }
 
