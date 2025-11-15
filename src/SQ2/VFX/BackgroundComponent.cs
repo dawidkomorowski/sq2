@@ -29,23 +29,30 @@ internal sealed class BackgroundComponent : BehaviorComponent
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
         _cameraTransform = Entity.Scene.RootEntities.Single(e => e.HasComponent<CameraComponent>()).GetComponent<Transform2DComponent>();
 
-        const int widthInTiles = 2;
-        const int heightInTiles = 2;
+        const int halfWidthInTiles = 10;
+        const int halfHeightInTiles = 5;
 
-        //for (int x = 0; x < widthInTiles; x++)
-        //{
-        //    for (int y = 0; y < heightInTiles; y++)
-        //    {
-        //        CreateBackgroundTile(x, y, null);
-        //    }
-        //}
-
-        CreateBackgroundTile(-1, 1, UpperLeftSprite);
-        CreateBackgroundTile(0, 1, UpperRightSprite);
-        CreateBackgroundTile(-1, 0, MiddleLeftSprite);
-        CreateBackgroundTile(0, 0, MiddleRightSprite);
-        CreateBackgroundTile(-1, -1, LowerLeftSprite);
-        CreateBackgroundTile(0, -1, LowerRightSprite);
+        for (var x = -halfWidthInTiles; x <= halfWidthInTiles; x++)
+        {
+            for (var y = -halfHeightInTiles; y <= halfHeightInTiles; y++)
+            {
+                if (y == 0)
+                {
+                    CreateBackgroundTile(x, y, x % 2 == 0 ? MiddleLeftSprite : MiddleRightSprite);
+                }
+                else
+                {
+                    if (y > 0)
+                    {
+                        CreateBackgroundTile(x, y, x % 2 == 0 ? UpperLeftSprite : UpperRightSprite);
+                    }
+                    else
+                    {
+                        CreateBackgroundTile(x, y, x % 2 == 0 ? LowerLeftSprite : LowerRightSprite);
+                    }
+                }
+            }
+        }
     }
 
     public override void OnUpdate(GameTime gameTime)
@@ -54,7 +61,7 @@ internal sealed class BackgroundComponent : BehaviorComponent
         var backgroundPosition = new Vector2
         (
             cameraPosition.X * 1.0,
-            cameraPosition.Y * 1.0 + 24
+            cameraPosition.Y * 1.0
         );
         _transform2DComponent.Translation = backgroundPosition;
     }
