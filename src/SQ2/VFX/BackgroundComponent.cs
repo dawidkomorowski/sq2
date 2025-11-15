@@ -62,7 +62,7 @@ internal sealed class BackgroundComponent : BehaviorComponent
         var cameraPosition = _cameraTransform.Translation;
         var backgroundPosition = new Vector2
         (
-            Math.Floor(cameraPosition.X / 48) * 48 + (cameraPosition.X * 0.1) % 48,
+            Math.Floor(cameraPosition.X / 48) * 48 + (cameraPosition.X * 0.9) % 48,
             cameraPosition.Y + 24
         );
         _transform2DComponent.Translation = backgroundPosition;
