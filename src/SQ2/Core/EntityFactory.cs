@@ -379,8 +379,12 @@ internal sealed class EntityFactory
         rectangleColliderComponent.Dimensions = new Vector2(11, 15);
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
         kinematicRigidBody2DComponent.EnableCollisionResponse = false;
-        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
-        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("e2bea61d-b96e-4548-8ea0-2eb18aa5f180")));
+        entity.CreateComponent<SpriteRendererComponent>();
+        var spriteAnimationComponent = entity.CreateComponent<SpriteAnimationComponent>();
+        spriteAnimationComponent.AddAnimation("Idle", _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("aab93162-61f9-4dac-80cc-780775b08dd6"))));
+        spriteAnimationComponent.PlayInLoop = true;
+        spriteAnimationComponent.PlaybackSpeed = 2;
+        spriteAnimationComponent.PlayAnimation("Idle");
 
         return entity;
     }
