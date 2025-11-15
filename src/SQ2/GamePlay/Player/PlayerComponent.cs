@@ -43,7 +43,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
     private SpriteAnimationComponent _spriteAnimationComponent = null!;
     private Transform2DComponent _spriteTransformComponent = null!;
     private Transform2D _spriteDefaultTransform;
-    private double _ladderClimgingAnimationTimer;
+    private double _ladderClimbingAnimationTimer;
 
     // Ladders
     private readonly Vector2 _ladderClimbRange = new(9, 9);
@@ -443,8 +443,8 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
                 if (linearVelocity != Vector2.Zero)
                 {
-                    _ladderClimgingAnimationTimer += GameTime.FixedDeltaTimeSeconds;
-                    var leaningAngle = Math.Sin(_ladderClimgingAnimationTimer * 15) * 4;
+                    _ladderClimbingAnimationTimer += GameTime.FixedDeltaTimeSeconds;
+                    var leaningAngle = Math.Sin(_ladderClimbingAnimationTimer * 15) * 4;
                     _spriteTransformComponent.Rotation = Angle.Deg2Rad(leaningAngle);
                 }
             }
