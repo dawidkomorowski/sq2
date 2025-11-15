@@ -25,6 +25,8 @@ internal sealed class MapLoader
 
         var objectLayer = tileMap.ObjectLayers.Single(ol => ol.Name == "GamePlayObjects");
         LoadObjectLayer(scene, objectLayer);
+
+        _entityFactory.CreateBackground(scene);
     }
 
     private void LoadTileLayer(Scene scene, TileLayer tileLayer)

@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Geisha.Engine;
+using Geisha.Engine.Rendering;
 using SQ2.Core;
 using SQ2.Development;
 using SQ2.GamePlay.Common;
@@ -31,6 +32,7 @@ internal class SQ2Game : Game
             {
                 ScreenWidth = DevConfig.WindowSize?.Width ?? GlobalSettings.WindowSize.Width,
                 ScreenHeight = DevConfig.WindowSize?.Height ?? GlobalSettings.WindowSize.Height,
+                SortingLayersOrder = new[] { GlobalSettings.BackgroundSortingLayer, RenderingConfiguration.DefaultSortingLayerName },
                 EnableVSync = true
             },
             Physics = configuration.Physics with
@@ -80,5 +82,6 @@ internal class SQ2Game : Game
 
         // VFX
         componentsRegistry.RegisterComponentFactory<WallParticleComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<BackgroundComponentFactory>();
     }
 }

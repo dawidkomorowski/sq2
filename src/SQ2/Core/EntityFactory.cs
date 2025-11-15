@@ -389,6 +389,15 @@ internal sealed class EntityFactory
         return entity;
     }
 
+    public Entity CreateBackground(Scene scene)
+    {
+        var entity = scene.CreateEntity();
+        var backgroundComponent = entity.CreateComponent<BackgroundComponent>();
+        backgroundComponent.UpperLeftSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("f809d672-5096-4833-8b6a-4bee43a075ee")));
+        entity.CreateComponent<Transform2DComponent>();
+        return entity;
+    }
+
     public Entity CreateCamera(Scene scene)
     {
         var entity = scene.CreateEntity();
