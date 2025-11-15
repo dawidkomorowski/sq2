@@ -75,7 +75,7 @@ internal sealed class BackgroundComponent : BehaviorComponent
         transform2DComponent.Translation = new Vector2(tx * 24, ty * 24);
         var spriteRendererComponent = tileEntity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = sprite;
-        spriteRendererComponent.SortingLayerName = GlobalSettings.BackgroundSortingLayer;
+        spriteRendererComponent.SortingLayerName = GlobalSettings.SortingLayers.Background;
     }
 }
 

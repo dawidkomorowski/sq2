@@ -32,7 +32,13 @@ internal class SQ2Game : Game
             {
                 ScreenWidth = DevConfig.WindowSize?.Width ?? GlobalSettings.WindowSize.Width,
                 ScreenHeight = DevConfig.WindowSize?.Height ?? GlobalSettings.WindowSize.Height,
-                SortingLayersOrder = new[] { GlobalSettings.BackgroundSortingLayer, RenderingConfiguration.DefaultSortingLayerName },
+                SortingLayersOrder = new[]
+                {
+                    GlobalSettings.SortingLayers.Background,
+                    GlobalSettings.SortingLayers.DecorBackground,
+                    RenderingConfiguration.DefaultSortingLayerName,
+                    GlobalSettings.SortingLayers.DecorForeground
+                },
                 EnableVSync = true
             },
             Physics = configuration.Physics with

@@ -1,0 +1,1 @@
+Get-Content "C:\GitRepos\sq2\src\SQ2\bin\Debug\net6.0-windows\win-x64\GeishaEngine.log" -Tail 10 -Wait

@@ -2,6 +2,7 @@
 using System.Linq;
 using Geisha.Engine.Core.Assets;
 using Geisha.Engine.Core.SceneModel;
+using Geisha.Engine.Rendering;
 using Geisha.Extensions.Tiled;
 using NLog;
 
@@ -24,8 +25,32 @@ internal sealed class MapLoader
 
         var tileMap = TileMap.LoadFromFile(mapFilePath);
 
-        var tileLayer = tileMap.TileLayers.Single(tl => tl.Name == "GamePlayTiles");
-        LoadTileLayer(scene, tileLayer);
+        var count = tileMap.TileLayers.Count(tl => tl.Name == "GamePlayTiles");
+        if (count != 1)
+        {
+            throw new InvalidOperationException($"Tile map must contain exactly one 'GamePlayTiles' tile layer, but found {count}.");
+        }
+
+        var tileLayerIndex = 0;
+        var gameplayTilesLayerIndex = int.MaxValue;
+        foreach (var tileLayer in tileMap.TileLayers)
+        {
+            if (tileLayer.Name == "GamePlayTiles")
+            {
+                gameplayTilesLayerIndex = tileLayerIndex;
+                LoadGamePlayTileLayer(scene, tileLayer, tileLayerIndex);
+            }
+            else
+            {
+                var sortingLayerName = tileLayerIndex > gameplayTilesLayerIndex
+                    ? GlobalSettings.SortingLayers.DecorForeground
+                    : GlobalSettings.SortingLayers.DecorBackground;
+
+                LoadDecorTileLayer(scene, tileLayer, sortingLayerName, tileLayerIndex);
+            }
+
+            tileLayerIndex++;
+        }
 
         var objectLayer = tileMap.ObjectLayers.Single(ol => ol.Name == "GamePlayObjects");
         LoadObjectLayer(scene, objectLayer);
@@ -35,7 +60,51 @@ internal sealed class MapLoader
         Logger.Info("Map loading completed.");
     }
 
-    private void LoadTileLayer(Scene scene, TileLayer tileLayer)
+    private void LoadDecorTileLayer(Scene scene, TileLayer tileLayer, string sortingLayerName, int layerIndex)
+    {
+        for (var w = 0; w < tileLayer.Width; w++)
+        {
+            for (var h = 0; h < tileLayer.Height; h++)
+            {
+                var tile = tileLayer.Tiles[w][h];
+                if (tile == null)
+                {
+                    continue;
+                }
+
+                var tx = w;
+                var ty = -h;
+
+                switch (tile.Type)
+                {
+                    case "WorldTile":
+                    {
+                        var assetId = new AssetId(new Guid(tile.Properties["AssetId"].StringValue));
+                        var tileType = tile.Properties["TileType"].StringValue;
+                        switch (tileType)
+                        {
+                            case "Geometry":
+                            case "WaterDeep":
+                            case "Decor":
+                                _entityFactory.CreateDecor(scene, tx, ty, assetId, sortingLayerName, layerIndex);
+                                break;
+                            default:
+                                Logger.Error("Unknown WorldTile: {TileType} at position ({w}, {h}) in tile layer {tileLayer.Name}", tileType, w, h,
+                                    tileLayer.Name);
+                                break;
+                        }
+
+                        break;
+                    }
+                    default:
+                        Logger.Error("Unknown tile type: {tile.Type} at position ({w}, {h}) in tile layer {tileLayer.Name}", tile.Type, w, h, tileLayer.Name);
+                        break;
+                }
+            }
+        }
+    }
+
+    private void LoadGamePlayTileLayer(Scene scene, TileLayer tileLayer, int layerIndex)
     {
         for (var w = 0; w < tileLayer.Width; w++)
         {
@@ -84,7 +153,11 @@ internal sealed class MapLoader
                                 _entityFactory.CreateLadder(scene, tx, ty, assetId);
                                 break;
                             case "Decor":
-                                _entityFactory.CreateDecor(scene, tx, ty, assetId, 0);
+                                _entityFactory.CreateDecor(scene, tx, ty, assetId, RenderingConfiguration.DefaultSortingLayerName, 0);
+                                break;
+                            default:
+                                Logger.Error("Unknown WorldTile: {TileType} at position ({w}, {h}) in tile layer {tileLayer.Name}", tileType, w, h,
+                                    tileLayer.Name);
                                 break;
                         }
 
@@ -104,12 +177,16 @@ internal sealed class MapLoader
                             case "Enemy_Yellow":
                                 _entityFactory.CreateYellowEnemy(scene, tx, ty);
                                 break;
+                            default:
+                                Logger.Error("Unknown CharacterTile: {CharacterType} at position ({w}, {h}) in tile layer {tileLayer.Name}", characterType, w,
+                                    h, tileLayer.Name);
+                                break;
                         }
 
                         break;
                     }
                     default:
-                        Logger.Error("Unknown tile type: {tile.Type} at position ({w}, {h})", tile.Type, w, h);
+                        Logger.Error("Unknown tile type: {tile.Type} at position ({w}, {h}) in tile layer {tileLayer.Name}", tile.Type, w, h, tileLayer.Name);
                         break;
                 }
             }
