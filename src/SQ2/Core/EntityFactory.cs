@@ -394,6 +394,11 @@ internal sealed class EntityFactory
         var entity = scene.CreateEntity();
         var backgroundComponent = entity.CreateComponent<BackgroundComponent>();
         backgroundComponent.UpperLeftSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("f809d672-5096-4833-8b6a-4bee43a075ee")));
+        backgroundComponent.UpperRightSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("99c8f050-2dd0-4b09-b44e-1688b3753237")));
+        backgroundComponent.MiddleLeftSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("c5584c00-090b-4156-a240-2a299ea08583")));
+        backgroundComponent.MiddleRightSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("701b213a-1358-4414-ae20-ff9965ea32f0")));
+        backgroundComponent.LowerLeftSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("33605045-173a-46ec-becf-2627704e2b19")));
+        backgroundComponent.LowerRightSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("beae4927-27f3-474e-854c-da15f35f34b2")));
         entity.CreateComponent<Transform2DComponent>();
         return entity;
     }
