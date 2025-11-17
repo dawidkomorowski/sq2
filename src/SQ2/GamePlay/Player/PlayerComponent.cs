@@ -276,21 +276,21 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
         var moveLeftState = _inputComponent.GetActionState(MoveLeftAction);
         var moveRightState = _inputComponent.GetActionState(MoveRightAction);
 
-        if (moveLeftState)
+        if (moveLeftState && !moveRightState)
         {
             var effectiveAcceleration = linearVelocity.X > 0 ? deceleration : acceleration;
             var verticalVelocity = linearVelocity.X - effectiveAcceleration * GameTime.FixedDeltaTimeSeconds;
             linearVelocity = linearVelocity.WithX(verticalVelocity);
         }
 
-        if (moveRightState)
+        if (moveRightState && !moveLeftState)
         {
             var effectiveAcceleration = linearVelocity.X < 0 ? deceleration : acceleration;
             var verticalVelocity = linearVelocity.X + effectiveAcceleration * GameTime.FixedDeltaTimeSeconds;
             linearVelocity = linearVelocity.WithX(verticalVelocity);
         }
 
-        if (!moveLeftState && !moveRightState)
+        if (moveLeftState == moveRightState)
         {
             if (Math.Abs(linearVelocity.X) < deceleration * GameTime.FixedDeltaTimeSeconds)
             {
