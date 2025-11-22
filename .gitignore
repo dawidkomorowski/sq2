@@ -56,6 +56,13 @@ nunit-*.xml
 # Visual Studio 2015/2017 cache/options directory
 .vs/
 
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
 # Not ignore Geisha SDK
 !/GeishaSDK.0.11.0/*/*.nupkg
 
