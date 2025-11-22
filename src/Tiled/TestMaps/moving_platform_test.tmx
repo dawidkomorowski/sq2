@@ -36,7 +36,7 @@
     <property name="StartPosition" type="object" value="29"/>
    </properties>
   </object>
-  <object id="21" name="Platform 1 End" x="351" y="189">
+  <object id="21" name="Platform 1 End" type="Metadata" x="351" y="189">
    <point/>
   </object>
   <object id="23" type="MovingPlatform" gid="148" x="360" y="126" width="18" height="18">
@@ -45,7 +45,7 @@
     <property name="StartPosition" type="object" value="30"/>
    </properties>
   </object>
-  <object id="24" name="Platform 2 End" x="369" y="63">
+  <object id="24" name="Platform 2 End" type="Metadata" x="369" y="63">
    <point/>
   </object>
   <object id="26" type="MovingPlatform" gid="148" x="288" y="54" width="18" height="18">
@@ -54,16 +54,16 @@
     <property name="StartPosition" type="object" value="31"/>
    </properties>
   </object>
-  <object id="27" name="Platform 3 End" x="207" y="45">
+  <object id="27" name="Platform 3 End" type="Metadata" x="207" y="45">
    <point/>
   </object>
-  <object id="29" name="Platform 1 Start" x="279" y="189">
+  <object id="29" name="Platform 1 Start" type="Metadata" x="279" y="189">
    <point/>
   </object>
-  <object id="30" name="Platform 2 Start" x="369" y="153">
+  <object id="30" name="Platform 2 Start" type="Metadata" x="369" y="153">
    <point/>
   </object>
-  <object id="31" name="Platform 3 Start" x="333" y="45">
+  <object id="31" name="Platform 3 Start" type="Metadata" x="333" y="45">
    <point/>
   </object>
  </objectgroup>

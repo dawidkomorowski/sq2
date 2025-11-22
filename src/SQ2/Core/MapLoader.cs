@@ -251,6 +251,9 @@ internal sealed class MapLoader
                     _entityFactory.CreateButton(scene, xx, yy, tiledObject.Id);
                     break;
                 }
+                case "Metadata":
+                    // Ignore metadata objects
+                    break;
                 default:
                     Logger.Error("Unknown object type: {tiledObject.Type} with id {tiledObject.Id}", tiledObject.Type, tiledObject.Id);
                     break;

@@ -93,6 +93,19 @@
             ]
         },
         {
+            "color": "#ff5555ff",
+            "drawFill": true,
+            "id": 10,
+            "members": [
+            ],
+            "name": "Metadata",
+            "type": "class",
+            "useAs": [
+                "object",
+                "project"
+            ]
+        },
+        {
             "color": "#ff00ffff",
             "drawFill": true,
             "id": 6,
