@@ -38,7 +38,7 @@ internal sealed class MapLoader
             if (tileLayer.Name == "GamePlayTiles")
             {
                 gameplayTilesLayerIndex = tileLayerIndex;
-                LoadGamePlayTileLayer(scene, tileLayer, tileLayerIndex);
+                LoadGamePlayTileLayer(scene, tileLayer);
             }
             else
             {
@@ -107,7 +107,7 @@ internal sealed class MapLoader
         }
     }
 
-    private void LoadGamePlayTileLayer(Scene scene, TileLayer tileLayer, int layerIndex)
+    private void LoadGamePlayTileLayer(Scene scene, TileLayer tileLayer)
     {
         for (var w = 0; w < tileLayer.Width; w++)
         {
