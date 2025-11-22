@@ -31,6 +31,18 @@
    <property name="TileType" propertytype="TileType" value="AnimatedDecor"/>
   </properties>
  </tile>
+ <tile id="34" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="8a0b4e7c-1be6-4f30-b0b9-2e4705a6a6c6"/>
+   <property name="TileType" propertytype="TileType" value="AnimatedDecor"/>
+  </properties>
+ </tile>
+ <tile id="35" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="8a0b4e7c-1be6-4f30-b0b9-2e4705a6a6c6"/>
+   <property name="TileType" propertytype="TileType" value="AnimatedDecor"/>
+  </properties>
+ </tile>
  <tile id="51" type="WorldTile">
   <properties>
    <property name="AssetId" value="c3c01a5f-09af-42f7-8100-65d891ee03ef"/>
@@ -40,6 +52,18 @@
  <tile id="53" type="WorldTile">
   <properties>
    <property name="AssetId" value="22769c0b-b6e0-4595-a2ae-46724a430fab"/>
+   <property name="TileType" propertytype="TileType" value="AnimatedDecor"/>
+  </properties>
+ </tile>
+ <tile id="54" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="0cb7b3f3-02ad-4661-9a43-8d4877bc9369"/>
+   <property name="TileType" propertytype="TileType" value="AnimatedDecor"/>
+  </properties>
+ </tile>
+ <tile id="55" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="0cb7b3f3-02ad-4661-9a43-8d4877bc9369"/>
    <property name="TileType" propertytype="TileType" value="AnimatedDecor"/>
   </properties>
  </tile>
@@ -59,6 +83,18 @@
   <properties>
    <property name="AssetId" value="325dd237-4a19-49d7-ac94-87c13287c4d7"/>
    <property name="TileType" propertytype="TileType" value="WaterDeep"/>
+  </properties>
+ </tile>
+ <tile id="74" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="84bee01f-7661-46e1-8623-bbfaacae6ca4"/>
+   <property name="TileType" propertytype="TileType" value="AnimatedDecor"/>
+  </properties>
+ </tile>
+ <tile id="75" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="84bee01f-7661-46e1-8623-bbfaacae6ca4"/>
+   <property name="TileType" propertytype="TileType" value="AnimatedDecor"/>
   </properties>
  </tile>
  <tile id="86" type="WorldTile">
