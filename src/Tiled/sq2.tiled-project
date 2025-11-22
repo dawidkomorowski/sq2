@@ -141,8 +141,8 @@
                 "JumpPad",
                 "Ladder",
                 "WaterDeep",
-                "WaterSurface",
-                "Decor"
+                "Decor",
+                "AnimatedDecor"
             ],
             "valuesAsFlags": false
         },

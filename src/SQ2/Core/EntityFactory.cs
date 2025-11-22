@@ -103,6 +103,21 @@ internal sealed class EntityFactory
         return entity;
     }
 
+    public Entity CreateAnimatedDecor(Scene scene, int tx, int ty, AssetId assetId, string sortingLayerName, int layerIndex)
+    {
+        var entity = scene.CreateEntity();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.SortingLayerName = sortingLayerName;
+        spriteRendererComponent.OrderInLayer = layerIndex * 10; // Multiply by 10 to leave space for other entities in the same layer
+        var spriteAnimationComponent = entity.CreateComponent<SpriteAnimationComponent>();
+        spriteAnimationComponent.AddAnimation("Animation", _assetStore.GetAsset<SpriteAnimation>(assetId));
+        spriteAnimationComponent.PlayInLoop = true;
+        spriteAnimationComponent.PlayAnimation("Animation");
+        return entity;
+    }
+
     public Entity CreateWaterDeep(Scene scene, int tx, int ty, AssetId assetId)
     {
         var entity = scene.CreateEntity();
@@ -113,20 +128,6 @@ internal sealed class EntityFactory
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
         spriteRendererComponent.OrderInLayer = 1;
         entity.CreateComponent<TileColliderComponent>();
-        return entity;
-    }
-
-    public Entity CreateWaterSurface(Scene scene, int tx, int ty, AssetId assetId)
-    {
-        var entity = scene.CreateEntity();
-        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
-        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
-        spriteRendererComponent.OrderInLayer = 1;
-        var spriteAnimationComponent = entity.CreateComponent<SpriteAnimationComponent>();
-        spriteAnimationComponent.AddAnimation("WaterSurfaceAnimation", _assetStore.GetAsset<SpriteAnimation>(assetId));
-        spriteAnimationComponent.PlayInLoop = true;
-        spriteAnimationComponent.PlayAnimation("WaterSurfaceAnimation");
         return entity;
     }
 

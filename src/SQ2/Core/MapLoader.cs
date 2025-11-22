@@ -88,6 +88,9 @@ internal sealed class MapLoader
                             case "Decor":
                                 _entityFactory.CreateDecor(scene, tx, ty, assetId, sortingLayerName, layerIndex);
                                 break;
+                            case "AnimatedDecor":
+                                _entityFactory.CreateAnimatedDecor(scene, tx, ty, assetId, sortingLayerName, layerIndex);
+                                break;
                             default:
                                 Logger.Error("Unknown WorldTile: {TileType} at position ({w}, {h}) in tile layer {tileLayer.Name}", tileType, w, h,
                                     tileLayer.Name);
@@ -133,9 +136,6 @@ internal sealed class MapLoader
                             case "WaterDeep":
                                 _entityFactory.CreateWaterDeep(scene, tx, ty, assetId);
                                 break;
-                            case "WaterSurface":
-                                _entityFactory.CreateWaterSurface(scene, tx, ty, assetId);
-                                break;
                             case "Spikes":
                                 var orientation = GetOrientationFromGlobalTileId(tile.GlobalTileId);
                                 _entityFactory.CreateSpikes(scene, tx, ty, assetId, orientation);
@@ -154,6 +154,9 @@ internal sealed class MapLoader
                                 break;
                             case "Decor":
                                 _entityFactory.CreateDecor(scene, tx, ty, assetId, RenderingConfiguration.DefaultSortingLayerName, 0);
+                                break;
+                            case "AnimatedDecor":
+                                _entityFactory.CreateAnimatedDecor(scene, tx, ty, assetId, RenderingConfiguration.DefaultSortingLayerName, 0);
                                 break;
                             default:
                                 Logger.Error("Unknown WorldTile: {TileType} at position ({w}, {h}) in tile layer {tileLayer.Name}", tileType, w, h,
