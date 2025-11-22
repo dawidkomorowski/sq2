@@ -49,4 +49,5 @@ jobs:
 
       - name: Run tests
         run: |
+          dotnet build SQ2.sln --configuration Debug
           dotnet test SQ2.sln --configuration Debug
