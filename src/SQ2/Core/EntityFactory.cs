@@ -400,21 +400,45 @@ internal sealed class EntityFactory
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         transform2DComponent.IsInterpolated = true;
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
-        rectangleColliderComponent.Dimensions = new Vector2(24, 24);
+        rectangleColliderComponent.Dimensions = new Vector2(34, 26);
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
         kinematicRigidBody2DComponent.EnableCollisionResponse = true;
 
         var spriteEntity = entity.CreateChildEntity();
         var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
         spriteTransform2DComponent.Translation = BlueBossComponent.SpriteOffset;
-        spriteEntity.CreateComponent<SpriteRendererComponent>();
+        var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.OrderInLayer = 1;
         var spriteAnimationComponent = spriteEntity.CreateComponent<SpriteAnimationComponent>();
         spriteAnimationComponent.AddAnimation("Walk", _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("93ef2825-ca47-4ff3-81e6-ff23be30dbdd"))));
         spriteAnimationComponent.PlayInLoop = true;
         spriteAnimationComponent.PlaybackSpeed = 3;
         spriteAnimationComponent.PlayAnimation("Walk");
 
+        AddSpike(new Vector2(-16, 2), Math.PI / 2);
+        AddSpike(new Vector2(-16, -6), Math.PI / 2);
+
+        AddSpike(new Vector2(16, 2), -Math.PI / 2);
+        AddSpike(new Vector2(16, -6), -Math.PI / 2);
+
+        AddSpike(new Vector2(-4, 13), 0);
+        AddSpike(new Vector2(4, 13), 0);
+
+        AddSpike(new Vector2(-13.5, 10.5), Math.PI / 4);
+        AddSpike(new Vector2(13.5, 10.5), -Math.PI / 4);
+
         return entity;
+
+        void AddSpike(Vector2 position, double rotation)
+        {
+            var spikeEntity = spriteEntity.CreateChildEntity();
+            var spikeTransform2DComponent = spikeEntity.CreateComponent<Transform2DComponent>();
+            spikeTransform2DComponent.Translation = position;
+            spikeTransform2DComponent.Rotation = rotation;
+            spikeTransform2DComponent.Scale = new Vector2(0.5, 0.5);
+            var spikeSpriteRendererComponent = spikeEntity.CreateComponent<SpriteRendererComponent>();
+            spikeSpriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("56abfaa2-eb0a-45e1-8831-179ea209155c")));
+        }
     }
 
     public Entity CreateBackground(Scene scene)
