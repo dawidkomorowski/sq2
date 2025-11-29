@@ -88,6 +88,7 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<DestructibleWallComponentFactory>();
         // Bosses
         componentsRegistry.RegisterComponentFactory<BlueBossComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<BlueBossProjectileComponentFactory>();
 
         // VFX
         componentsRegistry.RegisterComponentFactory<WallParticleComponentFactory>();

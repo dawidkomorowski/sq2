@@ -441,6 +441,22 @@ internal sealed class EntityFactory
         }
     }
 
+    public Entity CreateBlueBossProjectile(Scene scene, Vector2 position, double rotation, Vector2 direction)
+    {
+        var entity = scene.CreateEntity();
+        var blueBossProjectileComponent = entity.CreateComponent<BlueBossProjectileComponent>();
+        blueBossProjectileComponent.Direction = direction;
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = position;
+        transform2DComponent.Rotation = rotation;
+        transform2DComponent.Scale = new Vector2(0.5, 0.5);
+        transform2DComponent.IsInterpolated = true;
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.OrderInLayer = 1;
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("56abfaa2-eb0a-45e1-8831-179ea209155c")));
+        return entity;
+    }
+
     public Entity CreateBackground(Scene scene)
     {
         var entity = scene.CreateEntity();
