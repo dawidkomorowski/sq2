@@ -3,6 +3,7 @@ using Geisha.Engine;
 using Geisha.Engine.Rendering;
 using SQ2.Core;
 using SQ2.Development;
+using SQ2.GamePlay.Boss.Blue;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Enemies;
 using SQ2.GamePlay.LevelGeometry;
@@ -44,7 +45,7 @@ internal class SQ2Game : Game
             Physics = configuration.Physics with
             {
                 TileSize = GlobalSettings.TileSize,
-                RenderCollisionGeometry = false
+                RenderCollisionGeometry = true
             }
         };
 
@@ -85,6 +86,8 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<LadderComponentFactory>();
         componentsRegistry.RegisterComponentFactory<ButtonComponentFactory>();
         componentsRegistry.RegisterComponentFactory<DestructibleWallComponentFactory>();
+        // Bosses
+        componentsRegistry.RegisterComponentFactory<BlueBossComponentFactory>();
 
         // VFX
         componentsRegistry.RegisterComponentFactory<WallParticleComponentFactory>();

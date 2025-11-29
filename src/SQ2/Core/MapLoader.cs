@@ -180,6 +180,9 @@ internal sealed class MapLoader
                             case "Enemy_Yellow":
                                 _entityFactory.CreateYellowEnemy(scene, tx, ty);
                                 break;
+                            case "Boss_Blue":
+                                _entityFactory.CreateBlueBoss(scene, tx, ty);
+                                break;
                             default:
                                 Logger.Error("Unknown CharacterTile: {CharacterType} at position ({w}, {h}) in tile layer {tileLayer.Name}", characterType, w,
                                     h, tileLayer.Name);

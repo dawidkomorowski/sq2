@@ -10,6 +10,7 @@ using Geisha.Engine.Physics.Components;
 using Geisha.Engine.Rendering;
 using Geisha.Engine.Rendering.Components;
 using SQ2.Development;
+using SQ2.GamePlay.Boss.Blue;
 using SQ2.GamePlay.Enemies;
 using SQ2.GamePlay.LevelGeometry;
 using SQ2.GamePlay.Player;
@@ -387,6 +388,31 @@ internal sealed class EntityFactory
         spriteAnimationComponent.PlayInLoop = true;
         spriteAnimationComponent.PlaybackSpeed = 2;
         spriteAnimationComponent.PlayAnimation("Idle");
+
+        return entity;
+    }
+
+    public Entity CreateBlueBoss(Scene scene, int tx, int ty)
+    {
+        var entity = scene.CreateEntity();
+        entity.CreateComponent<BlueBossComponent>();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
+        transform2DComponent.IsInterpolated = true;
+        var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
+        rectangleColliderComponent.Dimensions = new Vector2(24, 24);
+        var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
+        kinematicRigidBody2DComponent.EnableCollisionResponse = true;
+
+        var spriteEntity = entity.CreateChildEntity();
+        var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
+        spriteTransform2DComponent.Translation = BlueBossComponent.SpriteOffset;
+        spriteEntity.CreateComponent<SpriteRendererComponent>();
+        var spriteAnimationComponent = spriteEntity.CreateComponent<SpriteAnimationComponent>();
+        spriteAnimationComponent.AddAnimation("Walk", _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("93ef2825-ca47-4ff3-81e6-ff23be30dbdd"))));
+        spriteAnimationComponent.PlayInLoop = true;
+        spriteAnimationComponent.PlaybackSpeed = 3;
+        spriteAnimationComponent.PlayAnimation("Walk");
 
         return entity;
     }

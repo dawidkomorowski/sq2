@@ -17,4 +17,9 @@
    <property name="CharacterType" propertytype="CharacterType" value="Enemy_Blue_Small"/>
   </properties>
  </tile>
+ <tile id="21" type="CharacterTile">
+  <properties>
+   <property name="CharacterType" propertytype="CharacterType" value="Boss_Blue"/>
+  </properties>
+ </tile>
 </tileset>
