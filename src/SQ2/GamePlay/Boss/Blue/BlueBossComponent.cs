@@ -40,6 +40,8 @@ internal sealed class BlueBossComponent : BehaviorComponent
     private int _rageChaseCounter;
     private int _shootCounter;
     private ShootPattern _shootPattern = ShootPattern.Single;
+    private bool _hasJumped;
+    private Vector2 _positionBeforeJump;
 
     #endregion
 
@@ -121,6 +123,12 @@ internal sealed class BlueBossComponent : BehaviorComponent
             case State.Shoot:
                 OnShoot();
                 break;
+            case State.BeginJumpShoot:
+                BeginJumpShoot();
+                break;
+            case State.JumpShoot:
+                JumpShoot(contacts);
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(_state), _state, $"Unexpected BlueBoss state: {_state}");
         }
@@ -140,17 +148,18 @@ internal sealed class BlueBossComponent : BehaviorComponent
     {
         _spriteAnimationComponent.PlayAnimation(Animations.Walk);
         _spriteAnimationComponent.PlaybackSpeed = 0.5;
-        _kinematicRigidBody2DComponent.LinearVelocity = new Vector2(0, _kinematicRigidBody2DComponent.LinearVelocity.Y);
+        _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(0);
         _state = State.Idle;
     }
 
     private void OnIdle()
     {
-        _kinematicRigidBody2DComponent.LinearVelocity = new Vector2(0, _kinematicRigidBody2DComponent.LinearVelocity.Y);
+        _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(0);
 
         if (_stateTime >= TimeSpan.FromSeconds(2))
         {
-            _state = State.BeginShoot;
+            //_state = State.BeginShoot;
+            _state = State.BeginJumpShoot;
         }
     }
 
@@ -180,7 +189,7 @@ internal sealed class BlueBossComponent : BehaviorComponent
 
     private void OnChase(Contact2D[] contacts)
     {
-        _kinematicRigidBody2DComponent.LinearVelocity = new Vector2(_chaseSpeed, _kinematicRigidBody2DComponent.LinearVelocity.Y);
+        _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(_chaseSpeed);
 
         foreach (var contact2D in contacts)
         {
@@ -194,7 +203,7 @@ internal sealed class BlueBossComponent : BehaviorComponent
 
     private void OnRageChase(Contact2D[] contacts)
     {
-        _kinematicRigidBody2DComponent.LinearVelocity = new Vector2(_chaseSpeed, _kinematicRigidBody2DComponent.LinearVelocity.Y);
+        _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(_chaseSpeed);
 
         foreach (var contact2D in contacts)
         {
@@ -217,7 +226,7 @@ internal sealed class BlueBossComponent : BehaviorComponent
     {
         _spriteAnimationComponent.PlayAnimation(Animations.Shoot);
         _spriteAnimationComponent.PlaybackSpeed = 1;
-        _kinematicRigidBody2DComponent.LinearVelocity = new Vector2(0, _kinematicRigidBody2DComponent.LinearVelocity.Y);
+        _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(0);
 
         if (_stateTime > TimeSpan.FromSeconds(1))
         {
@@ -297,6 +306,112 @@ internal sealed class BlueBossComponent : BehaviorComponent
         }
     }
 
+    private void BeginJumpShoot()
+    {
+        var directionToPlayer = _playerTransform.Translation - _transform2DComponent.Translation;
+
+        if (directionToPlayer.Length > 100)
+        {
+            if (_spriteAnimationComponent.CurrentAnimation?.Name != Animations.Walk)
+            {
+                _spriteAnimationComponent.PlayAnimation(Animations.Walk);
+            }
+
+            _spriteAnimationComponent.PlaybackSpeed = 2;
+
+            var walkSpeed = Math.Sign(directionToPlayer.X) * 50f;
+            _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(walkSpeed);
+        }
+        else
+        {
+            _spriteAnimationComponent.PlayAnimation(Animations.Shoot);
+            _spriteAnimationComponent.PlaybackSpeed = 1;
+            _hasJumped = false;
+            _shootCounter = 0;
+            _state = State.JumpShoot;
+        }
+    }
+
+    private void JumpShoot(Contact2D[] contacts)
+    {
+        if (_stateTime < TimeSpan.FromSeconds(1))
+        {
+            _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(0);
+            return;
+        }
+
+        var isOnGround = false;
+        foreach (var contact2D in contacts)
+        {
+            if (contact2D.CollisionNormal.Y > 0)
+            {
+                isOnGround = true;
+                break;
+            }
+        }
+
+        if (!_hasJumped)
+        {
+            if (isOnGround && _kinematicRigidBody2DComponent.LinearVelocity.Y <= 0)
+            {
+                if (_spriteAnimationComponent.CurrentAnimation?.Name != Animations.Walk)
+                {
+                    _spriteAnimationComponent.PlayAnimation(Animations.Walk);
+                    _spriteAnimationComponent.PlaybackSpeed = 0;
+                    _spriteAnimationComponent.Position = 0;
+                }
+
+                _kinematicRigidBody2DComponent.LinearVelocity = new Vector2(0, 385);
+                _kinematicRigidBody2DComponent.AngularVelocity = 3;
+
+                _hasJumped = true;
+                _positionBeforeJump = _transform2DComponent.Translation;
+            }
+        }
+        else
+        {
+            const int shootCount = 20;
+            if (_transform2DComponent.Translation.Y - _positionBeforeJump.Y > 150 && (_shootCounter < shootCount || _transform2DComponent.Rotation != 0))
+            {
+                _kinematicRigidBody2DComponent.LinearVelocity = new Vector2(0, 0);
+
+                if (_spriteAnimationComponent.CurrentAnimation?.Name != Animations.Shoot)
+                {
+                    _spriteAnimationComponent.PlayAnimation(Animations.Shoot);
+                    _spriteAnimationComponent.PlaybackSpeed = 0;
+                    _spriteAnimationComponent.Position = 0;
+                }
+
+
+                if (_shootCounter < shootCount)
+                {
+                    if (_stateTime > TimeSpan.FromSeconds(0.4) * _shootCounter + TimeSpan.FromSeconds(2))
+                    {
+                        Shoot();
+                        _shootCounter++;
+                    }
+                }
+                else
+                {
+                    var remainingAngle = Math.Ceiling(_transform2DComponent.Rotation / (2 * Math.PI)) - _transform2DComponent.Rotation / (2 * Math.PI);
+
+                    if (remainingAngle < 0.02)
+                    {
+                        _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with { Rotation = 0 });
+                        _kinematicRigidBody2DComponent.AngularVelocity = 0;
+                    }
+                }
+            }
+
+            if (isOnGround && _kinematicRigidBody2DComponent.LinearVelocity.Y <= 0)
+            {
+                _kinematicRigidBody2DComponent.AngularVelocity = 0;
+                _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(0);
+                _state = State.BeginIdle;
+            }
+        }
+    }
+
     private void Shoot()
     {
         var spriteEntity = Entity.Children[0];
@@ -328,7 +443,9 @@ internal sealed class BlueBossComponent : BehaviorComponent
         Chase,
         RageChase,
         BeginShoot,
-        Shoot
+        Shoot,
+        BeginJumpShoot,
+        JumpShoot
     }
 }
 
