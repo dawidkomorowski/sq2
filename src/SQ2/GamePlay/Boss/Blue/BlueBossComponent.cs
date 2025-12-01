@@ -32,6 +32,12 @@ internal sealed class BlueBossComponent : BehaviorComponent
     private int _shootCounter;
     private ShootPattern _shootPattern = ShootPattern.Single;
 
+    public static class Animations
+    {
+        public const string Walk = "Walk";
+        public const string Shoot = "Shoot";
+    }
+
     public BlueBossComponent(Entity entity, EntityFactory entityFactory) : base(entity)
     {
         _entityFactory = entityFactory;
@@ -103,6 +109,7 @@ internal sealed class BlueBossComponent : BehaviorComponent
 
     private void OnBeginIdle()
     {
+        _spriteAnimationComponent.PlayAnimation(Animations.Walk);
         _spriteAnimationComponent.PlaybackSpeed = 0.5;
         _kinematicRigidBody2DComponent.LinearVelocity = new Vector2(0, _kinematicRigidBody2DComponent.LinearVelocity.Y);
         _state = State.Idle;
@@ -120,6 +127,7 @@ internal sealed class BlueBossComponent : BehaviorComponent
 
     private void OnBeginChase()
     {
+        _spriteAnimationComponent.PlayAnimation(Animations.Walk);
         var chargeTime = TimeSpan.FromSeconds(1);
 
         _spriteAnimationComponent.PlaybackSpeed = 0.5 + 4 * _stateTime / chargeTime;
@@ -149,6 +157,7 @@ internal sealed class BlueBossComponent : BehaviorComponent
 
     private void OnBeginShoot()
     {
+        _spriteAnimationComponent.PlayAnimation(Animations.Shoot);
         _spriteAnimationComponent.PlaybackSpeed = 1;
         _kinematicRigidBody2DComponent.LinearVelocity = new Vector2(0, _kinematicRigidBody2DComponent.LinearVelocity.Y);
 

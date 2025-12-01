@@ -410,10 +410,13 @@ internal sealed class EntityFactory
         var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.OrderInLayer = 1;
         var spriteAnimationComponent = spriteEntity.CreateComponent<SpriteAnimationComponent>();
-        spriteAnimationComponent.AddAnimation("Walk", _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("93ef2825-ca47-4ff3-81e6-ff23be30dbdd"))));
+        spriteAnimationComponent.AddAnimation(BlueBossComponent.Animations.Walk,
+            _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("93ef2825-ca47-4ff3-81e6-ff23be30dbdd"))));
+        spriteAnimationComponent.AddAnimation(BlueBossComponent.Animations.Shoot,
+            _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("c6ace0bd-53db-4614-9743-5a4f117df266"))));
         spriteAnimationComponent.PlayInLoop = true;
         spriteAnimationComponent.PlaybackSpeed = 3;
-        spriteAnimationComponent.PlayAnimation("Walk");
+        spriteAnimationComponent.PlayAnimation(BlueBossComponent.Animations.Walk);
 
         AddSpike(new Vector2(-16, 2), Math.PI / 2);
         AddSpike(new Vector2(-16, -6), Math.PI / 2);
