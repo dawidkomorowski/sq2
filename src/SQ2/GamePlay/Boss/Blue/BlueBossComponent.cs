@@ -158,8 +158,8 @@ internal sealed class BlueBossComponent : BehaviorComponent
 
         if (_stateTime >= TimeSpan.FromSeconds(2))
         {
-            //_state = State.BeginShoot;
-            _state = State.BeginJumpShoot;
+            var isJumpShoot = Random.Shared.Next(0, 2) == 0;
+            _state = isJumpShoot ? State.BeginJumpShoot : State.BeginShoot;
         }
     }
 
