@@ -1,17 +1,18 @@
 ﻿using Geisha.Engine.Animation.Components;
 using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
+using Geisha.Engine.Core.Diagnostics;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
+using Geisha.Engine.Rendering;
+using Geisha.Engine.Rendering.Components;
 using SQ2.Core;
 using SQ2.Development;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
 using System;
-using Geisha.Engine.Rendering;
-using Geisha.Engine.Rendering.Components;
 
 namespace SQ2.GamePlay.Boss.Blue;
 
@@ -21,6 +22,7 @@ internal sealed class BlueBossComponent : BehaviorComponent
     private readonly bool _enableDebugDraw = DevConfig.DebugDraw.BlueBoss;
 
     private readonly EntityFactory _entityFactory;
+    private readonly IDebugRenderer _debugRenderer;
 
     private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;
@@ -31,8 +33,10 @@ internal sealed class BlueBossComponent : BehaviorComponent
     private Transform2DComponent? _debugTransform;
     private TextRendererComponent? _debugText;
 
-    private State _state = State.BeginIdle;
+    private State _state = State.WaitingForPlayer;
     private TimeSpan _stateTime;
+
+    private const double TriggerRadius = 100;
 
     #region State variables
 
@@ -51,9 +55,10 @@ internal sealed class BlueBossComponent : BehaviorComponent
         public const string Shoot = "Shoot";
     }
 
-    public BlueBossComponent(Entity entity, EntityFactory entityFactory) : base(entity)
+    public BlueBossComponent(Entity entity, EntityFactory entityFactory, IDebugRenderer debugRenderer) : base(entity)
     {
         _entityFactory = entityFactory;
+        _debugRenderer = debugRenderer;
     }
 
     public override void OnStart()
@@ -102,6 +107,9 @@ internal sealed class BlueBossComponent : BehaviorComponent
 
         switch (_state)
         {
+            case State.WaitingForPlayer:
+                OnWaitingForPlayer();
+                break;
             case State.BeginIdle:
                 OnBeginIdle();
                 break;
@@ -142,6 +150,27 @@ internal sealed class BlueBossComponent : BehaviorComponent
 
 
         Movement.UpdateHorizontalSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
+    }
+
+    public override void OnUpdate(GameTime gameTime)
+    {
+        if (_enableDebugDraw)
+        {
+            _debugRenderer.DrawCircle(new Circle(_transform2DComponent.Translation, TriggerRadius), Color.FromArgb(255, 255, 255, 0));
+        }
+    }
+
+    private void OnWaitingForPlayer()
+    {
+        if (_spriteAnimationComponent.CurrentAnimation?.Name != Animations.Shoot)
+        {
+            _spriteAnimationComponent.PlayAnimation(Animations.Shoot);
+        }
+
+        if (_transform2DComponent.Translation.Distance(_playerTransform.Translation) <= TriggerRadius)
+        {
+            _state = State.BeginIdle;
+        }
     }
 
     private void OnBeginIdle()
@@ -437,6 +466,7 @@ internal sealed class BlueBossComponent : BehaviorComponent
 
     private enum State
     {
+        WaitingForPlayer,
         BeginIdle,
         Idle,
         BeginChase,
@@ -453,11 +483,13 @@ internal sealed class BlueBossComponent : BehaviorComponent
 internal sealed class BlueBossComponentFactory : ComponentFactory<BlueBossComponent>
 {
     private readonly EntityFactory _entityFactory;
+    private readonly IDebugRenderer _debugRenderer;
 
-    public BlueBossComponentFactory(EntityFactory entityFactory)
+    public BlueBossComponentFactory(EntityFactory entityFactory, IDebugRenderer debugRenderer)
     {
         _entityFactory = entityFactory;
+        _debugRenderer = debugRenderer;
     }
 
-    protected override BlueBossComponent CreateComponent(Entity entity) => new(entity, _entityFactory);
+    protected override BlueBossComponent CreateComponent(Entity entity) => new(entity, _entityFactory, _debugRenderer);
 }
