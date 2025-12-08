@@ -391,7 +391,7 @@ internal sealed class BlueBossComponent : BehaviorComponent
                 }
 
                 _kinematicRigidBody2DComponent.LinearVelocity = new Vector2(0, 385);
-                _kinematicRigidBody2DComponent.AngularVelocity = 3;
+                _kinematicRigidBody2DComponent.AngularVelocity = 5;
 
                 _hasJumped = true;
                 _positionBeforeJump = _transform2DComponent.Translation;
@@ -399,7 +399,7 @@ internal sealed class BlueBossComponent : BehaviorComponent
         }
         else
         {
-            const int shootCount = 20;
+            const int shootCount = 30;
             if (_transform2DComponent.Translation.Y - _positionBeforeJump.Y > 150 && (_shootCounter < shootCount || _transform2DComponent.Rotation != 0))
             {
                 _kinematicRigidBody2DComponent.LinearVelocity = new Vector2(0, 0);
@@ -414,7 +414,7 @@ internal sealed class BlueBossComponent : BehaviorComponent
 
                 if (_shootCounter < shootCount)
                 {
-                    if (_stateTime > TimeSpan.FromSeconds(0.4) * _shootCounter + TimeSpan.FromSeconds(2))
+                    if (_stateTime > TimeSpan.FromSeconds(0.6) * _shootCounter + TimeSpan.FromSeconds(2))
                     {
                         Shoot();
                         _shootCounter++;
