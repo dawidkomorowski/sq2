@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="35" height="20" tilewidth="18" tileheight="18" infinite="0" nextlayerid="3" nextobjectid="5">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="35" height="25" tilewidth="18" tileheight="18" infinite="0" nextlayerid="3" nextobjectid="7">
  <tileset firstgid="1" source="../../Assets/TileSets/pixel-platformer.tsx"/>
  <tileset firstgid="181" source="../../Assets/TileSets/pixel-platformer-characters.tsx"/>
- <layer id="1" name="GamePlayTiles" width="35" height="20">
+ <layer id="1" name="GamePlayTiles" width="35" height="25">
   <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -27,7 +32,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="GamePlayObjects">
-  <object id="1" name="Player Spawn Point" type="PlayerSpawnPoint" x="38.5658" y="101.541">
+  <object id="1" name="Player Spawn Point" type="PlayerSpawnPoint" x="38.5658" y="191.541">
    <point/>
   </object>
  </objectgroup>

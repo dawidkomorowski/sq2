@@ -35,6 +35,7 @@ internal sealed class BlueBossComponent : BehaviorComponent
 
     private State _state = State.WaitingForPlayer;
     private TimeSpan _stateTime;
+    private BossPhase _bossPhase = BossPhase.Phase1;
 
     private const double TriggerRadius = 100;
 
@@ -418,6 +419,8 @@ internal sealed class BlueBossComponent : BehaviorComponent
                     {
                         Shoot();
                         _shootCounter++;
+
+                        RemoveSpikeForBossPhase();
                     }
                 }
                 else
@@ -437,6 +440,8 @@ internal sealed class BlueBossComponent : BehaviorComponent
                 _kinematicRigidBody2DComponent.AngularVelocity = 0;
                 _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(0);
                 _state = State.BeginIdle;
+
+                AdvanceBossPhase();
             }
         }
     }
@@ -455,6 +460,58 @@ internal sealed class BlueBossComponent : BehaviorComponent
                 (Matrix3x3.CreateRotation(worldTransform.Rotation) * Vector2.UnitY.Homogeneous).ToVector2()
             );
         }
+    }
+
+    private void RemoveSpikeForBossPhase()
+    {
+        switch (_bossPhase)
+        {
+            case BossPhase.Phase1:
+                // No spikes removed
+                break;
+            case BossPhase.Phase2:
+                RemoveSpike("DiagonalSpike1");
+                RemoveSpike("DiagonalSpike2");
+                break;
+            case BossPhase.Phase3:
+                RemoveSpike("LeftSpike2");
+                RemoveSpike("RightSpike2");
+                break;
+            case BossPhase.Phase4:
+                RemoveSpike("LeftSpike1");
+                RemoveSpike("RightSpike1");
+                break;
+            case BossPhase.Phase5:
+                RemoveSpike("TopLeftSpike");
+                RemoveSpike("TopRightSpike");
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private void RemoveSpike(string name)
+    {
+        var spriteEntity = Entity.Children[0];
+        foreach (var spikeEntity in spriteEntity.Children)
+        {
+            if (spikeEntity.Name == name)
+            {
+                spikeEntity.RemoveAfterFixedTimeStep();
+            }
+        }
+    }
+
+    private void AdvanceBossPhase()
+    {
+        _bossPhase = _bossPhase switch
+        {
+            BossPhase.Phase1 => BossPhase.Phase2,
+            BossPhase.Phase2 => BossPhase.Phase3,
+            BossPhase.Phase3 => BossPhase.Phase4,
+            BossPhase.Phase4 or BossPhase.Phase5 => BossPhase.Phase5,
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 
     private enum ShootPattern
@@ -476,6 +533,15 @@ internal sealed class BlueBossComponent : BehaviorComponent
         Shoot,
         BeginJumpShoot,
         JumpShoot
+    }
+
+    private enum BossPhase
+    {
+        Phase1,
+        Phase2,
+        Phase3,
+        Phase4,
+        Phase5
     }
 }
 

@@ -418,23 +418,24 @@ internal sealed class EntityFactory
         spriteAnimationComponent.PlaybackSpeed = 3;
         spriteAnimationComponent.PlayAnimation(BlueBossComponent.Animations.Walk);
 
-        AddSpike(new Vector2(-16, 2), Math.PI / 2);
-        AddSpike(new Vector2(-16, -6), Math.PI / 2);
+        AddSpike("LeftSpike1", new Vector2(-16, 2), Math.PI / 2);
+        AddSpike("LeftSpike2", new Vector2(-16, -6), Math.PI / 2);
 
-        AddSpike(new Vector2(16, 2), -Math.PI / 2);
-        AddSpike(new Vector2(16, -6), -Math.PI / 2);
+        AddSpike("RightSpike1", new Vector2(16, 2), -Math.PI / 2);
+        AddSpike("RightSpike2", new Vector2(16, -6), -Math.PI / 2);
 
-        AddSpike(new Vector2(-4, 13), 0);
-        AddSpike(new Vector2(4, 13), 0);
+        AddSpike("TopLeftSpike", new Vector2(-4, 13), 0);
+        AddSpike("TopRightSpike", new Vector2(4, 13), 0);
 
-        AddSpike(new Vector2(-13.5, 10.5), Math.PI / 4);
-        AddSpike(new Vector2(13.5, 10.5), -Math.PI / 4);
+        AddSpike("DiagonalSpike1", new Vector2(-13.5, 10.5), Math.PI / 4);
+        AddSpike("DiagonalSpike2", new Vector2(13.5, 10.5), -Math.PI / 4);
 
         return entity;
 
-        void AddSpike(Vector2 position, double rotation)
+        void AddSpike(string name, Vector2 position, double rotation)
         {
             var spikeEntity = spriteEntity.CreateChildEntity();
+            spikeEntity.Name = name;
             var spikeTransform2DComponent = spikeEntity.CreateComponent<Transform2DComponent>();
             spikeTransform2DComponent.Translation = position;
             spikeTransform2DComponent.Rotation = rotation;
