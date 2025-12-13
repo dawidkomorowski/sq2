@@ -402,7 +402,7 @@ internal sealed class EntityFactory
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(34, 26);
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
-        kinematicRigidBody2DComponent.EnableCollisionResponse = true;
+        kinematicRigidBody2DComponent.EnableCollisionResponse = false;
 
         var spriteEntity = entity.CreateChildEntity();
         var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();

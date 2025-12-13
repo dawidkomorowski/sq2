@@ -16,6 +16,7 @@ internal interface IRespawnable
 internal sealed class RespawnService
 {
     private readonly List<Action> _oneTimeRespawnActions = new();
+    private readonly List<IRespawnable> _respawnableObjects = new();
 
     public void RequestRespawn()
     {
@@ -37,15 +38,22 @@ internal sealed class RespawnService
 
     internal void HandleRespawn(Scene scene)
     {
+        _respawnableObjects.Clear();
+
         foreach (var entity in scene.AllEntities)
         {
-            foreach (var component in entity.Components.ToList())
+            foreach (var component in entity.Components)
             {
                 if (component is IRespawnable respawnable)
                 {
-                    respawnable.Respawn();
+                    _respawnableObjects.Add(respawnable);
                 }
             }
+        }
+
+        foreach (var respawnableObject in _respawnableObjects)
+        {
+            respawnableObject.Respawn();
         }
 
         foreach (var action in _oneTimeRespawnActions)

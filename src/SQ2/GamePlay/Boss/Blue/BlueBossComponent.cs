@@ -16,7 +16,7 @@ using System;
 
 namespace SQ2.GamePlay.Boss.Blue;
 
-internal sealed class BlueBossComponent : BehaviorComponent
+internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
 {
     internal static readonly Vector2 SpriteOffset = new(0, -1);
     private readonly bool _enableDebugDraw = DevConfig.DebugDraw.BlueBoss;
@@ -33,6 +33,7 @@ internal sealed class BlueBossComponent : BehaviorComponent
     private Transform2DComponent? _debugTransform;
     private TextRendererComponent? _debugText;
 
+    private Vector2 _startPosition;
     private State _state = State.WaitingForPlayer;
     private TimeSpan _stateTime;
     private BossPhase _bossPhase = BossPhase.Phase1;
@@ -62,6 +63,16 @@ internal sealed class BlueBossComponent : BehaviorComponent
         _debugRenderer = debugRenderer;
     }
 
+    public void Respawn()
+    {
+        _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
+
+        Entity.RemoveAfterFixedTimeStep();
+
+        var (tx, ty) = Geometry.GetTileCoordinates(_startPosition);
+        _entityFactory.CreateBlueBoss(Scene, tx, ty);
+    }
+
     public override void OnStart()
     {
         _kinematicRigidBody2DComponent = Entity.GetComponent<KinematicRigidBody2DComponent>();
@@ -71,6 +82,10 @@ internal sealed class BlueBossComponent : BehaviorComponent
 
         _playerTransform = Query.GetPlayerTransform2DComponent(Scene);
 
+        _startPosition = _transform2DComponent.Translation;
+
+        _kinematicRigidBody2DComponent.EnableCollisionResponse = true;
+
         if (_enableDebugDraw)
         {
             var debugEntity = Scene.CreateEntity();
@@ -78,6 +93,14 @@ internal sealed class BlueBossComponent : BehaviorComponent
             _debugText = debugEntity.CreateComponent<TextRendererComponent>();
             _debugText.OrderInLayer = 10;
             _debugText.FontSize = FontSize.FromDips(10);
+        }
+    }
+
+    public override void OnRemove()
+    {
+        if (_enableDebugDraw)
+        {
+            _debugTransform?.Entity.RemoveAfterFixedTimeStep();
         }
     }
 
