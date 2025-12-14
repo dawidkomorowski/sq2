@@ -42,6 +42,7 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
 
     #region State variables
 
+    private int _idleCounter;
     private double _chaseSpeed;
     private int _rageChaseCounter;
     private int _shootCounter;
@@ -211,8 +212,16 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
 
         if (_stateTime >= TimeSpan.FromSeconds(2))
         {
-            var isJumpShoot = Random.Shared.Next(0, 2) == 0;
-            _state = isJumpShoot ? State.BeginJumpShoot : State.BeginShoot;
+            if (_idleCounter < 5)
+            {
+                _idleCounter++;
+                _state = State.BeginShoot;
+            }
+            else
+            {
+                _idleCounter = 0;
+                _state = State.BeginJumpShoot;
+            }
         }
     }
 
@@ -225,8 +234,15 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
 
         if (_stateTime >= chargeTime)
         {
-            var isRageChase = Random.Shared.Next(0, 2) == 0;
-            _state = isRageChase ? State.RageChase : State.Chase;
+            _state = _bossPhase switch
+            {
+                BossPhase.Phase1 => State.Chase,
+                BossPhase.Phase2 => Random.Shared.NextDouble() < 0.25 ? State.RageChase : State.Chase,
+                BossPhase.Phase3 => Random.Shared.NextDouble() < 0.5 ? State.RageChase : State.Chase,
+                BossPhase.Phase4 => Random.Shared.NextDouble() < 0.75 ? State.RageChase : State.Chase,
+                BossPhase.Phase5 => State.RageChase,
+                _ => throw new ArgumentOutOfRangeException()
+            };
 
             _rageChaseCounter = 0;
             var directionToPlayer = _playerTransform.Translation - _transform2DComponent.Translation;
@@ -283,10 +299,19 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
 
         if (_stateTime > TimeSpan.FromSeconds(1))
         {
-            _shootCounter = 0;
-            var patterns = Enum.GetValues<ShootPattern>();
-            _shootPattern = patterns[Random.Shared.Next(0, patterns.Length)];
+            var random = Random.Shared.NextDouble();
 
+            _shootPattern = _bossPhase switch
+            {
+                BossPhase.Phase1 => ShootPattern.Single,
+                BossPhase.Phase2 => random < 0.5 ? ShootPattern.Single : ShootPattern.Triple,
+                BossPhase.Phase3 => random < 0.25 ? ShootPattern.Single : random < 0.5 ? ShootPattern.Triple : ShootPattern.TripleTriple,
+                BossPhase.Phase4 => random < 0.25 ? ShootPattern.Triple : ShootPattern.TripleTriple,
+                BossPhase.Phase5 => ShootPattern.TripleTriple,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            _shootCounter = 0;
             _state = State.Shoot;
         }
     }
@@ -560,10 +585,29 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
 
     private enum BossPhase
     {
+        /// <summary>
+        ///     Starts with all spikes.
+        /// </summary>
         Phase1,
+
+        /// <summary>
+        ///     Starts with all spikes. Removes diagonal spikes after first jump shoot.
+        /// </summary>
         Phase2,
+
+        /// <summary>
+        ///     Starts with 6/8 spikes. Removes lower left/right spikes after second jump shoot.
+        /// </summary>
         Phase3,
+
+        /// <summary>
+        ///     Starts with 4/8 spikes. Removes upper left/right spikes after third jump shoot.
+        /// </summary>
         Phase4,
+
+        /// <summary>
+        ///     Starts with 2/8 spikes. Removes top spikes after fourth jump shoot.
+        /// </summary>
         Phase5
     }
 }
