@@ -133,7 +133,7 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
         if (_enableDebugDraw && _debugTransform is not null && _debugText is not null)
         {
             _debugTransform.Transform = new Transform2D(_transform2DComponent.Translation + new Vector2(-50, 40), 0, Vector2.One);
-            _debugText.Text = "Boss State: " + _state;
+            _debugText.Text = $"Boss State: {_state}{Environment.NewLine}Boss Phase: {_bossPhase}";
         }
 
         switch (_state)
