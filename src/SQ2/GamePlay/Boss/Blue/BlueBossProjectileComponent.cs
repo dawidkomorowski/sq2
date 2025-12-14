@@ -11,7 +11,7 @@ using SQ2.GamePlay.Player;
 
 namespace SQ2.GamePlay.Boss.Blue;
 
-internal sealed class BlueBossProjectileComponent : BehaviorComponent
+internal sealed class BlueBossProjectileComponent : BehaviorComponent, IRespawnable
 {
     private readonly bool _enableDebugDraw = DevConfig.DebugDraw.BlueBoss;
     private readonly IDebugRenderer _debugRenderer;
@@ -65,6 +65,11 @@ internal sealed class BlueBossProjectileComponent : BehaviorComponent
         {
             _debugRenderer.DrawRectangle(_hitBox.GetBoundingRectangle(), Color.FromArgb(255, 255, 255, 0), _transform2DComponent.ToMatrix());
         }
+    }
+
+    public void Respawn()
+    {
+        Entity.RemoveAfterFixedTimeStep();
     }
 }
 
