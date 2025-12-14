@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Geisha.Engine.Core.Components;
+﻿using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics.Components;
 using Geisha.Engine.Rendering.Components;
@@ -28,7 +27,7 @@ internal sealed class DestructibleWallComponent : BehaviorComponent, IRespawnabl
     {
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
         _spriteRendererComponent = Entity.GetComponent<SpriteRendererComponent>();
-        _cameraMovementComponent = Scene.RootEntities.Single(e => e.HasComponent<CameraMovementComponent>()).GetComponent<CameraMovementComponent>();
+        _cameraMovementComponent = Query.GetCameraMovementComponent(Scene);
 
         foreach (var entity in Scene.RootEntities)
         {

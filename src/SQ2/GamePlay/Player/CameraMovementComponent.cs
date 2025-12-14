@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Linq;
 using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
-using SQ2.GamePlay.Boss.Blue;
 using SQ2.GamePlay.Common;
 
 namespace SQ2.GamePlay.Player;
@@ -13,12 +11,13 @@ internal sealed class CameraMovementComponent : BehaviorComponent
 {
     private Transform2DComponent _cameraTransform = null!;
     private Transform2DComponent _playerTransform = null!;
-    private Transform2DComponent? _blueBossTransform;
     private TimeSpan _shakeDuration = TimeSpan.Zero;
 
     public CameraMovementComponent(Entity entity) : base(entity)
     {
     }
+
+    public Transform2DComponent? PointOfInterest { get; set; }
 
     public override void OnStart()
     {
@@ -26,12 +25,6 @@ internal sealed class CameraMovementComponent : BehaviorComponent
         _playerTransform = Query.GetPlayerTransform2DComponent(Scene);
 
         _cameraTransform.Translation = _playerTransform.InterpolatedTransform.Translation;
-
-        var bossEntity = Scene.RootEntities.SingleOrDefault(e => e.HasComponent<BlueBossComponent>());
-        if (bossEntity is not null)
-        {
-            _blueBossTransform = bossEntity.GetComponent<Transform2DComponent>();
-        }
     }
 
     public override void OnUpdate(GameTime gameTime)
@@ -40,11 +33,17 @@ internal sealed class CameraMovementComponent : BehaviorComponent
         var playerPosition = _playerTransform.InterpolatedTransform.Translation;
         var targetPosition = playerPosition;
 
-        // If player is close to blue boss, move camera to midpoint between player and boss.
-        if (_blueBossTransform is not null)
+        // Remove point of interest if its entity is removed.
+        if (PointOfInterest?.Entity.IsRemoved is true)
         {
-            var bossPosition = _blueBossTransform.InterpolatedTransform.Translation;
-            var distance = playerPosition.Distance(bossPosition);
+            PointOfInterest = null;
+        }
+
+        // If player is close to point of interest, move camera to midpoint between player and point of interest.
+        if (PointOfInterest is not null)
+        {
+            var poiPosition = PointOfInterest.InterpolatedTransform.Translation;
+            var distance = playerPosition.Distance(poiPosition);
 
             switch (distance)
             {
@@ -52,11 +51,11 @@ internal sealed class CameraMovementComponent : BehaviorComponent
                 {
                     // Interpolate between midpoint and player position based on distance for smooth transition.
                     var alpha = (distance - 200) / 100;
-                    targetPosition = Vector2.Lerp(playerPosition.Midpoint(bossPosition), playerPosition, alpha);
+                    targetPosition = Vector2.Lerp(playerPosition.Midpoint(poiPosition), playerPosition, alpha);
                     break;
                 }
                 case <= 200:
-                    targetPosition = playerPosition.Midpoint(bossPosition);
+                    targetPosition = playerPosition.Midpoint(poiPosition);
                     break;
             }
         }

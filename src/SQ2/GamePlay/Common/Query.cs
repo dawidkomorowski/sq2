@@ -30,6 +30,11 @@ internal static class Query
         return scene.RootEntities.Single(e => e.HasComponent<PlayerComponent>()).GetComponent<PlayerComponent>();
     }
 
+    public static CameraMovementComponent GetCameraMovementComponent(Scene scene)
+    {
+        return scene.RootEntities.Single(e => e.HasComponent<CameraMovementComponent>()).GetComponent<CameraMovementComponent>();
+    }
+
     public static bool TileHitTest(Scene scene, int tx, int ty)
     {
         var worldPosition = Geometry.GetWorldCoordinates(tx, ty);
