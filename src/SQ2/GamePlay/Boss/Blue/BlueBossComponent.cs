@@ -163,10 +163,16 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
                 OnShoot();
                 break;
             case State.BeginJumpShoot:
-                BeginJumpShoot();
+                OnBeginJumpShoot();
                 break;
             case State.JumpShoot:
-                JumpShoot(contacts);
+                OnJumpShoot(contacts);
+                break;
+            case State.BeginChaseShoot:
+                OnBeginChaseShoot();
+                break;
+            case State.ChaseShoot:
+                OnChaseShoot(contacts);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(_state), _state, $"Unexpected BlueBoss state: {_state}");
@@ -231,7 +237,7 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
                         break;
                     case BossPhase.Phase5:
                         _idleCounter++;
-                        _state = State.BeginChase;
+                        _state = State.BeginChaseShoot;
                         break;
                     case BossPhase.Phase6:
                         _idleCounter = 0;
@@ -274,12 +280,13 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
 
             _rageChaseCounter = 0;
             var directionToPlayer = _playerTransform.Translation - _transform2DComponent.Translation;
-            _chaseSpeed = Math.Sign(directionToPlayer.X) * 100f;
+            const double chaseSpeed = 100;
+            _chaseSpeed = Math.Sign(directionToPlayer.X) * chaseSpeed;
 
             // Ensure some speed in case the player is exactly above the boss.
             if (_chaseSpeed == 0)
             {
-                _chaseSpeed = 100f;
+                _chaseSpeed = chaseSpeed;
             }
         }
     }
@@ -412,7 +419,7 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
         }
     }
 
-    private void BeginJumpShoot()
+    private void OnBeginJumpShoot()
     {
         var directionToPlayer = _playerTransform.Translation - _transform2DComponent.Translation;
 
@@ -438,7 +445,7 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
         }
     }
 
-    private void JumpShoot(Contact2D[] contacts)
+    private void OnJumpShoot(Contact2D[] contacts)
     {
         if (_stateTime < TimeSpan.FromSeconds(1))
         {
@@ -519,6 +526,54 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
 
                 AdvanceBossPhase();
                 UpdateColliderBasedOnPhase();
+            }
+        }
+    }
+
+    private void OnBeginChaseShoot()
+    {
+        if (_spriteAnimationComponent.CurrentAnimation?.Name != Animations.Walk)
+        {
+            _spriteAnimationComponent.PlayAnimation(Animations.Walk);
+        }
+
+        var chargeTime = TimeSpan.FromSeconds(1);
+
+        _spriteAnimationComponent.PlaybackSpeed = 0.5 + 4 * _stateTime / chargeTime;
+
+        if (_stateTime >= chargeTime)
+        {
+            var directionToPlayer = _playerTransform.Translation - _transform2DComponent.Translation;
+            const double chaseSpeed = 50;
+            _chaseSpeed = Math.Sign(directionToPlayer.X) * chaseSpeed;
+
+            // Ensure some speed in case the player is exactly above the boss.
+            if (_chaseSpeed == 0)
+            {
+                _chaseSpeed = chaseSpeed;
+            }
+
+            _shootCounter = 0;
+            _state = State.ChaseShoot;
+        }
+    }
+
+    private void OnChaseShoot(Contact2D[] contacts)
+    {
+        if (_stateTime > TimeSpan.FromSeconds(0.6) * _shootCounter)
+        {
+            Shoot();
+            _shootCounter++;
+        }
+
+        _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(_chaseSpeed);
+
+        foreach (var contact2D in contacts)
+        {
+            if (contact2D.CollisionNormal.X * _chaseSpeed < 0)
+            {
+                _state = State.BeginIdle;
+                break;
             }
         }
     }
@@ -634,7 +689,9 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
         BeginShoot,
         Shoot,
         BeginJumpShoot,
-        JumpShoot
+        JumpShoot,
+        BeginChaseShoot,
+        ChaseShoot
     }
 
     private enum BossPhase
