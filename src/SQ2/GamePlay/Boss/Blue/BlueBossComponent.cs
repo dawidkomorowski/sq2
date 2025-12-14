@@ -18,7 +18,12 @@ namespace SQ2.GamePlay.Boss.Blue;
 
 internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
 {
-    internal static readonly Vector2 SpriteOffset = new(0, -1);
+    internal static readonly Vector2 SpriteOffset1 = new(0, -1);
+    private static readonly Vector2 SpriteOffset2 = new(0, 1);
+    internal static readonly Vector2 ColliderDimensions1 = new(34, 26);
+    private static readonly Vector2 ColliderDimensions2 = new(24, 26);
+    private static readonly Vector2 ColliderDimensions3 = new(24, 20);
+
     private readonly bool _enableDebugDraw = DevConfig.DebugDraw.BlueBoss;
 
     private readonly EntityFactory _entityFactory;
@@ -240,7 +245,7 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
                 BossPhase.Phase2 => Random.Shared.NextDouble() < 0.25 ? State.RageChase : State.Chase,
                 BossPhase.Phase3 => Random.Shared.NextDouble() < 0.5 ? State.RageChase : State.Chase,
                 BossPhase.Phase4 => Random.Shared.NextDouble() < 0.75 ? State.RageChase : State.Chase,
-                BossPhase.Phase5 => State.RageChase,
+                BossPhase.Phase5 or BossPhase.Phase6 => State.RageChase,
                 _ => throw new ArgumentOutOfRangeException()
             };
 
@@ -307,7 +312,7 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
                 BossPhase.Phase2 => random < 0.5 ? ShootPattern.Single : ShootPattern.Triple,
                 BossPhase.Phase3 => random < 0.25 ? ShootPattern.Single : random < 0.5 ? ShootPattern.Triple : ShootPattern.TripleTriple,
                 BossPhase.Phase4 => random < 0.25 ? ShootPattern.Triple : ShootPattern.TripleTriple,
-                BossPhase.Phase5 => ShootPattern.TripleTriple,
+                BossPhase.Phase5 or BossPhase.Phase6 => ShootPattern.TripleTriple,
                 _ => throw new ArgumentOutOfRangeException()
             };
 
@@ -490,6 +495,7 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
                 _state = State.BeginIdle;
 
                 AdvanceBossPhase();
+                UpdateColliderBasedOnPhase();
             }
         }
     }
@@ -533,6 +539,8 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
                 RemoveSpike("TopLeftSpike");
                 RemoveSpike("TopRightSpike");
                 break;
+            case BossPhase.Phase6:
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -557,9 +565,32 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
             BossPhase.Phase1 => BossPhase.Phase2,
             BossPhase.Phase2 => BossPhase.Phase3,
             BossPhase.Phase3 => BossPhase.Phase4,
-            BossPhase.Phase4 or BossPhase.Phase5 => BossPhase.Phase5,
+            BossPhase.Phase4 => BossPhase.Phase5,
+            BossPhase.Phase5 or BossPhase.Phase6 => BossPhase.Phase6,
             _ => throw new ArgumentOutOfRangeException()
         };
+    }
+
+    private void UpdateColliderBasedOnPhase()
+    {
+        switch (_bossPhase)
+        {
+            case BossPhase.Phase1:
+            case BossPhase.Phase2:
+            case BossPhase.Phase3:
+            case BossPhase.Phase4:
+                break;
+            case BossPhase.Phase5:
+                _rectangleColliderComponent.Dimensions = ColliderDimensions2;
+                break;
+            case BossPhase.Phase6:
+                _rectangleColliderComponent.Dimensions = ColliderDimensions3;
+                var spriteEntity = Entity.Children[0];
+                spriteEntity.GetComponent<Transform2DComponent>().Translation = SpriteOffset2;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     private enum ShootPattern
@@ -608,7 +639,12 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
         /// <summary>
         ///     Starts with 2/8 spikes. Removes top spikes after fourth jump shoot.
         /// </summary>
-        Phase5
+        Phase5,
+
+        /// <summary>
+        ///     Starts with no spikes.
+        /// </summary>
+        Phase6
     }
 }
 

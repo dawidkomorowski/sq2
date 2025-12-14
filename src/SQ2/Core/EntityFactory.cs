@@ -400,13 +400,13 @@ internal sealed class EntityFactory
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         transform2DComponent.IsInterpolated = true;
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
-        rectangleColliderComponent.Dimensions = new Vector2(34, 26);
+        rectangleColliderComponent.Dimensions = BlueBossComponent.ColliderDimensions1;
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
         kinematicRigidBody2DComponent.EnableCollisionResponse = false;
 
         var spriteEntity = entity.CreateChildEntity();
         var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
-        spriteTransform2DComponent.Translation = BlueBossComponent.SpriteOffset;
+        spriteTransform2DComponent.Translation = BlueBossComponent.SpriteOffset1;
         var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.OrderInLayer = 1;
         var spriteAnimationComponent = spriteEntity.CreateComponent<SpriteAnimationComponent>();
