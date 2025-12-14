@@ -215,7 +215,7 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
     {
         _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(0);
 
-        if (_stateTime >= TimeSpan.FromSeconds(2))
+        if (_stateTime >= TimeSpan.FromSeconds(1))
         {
             if (_idleCounter < 5)
             {
@@ -232,7 +232,11 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
 
     private void OnBeginChase()
     {
-        _spriteAnimationComponent.PlayAnimation(Animations.Walk);
+        if (_spriteAnimationComponent.CurrentAnimation?.Name != Animations.Walk)
+        {
+            _spriteAnimationComponent.PlayAnimation(Animations.Walk);
+        }
+
         var chargeTime = TimeSpan.FromSeconds(1);
 
         _spriteAnimationComponent.PlaybackSpeed = 0.5 + 4 * _stateTime / chargeTime;
