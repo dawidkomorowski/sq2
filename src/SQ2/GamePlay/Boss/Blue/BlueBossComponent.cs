@@ -220,8 +220,26 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
         {
             if (_idleCounter < 5)
             {
-                _idleCounter++;
-                _state = State.BeginShoot;
+                switch (_bossPhase)
+                {
+                    case BossPhase.Phase1:
+                    case BossPhase.Phase2:
+                    case BossPhase.Phase3:
+                    case BossPhase.Phase4:
+                        _idleCounter++;
+                        _state = State.BeginShoot;
+                        break;
+                    case BossPhase.Phase5:
+                        _idleCounter++;
+                        _state = State.BeginChase;
+                        break;
+                    case BossPhase.Phase6:
+                        _idleCounter = 0;
+                        _state = State.BeginChase;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
             else
             {
