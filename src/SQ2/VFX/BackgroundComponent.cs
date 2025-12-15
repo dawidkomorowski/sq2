@@ -30,7 +30,7 @@ internal sealed class BackgroundComponent : BehaviorComponent
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
         _cameraTransform = Entity.Scene.RootEntities.Single(e => e.HasComponent<CameraComponent>()).GetComponent<Transform2DComponent>();
 
-        const int halfWidthInTiles = 10;
+        const int halfWidthInTiles = 12;
         const int halfHeightInTiles = 6;
 
         for (var x = -halfWidthInTiles; x <= halfWidthInTiles; x++)
@@ -62,7 +62,7 @@ internal sealed class BackgroundComponent : BehaviorComponent
         var cameraPosition = _cameraTransform.Translation;
         var backgroundPosition = new Vector2
         (
-            Math.Floor(cameraPosition.X / 48) * 48 + (cameraPosition.X * 0.9) % 48,
+            Math.Round(cameraPosition.X / 48) * 48 + (cameraPosition.X * 0.9) % 48,
             cameraPosition.Y + 24
         );
         _transform2DComponent.Translation = backgroundPosition;
