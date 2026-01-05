@@ -5,6 +5,9 @@ using Geisha.Engine.Core.SceneModel;
 
 namespace SQ2.GamePlay.Enemies;
 
+/// <summary>
+/// Used to animate the death of a blue enemy and blue boss.
+/// </summary>
 internal sealed class BlueEnemyDeathAnimationComponent : BehaviorComponent
 {
     private Transform2DComponent _transform2DComponent = null!;

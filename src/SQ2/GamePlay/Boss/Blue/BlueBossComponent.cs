@@ -28,6 +28,7 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
 
     private readonly EntityFactory _entityFactory;
     private readonly IDebugRenderer _debugRenderer;
+    private readonly RespawnService _respawnService;
 
     private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;
@@ -63,20 +64,11 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
         public const string Shoot = "Shoot";
     }
 
-    public BlueBossComponent(Entity entity, EntityFactory entityFactory, IDebugRenderer debugRenderer) : base(entity)
+    public BlueBossComponent(Entity entity, EntityFactory entityFactory, IDebugRenderer debugRenderer, RespawnService respawnService) : base(entity)
     {
         _entityFactory = entityFactory;
         _debugRenderer = debugRenderer;
-    }
-
-    public void Respawn()
-    {
-        _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
-
-        Entity.RemoveAfterFixedTimeStep();
-
-        var (tx, ty) = Geometry.GetTileCoordinates(_startPosition);
-        _entityFactory.CreateBlueBoss(Scene, tx, ty);
+        _respawnService = respawnService;
     }
 
     public override void OnStart()
@@ -122,7 +114,25 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
             if (contact2D.OtherCollider.Entity.HasComponent<PlayerComponent>())
             {
                 var playerComponent = contact2D.OtherCollider.Entity.GetComponent<PlayerComponent>();
-                playerComponent.KillPlayer();
+
+                if (_bossPhase is not BossPhase.Phase6)
+                {
+                    playerComponent.KillPlayer();
+                }
+                else
+                {
+                    if (contact2D.CollisionNormal.Y < 0)
+                    {
+                        var playerKinematicComponent = playerComponent.Entity.GetComponent<KinematicRigidBody2DComponent>();
+                        playerKinematicComponent.LinearVelocity = playerKinematicComponent.LinearVelocity.WithY(200);
+
+                        Die();
+                    }
+                    else
+                    {
+                        playerComponent.KillPlayer();
+                    }
+                }
 
                 break;
             }
@@ -195,6 +205,32 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
         {
             _debugRenderer.DrawCircle(new Circle(_transform2DComponent.Translation, TriggerRadius), Color.FromArgb(255, 255, 255, 0));
         }
+    }
+
+    public void Respawn()
+    {
+        _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
+
+        Entity.RemoveAfterFixedTimeStep();
+
+        var (tx, ty) = Geometry.GetTileCoordinates(_startPosition);
+        _entityFactory.CreateBlueBoss(Scene, tx, ty);
+    }
+
+    private void Die()
+    {
+        _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
+
+        Entity.RemoveAfterFixedTimeStep();
+
+        _respawnService.AddOneTimeRespawnAction(() =>
+        {
+            var (tx, ty) = Geometry.GetTileCoordinates(_startPosition);
+            _entityFactory.CreateBlueBoss(Scene, tx, ty);
+        });
+
+        var offset = new Vector2(SpriteOffset2.X * _transform2DComponent.Scale.X, SpriteOffset2.Y);
+        _entityFactory.CreateBlueBossDeathAnimation(Scene, _transform2DComponent.Translation + offset, _transform2DComponent.Scale);
     }
 
     private void OnWaitingForPlayer()
@@ -734,12 +770,14 @@ internal sealed class BlueBossComponentFactory : ComponentFactory<BlueBossCompon
 {
     private readonly EntityFactory _entityFactory;
     private readonly IDebugRenderer _debugRenderer;
+    private readonly RespawnService _respawnService;
 
-    public BlueBossComponentFactory(EntityFactory entityFactory, IDebugRenderer debugRenderer)
+    public BlueBossComponentFactory(EntityFactory entityFactory, IDebugRenderer debugRenderer, RespawnService respawnService)
     {
         _entityFactory = entityFactory;
         _debugRenderer = debugRenderer;
+        _respawnService = respawnService;
     }
 
-    protected override BlueBossComponent CreateComponent(Entity entity) => new(entity, _entityFactory, _debugRenderer);
+    protected override BlueBossComponent CreateComponent(Entity entity) => new(entity, _entityFactory, _debugRenderer, _respawnService);
 }

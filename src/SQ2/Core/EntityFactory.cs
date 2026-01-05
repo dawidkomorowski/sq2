@@ -445,6 +445,18 @@ internal sealed class EntityFactory
         }
     }
 
+    public Entity CreateBlueBossDeathAnimation(Scene scene, Vector2 position, Vector2 scale)
+    {
+        var entity = scene.CreateEntity();
+        entity.CreateComponent<BlueEnemyDeathAnimationComponent>();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = position;
+        transform2DComponent.Scale = scale;
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("eb27541a-95e1-4a46-b49d-24c7c967d329")));
+        return entity;
+    }
+
     public Entity CreateBlueBossProjectile(Scene scene, Vector2 position, double rotation, Vector2 direction)
     {
         var entity = scene.CreateEntity();

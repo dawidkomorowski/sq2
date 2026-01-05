@@ -1,4 +1,7 @@
-﻿using Geisha.Engine.Core;
+﻿using System;
+using System.Linq;
+using Geisha.Engine.Animation.Components;
+using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Diagnostics;
 using Geisha.Engine.Core.Math;
@@ -8,13 +11,11 @@ using Geisha.Engine.Input.Components;
 using Geisha.Engine.Input.Mapping;
 using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
+using SQ2.Development;
+using SQ2.GamePlay.Boss.Blue;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Enemies;
 using SQ2.GamePlay.LevelGeometry;
-using System;
-using System.Linq;
-using Geisha.Engine.Animation.Components;
-using SQ2.Development;
 
 namespace SQ2.GamePlay.Player;
 
@@ -256,6 +257,12 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
                 // Ignore blue enemies when checking for ground because they automatically bounce the player.
                 if (contact2D.OtherCollider.Entity.Root.HasComponent<BlueEnemyComponent>())
+                {
+                    continue;
+                }
+
+                // Ignore blue boss when checking for ground because it automatically bounce the player.
+                if (contact2D.OtherCollider.Entity.Root.HasComponent<BlueBossComponent>())
                 {
                     continue;
                 }
