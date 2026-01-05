@@ -423,7 +423,7 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
     {
         var directionToPlayer = _playerTransform.Translation - _transform2DComponent.Translation;
 
-        if (directionToPlayer.Length > 100)
+        if (directionToPlayer.Length > 100 || _stateTime < TimeSpan.FromMilliseconds(250))
         {
             if (_spriteAnimationComponent.CurrentAnimation?.Name != Animations.Walk)
             {
