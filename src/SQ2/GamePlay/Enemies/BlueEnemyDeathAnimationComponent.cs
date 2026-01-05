@@ -12,6 +12,7 @@ internal sealed class BlueEnemyDeathAnimationComponent : BehaviorComponent
 {
     private Transform2DComponent _transform2DComponent = null!;
     private Transform2D _initialTransform;
+    private Transform2D _intermediateTransform;
     private Transform2D _targetTransform;
     private double _elapsedTime;
 
@@ -24,6 +25,11 @@ internal sealed class BlueEnemyDeathAnimationComponent : BehaviorComponent
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
 
         _initialTransform = _transform2DComponent.Transform;
+        _intermediateTransform = new Transform2D(
+            _initialTransform.Translation + new Vector2(0, -5.5),
+            _initialTransform.Rotation,
+            new Vector2(_initialTransform.Scale.X * 1.1, 0.5)
+        );
         _targetTransform = new Transform2D(
             _initialTransform.Translation + new Vector2(0, -11),
             _initialTransform.Rotation,
@@ -43,7 +49,15 @@ internal sealed class BlueEnemyDeathAnimationComponent : BehaviorComponent
         }
 
         var progress = _elapsedTime / animationDuration;
-        _transform2DComponent.Transform = Transform2D.Lerp(_initialTransform, _targetTransform, progress);
+        if (progress < 0.5)
+        {
+            var intermediateProgress = progress / 0.5;
+            _transform2DComponent.Transform = Transform2D.Lerp(_initialTransform, _intermediateTransform, intermediateProgress);
+            return;
+        }
+
+        progress = (progress - 0.5) / 0.5;
+        _transform2DComponent.Transform = Transform2D.Lerp(_intermediateTransform, _targetTransform, progress);
     }
 }
 
