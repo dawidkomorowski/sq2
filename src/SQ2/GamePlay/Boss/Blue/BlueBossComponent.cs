@@ -483,7 +483,8 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
         }
         else
         {
-            const int shootCount = 30;
+            var shootCount = _bossPhase is BossPhase.Phase5 ? 5 : 30;
+
             if (_transform2DComponent.Translation.Y - _positionBeforeJump.Y > 150 && (_shootCounter < shootCount || _transform2DComponent.Rotation != 0))
             {
                 _kinematicRigidBody2DComponent.LinearVelocity = new Vector2(0, 0);
