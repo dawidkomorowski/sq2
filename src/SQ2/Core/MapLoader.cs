@@ -75,6 +75,8 @@ internal sealed class MapLoader
                 var tx = w;
                 var ty = -h;
 
+                AssertNoFlippingFlags(tileLayer, tile, w, h);
+
                 switch (tile.Type)
                 {
                     case "WorldTile":
@@ -131,9 +133,11 @@ internal sealed class MapLoader
                         switch (tileType)
                         {
                             case "Geometry":
+                                AssertNoFlippingFlags(tileLayer, tile, w, h);
                                 _entityFactory.CreateGeometry(scene, tx, ty, assetId);
                                 break;
                             case "WaterDeep":
+                                AssertNoFlippingFlags(tileLayer, tile, w, h);
                                 _entityFactory.CreateWaterDeep(scene, tx, ty, assetId);
                                 break;
                             case "Spikes":
@@ -141,21 +145,27 @@ internal sealed class MapLoader
                                 _entityFactory.CreateSpikes(scene, tx, ty, assetId, orientation);
                                 break;
                             case "CheckPoint":
+                                AssertNoFlippingFlags(tileLayer, tile, w, h);
                                 _entityFactory.CreatePlayerCheckPoint(scene, tx, ty, assetId);
                                 break;
                             case "DropPlatform":
+                                AssertNoFlippingFlags(tileLayer, tile, w, h);
                                 _entityFactory.CreateDropPlatform(scene, tx, ty, assetId);
                                 break;
                             case "JumpPad":
+                                AssertNoFlippingFlags(tileLayer, tile, w, h);
                                 _entityFactory.CreateJumpPad(scene, tx, ty);
                                 break;
                             case "Ladder":
+                                AssertNoFlippingFlags(tileLayer, tile, w, h);
                                 _entityFactory.CreateLadder(scene, tx, ty, assetId);
                                 break;
                             case "Decor":
+                                AssertNoFlippingFlags(tileLayer, tile, w, h);
                                 _entityFactory.CreateDecor(scene, tx, ty, assetId, RenderingConfiguration.DefaultSortingLayerName, 0);
                                 break;
                             case "AnimatedDecor":
+                                AssertNoFlippingFlags(tileLayer, tile, w, h);
                                 _entityFactory.CreateAnimatedDecor(scene, tx, ty, assetId, RenderingConfiguration.DefaultSortingLayerName, 0);
                                 break;
                             default:
@@ -168,6 +178,8 @@ internal sealed class MapLoader
                     }
                     case "CharacterTile":
                     {
+                        AssertNoFlippingFlags(tileLayer, tile, w, h);
+
                         var characterType = tile.Properties["CharacterType"].StringValue;
                         switch (characterType)
                         {
@@ -298,5 +310,14 @@ internal sealed class MapLoader
         }
 
         throw new ArgumentOutOfRangeException(nameof(globalTileId), $"Unsupported tile id '{globalTileId}' for orientation.");
+    }
+
+    private static void AssertNoFlippingFlags(TileLayer tileLayer, Tile tile, int w, int h)
+    {
+        if (tile.GlobalTileId.HasFlippingFlags)
+        {
+            Logger.Error("Tile at position ({w}, {h}) in tile layer {tileLayer.Name} has flipping flags set. Flipping is not supported for this tile.", w, h,
+                tileLayer.Name);
+        }
     }
 }
