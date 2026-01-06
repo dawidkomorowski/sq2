@@ -193,6 +193,30 @@
    <property name="TileType" propertytype="TileType" value="AnimatedDecor"/>
   </properties>
  </tile>
+ <tile id="80" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="c4c0c5a4-7ae6-4c2d-8278-e83a23da4c45"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
+ <tile id="81" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="48ace2be-9b3b-4224-94f5-82fd346a5d93"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
+ <tile id="82" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="d4de5399-3e68-44f1-9e7e-ad0406156ab7"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
+ <tile id="83" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="1747051e-8d83-418a-b50d-5ea5aac816d8"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
  <tile id="86" type="WorldTile">
   <properties>
    <property name="AssetId" value="677b676e-d1c8-44c0-8c26-6ef0e5fcacbb"/>
@@ -227,6 +251,30 @@
   <properties>
    <property name="AssetId" value="b3217804-d057-4ff9-9efb-850604dff496"/>
    <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="100" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="8b675493-69c3-4a08-ba5c-457224e13a72"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
+ <tile id="101" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="5852c04f-d42d-43fc-bda3-59de1ae19f6a"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
+ <tile id="102" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="08b7c8c5-3790-42ef-a12d-c36fc225aebe"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
+ <tile id="103" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="a9ba869e-38bf-4a3c-baf9-eeb801aa22b7"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
   </properties>
  </tile>
  <tile id="105" type="WorldTile">
