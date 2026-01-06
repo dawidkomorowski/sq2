@@ -27,7 +27,8 @@ internal class SQ2Game : Game
                 StartUpSceneBehavior = "GameWorld",
                 CustomGameLoopSteps = new[] { "RespawnSystem" },
                 ShowFps = true,
-                ShowRootEntitiesCount = true
+                ShowRootEntitiesCount = true,
+                ShowGameLoopStatistics = false
             },
             Rendering = configuration.Rendering with
             {

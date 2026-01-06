@@ -47,7 +47,7 @@ internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
             _entityFactory.CreateDevControls(Scene);
             _entityFactory.CreateCamera(Scene);
 
-            var tmxPath = DevConfig.MapFile ?? Path.Combine("Assets", "Maps", "level_04.tmx");
+            var tmxPath = DevConfig.MapFile ?? Path.Combine("Assets", "Maps", "level_05.tmx");
             _mapLoader.LoadMap(Scene, tmxPath);
         }
     }
