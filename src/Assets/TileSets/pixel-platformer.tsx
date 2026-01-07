@@ -217,10 +217,21 @@
    <property name="TileType" propertytype="TileType" value="Geometry"/>
   </properties>
  </tile>
- <tile id="86" type="WorldTile">
+ <tile id="84" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="f4f37708-da49-432c-be07-46747d81a387"/>
+   <property name="TileType" propertytype="TileType" value="CheckPoint"/>
+  </properties>
+ </tile>
+ <tile id="85" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="2f32254d-f238-40f5-a0c7-94b6adec8059"/>
+   <property name="TileType" propertytype="TileType" value="CheckPoint"/>
+  </properties>
+ </tile>
+ <tile id="86">
   <properties>
    <property name="AssetId" value="677b676e-d1c8-44c0-8c26-6ef0e5fcacbb"/>
-   <property name="TileType" propertytype="TileType" value="CheckPoint"/>
   </properties>
  </tile>
  <tile id="87" type="WorldTile">

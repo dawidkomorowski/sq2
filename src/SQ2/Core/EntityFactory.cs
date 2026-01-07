@@ -47,11 +47,13 @@ internal sealed class EntityFactory
     public Entity CreateCheckPoint(Scene scene, int tx, int ty, AssetId assetId)
     {
         var entity = scene.CreateEntity();
-        entity.CreateComponent<CheckPointComponent>();
+        var checkPointComponent = entity.CreateComponent<CheckPointComponent>();
+        checkPointComponent.ActiveSprite = _assetStore.GetAsset<Sprite>(assetId);
+        checkPointComponent.InactiveSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("677b676e-d1c8-44c0-8c26-6ef0e5fcacbb")));
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
-        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+        spriteRendererComponent.Sprite = checkPointComponent.InactiveSprite;
         return entity;
     }
 

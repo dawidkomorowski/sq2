@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using Geisha.Engine.Core;
+﻿using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Core.Systems;
+using System.Collections.Generic;
+using Geisha.Engine.Rendering.Components;
 
 namespace SQ2.GamePlay.Player;
 
@@ -25,6 +26,12 @@ internal sealed class CheckPointSystem : ICustomSystem
                 if (_playerTransform.Translation.Distance(checkPointTransform.Translation) < 10)
                 {
                     _playerComponent.ActiveCheckPoint = checkPoint;
+
+                    foreach (var cp in _checkPoints)
+                    {
+                        var spriteRenderer = cp.Entity.GetComponent<SpriteRendererComponent>();
+                        spriteRenderer.Sprite = cp == checkPoint ? cp.ActiveSprite : cp.InactiveSprite;
+                    }
                 }
             }
         }
