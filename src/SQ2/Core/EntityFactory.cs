@@ -44,10 +44,10 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreatePlayerCheckPoint(Scene scene, int tx, int ty, AssetId assetId)
+    public Entity CreateCheckPoint(Scene scene, int tx, int ty, AssetId assetId)
     {
         var entity = scene.CreateEntity();
-        entity.CreateComponent<PlayerCheckPointComponent>();
+        entity.CreateComponent<CheckPointComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();

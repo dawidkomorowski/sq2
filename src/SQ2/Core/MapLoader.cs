@@ -146,7 +146,7 @@ internal sealed class MapLoader
                                 break;
                             case "CheckPoint":
                                 AssertNoFlippingFlags(tileLayer, tile, w, h);
-                                _entityFactory.CreatePlayerCheckPoint(scene, tx, ty, assetId);
+                                _entityFactory.CreateCheckPoint(scene, tx, ty, assetId);
                                 break;
                             case "DropPlatform":
                                 AssertNoFlippingFlags(tileLayer, tile, w, h);

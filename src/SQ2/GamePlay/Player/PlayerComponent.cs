@@ -54,8 +54,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
     // Respawn and Checkpoints
     private readonly RespawnService _respawnService;
     private PlayerSpawnPointComponent _playerSpawnPointComponent = null!;
-    private PlayerCheckPointComponent[] _checkPoints = Array.Empty<PlayerCheckPointComponent>();
-    private int _currentCheckPointIndex = -1;
+    internal CheckPointComponent? ActiveCheckPoint { get; set; }
 
     public PlayerComponent(Entity entity, IDebugRenderer debugRenderer, RespawnService respawnService) : base(entity)
     {
@@ -137,11 +136,6 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
         _playerSpawnPointComponent = Scene.RootEntities.Single(e => e.HasComponent<PlayerSpawnPointComponent>()).GetComponent<PlayerSpawnPointComponent>();
 
-        _checkPoints = Scene.RootEntities
-            .Where(e => e.HasComponent<PlayerCheckPointComponent>())
-            .Select(e => e.GetComponent<PlayerCheckPointComponent>())
-            .ToArray();
-
         _ladderHitBoxes = Scene.RootEntities
             .Where(e => e.HasComponent<LadderComponent>())
             .Select(e => e.GetComponent<LadderComponent>().HitBox)
@@ -193,16 +187,6 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
         Movement.UpdateHorizontalSpriteFacing(_transform2DComponent, _kinematicBodyComponent);
 
         UpdateAnimationState(_kinematicBodyComponent.LinearVelocity, isOnGround, isOnLadder);
-
-        // Check for checkpoints.
-        for (var i = 0; i < _checkPoints.Length; i++)
-        {
-            var checkPointComponent = _checkPoints[i];
-            if (checkPointComponent.Entity.GetComponent<Transform2DComponent>().Translation.Distance(_transform2DComponent.Translation) < 10)
-            {
-                _currentCheckPointIndex = i;
-            }
-        }
     }
 
     public override void OnUpdate(GameTime gameTime)
@@ -473,26 +457,18 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
     {
         _kinematicBodyComponent.LinearVelocity = Vector2.Zero;
 
-        if (_currentCheckPointIndex < 0)
+        if (ActiveCheckPoint is null)
         {
             _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with
             {
                 Translation = _playerSpawnPointComponent.Entity.GetComponent<Transform2DComponent>().Translation
-            });
-        }
-        else if (_currentCheckPointIndex < _checkPoints.Length)
-        {
-            _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with
-            {
-                Translation = _checkPoints[_currentCheckPointIndex].Entity.GetComponent<Transform2DComponent>().Translation
             });
         }
         else
         {
-            // No more checkpoints, respawn at the start.
             _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with
             {
-                Translation = _playerSpawnPointComponent.Entity.GetComponent<Transform2DComponent>().Translation
+                Translation = ActiveCheckPoint.Entity.GetComponent<Transform2DComponent>().Translation
             });
         }
     }

@@ -25,7 +25,7 @@ internal class SQ2Game : Game
             Core = configuration.Core with
             {
                 StartUpSceneBehavior = "GameWorld",
-                CustomGameLoopSteps = new[] { "RespawnSystem" },
+                CustomGameLoopSteps = new[] { "CheckPointSystem", "RespawnSystem" },
                 ShowFps = true,
                 ShowRootEntitiesCount = true,
                 ShowGameLoopStatistics = false
@@ -65,13 +65,14 @@ internal class SQ2Game : Game
         // Gameplay systems and services
         componentsRegistry.RegisterSingleInstance<RespawnService>();
         componentsRegistry.RegisterSystem<RespawnSystem>();
+        componentsRegistry.RegisterSystem<CheckPointSystem>();
 
         // Gameplay components
         // Player
         componentsRegistry.RegisterComponentFactory<CameraMovementComponentFactory>();
         componentsRegistry.RegisterComponentFactory<PlayerComponentFactory>();
         componentsRegistry.RegisterComponentFactory<PlayerSpawnPointComponentFactory>();
-        componentsRegistry.RegisterComponentFactory<PlayerCheckPointComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<CheckPointComponentFactory>();
         // Enemies
         componentsRegistry.RegisterComponentFactory<BlueEnemyComponentFactory>();
         componentsRegistry.RegisterComponentFactory<BlueEnemyDeathAnimationComponentFactory>();
