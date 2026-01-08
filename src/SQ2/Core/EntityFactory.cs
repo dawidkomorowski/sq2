@@ -149,14 +149,19 @@ internal sealed class EntityFactory
         var rectangleColliderComponent = collisionEntity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(GlobalSettings.TileSize.Width - 2, GlobalSettings.TileSize.Height / 2d - 2);
 
-        transform2DComponent.Rotation = orientation switch
+        transform2DComponent.Rotation = orientation.Direction switch
         {
-            Orientation.Up => 0,
-            Orientation.Down => Math.PI,
-            Orientation.Left => Math.PI / 2,
-            Orientation.Right => -Math.PI / 2,
+            Direction.Up => 0,
+            Direction.Down => Math.PI,
+            Direction.Left => Math.PI / 2,
+            Direction.Right => -Math.PI / 2,
             _ => transform2DComponent.Rotation
         };
+
+        if (orientation.Flip is not Flip.None)
+        {
+            throw new InvalidOperationException("Flipping is not supported for spikes.");
+        }
 
         return entity;
     }
@@ -224,7 +229,7 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateLadder(Scene scene, int tx, int ty, AssetId assetId)
+    public Entity CreateLadder(Scene scene, int tx, int ty, AssetId assetId, Orientation orientation)
     {
         var entity = scene.CreateEntity();
         var ladderComponent = entity.CreateComponent<LadderComponent>();
@@ -234,6 +239,20 @@ internal sealed class EntityFactory
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
 
         ladderComponent.HitBox = new AxisAlignedRectangle(transform2DComponent.Translation, new Vector2(9, 9));
+
+        if (orientation.Direction is not Direction.Up)
+        {
+            throw new InvalidOperationException("Rotation is not supported for ladders.");
+        }
+
+        transform2DComponent.Scale = orientation.Flip switch
+        {
+            Flip.None => new Vector2(1, 1),
+            Flip.Horizontal => new Vector2(-1, 1),
+            Flip.Vertical => new Vector2(1, -1),
+            Flip.HorizontalAndVertical => new Vector2(-1, -1),
+            _ => throw new ArgumentOutOfRangeException()
+        };
 
         return entity;
     }

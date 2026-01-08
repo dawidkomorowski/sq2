@@ -141,9 +141,11 @@ internal sealed class MapLoader
                                 _entityFactory.CreateWaterDeep(scene, tx, ty, assetId);
                                 break;
                             case "Spikes":
+                            {
                                 var orientation = GetOrientationFromGlobalTileId(tile.GlobalTileId);
                                 _entityFactory.CreateSpikes(scene, tx, ty, assetId, orientation);
                                 break;
+                            }
                             case "CheckPoint":
                                 AssertNoFlippingFlags(tileLayer, tile, w, h);
                                 _entityFactory.CreateCheckPoint(scene, tx, ty, assetId);
@@ -157,9 +159,11 @@ internal sealed class MapLoader
                                 _entityFactory.CreateJumpPad(scene, tx, ty);
                                 break;
                             case "Ladder":
-                                AssertNoFlippingFlags(tileLayer, tile, w, h);
-                                _entityFactory.CreateLadder(scene, tx, ty, assetId);
+                            {
+                                var orientation = GetOrientationFromGlobalTileId(tile.GlobalTileId);
+                                _entityFactory.CreateLadder(scene, tx, ty, assetId, orientation);
                                 break;
+                            }
                             case "Decor":
                                 AssertNoFlippingFlags(tileLayer, tile, w, h);
                                 _entityFactory.CreateDecor(scene, tx, ty, assetId, RenderingConfiguration.DefaultSortingLayerName, 0);
@@ -291,22 +295,27 @@ internal sealed class MapLoader
     {
         if (!globalTileId.HasFlippingFlags)
         {
-            return Orientation.Up;
+            return new Orientation(Direction.Up, Flip.None);
         }
 
         if (globalTileId is { FlippedHorizontally: true, FlippedVertically: true, FlippedDiagonally: false })
         {
-            return Orientation.Down;
+            return new Orientation(Direction.Down, Flip.None);
         }
 
         if (globalTileId is { FlippedHorizontally: true, FlippedVertically: false, FlippedDiagonally: true })
         {
-            return Orientation.Right;
+            return new Orientation(Direction.Right, Flip.None);
         }
 
         if (globalTileId is { FlippedHorizontally: false, FlippedVertically: true, FlippedDiagonally: true })
         {
-            return Orientation.Left;
+            return new Orientation(Direction.Left, Flip.None);
+        }
+
+        if (globalTileId is { FlippedHorizontally: false, FlippedVertically: true, FlippedDiagonally: false })
+        {
+            return new Orientation(Direction.Up, Flip.Vertical);
         }
 
         throw new ArgumentOutOfRangeException(nameof(globalTileId), $"Unsupported tile id '{globalTileId}' for orientation.");
