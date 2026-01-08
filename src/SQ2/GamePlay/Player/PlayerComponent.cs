@@ -184,6 +184,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
             _kinematicBodyComponent.LinearVelocity = linearVelocity;
         }
 
+        UpdateHorizontalSpriteFacing();
         UpdateAnimationState(_kinematicBodyComponent.LinearVelocity, isOnGround, isOnLadder);
     }
 
@@ -270,12 +271,6 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
             var effectiveAcceleration = linearVelocity.X > 0 ? deceleration : acceleration;
             var verticalVelocity = linearVelocity.X - effectiveAcceleration * GameTime.FixedDeltaTimeSeconds;
             linearVelocity = linearVelocity.WithX(verticalVelocity);
-
-            // Update sprite facing according to user input, not velocity - left
-            if (_transform2DComponent.Transform.Scale.X < 0)
-            {
-                _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with { Scale = new Vector2(1, 1) });
-            }
         }
 
         if (moveRightState && !moveLeftState)
@@ -283,12 +278,6 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
             var effectiveAcceleration = linearVelocity.X < 0 ? deceleration : acceleration;
             var verticalVelocity = linearVelocity.X + effectiveAcceleration * GameTime.FixedDeltaTimeSeconds;
             linearVelocity = linearVelocity.WithX(verticalVelocity);
-
-            // Update sprite facing according to user input, not velocity - right
-            if (_transform2DComponent.Transform.Scale.X > 0)
-            {
-                _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with { Scale = new Vector2(-1, 1) });
-            }
         }
 
         if (moveLeftState == moveRightState)
@@ -455,6 +444,26 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
                 _spriteAnimationComponent.Pause();
                 _spriteAnimationComponent.Position = 0.5;
             }
+        }
+    }
+
+    /// <summary>
+    ///     Updates the horizontal facing of the player's sprite based on user input, not based on velocity like for other
+    ///     entities.
+    /// </summary>
+    private void UpdateHorizontalSpriteFacing()
+    {
+        var moveLeftState = _inputComponent.GetActionState(MoveLeftAction);
+        var moveRightState = _inputComponent.GetActionState(MoveRightAction);
+
+        if (moveLeftState && !moveRightState && _transform2DComponent.Transform.Scale.X < 0)
+        {
+            _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with { Scale = new Vector2(1, 1) });
+        }
+
+        if (moveRightState && !moveLeftState && _transform2DComponent.Transform.Scale.X > 0)
+        {
+            _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with { Scale = new Vector2(-1, 1) });
         }
     }
 
