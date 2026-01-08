@@ -381,7 +381,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
         if (jumpState && !_lastJumpState)
         {
             var jumpDirection = -Math.Sign(_transform2DComponent.Scale.X);
-            linearVelocity += new Vector2(150 * jumpDirection, 50);
+            linearVelocity = new Vector2(150 * jumpDirection, 50);
             _reclimbAfterJumpCooldown = 10; // Prevent re-climbing immediately after jump
         }
 
