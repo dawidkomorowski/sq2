@@ -32,8 +32,7 @@ internal class SQ2Game : Game
             },
             Rendering = configuration.Rendering with
             {
-                ScreenWidth = DevConfig.WindowSize?.Width ?? GlobalSettings.WindowSize.Width,
-                ScreenHeight = DevConfig.WindowSize?.Height ?? GlobalSettings.WindowSize.Height,
+                ScreenSize = DevConfig.WindowSize ?? GlobalSettings.WindowSize,
                 SortingLayersOrder = new[]
                 {
                     GlobalSettings.SortingLayers.Background,
@@ -46,7 +45,7 @@ internal class SQ2Game : Game
             Physics = configuration.Physics with
             {
                 TileSize = GlobalSettings.TileSize,
-                RenderCollisionGeometry = false
+                EnableDebugRendering = false
             }
         };
 
