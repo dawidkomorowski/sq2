@@ -152,7 +152,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
         }
 
         var isOnGround = IsOnGround(contacts);
-        var isOnLadder = IsOnLadder();
+        var isOnLadder = IsOnLadder(_transform2DComponent.Translation);
 
         if (_reclimbAfterJumpCooldown > 0)
         {
@@ -332,9 +332,9 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
         return linearVelocity;
     }
 
-    private bool IsOnLadder()
+    private bool IsOnLadder(in Vector2 translation)
     {
-        var playerHitBox = new AxisAlignedRectangle(_transform2DComponent.Translation, _ladderClimbRange);
+        var playerHitBox = new AxisAlignedRectangle(translation, _ladderClimbRange);
         foreach (var ladderHitBox in _ladderHitBoxes)
         {
             if (ladderHitBox.Overlaps(playerHitBox)) return true;
@@ -376,13 +376,21 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
         linearVelocity = linearVelocity.OfLength(climbSpeed);
 
+        // Prevent climbing out of ladder upwards.
+        var newTranslation = _transform2DComponent.Translation + linearVelocity * GameTime.FixedDeltaTimeSeconds;
+        if (!IsOnLadder(newTranslation) && linearVelocity.Y > 0)
+        {
+            linearVelocity = linearVelocity.WithY(0);
+        }
+
+        // Jumping off the ladder.
         var jumpState = _inputComponent.GetActionState(JumpAction);
 
         if (jumpState && !_lastJumpState)
         {
             var jumpDirection = -Math.Sign(_transform2DComponent.Scale.X);
             linearVelocity = new Vector2(150 * jumpDirection, 50);
-            _reclimbAfterJumpCooldown = 10; // Prevent re-climbing immediately after jump
+            _reclimbAfterJumpCooldown = 10; // Prevent re-climbing immediately after jump.
         }
 
         _lastJumpState = jumpState;
