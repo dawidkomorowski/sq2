@@ -260,7 +260,7 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
 
         if (_stateTime >= TimeSpan.FromSeconds(1))
         {
-            if (_idleCounter < 5)
+            if (_idleCounter < 3)
             {
                 switch (_bossPhase)
                 {
