@@ -94,7 +94,7 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateDecor(Scene scene, int tx, int ty, AssetId assetId, string sortingLayerName, int layerIndex)
+    public Entity CreateDecor(Scene scene, int tx, int ty, AssetId assetId, Orientation orientation, string sortingLayerName, int layerIndex)
     {
         var entity = scene.CreateEntity();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
@@ -103,10 +103,14 @@ internal sealed class EntityFactory
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
         spriteRendererComponent.SortingLayerName = sortingLayerName;
         spriteRendererComponent.OrderInLayer = layerIndex * 10; // Multiply by 10 to leave space for other entities in the same layer
+
+        transform2DComponent.Rotation = orientation.GetRotation();
+        transform2DComponent.Scale = orientation.GetScale();
+
         return entity;
     }
 
-    public Entity CreateAnimatedDecor(Scene scene, int tx, int ty, AssetId assetId, string sortingLayerName, int layerIndex)
+    public Entity CreateAnimatedDecor(Scene scene, int tx, int ty, AssetId assetId, Orientation orientation, string sortingLayerName, int layerIndex)
     {
         var entity = scene.CreateEntity();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
@@ -118,6 +122,10 @@ internal sealed class EntityFactory
         spriteAnimationComponent.AddAnimation("Animation", _assetStore.GetAsset<SpriteAnimation>(assetId));
         spriteAnimationComponent.PlayInLoop = true;
         spriteAnimationComponent.PlayAnimation("Animation");
+
+        transform2DComponent.Rotation = orientation.GetRotation();
+        transform2DComponent.Scale = orientation.GetScale();
+
         return entity;
     }
 
@@ -149,14 +157,7 @@ internal sealed class EntityFactory
         var rectangleColliderComponent = collisionEntity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(GlobalSettings.TileSize.Width - 2, GlobalSettings.TileSize.Height / 2d - 2);
 
-        transform2DComponent.Rotation = orientation.Direction switch
-        {
-            Direction.Up => 0,
-            Direction.Down => Math.PI,
-            Direction.Left => Math.PI / 2,
-            Direction.Right => -Math.PI / 2,
-            _ => transform2DComponent.Rotation
-        };
+        transform2DComponent.Rotation = orientation.GetRotation();
 
         if (orientation.Flip is not Flip.None)
         {
@@ -245,14 +246,7 @@ internal sealed class EntityFactory
             throw new InvalidOperationException("Rotation is not supported for ladders.");
         }
 
-        transform2DComponent.Scale = orientation.Flip switch
-        {
-            Flip.None => new Vector2(1, 1),
-            Flip.Horizontal => new Vector2(-1, 1),
-            Flip.Vertical => new Vector2(1, -1),
-            Flip.HorizontalAndVertical => new Vector2(-1, -1),
-            _ => throw new ArgumentOutOfRangeException()
-        };
+        transform2DComponent.Scale = orientation.GetScale();
 
         return entity;
     }

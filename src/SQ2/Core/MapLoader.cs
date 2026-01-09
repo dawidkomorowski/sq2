@@ -75,7 +75,7 @@ internal sealed class MapLoader
                 var tx = w;
                 var ty = -h;
 
-                AssertNoFlippingFlags(tileLayer, tile, w, h);
+                var orientation = GetOrientationFromGlobalTileId(tile.GlobalTileId);
 
                 switch (tile.Type)
                 {
@@ -88,10 +88,10 @@ internal sealed class MapLoader
                             case "Geometry":
                             case "WaterDeep":
                             case "Decor":
-                                _entityFactory.CreateDecor(scene, tx, ty, assetId, sortingLayerName, layerIndex);
+                                _entityFactory.CreateDecor(scene, tx, ty, assetId, orientation, sortingLayerName, layerIndex);
                                 break;
                             case "AnimatedDecor":
-                                _entityFactory.CreateAnimatedDecor(scene, tx, ty, assetId, sortingLayerName, layerIndex);
+                                _entityFactory.CreateAnimatedDecor(scene, tx, ty, assetId, orientation, sortingLayerName, layerIndex);
                                 break;
                             default:
                                 Logger.Error("Unknown WorldTile: {TileType} at position ({w}, {h}) in tile layer {tileLayer.Name}", tileType, w, h,
@@ -165,13 +165,17 @@ internal sealed class MapLoader
                                 break;
                             }
                             case "Decor":
-                                AssertNoFlippingFlags(tileLayer, tile, w, h);
-                                _entityFactory.CreateDecor(scene, tx, ty, assetId, RenderingConfiguration.DefaultSortingLayerName, 0);
+                            {
+                                var orientation = GetOrientationFromGlobalTileId(tile.GlobalTileId);
+                                _entityFactory.CreateDecor(scene, tx, ty, assetId, orientation, RenderingConfiguration.DefaultSortingLayerName, 0);
                                 break;
+                            }
                             case "AnimatedDecor":
-                                AssertNoFlippingFlags(tileLayer, tile, w, h);
-                                _entityFactory.CreateAnimatedDecor(scene, tx, ty, assetId, RenderingConfiguration.DefaultSortingLayerName, 0);
+                            {
+                                var orientation = GetOrientationFromGlobalTileId(tile.GlobalTileId);
+                                _entityFactory.CreateAnimatedDecor(scene, tx, ty, assetId, orientation, RenderingConfiguration.DefaultSortingLayerName, 0);
                                 break;
+                            }
                             default:
                                 Logger.Error("Unknown WorldTile: {TileType} at position ({w}, {h}) in tile layer {tileLayer.Name}", tileType, w, h,
                                     tileLayer.Name);
@@ -316,6 +320,21 @@ internal sealed class MapLoader
         if (globalTileId is { FlippedHorizontally: false, FlippedVertically: true, FlippedDiagonally: false })
         {
             return new Orientation(Direction.Up, Flip.Vertical);
+        }
+
+        if (globalTileId is { FlippedHorizontally: true, FlippedVertically: false, FlippedDiagonally: false })
+        {
+            return new Orientation(Direction.Up, Flip.Horizontal);
+        }
+
+        if (globalTileId is { FlippedHorizontally: false, FlippedVertically: false, FlippedDiagonally: true })
+        {
+            return new Orientation(Direction.Left, Flip.Horizontal);
+        }
+
+        if (globalTileId is { FlippedHorizontally: true, FlippedVertically: true, FlippedDiagonally: true })
+        {
+            return new Orientation(Direction.Right, Flip.Horizontal);
         }
 
         throw new ArgumentOutOfRangeException(nameof(globalTileId), $"Unsupported tile id '{globalTileId}' for orientation.");
