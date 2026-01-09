@@ -37,6 +37,30 @@
    <property name="TileType" propertytype="TileType" value="Geometry"/>
   </properties>
  </tile>
+ <tile id="16" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="f26f198b-1fbe-4e54-810b-4955b0e6a965"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="17" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="9d020029-9be7-4cd4-bf28-150c5b9e6705"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="18" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="fad9fc01-45b6-4306-80cb-c1d4efd044b5"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="19" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="72163437-de25-40d0-a929-10da4ca96857"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
  <tile id="20" type="WorldTile">
   <properties>
    <property name="AssetId" value="96aff3c6-ef21-4ecb-b2ec-5cb4ef39dc29"/>
@@ -91,6 +115,30 @@
    <property name="TileType" propertytype="TileType" value="AnimatedDecor"/>
   </properties>
  </tile>
+ <tile id="36" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="99ebcc25-da8c-4c4c-bef7-8c1b25c5b2f4"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="37" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="27452f2c-1e3a-46e8-9a23-b84dfe529d7a"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="38" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="57cd75e3-767b-4d76-87aa-a249fac423a2"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="39" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="7bc18131-4dac-4a32-9f37-2149f62bea88"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
  <tile id="40" type="WorldTile">
   <properties>
    <property name="AssetId" value="36fbdd3d-7dfe-4e24-8dc4-6963e989cd3a"/>
@@ -137,6 +185,30 @@
   <properties>
    <property name="AssetId" value="0cb7b3f3-02ad-4661-9a43-8d4877bc9369"/>
    <property name="TileType" propertytype="TileType" value="AnimatedDecor"/>
+  </properties>
+ </tile>
+ <tile id="56" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="12852529-a378-4ff4-b77e-e8135dacd698"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="57" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="00166542-636e-4b10-9ec1-5a3516e4fe85"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="58" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="01735d90-ba8f-40d9-9620-cece968db8c5"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="59" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="a351b79f-5598-4364-8564-1d30b24cc884"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
   </properties>
  </tile>
  <tile id="60" type="WorldTile">
@@ -191,6 +263,30 @@
   <properties>
    <property name="AssetId" value="84bee01f-7661-46e1-8623-bbfaacae6ca4"/>
    <property name="TileType" propertytype="TileType" value="AnimatedDecor"/>
+  </properties>
+ </tile>
+ <tile id="76" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="42b7744a-2922-477d-964f-aea043cd97b6"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="77" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="582626c0-6fec-4bd1-937c-96157c6929a0"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="78" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="85d3c6d9-b604-459a-b364-ce9bfa44d8a9"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="79" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="4f2dfbca-d4a0-4a45-be38-29f553e54b0d"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
   </properties>
  </tile>
  <tile id="80" type="WorldTile">
@@ -264,6 +360,30 @@
    <property name="TileType" propertytype="TileType" value="Decor"/>
   </properties>
  </tile>
+ <tile id="96" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="f1b81b1a-299d-4017-af44-d655a475a1e1"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="97" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="ae7fc21f-c4cf-48cf-9620-ad377ccdad57"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="98" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="41595e2a-bf44-4875-bd48-493331fa1fd2"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="99" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="df8d34d0-dad6-4d74-a2ea-e4e216099bce"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
  <tile id="100" type="WorldTile">
   <properties>
    <property name="AssetId" value="8b675493-69c3-4a08-ba5c-457224e13a72"/>
@@ -321,6 +441,30 @@
  <tile id="115" type="WorldTile">
   <properties>
    <property name="AssetId" value="20945fbe-277e-4fe0-bf52-263ddf5446a0"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="116" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="7008149f-74b4-4b49-a596-46b1b161fbf4"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="117" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="b80c9041-4625-4fc8-8523-79f91fcbb43c"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="118" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="0877c459-1a3f-4ef8-88d2-e53a2cecf77c"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="119" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="70eaeb95-8392-4a41-a889-dda08d1c9d5a"/>
    <property name="TileType" propertytype="TileType" value="Decor"/>
   </properties>
  </tile>
@@ -405,6 +549,30 @@
  <tile id="135" type="WorldTile">
   <properties>
    <property name="AssetId" value="30829d3c-4270-42d3-8ae2-e425ce65436b"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="136" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="eadfbed4-3ccb-488b-9feb-a5d91783648a"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="137" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="f64aa672-5571-43f8-9817-2518970b8dfa"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="138" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="37c2fc63-8b78-482f-995c-3932efe33054"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="139" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="c935bdbc-c200-468f-a17f-f29e24301880"/>
    <property name="TileType" propertytype="TileType" value="Decor"/>
   </properties>
  </tile>
