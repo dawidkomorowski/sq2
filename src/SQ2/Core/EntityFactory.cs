@@ -83,14 +83,21 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateGeometry(Scene scene, int tx, int ty, AssetId assetId)
+    public Entity CreateGeometry(Scene scene, int tx, int ty, AssetId assetId, Orientation orientation)
     {
         var entity = scene.CreateEntity();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
-        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
-        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
         entity.CreateComponent<TileColliderComponent>();
+
+        var spriteEntity = entity.CreateChildEntity();
+        var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
+        var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+
+        spriteTransform2DComponent.Rotation = orientation.GetRotation();
+        spriteTransform2DComponent.Scale = orientation.GetScale();
+
         return entity;
     }
 

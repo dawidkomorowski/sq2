@@ -133,9 +133,11 @@ internal sealed class MapLoader
                         switch (tileType)
                         {
                             case "Geometry":
-                                AssertNoFlippingFlags(tileLayer, tile, w, h);
-                                _entityFactory.CreateGeometry(scene, tx, ty, assetId);
+                            {
+                                var orientation = GetOrientationFromGlobalTileId(tile.GlobalTileId);
+                                _entityFactory.CreateGeometry(scene, tx, ty, assetId, orientation);
                                 break;
+                            }
                             case "WaterDeep":
                                 AssertNoFlippingFlags(tileLayer, tile, w, h);
                                 _entityFactory.CreateWaterDeep(scene, tx, ty, assetId);
