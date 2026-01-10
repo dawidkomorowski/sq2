@@ -21,10 +21,12 @@ public class MapLoadingTests
     {
         var mapsDirPath = Path.Combine(SrcPath, "Assets", "Maps");
         var testMapsDirPath = Path.Combine(SrcPath, "Tiled", "TestMaps");
+        var montyPythonTests = Path.Combine(SrcPath, "Tiled", "MontyPythonTests");
 
         var mapFilePaths = Directory.GetFiles(mapsDirPath, "*.tmx");
         var testMapFilePaths = Directory.GetFiles(testMapsDirPath, "*.tmx");
-        return mapFilePaths.Concat(testMapFilePaths).Select(Path.GetFullPath).ToArray();
+        var montyPythonTestMapFilePaths = Directory.GetFiles(montyPythonTests, "*.tmx");
+        return mapFilePaths.Concat(testMapFilePaths).Concat(montyPythonTestMapFilePaths).Select(Path.GetFullPath).ToArray();
     }
 
     [TestCaseSource(nameof(GetMapFilePaths))]
