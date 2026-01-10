@@ -155,7 +155,8 @@
                 "Ladder",
                 "WaterDeep",
                 "Decor",
-                "AnimatedDecor"
+                "AnimatedDecor",
+                "VanishPlatform"
             ],
             "valuesAsFlags": false
         },

@@ -218,6 +218,20 @@ internal sealed class EntityFactory
         return entity;
     }
 
+    public Entity CreateVanishPlatform(Scene scene, int tx, int ty, AssetId assetId)
+    {
+        var entity = scene.CreateEntity();
+        entity.CreateComponent<VanishPlatformComponent>();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
+        entity.CreateComponent<TileColliderComponent>();
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+        spriteRendererComponent.OrderInLayer = -1;
+
+        return entity;
+    }
+
     public Entity CreateJumpPad(Scene scene, int tx, int ty)
     {
         var entity = scene.CreateEntity();

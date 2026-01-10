@@ -97,6 +97,12 @@
    <property name="TileType" propertytype="TileType" value="Geometry"/>
   </properties>
  </tile>
+ <tile id="26" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="a31e5ed3-5b02-44d3-a2ce-2251bb977511"/>
+   <property name="TileType" propertytype="TileType" value="VanishPlatform"/>
+  </properties>
+ </tile>
  <tile id="33" type="WorldTile">
   <properties>
    <property name="AssetId" value="22769c0b-b6e0-4595-a2ae-46724a430fab"/>
