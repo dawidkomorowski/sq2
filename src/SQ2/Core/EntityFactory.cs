@@ -326,6 +326,30 @@ internal sealed class EntityFactory
         return entity;
     }
 
+    public Entity CreateKey(Scene scene, int tx, int ty, AssetId assetId)
+    {
+        var entity = scene.CreateEntity();
+        entity.CreateComponent<KeyComponent>();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+        return entity;
+    }
+
+    public Entity CreateKeyHole(Scene scene, double x, double y, int keysRequired)
+    {
+        var entity = scene.CreateEntity();
+        var keyHoleComponent = entity.CreateComponent<KeyHoleComponent>();
+        keyHoleComponent.KeysRequired = keysRequired;
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = new Vector2(x, y);
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("b1535e09-96d5-4f20-9934-0204cb7a9abc")));
+        entity.CreateComponent<TileColliderComponent>();
+        return entity;
+    }
+
     public Entity CreateBlueEnemy(Scene scene, int tx, int ty)
     {
         var entity = scene.CreateEntity();

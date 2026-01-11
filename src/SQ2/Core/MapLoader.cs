@@ -182,6 +182,10 @@ internal sealed class MapLoader
                                 _entityFactory.CreateAnimatedDecor(scene, tx, ty, assetId, orientation, RenderingConfiguration.DefaultSortingLayerName, 0);
                                 break;
                             }
+                            case "Key":
+                                AssertNoFlippingFlags(tileLayer, tile, w, h);
+                                _entityFactory.CreateKey(scene, tx, ty, assetId);
+                                break;
                             default:
                                 Logger.Error("Unknown WorldTile: {TileType} at position ({w}, {h}) in tile layer {tileLayer.Name}", tileType, w, h,
                                     tileLayer.Name);
@@ -289,6 +293,19 @@ internal sealed class MapLoader
                     var xx = x + GlobalSettings.TileSize.Width / 2d;
                     var yy = y + GlobalSettings.TileSize.Height / 2d;
                     _entityFactory.CreateButton(scene, xx, yy, tiledObject.Id);
+                    break;
+                }
+                case "KeyHole" when tiledObject is TiledObject.Tile:
+                {
+                    var keysRequired = 1;
+                    if (tiledObject.Properties.TryGetProperty("KeysRequired", out var prop))
+                    {
+                        keysRequired = prop?.IntValue ?? 1;
+                    }
+
+                    var xx = x + GlobalSettings.TileSize.Width / 2d;
+                    var yy = y + GlobalSettings.TileSize.Height / 2d;
+                    _entityFactory.CreateKeyHole(scene, xx, yy, keysRequired);
                     break;
                 }
                 case "Metadata":

@@ -56,6 +56,9 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
     private PlayerSpawnPointComponent _playerSpawnPointComponent = null!;
     internal CheckPointComponent? ActiveCheckPoint { get; set; }
 
+    // Keys
+    public int KeysCollected { get; set; }
+
     public PlayerComponent(Entity entity, IDebugRenderer debugRenderer, RespawnService respawnService) : base(entity)
     {
         _debugRenderer = debugRenderer;
@@ -498,6 +501,8 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
                 Translation = ActiveCheckPoint.Entity.GetComponent<Transform2DComponent>().Translation
             });
         }
+
+        KeysCollected = 0;
     }
 }
 

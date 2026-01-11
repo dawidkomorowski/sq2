@@ -93,6 +93,24 @@
             ]
         },
         {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 11,
+            "members": [
+                {
+                    "name": "KeysRequired",
+                    "type": "int",
+                    "value": 1
+                }
+            ],
+            "name": "KeyHole",
+            "type": "class",
+            "useAs": [
+                "object",
+                "project"
+            ]
+        },
+        {
             "color": "#ff5555ff",
             "drawFill": true,
             "id": 10,
@@ -156,7 +174,8 @@
                 "WaterDeep",
                 "Decor",
                 "AnimatedDecor",
-                "VanishPlatform"
+                "VanishPlatform",
+                "Key"
             ],
             "valuesAsFlags": false
         },

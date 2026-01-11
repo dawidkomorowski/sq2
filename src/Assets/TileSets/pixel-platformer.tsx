@@ -103,6 +103,12 @@
    <property name="TileType" propertytype="TileType" value="VanishPlatform"/>
   </properties>
  </tile>
+ <tile id="27" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="d9168910-07b8-4522-87f3-149d04cd509c"/>
+   <property name="TileType" propertytype="TileType" value="Key"/>
+  </properties>
+ </tile>
  <tile id="33" type="WorldTile">
   <properties>
    <property name="AssetId" value="22769c0b-b6e0-4595-a2ae-46724a430fab"/>
