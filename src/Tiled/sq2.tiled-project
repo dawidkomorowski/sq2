@@ -137,6 +137,11 @@
                     "name": "StartPosition",
                     "type": "object",
                     "value": 0
+                },
+                {
+                    "name": "Width",
+                    "type": "int",
+                    "value": 1
                 }
             ],
             "name": "MovingPlatform",

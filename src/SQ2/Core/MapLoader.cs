@@ -265,7 +265,13 @@ internal sealed class MapLoader
                     var ex = endPositionObject.X;
                     var ey = -endPositionObject.Y;
 
-                    _entityFactory.CreateMovingPlatform(scene, x, y, sx, sy, ex, ey);
+                    var platformWidth = 1;
+                    if (tiledObject.Properties.TryGetProperty("Width", out var widthProp))
+                    {
+                        platformWidth = widthProp?.IntValue ?? 1;
+                    }
+
+                    _entityFactory.CreateMovingPlatform(scene, x, y, sx, sy, ex, ey, platformWidth);
                     break;
                 }
                 case "FishEnemy" when tiledObject is TiledObject.Tile:

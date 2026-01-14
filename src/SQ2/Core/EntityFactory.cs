@@ -195,7 +195,7 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateMovingPlatform(Scene scene, double x, double y, double sx, double sy, double ex, double ey)
+    public Entity CreateMovingPlatform(Scene scene, double x, double y, double sx, double sy, double ex, double ey, int platformWidth)
     {
         var entity = scene.CreateEntity();
         var movingPlatformComponent = entity.CreateComponent<MovingPlatformComponent>();
@@ -205,15 +205,22 @@ internal sealed class EntityFactory
         transform2DComponent.Translation = new Vector2(x, y) + new Vector2(GlobalSettings.TileSize.Width / 2, GlobalSettings.TileSize.Height * 0.75);
         transform2DComponent.IsInterpolated = true;
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
-        rectangleColliderComponent.Dimensions = new Vector2(GlobalSettings.TileSize.Width, GlobalSettings.TileSize.Height / 2);
+        rectangleColliderComponent.Dimensions = new Vector2(GlobalSettings.TileSize.Width * platformWidth, GlobalSettings.TileSize.Height / 2);
         entity.CreateComponent<KinematicRigidBody2DComponent>();
 
-        var spriteEntity = entity.CreateChildEntity();
-        var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
-        spriteTransform2DComponent.Translation = new Vector2(0, -GlobalSettings.TileSize.Height / 4 + 0.5);
-        var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
-        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("e3801ac8-1361-425b-9ca4-48f4fd4b3a4f")));
-        spriteRendererComponent.OrderInLayer = -1;
+        for (var i = 0; i < platformWidth; i++)
+        {
+            var spriteEntity = entity.CreateChildEntity();
+            var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
+            spriteTransform2DComponent.Translation = new Vector2
+            (
+                i * GlobalSettings.TileSize.Width - (platformWidth - 1) * 0.5 * GlobalSettings.TileSize.Width,
+                -GlobalSettings.TileSize.Height / 4 + 0.5
+            );
+            var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
+            spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("e3801ac8-1361-425b-9ca4-48f4fd4b3a4f")));
+            spriteRendererComponent.OrderInLayer = -1;
+        }
 
         return entity;
     }
