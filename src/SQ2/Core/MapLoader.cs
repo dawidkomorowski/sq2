@@ -314,6 +314,21 @@ internal sealed class MapLoader
                     _entityFactory.CreateKeyHole(scene, xx, yy, keysRequired);
                     break;
                 }
+                case "BatEnemy" when tiledObject is TiledObject.Tile:
+                {
+                    var startObjectId = tiledObject.Properties["StartPosition"].ObjectValue;
+                    var endObjectId = tiledObject.Properties["EndPosition"].ObjectValue;
+                    var startPositionObject = objectLayer.Objects.Single(o => o.Id == startObjectId);
+                    var endPositionObject = objectLayer.Objects.Single(o => o.Id == endObjectId);
+
+                    var sx = startPositionObject.X;
+                    var sy = -startPositionObject.Y;
+                    var ex = endPositionObject.X;
+                    var ey = -endPositionObject.Y;
+
+                    _entityFactory.CreateBatEnemy(scene, x, y, sx, sy, ex, ey);
+                    break;
+                }
                 case "Metadata":
                     // Ignore metadata objects
                     break;

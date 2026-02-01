@@ -6,15 +6,15 @@ using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
 using SQ2.Development;
-using System;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
+using System;
 
-namespace SQ2.GamePlay.LevelGeometry;
+namespace SQ2.GamePlay.Enemies;
 
-internal sealed class MovingPlatformComponent : BehaviorComponent, IRespawnable
+internal sealed class BatEnemyComponent : BehaviorComponent, IRespawnable
 {
-    private readonly bool _enableDebugDraw = DevConfig.DebugDraw.MovingPlatforms;
+    private readonly bool _enableDebugDraw = DevConfig.DebugDraw.BatEnemy;
     private readonly IDebugRenderer _debugRenderer;
     private Transform2DComponent _transform2DComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;
@@ -22,7 +22,7 @@ internal sealed class MovingPlatformComponent : BehaviorComponent, IRespawnable
     private Vector2 _initialPosition;
     private Direction _direction = Direction.ToEnd;
 
-    public MovingPlatformComponent(Entity entity, IDebugRenderer debugRenderer) : base(entity)
+    public BatEnemyComponent(Entity entity, IDebugRenderer debugRenderer) : base(entity)
     {
         _debugRenderer = debugRenderer;
     }
@@ -41,7 +41,19 @@ internal sealed class MovingPlatformComponent : BehaviorComponent, IRespawnable
 
     public override void OnFixedUpdate()
     {
-        const double v = 30;
+        var contacts = _rectangleColliderComponent.IsColliding ? _rectangleColliderComponent.GetContacts() : Array.Empty<Contact2D>();
+
+        foreach (var contact2D in contacts)
+        {
+            if (contact2D.OtherCollider.Entity.HasComponent<PlayerComponent>())
+            {
+                var playerComponent = contact2D.OtherCollider.Entity.GetComponent<PlayerComponent>();
+                playerComponent.KillPlayer();
+                break;
+            }
+        }
+
+        const double v = 60;
         var dv = v * GameTime.FixedDeltaTimeSeconds;
 
         var targetPosition = _direction switch
@@ -66,16 +78,7 @@ internal sealed class MovingPlatformComponent : BehaviorComponent, IRespawnable
         var moveDirection = toTarget.Unit;
         _kinematicRigidBody2DComponent.LinearVelocity = moveDirection * v;
 
-        // Move player along with the platform
-        var contacts = _rectangleColliderComponent.IsColliding ? _rectangleColliderComponent.GetContacts() : Array.Empty<Contact2D>();
-        foreach (var contact2D in contacts)
-        {
-            if (contact2D.CollisionNormal.Y < 0 && contact2D.OtherCollider.Entity.HasComponent<PlayerComponent>())
-            {
-                var playerTransform = contact2D.OtherCollider.Entity.GetComponent<Transform2DComponent>();
-                playerTransform.Translation += _kinematicRigidBody2DComponent.LinearVelocity.WithY(0) * GameTime.FixedDeltaTimeSeconds;
-            }
-        }
+        Movement.UpdateHorizontalSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
     }
 
     public override void OnUpdate(GameTime gameTime)
@@ -105,14 +108,14 @@ internal sealed class MovingPlatformComponent : BehaviorComponent, IRespawnable
 }
 
 // ReSharper disable once ClassNeverInstantiated.Global
-internal sealed class MovingPlatformComponentFactory : ComponentFactory<MovingPlatformComponent>
+internal sealed class BatEnemyComponentFactory : ComponentFactory<BatEnemyComponent>
 {
     private readonly IDebugRenderer _debugRenderer;
 
-    public MovingPlatformComponentFactory(IDebugRenderer debugRenderer)
+    public BatEnemyComponentFactory(IDebugRenderer debugRenderer)
     {
         _debugRenderer = debugRenderer;
     }
 
-    protected override MovingPlatformComponent CreateComponent(Entity entity) => new(entity, _debugRenderer);
+    protected override BatEnemyComponent CreateComponent(Entity entity) => new(entity, _debugRenderer);
 }

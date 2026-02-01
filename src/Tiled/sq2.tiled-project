@@ -12,6 +12,29 @@
     ],
     "propertyTypes": [
         {
+            "color": "#ffffff00",
+            "drawFill": true,
+            "id": 12,
+            "members": [
+                {
+                    "name": "EndPosition",
+                    "type": "object",
+                    "value": 0
+                },
+                {
+                    "name": "StartPosition",
+                    "type": "object",
+                    "value": 0
+                }
+            ],
+            "name": "BatEnemy",
+            "type": "class",
+            "useAs": [
+                "object",
+                "project"
+            ]
+        },
+        {
             "color": "#ffa0a0a4",
             "drawFill": true,
             "id": 9,

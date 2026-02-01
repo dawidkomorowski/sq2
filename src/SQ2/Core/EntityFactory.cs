@@ -459,6 +459,29 @@ internal sealed class EntityFactory
         return entity;
     }
 
+    public Entity CreateBatEnemy(Scene scene, double x, double y, double sx, double sy, double ex, double ey)
+    {
+        var entity = scene.CreateEntity();
+        var batEnemyComponent = entity.CreateComponent<BatEnemyComponent>();
+        batEnemyComponent.StartPosition = new Vector2(sx, sy) + new Vector2(-GlobalSettings.TileSize.Width / 2, GlobalSettings.TileSize.Height / 2);
+        batEnemyComponent.EndPosition = new Vector2(ex, ey) + new Vector2(-GlobalSettings.TileSize.Width / 2, GlobalSettings.TileSize.Height / 2);
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = new Vector2(x, y) + new Vector2(9, 12);
+        transform2DComponent.IsInterpolated = true;
+        var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
+        rectangleColliderComponent.Dimensions = new Vector2(13, 13);
+        var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
+        kinematicRigidBody2DComponent.EnableCollisionResponse = false;
+        entity.CreateComponent<SpriteRendererComponent>();
+        var spriteAnimationComponent = entity.CreateComponent<SpriteAnimationComponent>();
+        spriteAnimationComponent.AddAnimation("Fly", _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("3a27bb5c-62a2-4f96-be5b-fbb176593312"))));
+        spriteAnimationComponent.PlayInLoop = true;
+        spriteAnimationComponent.PlaybackSpeed = 2;
+        spriteAnimationComponent.PlayAnimation("Fly");
+
+        return entity;
+    }
+
     public Entity CreateBlueBoss(Scene scene, int tx, int ty)
     {
         var entity = scene.CreateEntity();
