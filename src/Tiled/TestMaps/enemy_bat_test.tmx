@@ -36,10 +36,10 @@
     <property name="StartPosition" type="object" value="6"/>
    </properties>
   </object>
-  <object id="6" name="Start" x="261" y="189">
+  <object id="6" name="Start" type="Metadata" x="261" y="189">
    <point/>
   </object>
-  <object id="7" name="End" x="351" y="189">
+  <object id="7" name="End" type="Metadata" x="351" y="189">
    <point/>
   </object>
  </objectgroup>
