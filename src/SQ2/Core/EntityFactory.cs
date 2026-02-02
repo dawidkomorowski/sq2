@@ -492,7 +492,7 @@ internal sealed class EntityFactory
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(13, 13);
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
-        kinematicRigidBody2DComponent.EnableCollisionResponse = false;
+        kinematicRigidBody2DComponent.EnableCollisionResponse = true;
         entity.CreateComponent<SpriteRendererComponent>();
         var spriteAnimationComponent = entity.CreateComponent<SpriteAnimationComponent>();
         spriteAnimationComponent.AddAnimation("Fly", _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("3a27bb5c-62a2-4f96-be5b-fbb176593312"))));

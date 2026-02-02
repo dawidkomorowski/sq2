@@ -21,7 +21,16 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
     private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
     private Transform2DComponent _playerTransform = null!;
     private Vector2 _initialPosition;
-    private const double AgroRadius = 100;
+    private const double AgroRange = 100;
+
+    private State _state = State.Idle;
+    private TimeSpan _stateTime;
+
+    #region State variables
+
+    private Vector2 _diveDirection;
+
+    #endregion
 
     public Bat2EnemyComponent(Entity entity, IDebugRenderer debugRenderer) : base(entity)
     {
@@ -36,6 +45,7 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
         _playerTransform = Query.GetPlayerTransform2DComponent(Scene);
 
         _initialPosition = _transform2DComponent.Translation;
+        _state = State.Idle;
     }
 
     public override void OnFixedUpdate()
@@ -52,16 +62,34 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
             }
         }
 
-        var toPlayer = _playerTransform.Translation - _transform2DComponent.Translation;
-        if (_playerTransform.Translation.Distance(_initialPosition) <= AgroRadius)
+        var stateBefore = _state;
+
+        switch (_state)
         {
-            var direction = toPlayer.Unit;
-            const float speed = 60f;
-            _kinematicRigidBody2DComponent.LinearVelocity = direction * speed;
+            case State.Idle:
+                OnIdle();
+                break;
+            case State.Aim:
+                OnAim();
+                break;
+            case State.Dive:
+                OnDive(contacts);
+                break;
+            case State.Stunned:
+                OnStunned();
+                break;
+            case State.Return:
+                OnReturn();
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
-        else
+
+        _stateTime += GameTime.FixedDeltaTime;
+
+        if (stateBefore != _state)
         {
-            _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
+            _stateTime = TimeSpan.Zero;
         }
     }
 
@@ -69,7 +97,7 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
     {
         if (_enableDebugDraw)
         {
-            _debugRenderer.DrawCircle(new Circle(_initialPosition, AgroRadius), Color.Red);
+            _debugRenderer.DrawCircle(new Circle(_initialPosition, AgroRange), Color.Red);
         }
     }
 
@@ -80,6 +108,72 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
             Translation = _initialPosition
         });
         _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
+        _state = State.Idle;
+    }
+
+    private void OnIdle()
+    {
+        _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
+
+        if (PlayerInAgroRange())
+        {
+            _state = State.Aim;
+        }
+    }
+
+    private void OnAim()
+    {
+        _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
+
+        if (_stateTime > TimeSpan.FromSeconds(1))
+        {
+            var toPlayer = _playerTransform.Translation - _transform2DComponent.Translation;
+            _diveDirection = toPlayer.Unit;
+            _state = State.Dive;
+        }
+    }
+
+    private void OnDive(Contact2D[] contacts)
+    {
+        _kinematicRigidBody2DComponent.LinearVelocity = _diveDirection * 150;
+
+        if (contacts.Length > 0)
+        {
+            _state = State.Stunned;
+        }
+    }
+
+    private void OnStunned()
+    {
+        _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
+
+        if (_stateTime > TimeSpan.FromSeconds(2))
+        {
+            if (PlayerInAgroRange())
+            {
+                _state = State.Aim;
+            }
+            else
+            {
+                _state = State.Return;
+            }
+        }
+    }
+
+    private void OnReturn()
+    {
+        _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
+    }
+
+    private bool PlayerInAgroRange() => _playerTransform.Translation.Distance(_initialPosition) <= AgroRange;
+
+    private enum State
+    {
+        Idle,
+        Aim,
+        Dive,
+        Stunned,
+        Return
     }
 }
 
