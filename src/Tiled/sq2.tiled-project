@@ -12,6 +12,19 @@
     ],
     "propertyTypes": [
         {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 13,
+            "members": [
+            ],
+            "name": "Bat2Enemy",
+            "type": "class",
+            "useAs": [
+                "object",
+                "project"
+            ]
+        },
+        {
             "color": "#ffffff00",
             "drawFill": true,
             "id": 12,

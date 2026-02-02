@@ -79,6 +79,7 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<YellowEnemyComponentFactory>();
         componentsRegistry.RegisterComponentFactory<FishEnemyComponentFactory>();
         componentsRegistry.RegisterComponentFactory<BatEnemyComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<Bat2EnemyComponentFactory>();
         // Level Geometry
         componentsRegistry.RegisterComponentFactory<WaterDeepComponentFactory>();
         componentsRegistry.RegisterComponentFactory<SpikesComponentFactory>();

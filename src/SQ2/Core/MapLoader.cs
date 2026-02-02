@@ -329,6 +329,11 @@ internal sealed class MapLoader
                     _entityFactory.CreateBatEnemy(scene, x, y, sx, sy, ex, ey);
                     break;
                 }
+                case "Bat2Enemy" when tiledObject is TiledObject.Tile:
+                {
+                    _entityFactory.CreateBat2Enemy(scene, x, y);
+                    break;
+                }
                 case "Metadata":
                     // Ignore metadata objects
                     break;
