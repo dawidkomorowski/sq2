@@ -143,6 +143,14 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
         {
             var toPlayer = _playerTransform.Translation - _transform2DComponent.Translation;
             _diveDirection = toPlayer.Unit;
+
+            // Simple logic to unstuck the bat if it is very close to the previous dive position.
+            if (_transform2DComponent.Translation.Distance(_diveStartPosition) < 20 && Random.Shared.NextDouble() > 0.5)
+            {
+                _diveDirection = Random.Shared.NextDouble() > 0.5 ? _diveDirection.Normal : -_diveDirection.Normal;
+                _diveDirection = (Matrix3x3.CreateRotation(Angle.Deg2Rad(Random.Shared.Next(-30, 30))) * _diveDirection.Homogeneous).ToVector2();
+            }
+
             _diveStartPosition = _transform2DComponent.Translation;
             _state = State.Dive;
         }
@@ -154,6 +162,12 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
         _spriteAnimationComponent.Pause();
 
         _kinematicRigidBody2DComponent.LinearVelocity = _diveDirection * 150;
+
+        if (_stateTime < TimeSpan.FromSeconds(0.1))
+        {
+            // Allow some time to leave the aiming position.
+            return;
+        }
 
         if (_transform2DComponent.Translation.Distance(_diveStartPosition) > 200)
         {
