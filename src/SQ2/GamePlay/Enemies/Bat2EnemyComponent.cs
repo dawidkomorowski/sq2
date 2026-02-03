@@ -7,8 +7,10 @@ using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
+using SQ2.Core;
 using SQ2.Development;
 using SQ2.GamePlay.Common;
+using SQ2.GamePlay.LevelGeometry;
 using SQ2.GamePlay.Player;
 
 namespace SQ2.GamePlay.Enemies;
@@ -17,6 +19,8 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
 {
     private readonly bool _enableDebugDraw = DevConfig.DebugDraw.BatEnemy;
     private readonly IDebugRenderer _debugRenderer;
+    private readonly RespawnService _respawnService;
+    private readonly EntityFactory _entityFactory;
     private Transform2DComponent _transform2DComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;
     private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
@@ -36,9 +40,11 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
 
     #endregion
 
-    public Bat2EnemyComponent(Entity entity, IDebugRenderer debugRenderer) : base(entity)
+    public Bat2EnemyComponent(Entity entity, IDebugRenderer debugRenderer, RespawnService respawnService, EntityFactory entityFactory) : base(entity)
     {
         _debugRenderer = debugRenderer;
+        _respawnService = respawnService;
+        _entityFactory = entityFactory;
     }
 
     public override void OnStart()
@@ -63,7 +69,13 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
             {
                 var playerComponent = contact2D.OtherCollider.Entity.GetComponent<PlayerComponent>();
                 playerComponent.KillPlayer();
-                break;
+                return;
+            }
+
+            if (contact2D.OtherCollider.Entity.Root.HasComponent<SpikesComponent>())
+            {
+                Die();
+                return;
             }
         }
 
@@ -118,6 +130,12 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
         _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
         _state = State.Idle;
         _spriteAnimationComponent.Resume();
+    }
+
+    private void Die()
+    {
+        Entity.RemoveAfterFixedTimeStep();
+        _respawnService.AddOneTimeRespawnAction(() => { _entityFactory.CreateBat2Enemy(Scene, _initialPosition.X, _initialPosition.Y); });
     }
 
     private void OnIdle()
@@ -248,11 +266,15 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
 internal sealed class Bat2EnemyComponentFactory : ComponentFactory<Bat2EnemyComponent>
 {
     private readonly IDebugRenderer _debugRenderer;
+    private readonly RespawnService _respawnService;
+    private readonly EntityFactory _entityFactory;
 
-    public Bat2EnemyComponentFactory(IDebugRenderer debugRenderer)
+    public Bat2EnemyComponentFactory(IDebugRenderer debugRenderer, RespawnService respawnService, EntityFactory entityFactory)
     {
         _debugRenderer = debugRenderer;
+        _respawnService = respawnService;
+        _entityFactory = entityFactory;
     }
 
-    protected override Bat2EnemyComponent CreateComponent(Entity entity) => new(entity, _debugRenderer);
+    protected override Bat2EnemyComponent CreateComponent(Entity entity) => new(entity, _debugRenderer, _respawnService, _entityFactory);
 }
