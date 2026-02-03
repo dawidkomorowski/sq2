@@ -27,7 +27,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="GamePlayObjects">
-  <object id="1" name="Player Spawn Point" type="PlayerSpawnPoint" x="1125" y="208.5">
+  <object id="1" name="Player Spawn Point" type="PlayerSpawnPoint" x="53.5" y="210.5">
    <point/>
   </object>
   <object id="5" type="Bat2Enemy" gid="205" x="184.127" y="153.801" width="24" height="24"/>

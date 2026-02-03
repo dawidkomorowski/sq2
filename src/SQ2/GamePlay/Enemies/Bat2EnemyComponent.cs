@@ -214,6 +214,7 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
     {
         if (_transform2DComponent.Translation.Distance(_initialPosition) < 10)
         {
+            _diveStartPosition = Vector2.Zero;
             _state = State.Idle;
         }
 
