@@ -130,6 +130,7 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
         _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
         _state = State.Idle;
         _spriteAnimationComponent.Resume();
+        _diveStartPosition = Vector2.Zero;
     }
 
     private void Die()
