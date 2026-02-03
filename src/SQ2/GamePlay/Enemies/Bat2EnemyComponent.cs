@@ -161,10 +161,13 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
             _state = State.Stunned;
         }
 
-        if (contacts.Length > 0)
+        foreach (var contact in contacts)
         {
-            _spriteAnimationComponent.Resume();
-            _state = State.Stunned;
+            if (!contact.OtherCollider.Entity.HasComponent<Bat2EnemyComponent>())
+            {
+                _spriteAnimationComponent.Resume();
+                _state = State.Stunned;
+            }
         }
     }
 
