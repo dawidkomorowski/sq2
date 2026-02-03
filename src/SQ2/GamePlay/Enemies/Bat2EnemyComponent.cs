@@ -76,7 +76,7 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
                 OnDive(contacts);
                 break;
             case State.Stunned:
-                OnStunned();
+                OnStunned(contacts);
                 break;
             case State.Return:
                 OnReturn();
@@ -143,9 +143,17 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
         }
     }
 
-    private void OnStunned()
+    private void OnStunned(Contact2D[] contacts)
     {
-        _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
+        if (contacts.Length > 0)
+        {
+            var contact = contacts[0];
+            _kinematicRigidBody2DComponent.LinearVelocity = contact.CollisionNormal * 10;
+        }
+        else
+        {
+            _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
+        }
 
         if (_stateTime > TimeSpan.FromSeconds(2))
         {
