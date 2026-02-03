@@ -23,7 +23,8 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
     private SpriteAnimationComponent _spriteAnimationComponent = null!;
     private Transform2DComponent _playerTransform = null!;
     private Vector2 _initialPosition;
-    private const double AgroRange = 100;
+    private const double IdleAgroRange = 100;
+    private const double ChaseAgroRange = 200;
 
     private State _state = State.Idle;
     private TimeSpan _stateTime;
@@ -103,7 +104,8 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
     {
         if (_enableDebugDraw)
         {
-            _debugRenderer.DrawCircle(new Circle(_initialPosition, AgroRange), Color.Red);
+            _debugRenderer.DrawCircle(new Circle(_initialPosition, IdleAgroRange), Color.Blue);
+            _debugRenderer.DrawCircle(new Circle(_initialPosition, ChaseAgroRange), Color.Red);
         }
     }
 
@@ -177,7 +179,7 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
             _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
         }
 
-        if (_stateTime > TimeSpan.FromSeconds(2))
+        if (_stateTime > TimeSpan.FromSeconds(1))
         {
             if (PlayerInAgroRange())
             {
@@ -206,7 +208,12 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
         _kinematicRigidBody2DComponent.LinearVelocity = toInitialPosition.Unit * 50;
     }
 
-    private bool PlayerInAgroRange() => _playerTransform.Translation.Distance(_initialPosition) <= AgroRange;
+    private bool PlayerInAgroRange()
+    {
+        return _state is State.Idle
+            ? _playerTransform.Translation.Distance(_initialPosition) <= IdleAgroRange
+            : _playerTransform.Translation.Distance(_initialPosition) <= ChaseAgroRange;
+    }
 
     private enum State
     {
