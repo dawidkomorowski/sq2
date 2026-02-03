@@ -1,4 +1,6 @@
-﻿using Geisha.Engine.Core;
+﻿using System;
+using Geisha.Engine.Animation.Components;
+using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Diagnostics;
 using Geisha.Engine.Core.Math;
@@ -8,7 +10,6 @@ using Geisha.Engine.Physics.Components;
 using SQ2.Development;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
-using System;
 
 namespace SQ2.GamePlay.Enemies;
 
@@ -19,6 +20,7 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
     private Transform2DComponent _transform2DComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;
     private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
+    private SpriteAnimationComponent _spriteAnimationComponent = null!;
     private Transform2DComponent _playerTransform = null!;
     private Vector2 _initialPosition;
     private const double AgroRange = 100;
@@ -29,6 +31,7 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
     #region State variables
 
     private Vector2 _diveDirection;
+    private Vector2 _diveStartPosition;
 
     #endregion
 
@@ -42,6 +45,7 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
         _rectangleColliderComponent = Entity.GetComponent<RectangleColliderComponent>();
         _kinematicRigidBody2DComponent = Entity.GetComponent<KinematicRigidBody2DComponent>();
+        _spriteAnimationComponent = Entity.GetComponent<SpriteAnimationComponent>();
         _playerTransform = Query.GetPlayerTransform2DComponent(Scene);
 
         _initialPosition = _transform2DComponent.Translation;
@@ -91,6 +95,8 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
         {
             _stateTime = TimeSpan.Zero;
         }
+
+        Movement.UpdateHorizontalSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
     }
 
     public override void OnUpdate(GameTime gameTime)
@@ -125,20 +131,36 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
     {
         _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
 
+        if (_playerTransform.Translation.Y + 50 > _transform2DComponent.Translation.Y)
+        {
+            _kinematicRigidBody2DComponent.LinearVelocity = Vector2.UnitY * 75;
+        }
+
         if (_stateTime > TimeSpan.FromSeconds(1))
         {
             var toPlayer = _playerTransform.Translation - _transform2DComponent.Translation;
             _diveDirection = toPlayer.Unit;
+            _diveStartPosition = _transform2DComponent.Translation;
             _state = State.Dive;
         }
     }
 
     private void OnDive(Contact2D[] contacts)
     {
+        _spriteAnimationComponent.Position = 0.25;
+        _spriteAnimationComponent.Pause();
+
         _kinematicRigidBody2DComponent.LinearVelocity = _diveDirection * 150;
+
+        if (_transform2DComponent.Translation.Distance(_diveStartPosition) > 200)
+        {
+            _spriteAnimationComponent.Resume();
+            _state = State.Stunned;
+        }
 
         if (contacts.Length > 0)
         {
+            _spriteAnimationComponent.Resume();
             _state = State.Stunned;
         }
     }
@@ -170,7 +192,18 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
 
     private void OnReturn()
     {
-        _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
+        if (_transform2DComponent.Translation.Distance(_initialPosition) < 10)
+        {
+            _state = State.Idle;
+        }
+
+        if (PlayerInAgroRange())
+        {
+            _state = State.Aim;
+        }
+
+        var toInitialPosition = _initialPosition - _transform2DComponent.Translation;
+        _kinematicRigidBody2DComponent.LinearVelocity = toInitialPosition.Unit * 50;
     }
 
     private bool PlayerInAgroRange() => _playerTransform.Translation.Distance(_initialPosition) <= AgroRange;
