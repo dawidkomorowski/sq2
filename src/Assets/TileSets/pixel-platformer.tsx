@@ -37,6 +37,30 @@
    <property name="TileType" propertytype="TileType" value="Geometry"/>
   </properties>
  </tile>
+ <tile id="12" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="0e44cce6-00e0-42f4-8b8e-e93793a93098"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
+ <tile id="13" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="74811be8-85f0-44a4-8071-8e8629fbe9b2"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
+ <tile id="14" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="de7b2497-a1e7-435b-8f39-6ab4551f7d5d"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
+ <tile id="15" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="af58ba1e-e66d-4323-974c-ce000e766c49"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
  <tile id="16" type="WorldTile">
   <properties>
    <property name="AssetId" value="f26f198b-1fbe-4e54-810b-4955b0e6a965"/>
@@ -109,6 +133,12 @@
    <property name="TileType" propertytype="TileType" value="Key"/>
   </properties>
  </tile>
+ <tile id="32" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="04c1eb88-963d-43ef-89bd-7a398e30be6f"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
  <tile id="33" type="WorldTile">
   <properties>
    <property name="AssetId" value="22769c0b-b6e0-4595-a2ae-46724a430fab"/>
@@ -179,6 +209,12 @@
   <properties>
    <property name="AssetId" value="c3c01a5f-09af-42f7-8100-65d891ee03ef"/>
    <property name="TileType" propertytype="TileType" value="Ladder"/>
+  </properties>
+ </tile>
+ <tile id="52" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="36a9931c-5a1b-401d-be94-f3412304e76a"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
   </properties>
  </tile>
  <tile id="53" type="WorldTile">
@@ -257,6 +293,12 @@
   <properties>
    <property name="AssetId" value="5c5820fb-340c-42fd-840d-d7f11e0094dc"/>
    <property name="TileType" propertytype="TileType" value="Ladder"/>
+  </properties>
+ </tile>
+ <tile id="72" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="1df260b5-67a3-4dbd-93b0-a18108ae0f82"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
   </properties>
  </tile>
  <tile id="73" type="WorldTile">
