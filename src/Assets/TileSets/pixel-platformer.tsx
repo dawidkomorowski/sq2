@@ -474,10 +474,28 @@
    <property name="TileType" propertytype="TileType" value="Decor"/>
   </properties>
  </tile>
+ <tile id="107" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="afa34cd1-0643-4551-9a0d-76558521b9e7"/>
+   <property name="TileType" propertytype="TileType" value="JumpPad"/>
+  </properties>
+ </tile>
  <tile id="108" type="WorldTile">
   <properties>
    <property name="AssetId" value="afa34cd1-0643-4551-9a0d-76558521b9e7"/>
    <property name="TileType" propertytype="TileType" value="JumpPad"/>
+  </properties>
+ </tile>
+ <tile id="111" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="2f397656-162a-474b-9864-5a10ff83f812"/>
+   <property name="TileType" propertytype="TileType" value="AnimatedDecor"/>
+  </properties>
+ </tile>
+ <tile id="112" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="2f397656-162a-474b-9864-5a10ff83f812"/>
+   <property name="TileType" propertytype="TileType" value="AnimatedDecor"/>
   </properties>
  </tile>
  <tile id="113" type="WorldTile">
@@ -579,6 +597,12 @@
  <tile id="129" type="WorldTile">
   <properties>
    <property name="AssetId" value="fdfc7d1e-325f-47f7-88fe-43c20be79d52"/>
+   <property name="TileType" propertytype="TileType" value="Decor"/>
+  </properties>
+ </tile>
+ <tile id="131" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="594d2acd-2797-4b29-953d-01c3e48966cc"/>
    <property name="TileType" propertytype="TileType" value="Decor"/>
   </properties>
  </tile>
