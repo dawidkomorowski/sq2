@@ -595,8 +595,6 @@ internal sealed class EntityFactory
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = new Vector2(centerX, minY - height / 2);
         transform2DComponent.IsInterpolated = true;
-        var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
-        rectangleColliderComponent.Dimensions = new Vector2(width, height);
 
         for (var x = -width / 2; x < width / 2; x += GlobalSettings.TileSize.Width)
         {

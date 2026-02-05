@@ -14,7 +14,8 @@ internal sealed class RaisingWaterComponent : BehaviorComponent, IRespawnable
 {
     private Transform2DComponent _transform2DComponent = null!;
     private Transform2DComponent _playerTransform = null!;
-    private RectangleColliderComponent _rectangleColliderComponent = null!;
+    private PlayerComponent _playerComponent = null!;
+    private RectangleColliderComponent _playerCollider = null!;
     private bool _hasStarted = false;
     private double _delayTimer = 0;
     private Vector2 _initialPosition;
@@ -32,23 +33,19 @@ internal sealed class RaisingWaterComponent : BehaviorComponent, IRespawnable
     {
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
         _playerTransform = Query.GetPlayerTransform2DComponent(Scene);
-        _rectangleColliderComponent = Entity.GetComponent<RectangleColliderComponent>();
+        _playerComponent = Query.GetPlayerComponent(Scene);
+        _playerCollider = Query.GetPlayerRectangleColliderComponent(Scene);
 
         _initialPosition = _transform2DComponent.Translation;
     }
 
     public override void OnFixedUpdate()
     {
-        var contacts = _rectangleColliderComponent.IsColliding ? _rectangleColliderComponent.GetContacts() : Array.Empty<Contact2D>();
-
-        foreach (var contact2D in contacts)
+        var deadlyArea = new AxisAlignedRectangle(_transform2DComponent.Translation, Dimensions);
+        var playerHitbox = new AxisAlignedRectangle(_playerTransform.Translation, _playerCollider.Dimensions);
+        if (deadlyArea.Overlaps(playerHitbox))
         {
-            if (contact2D.OtherCollider.Entity.HasComponent<PlayerComponent>())
-            {
-                var playerComponent = contact2D.OtherCollider.Entity.GetComponent<PlayerComponent>();
-                playerComponent.KillPlayer();
-                break;
-            }
+            _playerComponent.KillPlayer();
         }
 
         if (!_hasStarted)
