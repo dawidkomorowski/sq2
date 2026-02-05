@@ -70,6 +70,11 @@
   <object id="1" name="Player Spawn Point" type="PlayerSpawnPoint" x="196.333" y="885.667">
    <point/>
   </object>
-  <object id="8" name="Raising Water" type="RaisingWater" x="468" y="108" width="306" height="918"/>
+  <object id="8" name="Raising Water" type="RaisingWater" x="468" y="108" width="306" height="918">
+   <properties>
+    <property name="DelaySeconds" type="float" value="5"/>
+    <property name="Velocity" type="float" value="30"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

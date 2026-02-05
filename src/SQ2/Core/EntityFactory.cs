@@ -584,12 +584,12 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateRaisingWater(Scene scene, double centerX, double minY, double maxY, double width, double height)
+    public Entity CreateRaisingWater(Scene scene, double centerX, double minY, double maxY, double width, double height, double velocity, double delay)
     {
         var entity = scene.CreateEntity();
         var raisingWaterComponent = entity.CreateComponent<RaisingWaterComponent>();
-        raisingWaterComponent.Velocity = 20;
-        raisingWaterComponent.Delay = 5;
+        raisingWaterComponent.Velocity = velocity;
+        raisingWaterComponent.Delay = delay;
         raisingWaterComponent.Dimensions = new Vector2(width, height);
         raisingWaterComponent.MaxY = maxY - height / 2;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();

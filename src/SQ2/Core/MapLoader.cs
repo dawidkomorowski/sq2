@@ -268,7 +268,7 @@ internal sealed class MapLoader
                     var platformWidth = 1;
                     if (tiledObject.Properties.TryGetProperty("Width", out var widthProp))
                     {
-                        platformWidth = widthProp?.IntValue ?? 1;
+                        platformWidth = widthProp?.IntValue ?? platformWidth;
                     }
 
                     _entityFactory.CreateMovingPlatform(scene, x, y, sx, sy, ex, ey, platformWidth);
@@ -279,7 +279,7 @@ internal sealed class MapLoader
                     var jumpOffset = 0;
                     if (tiledObject.Properties.TryGetProperty("JumpOffset", out var prop))
                     {
-                        jumpOffset = prop?.IntValue ?? 0;
+                        jumpOffset = prop?.IntValue ?? jumpOffset;
                     }
 
                     _entityFactory.CreateFishEnemy(scene, x, y, jumpOffset);
@@ -306,7 +306,7 @@ internal sealed class MapLoader
                     var keysRequired = 1;
                     if (tiledObject.Properties.TryGetProperty("KeysRequired", out var prop))
                     {
-                        keysRequired = prop?.IntValue ?? 1;
+                        keysRequired = prop?.IntValue ?? keysRequired;
                     }
 
                     var xx = x + GlobalSettings.TileSize.Width / 2d;
@@ -342,7 +342,19 @@ internal sealed class MapLoader
                     var maxY = y;
                     var minY = y - height;
 
-                    _entityFactory.CreateRaisingWater(scene, xCenter, minY, maxY, width, height);
+                    var velocity = 20d;
+                    if (tiledObject.Properties.TryGetProperty("Velocity", out var prop1))
+                    {
+                        velocity = prop1?.FloatValue ?? velocity;
+                    }
+
+                    var delay = 5d;
+                    if (tiledObject.Properties.TryGetProperty("DelaySeconds", out var prop2))
+                    {
+                        delay = prop2?.FloatValue ?? delay;
+                    }
+
+                    _entityFactory.CreateRaisingWater(scene, xCenter, minY, maxY, width, height, velocity, delay);
 
                     break;
                 }

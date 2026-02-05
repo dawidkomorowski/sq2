@@ -205,6 +205,16 @@
             "drawFill": true,
             "id": 14,
             "members": [
+                {
+                    "name": "DelaySeconds",
+                    "type": "float",
+                    "value": 5
+                },
+                {
+                    "name": "Velocity",
+                    "type": "float",
+                    "value": 20
+                }
             ],
             "name": "RaisingWater",
             "type": "class",
