@@ -201,6 +201,19 @@
             ]
         },
         {
+            "color": "#ff55aaff",
+            "drawFill": true,
+            "id": 14,
+            "members": [
+            ],
+            "name": "RaisingWater",
+            "type": "class",
+            "useAs": [
+                "object",
+                "project"
+            ]
+        },
+        {
             "id": 3,
             "name": "TileType",
             "storageType": "string",

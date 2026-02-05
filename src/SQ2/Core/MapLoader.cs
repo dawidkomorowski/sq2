@@ -334,6 +334,18 @@ internal sealed class MapLoader
                     _entityFactory.CreateBat2Enemy(scene, x, y);
                     break;
                 }
+                case "RaisingWater" when tiledObject is TiledObject.Rectangle:
+                {
+                    var width = tiledObject.Width;
+                    var height = tiledObject.Height;
+                    var xCenter = x + width / 2d;
+                    var maxY = y;
+                    var minY = y - height;
+
+                    _entityFactory.CreateRaisingWater(scene, xCenter, minY, maxY, width, height);
+
+                    break;
+                }
                 case "Metadata":
                     // Ignore metadata objects
                     break;

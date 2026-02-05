@@ -584,6 +584,60 @@ internal sealed class EntityFactory
         return entity;
     }
 
+    public Entity CreateRaisingWater(Scene scene, double centerX, double minY, double maxY, double width, double height)
+    {
+        var entity = scene.CreateEntity();
+        var raisingWaterComponent = entity.CreateComponent<RaisingWaterComponent>();
+        raisingWaterComponent.Velocity = 20;
+        raisingWaterComponent.Delay = 5;
+        raisingWaterComponent.Dimensions = new Vector2(width, height);
+        raisingWaterComponent.MaxY = maxY - height / 2;
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = new Vector2(centerX, minY - height / 2);
+        transform2DComponent.IsInterpolated = true;
+        var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
+        rectangleColliderComponent.Dimensions = new Vector2(width, height);
+
+        for (var x = -width / 2; x < width / 2; x += GlobalSettings.TileSize.Width)
+        {
+            AddWaterSurface(x + GlobalSettings.TileSize.Width / 2, height / 2 - GlobalSettings.TileSize.Height / 2);
+        }
+
+        for (var x = -width / 2; x < width / 2; x += GlobalSettings.TileSize.Width)
+        {
+            for (var y = height / 2 - GlobalSettings.TileSize.Height; y > -height / 2; y -= GlobalSettings.TileSize.Height)
+            {
+                AddWaterBody(x + GlobalSettings.TileSize.Width / 2, y - GlobalSettings.TileSize.Height / 2);
+            }
+        }
+
+        return entity;
+
+        void AddWaterSurface(double x, double y)
+        {
+            var waterSurfaceEntity = entity.CreateChildEntity();
+            var waterSurfaceTransform = waterSurfaceEntity.CreateComponent<Transform2DComponent>();
+            waterSurfaceTransform.Translation = new Vector2(x, y);
+            var spriteRendererComponent = waterSurfaceEntity.CreateComponent<SpriteRendererComponent>();
+            spriteRendererComponent.OrderInLayer = 1000;
+            var waterSurfaceAnimation = waterSurfaceEntity.CreateComponent<SpriteAnimationComponent>();
+            waterSurfaceAnimation.AddAnimation("WaterSurface",
+                _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("22769c0b-b6e0-4595-a2ae-46724a430fab"))));
+            waterSurfaceAnimation.PlayInLoop = true;
+            waterSurfaceAnimation.PlayAnimation("WaterSurface");
+        }
+
+        void AddWaterBody(double x, double y)
+        {
+            var waterBodyEntity = entity.CreateChildEntity();
+            var waterBodyTransform = waterBodyEntity.CreateComponent<Transform2DComponent>();
+            waterBodyTransform.Translation = new Vector2(x, y);
+            var spriteRendererComponent = waterBodyEntity.CreateComponent<SpriteRendererComponent>();
+            spriteRendererComponent.OrderInLayer = 1000;
+            spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("325dd237-4a19-49d7-ac94-87c13287c4d7")));
+        }
+    }
+
     public Entity CreateBackground(Scene scene)
     {
         var entity = scene.CreateEntity();
