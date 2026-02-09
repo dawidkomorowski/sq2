@@ -54,6 +54,7 @@ internal sealed class EntityFactory
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = checkPointComponent.InactiveSprite;
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         return entity;
     }
 
@@ -73,7 +74,8 @@ internal sealed class EntityFactory
         var spriteEntity = entity.CreateChildEntity();
         var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
         spriteTransform2DComponent.Translation = new Vector2(0, 1);
-        spriteEntity.CreateComponent<SpriteRendererComponent>();
+        var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         var spriteAnimationComponent = spriteEntity.CreateComponent<SpriteAnimationComponent>();
         spriteAnimationComponent.AddAnimation("Walk", _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("d7a11945-11f6-41a3-90fb-46dae40c6c56"))));
         spriteAnimationComponent.PlayInLoop = true;
@@ -94,6 +96,7 @@ internal sealed class EntityFactory
         var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
         var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
 
         spriteTransform2DComponent.Rotation = orientation.GetRotation();
         spriteTransform2DComponent.Scale = orientation.GetScale();
@@ -108,6 +111,7 @@ internal sealed class EntityFactory
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         spriteRendererComponent.SortingLayerName = sortingLayerName;
         spriteRendererComponent.OrderInLayer = layerIndex * 10; // Multiply by 10 to leave space for other entities in the same layer
 
@@ -123,6 +127,7 @@ internal sealed class EntityFactory
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         spriteRendererComponent.SortingLayerName = sortingLayerName;
         spriteRendererComponent.OrderInLayer = layerIndex * 10; // Multiply by 10 to leave space for other entities in the same layer
         var spriteAnimationComponent = entity.CreateComponent<SpriteAnimationComponent>();
@@ -144,6 +149,7 @@ internal sealed class EntityFactory
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         spriteRendererComponent.OrderInLayer = 1;
         entity.CreateComponent<TileColliderComponent>();
         return entity;
@@ -157,6 +163,7 @@ internal sealed class EntityFactory
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
 
         var collisionEntity = entity.CreateChildEntity();
         var collisionTransform2DComponent = collisionEntity.CreateComponent<Transform2DComponent>();
@@ -190,6 +197,7 @@ internal sealed class EntityFactory
         spriteTransform2DComponent.Translation = new Vector2(0, -GlobalSettings.TileSize.Height / 4 + 0.5);
         var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         spriteRendererComponent.OrderInLayer = -1;
 
         return entity;
@@ -219,6 +227,7 @@ internal sealed class EntityFactory
             );
             var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
             spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("e3801ac8-1361-425b-9ca4-48f4fd4b3a4f")));
+            spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
             spriteRendererComponent.OrderInLayer = -1;
         }
 
@@ -234,6 +243,7 @@ internal sealed class EntityFactory
         entity.CreateComponent<TileColliderComponent>();
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         spriteRendererComponent.OrderInLayer = -1;
 
         return entity;
@@ -253,7 +263,8 @@ internal sealed class EntityFactory
         var spriteEntity = entity.CreateChildEntity();
         var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
         spriteTransform2DComponent.Translation = new Vector2(0, 2);
-        spriteEntity.CreateComponent<SpriteRendererComponent>();
+        var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
 
         return entity;
     }
@@ -266,6 +277,7 @@ internal sealed class EntityFactory
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
 
         ladderComponent.HitBox = new AxisAlignedRectangle(transform2DComponent.Translation, new Vector2(9, 9));
 
@@ -288,6 +300,7 @@ internal sealed class EntityFactory
         transform2DComponent.Translation = new Vector2(x, y);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("9ba1d62b-7ffa-4732-a2c8-180f044281e4")));
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         entity.CreateComponent<TileColliderComponent>();
         return entity;
     }
@@ -307,7 +320,8 @@ internal sealed class EntityFactory
         var spriteEntity = entity.CreateChildEntity();
         var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
         spriteTransform2DComponent.Translation = new Vector2(0, 6);
-        spriteEntity.CreateComponent<SpriteRendererComponent>();
+        var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         return entity;
     }
 
@@ -329,6 +343,7 @@ internal sealed class EntityFactory
         transform2DComponent.Translation = position;
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         spriteRendererComponent.OrderInLayer = 1;
         return entity;
     }
@@ -341,6 +356,7 @@ internal sealed class EntityFactory
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         return entity;
     }
 
@@ -353,6 +369,7 @@ internal sealed class EntityFactory
         transform2DComponent.Translation = new Vector2(x, y);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("b1535e09-96d5-4f20-9934-0204cb7a9abc")));
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         entity.CreateComponent<TileColliderComponent>();
         return entity;
     }
@@ -372,7 +389,8 @@ internal sealed class EntityFactory
         var spriteEntity = entity.CreateChildEntity();
         var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
         spriteTransform2DComponent.Translation = BlueEnemyComponent.SpriteOffset;
-        spriteEntity.CreateComponent<SpriteRendererComponent>();
+        var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         var spriteAnimationComponent = spriteEntity.CreateComponent<SpriteAnimationComponent>();
         spriteAnimationComponent.AddAnimation("Walk", _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("be3e253b-a4b2-4662-8624-bf1a5b73ea74"))));
         spriteAnimationComponent.PlayInLoop = true;
@@ -391,6 +409,7 @@ internal sealed class EntityFactory
         transform2DComponent.Scale = scale;
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("31fbfb4d-988a-4382-85f9-f41c63bd4f27")));
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         return entity;
     }
 
@@ -409,7 +428,8 @@ internal sealed class EntityFactory
         var spriteEntity = entity.CreateChildEntity();
         var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
         spriteTransform2DComponent.Translation = new Vector2(0.5, 4);
-        spriteEntity.CreateComponent<SpriteRendererComponent>();
+        var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         var spriteAnimationComponent = spriteEntity.CreateComponent<SpriteAnimationComponent>();
         spriteAnimationComponent.AddAnimation("Walk", _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("724f4eb7-fbbd-4ebf-894f-8b354e16b69e"))));
         spriteAnimationComponent.PlayInLoop = true;
@@ -432,7 +452,8 @@ internal sealed class EntityFactory
         rectangleColliderComponent.Dimensions = new Vector2(18, 18);
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
         kinematicRigidBody2DComponent.EnableCollisionResponse = false;
-        entity.CreateComponent<SpriteRendererComponent>();
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
 
         return entity;
     }
@@ -449,7 +470,8 @@ internal sealed class EntityFactory
         rectangleColliderComponent.Dimensions = new Vector2(11, 15);
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
         kinematicRigidBody2DComponent.EnableCollisionResponse = false;
-        entity.CreateComponent<SpriteRendererComponent>();
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         var spriteAnimationComponent = entity.CreateComponent<SpriteAnimationComponent>();
         spriteAnimationComponent.AddAnimation("Idle", _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("aab93162-61f9-4dac-80cc-780775b08dd6"))));
         spriteAnimationComponent.PlayInLoop = true;
@@ -472,7 +494,8 @@ internal sealed class EntityFactory
         rectangleColliderComponent.Dimensions = new Vector2(13, 13);
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
         kinematicRigidBody2DComponent.EnableCollisionResponse = false;
-        entity.CreateComponent<SpriteRendererComponent>();
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         var spriteAnimationComponent = entity.CreateComponent<SpriteAnimationComponent>();
         spriteAnimationComponent.AddAnimation("Fly", _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("3a27bb5c-62a2-4f96-be5b-fbb176593312"))));
         spriteAnimationComponent.PlayInLoop = true;
@@ -493,7 +516,8 @@ internal sealed class EntityFactory
         rectangleColliderComponent.Dimensions = new Vector2(13, 13);
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
         kinematicRigidBody2DComponent.EnableCollisionResponse = true;
-        entity.CreateComponent<SpriteRendererComponent>();
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         var spriteAnimationComponent = entity.CreateComponent<SpriteAnimationComponent>();
         spriteAnimationComponent.AddAnimation("Fly", _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("3a27bb5c-62a2-4f96-be5b-fbb176593312"))));
         spriteAnimationComponent.PlayInLoop = true;
@@ -519,6 +543,7 @@ internal sealed class EntityFactory
         var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
         spriteTransform2DComponent.Translation = BlueBossComponent.SpriteOffset1;
         var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         spriteRendererComponent.OrderInLayer = 1;
         var spriteAnimationComponent = spriteEntity.CreateComponent<SpriteAnimationComponent>();
         spriteAnimationComponent.AddAnimation(BlueBossComponent.Animations.Walk,
@@ -553,6 +578,7 @@ internal sealed class EntityFactory
             spikeTransform2DComponent.Scale = new Vector2(0.5, 0.5);
             var spikeSpriteRendererComponent = spikeEntity.CreateComponent<SpriteRendererComponent>();
             spikeSpriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("56abfaa2-eb0a-45e1-8831-179ea209155c")));
+            spikeSpriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         }
     }
 
@@ -565,6 +591,7 @@ internal sealed class EntityFactory
         transform2DComponent.Scale = scale;
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("eb27541a-95e1-4a46-b49d-24c7c967d329")));
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         return entity;
     }
 
@@ -581,6 +608,7 @@ internal sealed class EntityFactory
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.OrderInLayer = 1;
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("56abfaa2-eb0a-45e1-8831-179ea209155c")));
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         return entity;
     }
 
@@ -618,6 +646,7 @@ internal sealed class EntityFactory
             waterSurfaceTransform.Translation = new Vector2(x, y);
             var spriteRendererComponent = waterSurfaceEntity.CreateComponent<SpriteRendererComponent>();
             spriteRendererComponent.OrderInLayer = 1000;
+            spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
             var waterSurfaceAnimation = waterSurfaceEntity.CreateComponent<SpriteAnimationComponent>();
             waterSurfaceAnimation.AddAnimation("WaterSurface",
                 _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("22769c0b-b6e0-4595-a2ae-46724a430fab"))));
@@ -633,6 +662,7 @@ internal sealed class EntityFactory
             var spriteRendererComponent = waterBodyEntity.CreateComponent<SpriteRendererComponent>();
             spriteRendererComponent.OrderInLayer = 1000;
             spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("325dd237-4a19-49d7-ac94-87c13287c4d7")));
+            spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         }
     }
 
