@@ -99,7 +99,7 @@ internal sealed class EntityFactory
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
 
         spriteTransform2DComponent.Rotation = orientation.GetRotation();
-        spriteTransform2DComponent.Scale = orientation.GetScale();
+        spriteTransform2DComponent.Scale = orientation.GetScale() * 1.01;
 
         return entity;
     }
@@ -116,7 +116,7 @@ internal sealed class EntityFactory
         spriteRendererComponent.OrderInLayer = layerIndex * 10; // Multiply by 10 to leave space for other entities in the same layer
 
         transform2DComponent.Rotation = orientation.GetRotation();
-        transform2DComponent.Scale = orientation.GetScale();
+        transform2DComponent.Scale = orientation.GetScale() * 1.01;
 
         return entity;
     }
@@ -136,7 +136,7 @@ internal sealed class EntityFactory
         spriteAnimationComponent.PlayAnimation("Animation");
 
         transform2DComponent.Rotation = orientation.GetRotation();
-        transform2DComponent.Scale = orientation.GetScale();
+        transform2DComponent.Scale = orientation.GetScale() * 1.01;
 
         return entity;
     }
@@ -147,11 +147,15 @@ internal sealed class EntityFactory
         entity.CreateComponent<WaterDeepComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
-        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        entity.CreateComponent<TileColliderComponent>();
+
+        var spriteEntity = entity.CreateChildEntity();
+        var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
+        spriteTransform2DComponent.Scale = new Vector2(1.01, 1.01);
+        var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         spriteRendererComponent.OrderInLayer = 1;
-        entity.CreateComponent<TileColliderComponent>();
         return entity;
     }
 
@@ -286,7 +290,7 @@ internal sealed class EntityFactory
             throw new InvalidOperationException("Rotation is not supported for ladders.");
         }
 
-        transform2DComponent.Scale = orientation.GetScale();
+        transform2DComponent.Scale = orientation.GetScale() * 1.01;
 
         return entity;
     }
@@ -644,6 +648,7 @@ internal sealed class EntityFactory
             var waterSurfaceEntity = entity.CreateChildEntity();
             var waterSurfaceTransform = waterSurfaceEntity.CreateComponent<Transform2DComponent>();
             waterSurfaceTransform.Translation = new Vector2(x, y);
+            waterSurfaceTransform.Scale = new Vector2(1.01, 1.01);
             var spriteRendererComponent = waterSurfaceEntity.CreateComponent<SpriteRendererComponent>();
             spriteRendererComponent.OrderInLayer = 1000;
             spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
@@ -659,6 +664,7 @@ internal sealed class EntityFactory
             var waterBodyEntity = entity.CreateChildEntity();
             var waterBodyTransform = waterBodyEntity.CreateComponent<Transform2DComponent>();
             waterBodyTransform.Translation = new Vector2(x, y);
+            waterBodyTransform.Scale = new Vector2(1.01, 1.01);
             var spriteRendererComponent = waterBodyEntity.CreateComponent<SpriteRendererComponent>();
             spriteRendererComponent.OrderInLayer = 1000;
             spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("325dd237-4a19-49d7-ac94-87c13287c4d7")));

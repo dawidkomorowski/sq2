@@ -73,6 +73,7 @@ internal sealed class BackgroundComponent : BehaviorComponent
         var tileEntity = Entity.CreateChildEntity();
         var transform2DComponent = tileEntity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = new Vector2(tx * 24, ty * 24);
+        transform2DComponent.Scale = new Vector2(1.01, 1.01);
         var spriteRendererComponent = tileEntity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = sprite;
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
