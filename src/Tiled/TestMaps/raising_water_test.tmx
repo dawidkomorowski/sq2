@@ -73,7 +73,7 @@
   <object id="8" name="Raising Water" type="RaisingWater" x="468" y="108" width="306" height="918">
    <properties>
     <property name="DelaySeconds" type="float" value="5"/>
-    <property name="Velocity" type="float" value="50"/>
+    <property name="Velocity" type="float" value="35"/>
    </properties>
   </object>
  </objectgroup>
