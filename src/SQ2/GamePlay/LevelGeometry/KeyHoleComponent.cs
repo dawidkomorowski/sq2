@@ -9,7 +9,7 @@ namespace SQ2.GamePlay.LevelGeometry;
 
 internal sealed class KeyHoleComponent : BehaviorComponent, IRespawnable
 {
-    private TileColliderComponent? _tileColliderComponent;
+    private TileColliderComponent _tileColliderComponent = null!;
     private SpriteRendererComponent _spriteRendererComponent = null!;
 
     public KeyHoleComponent(Entity entity) : base(entity)
@@ -26,16 +26,13 @@ internal sealed class KeyHoleComponent : BehaviorComponent, IRespawnable
 
     public override void OnFixedUpdate()
     {
-        if (_tileColliderComponent is null) return;
-
         var contacts = _tileColliderComponent.GetContacts();
         foreach (var contact in contacts)
         {
             if (contact.OtherCollider.Entity.HasComponent<PlayerComponent>() &&
                 contact.OtherCollider.Entity.GetComponent<PlayerComponent>().KeysCollected >= KeysRequired)
             {
-                Entity.RemoveComponent(_tileColliderComponent);
-                _tileColliderComponent = null;
+                _tileColliderComponent.Enabled = false;
                 _spriteRendererComponent.Visible = false;
                 break;
             }
@@ -44,11 +41,7 @@ internal sealed class KeyHoleComponent : BehaviorComponent, IRespawnable
 
     public void Respawn()
     {
-        if (!Entity.HasComponent<TileColliderComponent>())
-        {
-            _tileColliderComponent = Entity.CreateComponent<TileColliderComponent>();
-        }
-
+        _tileColliderComponent.Enabled = true;
         _spriteRendererComponent.Visible = true;
     }
 }

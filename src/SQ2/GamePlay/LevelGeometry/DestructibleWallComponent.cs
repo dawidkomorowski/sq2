@@ -47,7 +47,7 @@ internal sealed class DestructibleWallComponent : BehaviorComponent, IRespawnabl
 
         _isDestroyed = true;
         _spriteRendererComponent.Visible = false;
-        Entity.RemoveComponent(Entity.GetComponent<TileColliderComponent>());
+        Entity.GetComponent<TileColliderComponent>().Enabled = false;
 
         // Create particle effect
         _entityFactory.CreateWallParticleBig(Scene, _transform2DComponent.Translation);
@@ -64,7 +64,7 @@ internal sealed class DestructibleWallComponent : BehaviorComponent, IRespawnabl
 
         _isDestroyed = false;
         _spriteRendererComponent.Visible = true;
-        Entity.CreateComponent<TileColliderComponent>();
+        Entity.GetComponent<TileColliderComponent>().Enabled = true;
     }
 }
 

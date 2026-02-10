@@ -9,7 +9,7 @@ namespace SQ2.GamePlay.LevelGeometry;
 
 internal sealed class VanishPlatformComponent : BehaviorComponent, IRespawnable
 {
-    private TileColliderComponent? _tileColliderComponent;
+    private TileColliderComponent _tileColliderComponent = null!;
     private bool _isReadyForVanish;
 
     public VanishPlatformComponent(Entity entity) : base(entity)
@@ -23,7 +23,7 @@ internal sealed class VanishPlatformComponent : BehaviorComponent, IRespawnable
 
     public override void OnFixedUpdate()
     {
-        if (_tileColliderComponent is null) return;
+        if (!_tileColliderComponent.Enabled) return;
 
         var hasLoad = false;
 
@@ -50,21 +50,13 @@ internal sealed class VanishPlatformComponent : BehaviorComponent, IRespawnable
 
     private void Vanish()
     {
-        if (_tileColliderComponent is null) return;
-
-        Entity.RemoveComponent(_tileColliderComponent);
+        _tileColliderComponent.Enabled = false;
         Entity.GetComponent<SpriteRendererComponent>().Visible = false;
-
-        _tileColliderComponent = null;
     }
 
     public void Respawn()
     {
-        if (!Entity.HasComponent<TileColliderComponent>())
-        {
-            _tileColliderComponent = Entity.CreateComponent<TileColliderComponent>();
-        }
-
+        _tileColliderComponent.Enabled = true;
         Entity.GetComponent<SpriteRendererComponent>().Visible = true;
         _isReadyForVanish = false;
     }
