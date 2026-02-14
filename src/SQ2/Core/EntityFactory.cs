@@ -691,6 +691,12 @@ internal sealed class EntityFactory
                 break;
             }
             case Background.Winter:
+                backgroundComponent.UpperLeftSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("1d0a7e73-1e90-422a-9703-0e8700a2de5f")));
+                backgroundComponent.UpperRightSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("ad3edb34-152f-4145-ba70-669f805b4dcf")));
+                backgroundComponent.MiddleLeftSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("8fb394fb-e496-43f4-a8de-2d40f0c493ab")));
+                backgroundComponent.MiddleRightSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("15a813ab-d61d-477a-b967-3fe1b8ca31bc")));
+                backgroundComponent.LowerLeftSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("5fde8aa8-0c97-4f23-8c2b-353e58a32bb0")));
+                backgroundComponent.LowerRightSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("823769f9-e3b3-45e2-a2fd-f2a9d4a24111")));
                 break;
             case Background.Desert:
                 break;
