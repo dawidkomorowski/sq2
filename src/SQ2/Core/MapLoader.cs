@@ -55,7 +55,13 @@ internal sealed class MapLoader
         var objectLayer = tileMap.ObjectLayers.Single(ol => ol.Name == "GamePlayObjects");
         LoadObjectLayer(scene, objectLayer);
 
-        _entityFactory.CreateBackground(scene);
+        var background = Background.Default;
+        if (tileMap.Properties.TryGetProperty("Background", out var property))
+        {
+            background = Enum.Parse<Background>(property?.Value ?? nameof(Background.Default));
+        }
+
+        _entityFactory.CreateBackground(scene, background);
 
         Logger.Info("Map loading completed.");
     }

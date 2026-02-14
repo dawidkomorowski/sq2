@@ -12,6 +12,19 @@
     ],
     "propertyTypes": [
         {
+            "id": 15,
+            "name": "Background",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "Default",
+                "Winter",
+                "Desert",
+                "Forest"
+            ],
+            "valuesAsFlags": false
+        },
+        {
             "color": "#ffa0a0a4",
             "drawFill": true,
             "id": 13,
