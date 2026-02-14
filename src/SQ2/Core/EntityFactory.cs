@@ -707,6 +707,12 @@ internal sealed class EntityFactory
                 backgroundComponent.LowerRightSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("a02506b8-48b3-44c7-976b-62b9118f4192")));
                 break;
             case Background.Forest:
+                backgroundComponent.UpperLeftSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("1874af1e-f2b6-47de-8b45-655ca0fb1c99")));
+                backgroundComponent.UpperRightSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("c8affdad-d36b-4657-b95d-9a7e16b17488")));
+                backgroundComponent.MiddleLeftSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("dcaf0105-3b16-4563-8344-eaa2803c3726")));
+                backgroundComponent.MiddleRightSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("479b01d4-d48b-4bea-a81e-5cd2bed34dc1")));
+                backgroundComponent.LowerLeftSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("881d5acc-b063-473d-9b90-24047f3f6dd0")));
+                backgroundComponent.LowerRightSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("7bd94eb9-4c1e-42f4-ae42-5bcd172e3688")));
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(background), background, null);
