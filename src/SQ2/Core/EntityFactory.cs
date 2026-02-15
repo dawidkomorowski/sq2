@@ -532,12 +532,13 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateBatBossSpawner(Scene scene, double x, double y, Vector2 targetPoint)
+    public Entity CreateBatBossSpawner(Scene scene, double x, double y, Vector2 targetPoint, double spawnAfterSeconds)
     {
         var entity = scene.CreateEntity();
         var batBossSpawnerComponent = entity.CreateComponent<BatBossSpawnerComponent>();
         batBossSpawnerComponent.SpawnPosition = new Vector2(x, y);
         batBossSpawnerComponent.TargetPoint = targetPoint + new Vector2(-GlobalSettings.TileSize.Width / 2, GlobalSettings.TileSize.Height / 2);
+        batBossSpawnerComponent.SpawnAfterSeconds = spawnAfterSeconds;
 
         return entity;
     }

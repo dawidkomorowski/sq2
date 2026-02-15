@@ -66,6 +66,11 @@
             "id": 16,
             "members": [
                 {
+                    "name": "SpawnAfterSeconds",
+                    "type": "float",
+                    "value": 0
+                },
+                {
                     "name": "TargetPoint",
                     "type": "object",
                     "value": 0

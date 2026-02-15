@@ -273,9 +273,9 @@ internal sealed class MapLoader
                     var ey = -endPositionObject.Y;
 
                     var platformWidth = 1;
-                    if (tiledObject.Properties.TryGetProperty("Width", out var widthProp))
+                    if (tiledObject.Properties.TryGetProperty("Width", out var property))
                     {
-                        platformWidth = widthProp?.IntValue ?? platformWidth;
+                        platformWidth = property?.IntValue ?? platformWidth;
                     }
 
                     _entityFactory.CreateMovingPlatform(scene, x, y, sx, sy, ex, ey, platformWidth);
@@ -284,9 +284,9 @@ internal sealed class MapLoader
                 case "FishEnemy" when tiledObject is TiledObject.Tile:
                 {
                     var jumpOffset = 0;
-                    if (tiledObject.Properties.TryGetProperty("JumpOffset", out var prop))
+                    if (tiledObject.Properties.TryGetProperty("JumpOffset", out var property))
                     {
-                        jumpOffset = prop?.IntValue ?? jumpOffset;
+                        jumpOffset = property?.IntValue ?? jumpOffset;
                     }
 
                     _entityFactory.CreateFishEnemy(scene, x, y, jumpOffset);
@@ -311,9 +311,9 @@ internal sealed class MapLoader
                 case "KeyHole" when tiledObject is TiledObject.Tile:
                 {
                     var keysRequired = 1;
-                    if (tiledObject.Properties.TryGetProperty("KeysRequired", out var prop))
+                    if (tiledObject.Properties.TryGetProperty("KeysRequired", out var property))
                     {
-                        keysRequired = prop?.IntValue ?? keysRequired;
+                        keysRequired = property?.IntValue ?? keysRequired;
                     }
 
                     var xx = x + GlobalSettings.TileSize.Width / 2d;
@@ -350,15 +350,15 @@ internal sealed class MapLoader
                     var minY = y - height;
 
                     var velocity = 20d;
-                    if (tiledObject.Properties.TryGetProperty("Velocity", out var prop1))
+                    if (tiledObject.Properties.TryGetProperty("Velocity", out var property1))
                     {
-                        velocity = prop1?.FloatValue ?? velocity;
+                        velocity = property1?.FloatValue ?? velocity;
                     }
 
                     var delay = 5d;
-                    if (tiledObject.Properties.TryGetProperty("DelaySeconds", out var prop2))
+                    if (tiledObject.Properties.TryGetProperty("DelaySeconds", out var property2))
                     {
-                        delay = prop2?.FloatValue ?? delay;
+                        delay = property2?.FloatValue ?? delay;
                     }
 
                     _entityFactory.CreateRaisingWater(scene, xCenter, minY, maxY, width, height, velocity, delay);
@@ -369,10 +369,15 @@ internal sealed class MapLoader
                 {
                     var targetPointObjectId = tiledObject.Properties["TargetPoint"].ObjectValue;
                     var targetPointObject = objectLayer.Objects.Single(o => o.Id == targetPointObjectId);
-
                     var targetPoint = new Vector2(targetPointObject.X, -targetPointObject.Y);
 
-                    _entityFactory.CreateBatBossSpawner(scene, x, y, targetPoint);
+                    var spawnAfterSeconds = 0d;
+                    if (tiledObject.Properties.TryGetProperty("SpawnAfterSeconds", out var property))
+                    {
+                        spawnAfterSeconds = property?.FloatValue ?? spawnAfterSeconds;
+                    }
+
+                    _entityFactory.CreateBatBossSpawner(scene, x, y, targetPoint, spawnAfterSeconds);
                     break;
                 }
                 case "Metadata":
