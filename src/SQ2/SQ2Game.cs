@@ -3,6 +3,7 @@ using Geisha.Engine;
 using Geisha.Engine.Rendering;
 using SQ2.Core;
 using SQ2.Development;
+using SQ2.GamePlay.Boss.Bat;
 using SQ2.GamePlay.Boss.Blue;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Enemies;
@@ -93,9 +94,12 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<KeyComponentFactory>();
         componentsRegistry.RegisterComponentFactory<KeyHoleComponentFactory>();
         componentsRegistry.RegisterComponentFactory<RaisingWaterComponentFactory>();
-        // Bosses
+        // Boss: blue
         componentsRegistry.RegisterComponentFactory<BlueBossComponentFactory>();
         componentsRegistry.RegisterComponentFactory<BlueBossProjectileComponentFactory>();
+        // Boss: bat
+        componentsRegistry.RegisterComponentFactory<BatBossSpawnerComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<BatBossComponentFactory>();
 
         // VFX
         componentsRegistry.RegisterComponentFactory<WallParticleComponentFactory>();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Geisha.Engine.Core.Assets;
+using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Rendering;
 using Geisha.Extensions.Tiled;
@@ -362,6 +363,16 @@ internal sealed class MapLoader
 
                     _entityFactory.CreateRaisingWater(scene, xCenter, minY, maxY, width, height, velocity, delay);
 
+                    break;
+                }
+                case "BossBat" when tiledObject is TiledObject.Tile:
+                {
+                    var targetPointObjectId = tiledObject.Properties["TargetPoint"].ObjectValue;
+                    var targetPointObject = objectLayer.Objects.Single(o => o.Id == targetPointObjectId);
+
+                    var targetPoint = new Vector2(targetPointObject.X, -targetPointObject.Y);
+
+                    _entityFactory.CreateBatBossSpawner(scene, x, y, targetPoint);
                     break;
                 }
                 case "Metadata":

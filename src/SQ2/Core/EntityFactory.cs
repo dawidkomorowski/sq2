@@ -10,6 +10,7 @@ using Geisha.Engine.Physics.Components;
 using Geisha.Engine.Rendering;
 using Geisha.Engine.Rendering.Components;
 using SQ2.Development;
+using SQ2.GamePlay.Boss.Bat;
 using SQ2.GamePlay.Boss.Blue;
 using SQ2.GamePlay.Enemies;
 using SQ2.GamePlay.LevelGeometry;
@@ -520,6 +521,39 @@ internal sealed class EntityFactory
         rectangleColliderComponent.Dimensions = new Vector2(13, 13);
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
         kinematicRigidBody2DComponent.EnableCollisionResponse = true;
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
+        var spriteAnimationComponent = entity.CreateComponent<SpriteAnimationComponent>();
+        spriteAnimationComponent.AddAnimation("Fly", _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("3a27bb5c-62a2-4f96-be5b-fbb176593312"))));
+        spriteAnimationComponent.PlayInLoop = true;
+        spriteAnimationComponent.PlaybackSpeed = 2;
+        spriteAnimationComponent.PlayAnimation("Fly");
+
+        return entity;
+    }
+
+    public Entity CreateBatBossSpawner(Scene scene, double x, double y, Vector2 targetPoint)
+    {
+        var entity = scene.CreateEntity();
+        var batBossSpawnerComponent = entity.CreateComponent<BatBossSpawnerComponent>();
+        batBossSpawnerComponent.SpawnPosition = new Vector2(x, y);
+        batBossSpawnerComponent.TargetPoint = targetPoint + new Vector2(-GlobalSettings.TileSize.Width / 2, GlobalSettings.TileSize.Height / 2);
+
+        return entity;
+    }
+
+    public Entity CreateBatBoss(Scene scene, Vector2 spawnPosition, Vector2 targetPoint)
+    {
+        var entity = scene.CreateEntity();
+        var batBossComponent = entity.CreateComponent<BatBossComponent>();
+        batBossComponent.TargetPoint = targetPoint;
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = spawnPosition + new Vector2(9, 12);
+        transform2DComponent.IsInterpolated = true;
+        var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
+        rectangleColliderComponent.Dimensions = new Vector2(13, 13);
+        var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
+        kinematicRigidBody2DComponent.EnableCollisionResponse = false;
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         var spriteAnimationComponent = entity.CreateComponent<SpriteAnimationComponent>();

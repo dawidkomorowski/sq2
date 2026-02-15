@@ -61,6 +61,24 @@
             ]
         },
         {
+            "color": "#ffff0000",
+            "drawFill": true,
+            "id": 16,
+            "members": [
+                {
+                    "name": "TargetPoint",
+                    "type": "object",
+                    "value": 0
+                }
+            ],
+            "name": "BossBat",
+            "type": "class",
+            "useAs": [
+                "object",
+                "project"
+            ]
+        },
+        {
             "color": "#ffa0a0a4",
             "drawFill": true,
             "id": 9,
