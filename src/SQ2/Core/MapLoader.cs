@@ -6,6 +6,7 @@ using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Rendering;
 using Geisha.Extensions.Tiled;
 using NLog;
+using SQ2.GamePlay.Player;
 
 namespace SQ2.Core;
 
@@ -53,8 +54,21 @@ internal sealed class MapLoader
             tileLayerIndex++;
         }
 
-        var objectLayer = tileMap.ObjectLayers.Single(ol => ol.Name == "GamePlayObjects");
-        LoadObjectLayer(scene, objectLayer);
+        foreach (var objectLayer in tileMap.ObjectLayers)
+        {
+            LoadObjectLayer(scene, objectLayer);
+        }
+
+        var playerSpawnPointCount = scene.AllEntities.Count(e => e.HasComponent<PlayerSpawnPointComponent>());
+        switch (playerSpawnPointCount)
+        {
+            case 0:
+                throw new InvalidOperationException("Map must contain exactly one PlayerSpawnPoint object, but none found.");
+            case 1:
+                break;
+            default:
+                throw new InvalidOperationException($"Map must contain exactly one PlayerSpawnPoint object, but found {playerSpawnPointCount}.");
+        }
 
         var background = Background.Default;
         if (tileMap.Properties.TryGetProperty("Background", out var property))
@@ -238,17 +252,6 @@ internal sealed class MapLoader
 
     private void LoadObjectLayer(Scene scene, ObjectLayer objectLayer)
     {
-        var playerSpawnPointCount = objectLayer.Objects.Count(o => o.Type == "PlayerSpawnPoint");
-        switch (playerSpawnPointCount)
-        {
-            case 0:
-                throw new InvalidOperationException("Map must contain exactly one PlayerSpawnPoint object, but none found.");
-            case 1:
-                break;
-            default:
-                throw new InvalidOperationException($"Map must contain exactly one PlayerSpawnPoint object, but found {playerSpawnPointCount}.");
-        }
-
         foreach (var tiledObject in objectLayer.Objects)
         {
             var x = tiledObject.X - GlobalSettings.TileSize.Width / 2d;
