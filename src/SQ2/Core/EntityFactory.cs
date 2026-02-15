@@ -532,22 +532,24 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateBatBossSpawner(Scene scene, double x, double y, Vector2 targetPoint, double spawnAfterSeconds)
+    public Entity CreateBatBossSpawner(Scene scene, double x, double y, Vector2 targetPoint, double spawnAfterSeconds, double velocity)
     {
         var entity = scene.CreateEntity();
         var batBossSpawnerComponent = entity.CreateComponent<BatBossSpawnerComponent>();
         batBossSpawnerComponent.SpawnPosition = new Vector2(x, y);
         batBossSpawnerComponent.TargetPoint = targetPoint + new Vector2(-GlobalSettings.TileSize.Width / 2, GlobalSettings.TileSize.Height / 2);
         batBossSpawnerComponent.SpawnAfterSeconds = spawnAfterSeconds;
+        batBossSpawnerComponent.Velocity = velocity;
 
         return entity;
     }
 
-    public Entity CreateBatBoss(Scene scene, Vector2 spawnPosition, Vector2 targetPoint)
+    public Entity CreateBatBoss(Scene scene, Vector2 spawnPosition, Vector2 targetPoint, double velocity)
     {
         var entity = scene.CreateEntity();
         var batBossComponent = entity.CreateComponent<BatBossComponent>();
         batBossComponent.TargetPoint = targetPoint;
+        batBossComponent.Velocity = velocity;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = spawnPosition + new Vector2(9, 12);
         transform2DComponent.IsInterpolated = true;

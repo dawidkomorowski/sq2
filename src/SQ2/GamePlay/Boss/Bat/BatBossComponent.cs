@@ -21,6 +21,7 @@ internal sealed class BatBossComponent : BehaviorComponent
     }
 
     public Vector2 TargetPoint { get; set; }
+    public double Velocity { get; set; }
 
     public override void OnStart()
     {
@@ -43,8 +44,7 @@ internal sealed class BatBossComponent : BehaviorComponent
             }
         }
 
-        const double v = 60;
-        var dv = v * GameTime.FixedDeltaTimeSeconds;
+        var dv = Velocity * GameTime.FixedDeltaTimeSeconds;
 
         var currentPosition = _transform2DComponent.Translation;
         var toTarget = TargetPoint - currentPosition;
@@ -56,7 +56,7 @@ internal sealed class BatBossComponent : BehaviorComponent
         }
 
         var moveDirection = toTarget.Unit;
-        _kinematicRigidBody2DComponent.LinearVelocity = moveDirection * v;
+        _kinematicRigidBody2DComponent.LinearVelocity = moveDirection * Velocity;
 
         Movement.UpdateHorizontalSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
     }

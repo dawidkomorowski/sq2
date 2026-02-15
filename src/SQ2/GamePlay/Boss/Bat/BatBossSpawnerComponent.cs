@@ -20,6 +20,7 @@ internal sealed class BatBossSpawnerComponent : BehaviorComponent
     public Vector2 SpawnPosition { get; set; }
     public Vector2 TargetPoint { get; set; }
     public double SpawnAfterSeconds { get; set; }
+    public double Velocity { get; set; }
 
     public override void OnFixedUpdate()
     {
@@ -27,7 +28,7 @@ internal sealed class BatBossSpawnerComponent : BehaviorComponent
 
         if (_secondsTimer >= SpawnAfterSeconds && !_hasSpawned)
         {
-            _entityFactory.CreateBatBoss(Scene, SpawnPosition, TargetPoint);
+            _entityFactory.CreateBatBoss(Scene, SpawnPosition, TargetPoint, Velocity);
             _hasSpawned = true;
         }
     }

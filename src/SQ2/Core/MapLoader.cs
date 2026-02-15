@@ -377,7 +377,13 @@ internal sealed class MapLoader
                         spawnAfterSeconds = property?.FloatValue ?? spawnAfterSeconds;
                     }
 
-                    _entityFactory.CreateBatBossSpawner(scene, x, y, targetPoint, spawnAfterSeconds);
+                    var velocity = 60d;
+                    if (tiledObject.Properties.TryGetProperty("Velocity", out var property2))
+                    {
+                        velocity = property2?.FloatValue ?? velocity;
+                    }
+
+                    _entityFactory.CreateBatBossSpawner(scene, x, y, targetPoint, spawnAfterSeconds, velocity);
                     break;
                 }
                 case "Metadata":

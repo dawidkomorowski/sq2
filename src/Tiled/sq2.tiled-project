@@ -74,6 +74,11 @@
                     "name": "TargetPoint",
                     "type": "object",
                     "value": 0
+                },
+                {
+                    "name": "Velocity",
+                    "type": "float",
+                    "value": 60
                 }
             ],
             "name": "BossBat",
