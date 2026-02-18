@@ -18,6 +18,7 @@ internal static class DevConfig
         public static bool Ladders => ReadConfig()?.DebugDraw?.Ladders ?? false;
         public static bool MovingPlatforms => ReadConfig()?.DebugDraw?.MovingPlatforms ?? false;
         public static bool BlueBoss => ReadConfig()?.DebugDraw?.BlueBoss ?? false;
+        public static bool BatBoss => ReadConfig()?.DebugDraw?.BatBoss ?? false;
     }
 
     public static void InitializeFromArgs(string[] args)
@@ -70,5 +71,6 @@ internal static class DevConfig
         public bool? Ladders { get; init; }
         public bool? MovingPlatforms { get; init; }
         public bool? BlueBoss { get; init; }
+        public bool? BatBoss { get; init; }
     }
 }

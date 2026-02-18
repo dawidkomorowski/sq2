@@ -89,6 +89,19 @@
             ]
         },
         {
+            "color": "#ffffff00",
+            "drawFill": true,
+            "id": 17,
+            "members": [
+            ],
+            "name": "BossBatTrigger",
+            "type": "class",
+            "useAs": [
+                "object",
+                "project"
+            ]
+        },
+        {
             "color": "#ffa0a0a4",
             "drawFill": true,
             "id": 9,

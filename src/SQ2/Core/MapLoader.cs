@@ -389,6 +389,15 @@ internal sealed class MapLoader
                     _entityFactory.CreateBatBossSpawner(scene, x, y, targetPoint, spawnAfterSeconds, velocity);
                     break;
                 }
+                case "BossBatTrigger" when tiledObject is TiledObject.Rectangle:
+                {
+                    var width = tiledObject.Width;
+                    var height = tiledObject.Height;
+                    var xCenter = x + width / 2d;
+                    var yCenter = y - height / 2d;
+                    _entityFactory.CreateBatBossTrigger(scene, xCenter, yCenter, width, height);
+                    break;
+                }
                 case "Metadata":
                     // Ignore metadata objects
                     break;

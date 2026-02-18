@@ -98,6 +98,7 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<BlueBossComponentFactory>();
         componentsRegistry.RegisterComponentFactory<BlueBossProjectileComponentFactory>();
         // Boss: bat
+        componentsRegistry.RegisterComponentFactory<BatBossTriggerComponentFactory>();
         componentsRegistry.RegisterComponentFactory<BatBossSpawnerComponentFactory>();
         componentsRegistry.RegisterComponentFactory<BatBossComponentFactory>();
 

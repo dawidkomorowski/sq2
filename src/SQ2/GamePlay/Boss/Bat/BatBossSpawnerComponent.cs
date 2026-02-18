@@ -21,9 +21,12 @@ internal sealed class BatBossSpawnerComponent : BehaviorComponent
     public Vector2 TargetPoint { get; set; }
     public double SpawnAfterSeconds { get; set; }
     public double Velocity { get; set; }
+    public bool Active { get; set; }
 
     public override void OnFixedUpdate()
     {
+        if (!Active) return;
+
         _secondsTimer += GameTime.FixedDeltaTimeSeconds;
 
         if (_secondsTimer >= SpawnAfterSeconds && !_hasSpawned)
