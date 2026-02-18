@@ -11,7 +11,7 @@ using SQ2.GamePlay.Common;
 
 namespace SQ2.GamePlay.Boss.Bat;
 
-internal sealed class BatBossTriggerComponent : BehaviorComponent
+internal sealed class BatBossTriggerComponent : BehaviorComponent, IRespawnable
 {
     private readonly bool _enableDebugDraw = DevConfig.DebugDraw.BatBoss;
     private readonly IDebugRenderer _debugRenderer;
@@ -64,6 +64,11 @@ internal sealed class BatBossTriggerComponent : BehaviorComponent
         {
             _debugRenderer.DrawRectangle(TriggerArea, Color.Red, Matrix3x3.Identity);
         }
+    }
+
+    public void Respawn()
+    {
+        _hasBeenActivated = false;
     }
 }
 

@@ -3,10 +3,11 @@ using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using SQ2.Core;
+using SQ2.GamePlay.Common;
 
 namespace SQ2.GamePlay.Boss.Bat;
 
-internal sealed class BatBossSpawnerComponent : BehaviorComponent
+internal sealed class BatBossSpawnerComponent : BehaviorComponent, IRespawnable
 {
     private readonly EntityFactory _entityFactory;
     private double _secondsTimer;
@@ -34,6 +35,13 @@ internal sealed class BatBossSpawnerComponent : BehaviorComponent
             _entityFactory.CreateBatBoss(Scene, SpawnPosition, TargetPoint, Velocity);
             _hasSpawned = true;
         }
+    }
+
+    public void Respawn()
+    {
+        Active = false;
+        _secondsTimer = 0;
+        _hasSpawned = false;
     }
 }
 

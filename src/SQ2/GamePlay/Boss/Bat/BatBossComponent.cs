@@ -10,7 +10,7 @@ using System;
 
 namespace SQ2.GamePlay.Boss.Bat;
 
-internal sealed class BatBossComponent : BehaviorComponent
+internal sealed class BatBossComponent : BehaviorComponent, IRespawnable
 {
     private Transform2DComponent _transform2DComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;
@@ -59,6 +59,11 @@ internal sealed class BatBossComponent : BehaviorComponent
         _kinematicRigidBody2DComponent.LinearVelocity = moveDirection * Velocity;
 
         Movement.UpdateHorizontalSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
+    }
+
+    public void Respawn()
+    {
+        Entity.RemoveAfterFixedTimeStep();
     }
 }
 
