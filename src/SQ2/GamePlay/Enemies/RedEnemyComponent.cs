@@ -16,12 +16,14 @@ internal sealed class RedEnemyComponent : BehaviorComponent, IRespawnable
     private Transform2DComponent _transform2DComponent = null!;
 
     private const double BaseVelocity = 20;
-    private double _currentVelocity = -BaseVelocity;
+    private double _currentVelocity;
     private Vector2 _startPosition;
 
     public RedEnemyComponent(Entity entity) : base(entity)
     {
     }
+
+    public MovementDirection InitialMovementDirection { get; set; }
 
     public override void OnStart()
     {
@@ -30,6 +32,7 @@ internal sealed class RedEnemyComponent : BehaviorComponent, IRespawnable
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
 
         _startPosition = _transform2DComponent.Translation;
+        _currentVelocity = Movement.GetVelocityForDirection(InitialMovementDirection, BaseVelocity);
     }
 
     public override void OnFixedUpdate()
@@ -73,7 +76,7 @@ internal sealed class RedEnemyComponent : BehaviorComponent, IRespawnable
         {
             Translation = _startPosition
         });
-        _currentVelocity = -BaseVelocity;
+        _currentVelocity = Movement.GetVelocityForDirection(InitialMovementDirection, BaseVelocity);
     }
 }
 

@@ -420,10 +420,11 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateRedEnemy(Scene scene, Vector2 position)
+    public Entity CreateRedEnemy(Scene scene, Vector2 position, MovementDirection initialMovementDirection)
     {
         var entity = scene.CreateEntity();
-        entity.CreateComponent<RedEnemyComponent>();
+        var redEnemyComponent = entity.CreateComponent<RedEnemyComponent>();
+        redEnemyComponent.InitialMovementDirection = initialMovementDirection;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = position;
         transform2DComponent.IsInterpolated = true;

@@ -312,6 +312,12 @@
             "drawFill": true,
             "id": 19,
             "members": [
+                {
+                    "name": "InitialMovementDirection",
+                    "propertyType": "MovementDirection",
+                    "type": "string",
+                    "value": "Left"
+                }
             ],
             "name": "RedEnemy",
             "type": "class",

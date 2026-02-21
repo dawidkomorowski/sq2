@@ -232,7 +232,7 @@ internal sealed class MapLoader
                             case "Enemy_Red":
                             {
                                 var position = Geometry.GetWorldCoordinates(tx, ty);
-                                _entityFactory.CreateRedEnemy(scene, position);
+                                _entityFactory.CreateRedEnemy(scene, position, MovementDirection.Left);
                                 break;
                             }
                             case "Enemy_Yellow":
@@ -426,8 +426,14 @@ internal sealed class MapLoader
                 }
                 case "RedEnemy" when tiledObject is TiledObject.Tile:
                 {
+                    var initialMovementDirection = MovementDirection.Left;
+                    if (tiledObject.Properties.TryGetProperty("InitialMovementDirection", out var property))
+                    {
+                        initialMovementDirection = Enum.Parse<MovementDirection>(property?.StringValue ?? initialMovementDirection.ToString());
+                    }
+
                     var position = new Vector2(x + 10, y + 8);
-                    _entityFactory.CreateRedEnemy(scene, position);
+                    _entityFactory.CreateRedEnemy(scene, position, initialMovementDirection);
                     break;
                 }
                 default:
