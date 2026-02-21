@@ -6,6 +6,7 @@ using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Rendering;
 using Geisha.Extensions.Tiled;
 using NLog;
+using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
 
 namespace SQ2.Core;
@@ -73,7 +74,7 @@ internal sealed class MapLoader
         var background = Background.Default;
         if (tileMap.Properties.TryGetProperty("Background", out var property))
         {
-            background = Enum.Parse<Background>(property?.Value ?? nameof(Background.Default));
+            background = Enum.Parse<Background>(property?.Value ?? background.ToString());
         }
 
         _entityFactory.CreateBackground(scene, background);
@@ -225,7 +226,7 @@ internal sealed class MapLoader
                             case "Enemy_Blue_Small":
                             {
                                 var position = Geometry.GetWorldCoordinates(tx, ty);
-                                _entityFactory.CreateBlueEnemy(scene, position);
+                                _entityFactory.CreateBlueEnemy(scene, position, MovementDirection.Left);
                                 break;
                             }
                             case "Enemy_Red":
@@ -287,8 +288,14 @@ internal sealed class MapLoader
                 }
                 case "BlueEnemy" when tiledObject is TiledObject.Tile:
                 {
+                    var initialMovementDirection = MovementDirection.Left;
+                    if (tiledObject.Properties.TryGetProperty("InitialMovementDirection", out var property))
+                    {
+                        initialMovementDirection = Enum.Parse<MovementDirection>(property?.StringValue ?? initialMovementDirection.ToString());
+                    }
+
                     var position = new Vector2(x + 10, y + 7);
-                    _entityFactory.CreateBlueEnemy(scene, position);
+                    _entityFactory.CreateBlueEnemy(scene, position, initialMovementDirection);
                     break;
                 }
                 case "BossBat" when tiledObject is TiledObject.Tile:

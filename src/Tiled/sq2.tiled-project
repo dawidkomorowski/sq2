@@ -65,6 +65,12 @@
             "drawFill": true,
             "id": 18,
             "members": [
+                {
+                    "name": "InitialMovementDirection",
+                    "propertyType": "MovementDirection",
+                    "type": "string",
+                    "value": "Left"
+                }
             ],
             "name": "BlueEnemy",
             "type": "class",
@@ -225,6 +231,17 @@
                 "object",
                 "project"
             ]
+        },
+        {
+            "id": 20,
+            "name": "MovementDirection",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "Left",
+                "Right"
+            ],
+            "valuesAsFlags": false
         },
         {
             "color": "#ff00ffff",

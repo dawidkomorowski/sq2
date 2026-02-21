@@ -22,7 +22,7 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable
     private Transform2DComponent _transform2DComponent = null!;
 
     private const double BaseVelocity = 20;
-    private double _currentVelocity = -BaseVelocity;
+    private double _currentVelocity;
     private Vector2 _startPosition;
 
     public BlueEnemyComponent(Entity entity, EntityFactory entityFactory, RespawnService respawnService) : base(entity)
@@ -31,6 +31,8 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable
         _respawnService = respawnService;
     }
 
+    public MovementDirection InitialMovementDirection { get; set; }
+
     public override void OnStart()
     {
         _kinematicRigidBody2DComponent = Entity.GetComponent<KinematicRigidBody2DComponent>();
@@ -38,6 +40,7 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
 
         _startPosition = _transform2DComponent.Translation;
+        _currentVelocity = Movement.GetVelocityForDirection(InitialMovementDirection, BaseVelocity);
     }
 
     public override void OnFixedUpdate()
@@ -93,14 +96,14 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable
         {
             Translation = _startPosition
         });
-        _currentVelocity = -BaseVelocity;
+        _currentVelocity = Movement.GetVelocityForDirection(InitialMovementDirection, BaseVelocity);
     }
 
     private void Die()
     {
         Entity.RemoveAfterFixedTimeStep();
 
-        _respawnService.AddOneTimeRespawnAction(() => { _entityFactory.CreateBlueEnemy(Scene, _startPosition); });
+        _respawnService.AddOneTimeRespawnAction(() => { _entityFactory.CreateBlueEnemy(Scene, _startPosition, InitialMovementDirection); });
 
         var offset = new Vector2(SpriteOffset.X * _transform2DComponent.Scale.X, SpriteOffset.Y);
         _entityFactory.CreateBlueEnemyDeathAnimation(Scene, _transform2DComponent.Translation + offset, _transform2DComponent.Scale);

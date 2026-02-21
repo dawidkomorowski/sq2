@@ -1,4 +1,5 @@
-﻿using Geisha.Engine.Core;
+﻿using System;
+using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Physics.Components;
@@ -45,4 +46,12 @@ internal static class Movement
             transform.SetTransformImmediate(transform.Transform with { Scale = new Vector2(1, -1) });
         }
     }
+
+    public static double GetVelocityForDirection(MovementDirection movementDirection, double baseVelocity) =>
+        movementDirection switch
+        {
+            MovementDirection.Left => -baseVelocity,
+            MovementDirection.Right => baseVelocity,
+            _ => throw new ArgumentOutOfRangeException(nameof(movementDirection), movementDirection, "Invalid movement direction.")
+        };
 }

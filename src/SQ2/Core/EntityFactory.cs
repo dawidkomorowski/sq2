@@ -12,6 +12,7 @@ using Geisha.Engine.Rendering.Components;
 using SQ2.Development;
 using SQ2.GamePlay.Boss.Bat;
 using SQ2.GamePlay.Boss.Blue;
+using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Enemies;
 using SQ2.GamePlay.LevelGeometry;
 using SQ2.GamePlay.Player;
@@ -379,10 +380,11 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateBlueEnemy(Scene scene, Vector2 position)
+    public Entity CreateBlueEnemy(Scene scene, Vector2 position, MovementDirection initialMovementDirection)
     {
         var entity = scene.CreateEntity();
-        entity.CreateComponent<BlueEnemyComponent>();
+        var blueEnemyComponent = entity.CreateComponent<BlueEnemyComponent>();
+        blueEnemyComponent.InitialMovementDirection = initialMovementDirection;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = position;
         transform2DComponent.IsInterpolated = true;
