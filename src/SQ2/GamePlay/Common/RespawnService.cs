@@ -14,8 +14,14 @@ internal interface IRespawnable
 // ReSharper disable once ClassNeverInstantiated.Global
 internal sealed class RespawnService
 {
+    private readonly ProximityActivationService _proximityActivationService;
     private readonly List<Action> _oneTimeRespawnActions = new();
     private readonly List<IRespawnable> _respawnableObjects = new();
+
+    public RespawnService(ProximityActivationService proximityActivationService)
+    {
+        _proximityActivationService = proximityActivationService;
+    }
 
     public void RequestRespawn()
     {
@@ -61,6 +67,7 @@ internal sealed class RespawnService
         }
 
         _oneTimeRespawnActions.Clear();
+        _proximityActivationService.ResetActivations();
 
         RespawnRequested = false;
     }

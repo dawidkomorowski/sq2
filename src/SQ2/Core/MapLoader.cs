@@ -226,7 +226,7 @@ internal sealed class MapLoader
                             case "Enemy_Blue_Small":
                             {
                                 var position = Geometry.GetWorldCoordinates(tx, ty);
-                                _entityFactory.CreateBlueEnemy(scene, position, MovementDirection.Left);
+                                _entityFactory.CreateBlueEnemy(scene, position, MovementDirection.Left, requireActivation: false);
                                 break;
                             }
                             case "Enemy_Red":
@@ -295,7 +295,7 @@ internal sealed class MapLoader
                     }
 
                     var position = new Vector2(x + 10, y + 7);
-                    _entityFactory.CreateBlueEnemy(scene, position, initialMovementDirection);
+                    _entityFactory.CreateBlueEnemy(scene, position, initialMovementDirection, requireActivation: true);
                     break;
                 }
                 case "BossBat" when tiledObject is TiledObject.Tile:
