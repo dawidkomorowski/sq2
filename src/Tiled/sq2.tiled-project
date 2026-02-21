@@ -61,6 +61,19 @@
             ]
         },
         {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 18,
+            "members": [
+            ],
+            "name": "BlueEnemy",
+            "type": "class",
+            "useAs": [
+                "object",
+                "project"
+            ]
+        },
+        {
             "color": "#ffff0000",
             "drawFill": true,
             "id": 16,

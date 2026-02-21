@@ -100,11 +100,7 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable
     {
         Entity.RemoveAfterFixedTimeStep();
 
-        _respawnService.AddOneTimeRespawnAction(() =>
-        {
-            var (tx, ty) = Geometry.GetTileCoordinates(_startPosition);
-            _entityFactory.CreateBlueEnemy(Scene, tx, ty);
-        });
+        _respawnService.AddOneTimeRespawnAction(() => { _entityFactory.CreateBlueEnemy(Scene, _startPosition); });
 
         var offset = new Vector2(SpriteOffset.X * _transform2DComponent.Scale.X, SpriteOffset.Y);
         _entityFactory.CreateBlueEnemyDeathAnimation(Scene, _transform2DComponent.Translation + offset, _transform2DComponent.Scale);

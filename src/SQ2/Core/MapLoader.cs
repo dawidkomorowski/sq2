@@ -223,7 +223,8 @@ internal sealed class MapLoader
                         switch (characterType)
                         {
                             case "Enemy_Blue_Small":
-                                _entityFactory.CreateBlueEnemy(scene, tx, ty);
+                                var position = Geometry.GetWorldCoordinates(tx, ty);
+                                _entityFactory.CreateBlueEnemy(scene, position);
                                 break;
                             case "Enemy_Red":
                                 _entityFactory.CreateRedEnemy(scene, tx, ty);
@@ -259,71 +260,6 @@ internal sealed class MapLoader
 
             switch (tiledObject.Type)
             {
-                case "PlayerSpawnPoint":
-                    _entityFactory.CreatePlayerSpawnPoint(scene, x, y);
-                    _entityFactory.CreatePlayer(scene, x, y);
-                    break;
-                case "MovingPlatform" when tiledObject is TiledObject.Tile:
-                {
-                    var startObjectId = tiledObject.Properties["StartPosition"].ObjectValue;
-                    var endObjectId = tiledObject.Properties["EndPosition"].ObjectValue;
-                    var startPositionObject = objectLayer.Objects.Single(o => o.Id == startObjectId);
-                    var endPositionObject = objectLayer.Objects.Single(o => o.Id == endObjectId);
-
-                    var sx = startPositionObject.X;
-                    var sy = -startPositionObject.Y;
-                    var ex = endPositionObject.X;
-                    var ey = -endPositionObject.Y;
-
-                    var platformWidth = 1;
-                    if (tiledObject.Properties.TryGetProperty("Width", out var property))
-                    {
-                        platformWidth = property?.IntValue ?? platformWidth;
-                    }
-
-                    _entityFactory.CreateMovingPlatform(scene, x, y, sx, sy, ex, ey, platformWidth);
-                    break;
-                }
-                case "FishEnemy" when tiledObject is TiledObject.Tile:
-                {
-                    var jumpOffset = 0;
-                    if (tiledObject.Properties.TryGetProperty("JumpOffset", out var property))
-                    {
-                        jumpOffset = property?.IntValue ?? jumpOffset;
-                    }
-
-                    _entityFactory.CreateFishEnemy(scene, x, y, jumpOffset);
-                    break;
-                }
-                case "DestructibleWall" when tiledObject is TiledObject.Tile:
-                {
-                    var buttonId = tiledObject.Properties["Button"].ObjectValue;
-
-                    var xx = x + GlobalSettings.TileSize.Width / 2d;
-                    var yy = y + GlobalSettings.TileSize.Height / 2d;
-                    _entityFactory.CreateDestructibleWall(scene, xx, yy, buttonId);
-                    break;
-                }
-                case "Button" when tiledObject is TiledObject.Tile:
-                {
-                    var xx = x + GlobalSettings.TileSize.Width / 2d;
-                    var yy = y + GlobalSettings.TileSize.Height / 2d;
-                    _entityFactory.CreateButton(scene, xx, yy, tiledObject.Id);
-                    break;
-                }
-                case "KeyHole" when tiledObject is TiledObject.Tile:
-                {
-                    var keysRequired = 1;
-                    if (tiledObject.Properties.TryGetProperty("KeysRequired", out var property))
-                    {
-                        keysRequired = property?.IntValue ?? keysRequired;
-                    }
-
-                    var xx = x + GlobalSettings.TileSize.Width / 2d;
-                    var yy = y + GlobalSettings.TileSize.Height / 2d;
-                    _entityFactory.CreateKeyHole(scene, xx, yy, keysRequired);
-                    break;
-                }
                 case "BatEnemy" when tiledObject is TiledObject.Tile:
                 {
                     var startObjectId = tiledObject.Properties["StartPosition"].ObjectValue;
@@ -344,28 +280,10 @@ internal sealed class MapLoader
                     _entityFactory.CreateBat2Enemy(scene, x, y);
                     break;
                 }
-                case "RaisingWater" when tiledObject is TiledObject.Rectangle:
+                case "BlueEnemy" when tiledObject is TiledObject.Tile:
                 {
-                    var width = tiledObject.Width;
-                    var height = tiledObject.Height;
-                    var xCenter = x + width / 2d;
-                    var maxY = y;
-                    var minY = y - height;
-
-                    var velocity = 20d;
-                    if (tiledObject.Properties.TryGetProperty("Velocity", out var property1))
-                    {
-                        velocity = property1?.FloatValue ?? velocity;
-                    }
-
-                    var delay = 5d;
-                    if (tiledObject.Properties.TryGetProperty("DelaySeconds", out var property2))
-                    {
-                        delay = property2?.FloatValue ?? delay;
-                    }
-
-                    _entityFactory.CreateRaisingWater(scene, xCenter, minY, maxY, width, height, velocity, delay);
-
+                    var position = new Vector2(x + 10, y + 7);
+                    _entityFactory.CreateBlueEnemy(scene, position);
                     break;
                 }
                 case "BossBat" when tiledObject is TiledObject.Tile:
@@ -398,9 +316,102 @@ internal sealed class MapLoader
                     _entityFactory.CreateBatBossTrigger(scene, xCenter, yCenter, width, height);
                     break;
                 }
+                case "Button" when tiledObject is TiledObject.Tile:
+                {
+                    var xx = x + GlobalSettings.TileSize.Width / 2d;
+                    var yy = y + GlobalSettings.TileSize.Height / 2d;
+                    _entityFactory.CreateButton(scene, xx, yy, tiledObject.Id);
+                    break;
+                }
+                case "DestructibleWall" when tiledObject is TiledObject.Tile:
+                {
+                    var buttonId = tiledObject.Properties["Button"].ObjectValue;
+
+                    var xx = x + GlobalSettings.TileSize.Width / 2d;
+                    var yy = y + GlobalSettings.TileSize.Height / 2d;
+                    _entityFactory.CreateDestructibleWall(scene, xx, yy, buttonId);
+                    break;
+                }
+                case "FishEnemy" when tiledObject is TiledObject.Tile:
+                {
+                    var jumpOffset = 0;
+                    if (tiledObject.Properties.TryGetProperty("JumpOffset", out var property))
+                    {
+                        jumpOffset = property?.IntValue ?? jumpOffset;
+                    }
+
+                    _entityFactory.CreateFishEnemy(scene, x, y, jumpOffset);
+                    break;
+                }
+                case "KeyHole" when tiledObject is TiledObject.Tile:
+                {
+                    var keysRequired = 1;
+                    if (tiledObject.Properties.TryGetProperty("KeysRequired", out var property))
+                    {
+                        keysRequired = property?.IntValue ?? keysRequired;
+                    }
+
+                    var xx = x + GlobalSettings.TileSize.Width / 2d;
+                    var yy = y + GlobalSettings.TileSize.Height / 2d;
+                    _entityFactory.CreateKeyHole(scene, xx, yy, keysRequired);
+                    break;
+                }
                 case "Metadata":
+                {
                     // Ignore metadata objects
                     break;
+                }
+                case "MovingPlatform" when tiledObject is TiledObject.Tile:
+                {
+                    var startObjectId = tiledObject.Properties["StartPosition"].ObjectValue;
+                    var endObjectId = tiledObject.Properties["EndPosition"].ObjectValue;
+                    var startPositionObject = objectLayer.Objects.Single(o => o.Id == startObjectId);
+                    var endPositionObject = objectLayer.Objects.Single(o => o.Id == endObjectId);
+
+                    var sx = startPositionObject.X;
+                    var sy = -startPositionObject.Y;
+                    var ex = endPositionObject.X;
+                    var ey = -endPositionObject.Y;
+
+                    var platformWidth = 1;
+                    if (tiledObject.Properties.TryGetProperty("Width", out var property))
+                    {
+                        platformWidth = property?.IntValue ?? platformWidth;
+                    }
+
+                    _entityFactory.CreateMovingPlatform(scene, x, y, sx, sy, ex, ey, platformWidth);
+                    break;
+                }
+                case "PlayerSpawnPoint":
+                {
+                    _entityFactory.CreatePlayerSpawnPoint(scene, x, y);
+                    _entityFactory.CreatePlayer(scene, x, y);
+                    break;
+                }
+                case "RaisingWater" when tiledObject is TiledObject.Rectangle:
+                {
+                    var width = tiledObject.Width;
+                    var height = tiledObject.Height;
+                    var xCenter = x + width / 2d;
+                    var maxY = y;
+                    var minY = y - height;
+
+                    var velocity = 20d;
+                    if (tiledObject.Properties.TryGetProperty("Velocity", out var property1))
+                    {
+                        velocity = property1?.FloatValue ?? velocity;
+                    }
+
+                    var delay = 5d;
+                    if (tiledObject.Properties.TryGetProperty("DelaySeconds", out var property2))
+                    {
+                        delay = property2?.FloatValue ?? delay;
+                    }
+
+                    _entityFactory.CreateRaisingWater(scene, xCenter, minY, maxY, width, height, velocity, delay);
+
+                    break;
+                }
                 default:
                     Logger.Error("Unknown object type: {tiledObject.Type} with id {tiledObject.Id}", tiledObject.Type, tiledObject.Id);
                     break;
