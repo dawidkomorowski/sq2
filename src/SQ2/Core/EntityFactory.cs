@@ -418,12 +418,12 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateRedEnemy(Scene scene, int tx, int ty)
+    public Entity CreateRedEnemy(Scene scene, Vector2 position)
     {
         var entity = scene.CreateEntity();
         entity.CreateComponent<RedEnemyComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
+        transform2DComponent.Translation = position;
         transform2DComponent.IsInterpolated = true;
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(14, 15);

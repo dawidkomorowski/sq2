@@ -223,12 +223,17 @@ internal sealed class MapLoader
                         switch (characterType)
                         {
                             case "Enemy_Blue_Small":
+                            {
                                 var position = Geometry.GetWorldCoordinates(tx, ty);
                                 _entityFactory.CreateBlueEnemy(scene, position);
                                 break;
+                            }
                             case "Enemy_Red":
-                                _entityFactory.CreateRedEnemy(scene, tx, ty);
+                            {
+                                var position = Geometry.GetWorldCoordinates(tx, ty);
+                                _entityFactory.CreateRedEnemy(scene, position);
                                 break;
+                            }
                             case "Enemy_Yellow":
                                 _entityFactory.CreateYellowEnemy(scene, tx, ty);
                                 break;
@@ -410,6 +415,12 @@ internal sealed class MapLoader
 
                     _entityFactory.CreateRaisingWater(scene, xCenter, minY, maxY, width, height, velocity, delay);
 
+                    break;
+                }
+                case "RedEnemy" when tiledObject is TiledObject.Tile:
+                {
+                    var position = new Vector2(x + 10, y + 8);
+                    _entityFactory.CreateRedEnemy(scene, position);
                     break;
                 }
                 default:
