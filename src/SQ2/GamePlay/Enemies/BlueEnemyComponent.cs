@@ -114,7 +114,10 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable, IPro
             _proximityActivationService.Unregister(this);
         }
 
-        _respawnService.AddOneTimeRespawnAction(() => { _entityFactory.CreateBlueEnemy(Scene, _startPosition, InitialMovementDirection, RequireActivation); });
+        _respawnService.AddOneTimeRespawnAction(() =>
+        {
+            _entityFactory.CreateBlueEnemy(Scene, _startPosition, InitialMovementDirection, RequireActivation, ActivationGroup);
+        });
 
         var offset = new Vector2(SpriteOffset.X * _transform2DComponent.Scale.X, SpriteOffset.Y);
         _entityFactory.CreateBlueEnemyDeathAnimation(Scene, _transform2DComponent.Translation + offset, _transform2DComponent.Scale);
@@ -136,7 +139,7 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable, IPro
     #region IProximityActivatable
 
     public Vector2 Position => _transform2DComponent.Translation;
-    public int ActivationGroup { get; }
+    public int ActivationGroup { get; set; }
     public bool Active { get; set; }
 
     #endregion

@@ -53,7 +53,21 @@ internal sealed class ProximityActivationService
             if (proximityActivatable.Active) continue;
 
             var distanceToPlayer = proximityActivatable.Position.Distance(playerPosition);
-            proximityActivatable.Active = distanceToPlayer < ProximityActivationDistance;
+            if (distanceToPlayer < ProximityActivationDistance)
+            {
+                proximityActivatable.Active = true;
+
+                if (proximityActivatable.ActivationGroup != 0)
+                {
+                    foreach (var activatable in _proximityActivatableList)
+                    {
+                        if (activatable.ActivationGroup == proximityActivatable.ActivationGroup)
+                        {
+                            activatable.Active = true;
+                        }
+                    }
+                }
+            }
         }
     }
 

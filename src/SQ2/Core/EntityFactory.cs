@@ -380,12 +380,13 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateBlueEnemy(Scene scene, Vector2 position, MovementDirection initialMovementDirection, bool requireActivation)
+    public Entity CreateBlueEnemy(Scene scene, Vector2 position, MovementDirection initialMovementDirection, bool requireActivation, int activationGroup)
     {
         var entity = scene.CreateEntity();
         var blueEnemyComponent = entity.CreateComponent<BlueEnemyComponent>();
         blueEnemyComponent.InitialMovementDirection = initialMovementDirection;
         blueEnemyComponent.RequireActivation = requireActivation;
+        blueEnemyComponent.ActivationGroup = activationGroup;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = position;
         transform2DComponent.IsInterpolated = true;

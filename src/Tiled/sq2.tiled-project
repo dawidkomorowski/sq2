@@ -66,6 +66,11 @@
             "id": 18,
             "members": [
                 {
+                    "name": "ActivationGroupId",
+                    "type": "int",
+                    "value": 0
+                },
+                {
                     "name": "InitialMovementDirection",
                     "propertyType": "MovementDirection",
                     "type": "string",
