@@ -9,8 +9,10 @@ using SQ2.GamePlay.Player;
 
 namespace SQ2.GamePlay.Enemies;
 
-internal sealed class RedEnemyComponent : BehaviorComponent, IRespawnable
+internal sealed class RedEnemyComponent : BehaviorComponent, IRespawnable, IProximityActivatable
 {
+    private readonly ProximityActivationService _proximityActivationService;
+
     private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;
     private Transform2DComponent _transform2DComponent = null!;
@@ -19,10 +21,12 @@ internal sealed class RedEnemyComponent : BehaviorComponent, IRespawnable
     private double _currentVelocity;
     private Vector2 _startPosition;
 
-    public RedEnemyComponent(Entity entity) : base(entity)
+    public RedEnemyComponent(Entity entity, ProximityActivationService proximityActivationService) : base(entity)
     {
+        _proximityActivationService = proximityActivationService;
     }
 
+    public bool RequireActivation { get; set; }
     public MovementDirection InitialMovementDirection { get; set; }
 
     public override void OnStart()
@@ -33,10 +37,21 @@ internal sealed class RedEnemyComponent : BehaviorComponent, IRespawnable
 
         _startPosition = _transform2DComponent.Translation;
         _currentVelocity = Movement.GetVelocityForDirection(InitialMovementDirection, BaseVelocity);
+
+        if (RequireActivation)
+        {
+            _proximityActivationService.Register(this);
+        }
     }
 
     public override void OnFixedUpdate()
     {
+        if (RequireActivation && !Active)
+        {
+            _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
+            return;
+        }
+
         Movement.ApplyGravity(_kinematicRigidBody2DComponent);
 
         var contacts = _rectangleColliderComponent.IsColliding ? _rectangleColliderComponent.GetContacts() : Array.Empty<Contact2D>();
@@ -70,6 +85,8 @@ internal sealed class RedEnemyComponent : BehaviorComponent, IRespawnable
         Movement.UpdateHorizontalSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
     }
 
+    #region IRespawnable
+
     public void Respawn()
     {
         _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with
@@ -78,10 +95,27 @@ internal sealed class RedEnemyComponent : BehaviorComponent, IRespawnable
         });
         _currentVelocity = Movement.GetVelocityForDirection(InitialMovementDirection, BaseVelocity);
     }
+
+    #endregion
+
+    #region IProximityActivatable
+
+    public Vector2 Position => _transform2DComponent.Translation;
+    public int ActivationGroup { get; set; }
+    public bool Active { get; set; }
+
+    #endregion
 }
 
 // ReSharper disable once ClassNeverInstantiated.Global
 internal sealed class RedEnemyComponentFactory : ComponentFactory<RedEnemyComponent>
 {
-    protected override RedEnemyComponent CreateComponent(Entity entity) => new(entity);
+    private readonly ProximityActivationService _proximityActivationService;
+
+    public RedEnemyComponentFactory(ProximityActivationService proximityActivationService)
+    {
+        _proximityActivationService = proximityActivationService;
+    }
+
+    protected override RedEnemyComponent CreateComponent(Entity entity) => new(entity, _proximityActivationService);
 }

@@ -232,7 +232,7 @@ internal sealed class MapLoader
                             case "Enemy_Red":
                             {
                                 var position = Geometry.GetWorldCoordinates(tx, ty);
-                                _entityFactory.CreateRedEnemy(scene, position, MovementDirection.Left);
+                                _entityFactory.CreateRedEnemy(scene, position, MovementDirection.Left, requireActivation: false);
                                 break;
                             }
                             case "Enemy_Yellow":
@@ -439,7 +439,7 @@ internal sealed class MapLoader
                     }
 
                     var position = new Vector2(x + 10, y + 8);
-                    _entityFactory.CreateRedEnemy(scene, position, initialMovementDirection);
+                    _entityFactory.CreateRedEnemy(scene, position, initialMovementDirection, requireActivation: true);
                     break;
                 }
                 default:
