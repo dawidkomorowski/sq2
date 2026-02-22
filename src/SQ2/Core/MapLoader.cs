@@ -232,7 +232,7 @@ internal sealed class MapLoader
                             case "Enemy_Red":
                             {
                                 var position = Geometry.GetWorldCoordinates(tx, ty);
-                                _entityFactory.CreateRedEnemy(scene, position, MovementDirection.Left, requireActivation: false);
+                                _entityFactory.CreateRedEnemy(scene, position, MovementDirection.Left, requireActivation: false, activationGroup: 0);
                                 break;
                             }
                             case "Enemy_Yellow":
@@ -433,13 +433,19 @@ internal sealed class MapLoader
                 case "RedEnemy" when tiledObject is TiledObject.Tile:
                 {
                     var initialMovementDirection = MovementDirection.Left;
-                    if (tiledObject.Properties.TryGetProperty("InitialMovementDirection", out var property))
+                    if (tiledObject.Properties.TryGetProperty("InitialMovementDirection", out var property1))
                     {
-                        initialMovementDirection = Enum.Parse<MovementDirection>(property?.StringValue ?? initialMovementDirection.ToString());
+                        initialMovementDirection = Enum.Parse<MovementDirection>(property1?.StringValue ?? initialMovementDirection.ToString());
+                    }
+
+                    var activationGroupId = 0;
+                    if (tiledObject.Properties.TryGetProperty("ActivationGroupId", out var property2))
+                    {
+                        activationGroupId = property2?.IntValue ?? activationGroupId;
                     }
 
                     var position = new Vector2(x + 10, y + 8);
-                    _entityFactory.CreateRedEnemy(scene, position, initialMovementDirection, requireActivation: true);
+                    _entityFactory.CreateRedEnemy(scene, position, initialMovementDirection, requireActivation: true, activationGroup: activationGroupId);
                     break;
                 }
                 default:
