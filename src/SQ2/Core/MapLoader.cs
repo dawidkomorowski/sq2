@@ -74,7 +74,7 @@ internal sealed class MapLoader
         var background = Background.Default;
         if (tileMap.Properties.TryGetProperty("Background", out var property))
         {
-            background = Enum.Parse<Background>(property?.Value ?? background.ToString());
+            background = Enum.Parse<Background>(property.Value);
         }
 
         _entityFactory.CreateBackground(scene, background);
@@ -291,13 +291,13 @@ internal sealed class MapLoader
                     var initialMovementDirection = MovementDirection.Left;
                     if (tiledObject.Properties.TryGetProperty("InitialMovementDirection", out var property1))
                     {
-                        initialMovementDirection = Enum.Parse<MovementDirection>(property1?.StringValue ?? initialMovementDirection.ToString());
+                        initialMovementDirection = Enum.Parse<MovementDirection>(property1.StringValue);
                     }
 
                     var activationGroupId = 0;
                     if (tiledObject.Properties.TryGetProperty("ActivationGroupId", out var property2))
                     {
-                        activationGroupId = property2?.IntValue ?? activationGroupId;
+                        activationGroupId = property2.IntValue;
                     }
 
                     var position = new Vector2(x + 10, y + 7);
@@ -313,13 +313,13 @@ internal sealed class MapLoader
                     var spawnAfterSeconds = 0d;
                     if (tiledObject.Properties.TryGetProperty("SpawnAfterSeconds", out var property))
                     {
-                        spawnAfterSeconds = property?.FloatValue ?? spawnAfterSeconds;
+                        spawnAfterSeconds = property.FloatValue;
                     }
 
                     var velocity = 60d;
                     if (tiledObject.Properties.TryGetProperty("Velocity", out var property2))
                     {
-                        velocity = property2?.FloatValue ?? velocity;
+                        velocity = property2.FloatValue;
                     }
 
                     _entityFactory.CreateBatBossSpawner(scene, x, y, targetPoint, spawnAfterSeconds, velocity);
@@ -355,7 +355,7 @@ internal sealed class MapLoader
                     var jumpOffset = 0;
                     if (tiledObject.Properties.TryGetProperty("JumpOffset", out var property))
                     {
-                        jumpOffset = property?.IntValue ?? jumpOffset;
+                        jumpOffset = property.IntValue;
                     }
 
                     _entityFactory.CreateFishEnemy(scene, x, y, jumpOffset);
@@ -366,7 +366,7 @@ internal sealed class MapLoader
                     var keysRequired = 1;
                     if (tiledObject.Properties.TryGetProperty("KeysRequired", out var property))
                     {
-                        keysRequired = property?.IntValue ?? keysRequired;
+                        keysRequired = property.IntValue;
                     }
 
                     var xx = x + GlobalSettings.TileSize.Width / 2d;
@@ -394,7 +394,7 @@ internal sealed class MapLoader
                     var platformWidth = 1;
                     if (tiledObject.Properties.TryGetProperty("Width", out var property))
                     {
-                        platformWidth = property?.IntValue ?? platformWidth;
+                        platformWidth = property.IntValue;
                     }
 
                     _entityFactory.CreateMovingPlatform(scene, x, y, sx, sy, ex, ey, platformWidth);
@@ -417,13 +417,13 @@ internal sealed class MapLoader
                     var velocity = 20d;
                     if (tiledObject.Properties.TryGetProperty("Velocity", out var property1))
                     {
-                        velocity = property1?.FloatValue ?? velocity;
+                        velocity = property1.FloatValue;
                     }
 
                     var delay = 5d;
                     if (tiledObject.Properties.TryGetProperty("DelaySeconds", out var property2))
                     {
-                        delay = property2?.FloatValue ?? delay;
+                        delay = property2.FloatValue;
                     }
 
                     _entityFactory.CreateRaisingWater(scene, xCenter, minY, maxY, width, height, velocity, delay);
@@ -435,13 +435,13 @@ internal sealed class MapLoader
                     var initialMovementDirection = MovementDirection.Left;
                     if (tiledObject.Properties.TryGetProperty("InitialMovementDirection", out var property1))
                     {
-                        initialMovementDirection = Enum.Parse<MovementDirection>(property1?.StringValue ?? initialMovementDirection.ToString());
+                        initialMovementDirection = Enum.Parse<MovementDirection>(property1.StringValue);
                     }
 
                     var activationGroupId = 0;
                     if (tiledObject.Properties.TryGetProperty("ActivationGroupId", out var property2))
                     {
-                        activationGroupId = property2?.IntValue ?? activationGroupId;
+                        activationGroupId = property2.IntValue;
                     }
 
                     var position = new Vector2(x + 10, y + 8);
