@@ -103,7 +103,7 @@ internal sealed class MapLoader
                 {
                     case "WorldTile":
                     {
-                        var assetId = new AssetId(new Guid(tile.Properties["AssetId"].StringValue));
+                        var assetId = AssetId.Parse(tile.Properties["AssetId"].StringValue);
                         var tileType = tile.Properties["TileType"].StringValue;
                         switch (tileType)
                         {
@@ -150,7 +150,7 @@ internal sealed class MapLoader
                 {
                     case "WorldTile":
                     {
-                        var assetId = new AssetId(new Guid(tile.Properties["AssetId"].StringValue));
+                        var assetId = AssetId.Parse(tile.Properties["AssetId"].StringValue);
                         var tileType = tile.Properties["TileType"].StringValue;
                         switch (tileType)
                         {

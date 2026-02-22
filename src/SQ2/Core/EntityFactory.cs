@@ -51,7 +51,7 @@ internal sealed class EntityFactory
         var entity = scene.CreateEntity();
         var checkPointComponent = entity.CreateComponent<CheckPointComponent>();
         checkPointComponent.ActiveSprite = _assetStore.GetAsset<Sprite>(assetId);
-        checkPointComponent.InactiveSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("677b676e-d1c8-44c0-8c26-6ef0e5fcacbb")));
+        checkPointComponent.InactiveSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("677b676e-d1c8-44c0-8c26-6ef0e5fcacbb"));
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
@@ -79,7 +79,7 @@ internal sealed class EntityFactory
         var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         var spriteAnimationComponent = spriteEntity.CreateComponent<SpriteAnimationComponent>();
-        spriteAnimationComponent.AddAnimation("Walk", _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("d7a11945-11f6-41a3-90fb-46dae40c6c56"))));
+        spriteAnimationComponent.AddAnimation("Walk", _assetStore.GetAsset<SpriteAnimation>(AssetId.Parse("d7a11945-11f6-41a3-90fb-46dae40c6c56")));
         spriteAnimationComponent.PlayInLoop = true;
         spriteAnimationComponent.PlaybackSpeed = 3;
         spriteAnimationComponent.PlayAnimation("Walk");
@@ -232,7 +232,7 @@ internal sealed class EntityFactory
                 -GlobalSettings.TileSize.Height / 4 + 0.5
             );
             var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
-            spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("e3801ac8-1361-425b-9ca4-48f4fd4b3a4f")));
+            spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("e3801ac8-1361-425b-9ca4-48f4fd4b3a4f"));
             spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
             spriteRendererComponent.OrderInLayer = -1;
         }
@@ -259,8 +259,8 @@ internal sealed class EntityFactory
     {
         var entity = scene.CreateEntity();
         var jumpPadComponent = entity.CreateComponent<JumpPadComponent>();
-        jumpPadComponent.HighSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("afa34cd1-0643-4551-9a0d-76558521b9e7")));
-        jumpPadComponent.LowSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("120bb5b7-2f24-4f72-902c-b516ac2334d7")));
+        jumpPadComponent.HighSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("afa34cd1-0643-4551-9a0d-76558521b9e7"));
+        jumpPadComponent.LowSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("120bb5b7-2f24-4f72-902c-b516ac2334d7"));
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty) + new Vector2(0, -2);
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
@@ -305,7 +305,7 @@ internal sealed class EntityFactory
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = new Vector2(x, y);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
-        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("9ba1d62b-7ffa-4732-a2c8-180f044281e4")));
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("9ba1d62b-7ffa-4732-a2c8-180f044281e4"));
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         entity.CreateComponent<TileColliderComponent>();
         return entity;
@@ -316,8 +316,8 @@ internal sealed class EntityFactory
         var entity = scene.CreateEntity();
         var buttonComponent = entity.CreateComponent<ButtonComponent>();
         buttonComponent.ObjectId = objectId;
-        buttonComponent.PressedSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("22061613-dde7-4909-88f9-a0897673b9cd")));
-        buttonComponent.ReleasedSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("7fa96723-2c98-4597-991d-1bbaf2fa43e5")));
+        buttonComponent.PressedSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("22061613-dde7-4909-88f9-a0897673b9cd"));
+        buttonComponent.ReleasedSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("7fa96723-2c98-4597-991d-1bbaf2fa43e5"));
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = new Vector2(x, y - 6);
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
@@ -333,12 +333,12 @@ internal sealed class EntityFactory
 
     public Entity CreateWallParticleBig(Scene scene, Vector2 position)
     {
-        return CreateWallParticle(scene, position, new AssetId(new Guid("eb3b76a8-8e41-4229-9c4d-1e99849ca44e")));
+        return CreateWallParticle(scene, position, AssetId.Parse("eb3b76a8-8e41-4229-9c4d-1e99849ca44e"));
     }
 
     public Entity CreateWallParticleSmall(Scene scene, Vector2 position)
     {
-        return CreateWallParticle(scene, position, new AssetId(new Guid("62fb2ae4-b5df-42b3-928c-149bfc85cfc5")));
+        return CreateWallParticle(scene, position, AssetId.Parse("62fb2ae4-b5df-42b3-928c-149bfc85cfc5"));
     }
 
     private Entity CreateWallParticle(Scene scene, Vector2 position, AssetId assetId)
@@ -374,7 +374,7 @@ internal sealed class EntityFactory
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = new Vector2(x, y);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
-        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("b1535e09-96d5-4f20-9934-0204cb7a9abc")));
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("b1535e09-96d5-4f20-9934-0204cb7a9abc"));
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         entity.CreateComponent<TileColliderComponent>();
         return entity;
@@ -401,7 +401,7 @@ internal sealed class EntityFactory
         var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         var spriteAnimationComponent = spriteEntity.CreateComponent<SpriteAnimationComponent>();
-        spriteAnimationComponent.AddAnimation("Walk", _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("be3e253b-a4b2-4662-8624-bf1a5b73ea74"))));
+        spriteAnimationComponent.AddAnimation("Walk", _assetStore.GetAsset<SpriteAnimation>(AssetId.Parse("be3e253b-a4b2-4662-8624-bf1a5b73ea74")));
         spriteAnimationComponent.PlayInLoop = true;
         spriteAnimationComponent.PlaybackSpeed = 3;
         spriteAnimationComponent.PlayAnimation("Walk");
@@ -417,7 +417,7 @@ internal sealed class EntityFactory
         transform2DComponent.Translation = position;
         transform2DComponent.Scale = scale;
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
-        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("31fbfb4d-988a-4382-85f9-f41c63bd4f27")));
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("31fbfb4d-988a-4382-85f9-f41c63bd4f27"));
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         return entity;
     }
@@ -443,7 +443,7 @@ internal sealed class EntityFactory
         var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         var spriteAnimationComponent = spriteEntity.CreateComponent<SpriteAnimationComponent>();
-        spriteAnimationComponent.AddAnimation("Walk", _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("724f4eb7-fbbd-4ebf-894f-8b354e16b69e"))));
+        spriteAnimationComponent.AddAnimation("Walk", _assetStore.GetAsset<SpriteAnimation>(AssetId.Parse("724f4eb7-fbbd-4ebf-894f-8b354e16b69e")));
         spriteAnimationComponent.PlayInLoop = true;
         spriteAnimationComponent.PlaybackSpeed = 3;
         spriteAnimationComponent.PlayAnimation("Walk");
@@ -455,8 +455,8 @@ internal sealed class EntityFactory
     {
         var entity = scene.CreateEntity();
         var yellowEnemyComponent = entity.CreateComponent<YellowEnemyComponent>();
-        yellowEnemyComponent.NeutralSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("410b9b9c-0d87-4118-b711-75a51ada575e")));
-        yellowEnemyComponent.AngrySprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("18a00a7d-c552-47a2-9b96-02e44b723a87")));
+        yellowEnemyComponent.NeutralSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("410b9b9c-0d87-4118-b711-75a51ada575e"));
+        yellowEnemyComponent.AngrySprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("18a00a7d-c552-47a2-9b96-02e44b723a87"));
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
         transform2DComponent.IsInterpolated = true;
@@ -485,7 +485,7 @@ internal sealed class EntityFactory
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         var spriteAnimationComponent = entity.CreateComponent<SpriteAnimationComponent>();
-        spriteAnimationComponent.AddAnimation("Idle", _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("aab93162-61f9-4dac-80cc-780775b08dd6"))));
+        spriteAnimationComponent.AddAnimation("Idle", _assetStore.GetAsset<SpriteAnimation>(AssetId.Parse("aab93162-61f9-4dac-80cc-780775b08dd6")));
         spriteAnimationComponent.PlayInLoop = true;
         spriteAnimationComponent.PlaybackSpeed = 2;
         spriteAnimationComponent.PlayAnimation("Idle");
@@ -509,7 +509,7 @@ internal sealed class EntityFactory
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         var spriteAnimationComponent = entity.CreateComponent<SpriteAnimationComponent>();
-        spriteAnimationComponent.AddAnimation("Fly", _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("3a27bb5c-62a2-4f96-be5b-fbb176593312"))));
+        spriteAnimationComponent.AddAnimation("Fly", _assetStore.GetAsset<SpriteAnimation>(AssetId.Parse("3a27bb5c-62a2-4f96-be5b-fbb176593312")));
         spriteAnimationComponent.PlayInLoop = true;
         spriteAnimationComponent.PlaybackSpeed = 2;
         spriteAnimationComponent.PlayAnimation("Fly");
@@ -531,7 +531,7 @@ internal sealed class EntityFactory
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         var spriteAnimationComponent = entity.CreateComponent<SpriteAnimationComponent>();
-        spriteAnimationComponent.AddAnimation("Fly", _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("3a27bb5c-62a2-4f96-be5b-fbb176593312"))));
+        spriteAnimationComponent.AddAnimation("Fly", _assetStore.GetAsset<SpriteAnimation>(AssetId.Parse("3a27bb5c-62a2-4f96-be5b-fbb176593312")));
         spriteAnimationComponent.PlayInLoop = true;
         spriteAnimationComponent.PlaybackSpeed = 2;
         spriteAnimationComponent.PlayAnimation("Fly");
@@ -575,7 +575,7 @@ internal sealed class EntityFactory
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         var spriteAnimationComponent = entity.CreateComponent<SpriteAnimationComponent>();
-        spriteAnimationComponent.AddAnimation("Fly", _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("3a27bb5c-62a2-4f96-be5b-fbb176593312"))));
+        spriteAnimationComponent.AddAnimation("Fly", _assetStore.GetAsset<SpriteAnimation>(AssetId.Parse("3a27bb5c-62a2-4f96-be5b-fbb176593312")));
         spriteAnimationComponent.PlayInLoop = true;
         spriteAnimationComponent.PlaybackSpeed = 2;
         spriteAnimationComponent.PlayAnimation("Fly");
@@ -603,9 +603,9 @@ internal sealed class EntityFactory
         spriteRendererComponent.OrderInLayer = 1;
         var spriteAnimationComponent = spriteEntity.CreateComponent<SpriteAnimationComponent>();
         spriteAnimationComponent.AddAnimation(BlueBossComponent.Animations.Walk,
-            _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("93ef2825-ca47-4ff3-81e6-ff23be30dbdd"))));
+            _assetStore.GetAsset<SpriteAnimation>(AssetId.Parse("93ef2825-ca47-4ff3-81e6-ff23be30dbdd")));
         spriteAnimationComponent.AddAnimation(BlueBossComponent.Animations.Shoot,
-            _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("c6ace0bd-53db-4614-9743-5a4f117df266"))));
+            _assetStore.GetAsset<SpriteAnimation>(AssetId.Parse("c6ace0bd-53db-4614-9743-5a4f117df266")));
         spriteAnimationComponent.PlayInLoop = true;
         spriteAnimationComponent.PlaybackSpeed = 3;
         spriteAnimationComponent.PlayAnimation(BlueBossComponent.Animations.Walk);
@@ -633,7 +633,7 @@ internal sealed class EntityFactory
             spikeTransform2DComponent.Rotation = rotation;
             spikeTransform2DComponent.Scale = new Vector2(0.5, 0.5);
             var spikeSpriteRendererComponent = spikeEntity.CreateComponent<SpriteRendererComponent>();
-            spikeSpriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("56abfaa2-eb0a-45e1-8831-179ea209155c")));
+            spikeSpriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("56abfaa2-eb0a-45e1-8831-179ea209155c"));
             spikeSpriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         }
     }
@@ -646,7 +646,7 @@ internal sealed class EntityFactory
         transform2DComponent.Translation = position;
         transform2DComponent.Scale = scale;
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
-        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("eb27541a-95e1-4a46-b49d-24c7c967d329")));
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("eb27541a-95e1-4a46-b49d-24c7c967d329"));
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         return entity;
     }
@@ -663,7 +663,7 @@ internal sealed class EntityFactory
         transform2DComponent.IsInterpolated = true;
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.OrderInLayer = 1;
-        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("56abfaa2-eb0a-45e1-8831-179ea209155c")));
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("56abfaa2-eb0a-45e1-8831-179ea209155c"));
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         return entity;
     }
@@ -706,7 +706,7 @@ internal sealed class EntityFactory
             spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
             var waterSurfaceAnimation = waterSurfaceEntity.CreateComponent<SpriteAnimationComponent>();
             waterSurfaceAnimation.AddAnimation("WaterSurface",
-                _assetStore.GetAsset<SpriteAnimation>(new AssetId(new Guid("22769c0b-b6e0-4595-a2ae-46724a430fab"))));
+                _assetStore.GetAsset<SpriteAnimation>(AssetId.Parse("22769c0b-b6e0-4595-a2ae-46724a430fab")));
             waterSurfaceAnimation.PlayInLoop = true;
             waterSurfaceAnimation.PlayAnimation("WaterSurface");
         }
@@ -719,7 +719,7 @@ internal sealed class EntityFactory
             waterBodyTransform.Scale = new Vector2(1.01, 1.01);
             var spriteRendererComponent = waterBodyEntity.CreateComponent<SpriteRendererComponent>();
             spriteRendererComponent.OrderInLayer = 1000;
-            spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("325dd237-4a19-49d7-ac94-87c13287c4d7")));
+            spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("325dd237-4a19-49d7-ac94-87c13287c4d7"));
             spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         }
     }
@@ -734,37 +734,37 @@ internal sealed class EntityFactory
         {
             case Background.Default:
             {
-                backgroundComponent.UpperLeftSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("f809d672-5096-4833-8b6a-4bee43a075ee")));
-                backgroundComponent.UpperRightSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("99c8f050-2dd0-4b09-b44e-1688b3753237")));
-                backgroundComponent.MiddleLeftSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("c5584c00-090b-4156-a240-2a299ea08583")));
-                backgroundComponent.MiddleRightSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("701b213a-1358-4414-ae20-ff9965ea32f0")));
-                backgroundComponent.LowerLeftSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("33605045-173a-46ec-becf-2627704e2b19")));
-                backgroundComponent.LowerRightSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("beae4927-27f3-474e-854c-da15f35f34b2")));
+                backgroundComponent.UpperLeftSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("f809d672-5096-4833-8b6a-4bee43a075ee"));
+                backgroundComponent.UpperRightSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("99c8f050-2dd0-4b09-b44e-1688b3753237"));
+                backgroundComponent.MiddleLeftSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("c5584c00-090b-4156-a240-2a299ea08583"));
+                backgroundComponent.MiddleRightSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("701b213a-1358-4414-ae20-ff9965ea32f0"));
+                backgroundComponent.LowerLeftSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("33605045-173a-46ec-becf-2627704e2b19"));
+                backgroundComponent.LowerRightSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("beae4927-27f3-474e-854c-da15f35f34b2"));
                 break;
             }
             case Background.Winter:
-                backgroundComponent.UpperLeftSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("1d0a7e73-1e90-422a-9703-0e8700a2de5f")));
-                backgroundComponent.UpperRightSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("ad3edb34-152f-4145-ba70-669f805b4dcf")));
-                backgroundComponent.MiddleLeftSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("8fb394fb-e496-43f4-a8de-2d40f0c493ab")));
-                backgroundComponent.MiddleRightSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("15a813ab-d61d-477a-b967-3fe1b8ca31bc")));
-                backgroundComponent.LowerLeftSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("5fde8aa8-0c97-4f23-8c2b-353e58a32bb0")));
-                backgroundComponent.LowerRightSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("823769f9-e3b3-45e2-a2fd-f2a9d4a24111")));
+                backgroundComponent.UpperLeftSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("1d0a7e73-1e90-422a-9703-0e8700a2de5f"));
+                backgroundComponent.UpperRightSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("ad3edb34-152f-4145-ba70-669f805b4dcf"));
+                backgroundComponent.MiddleLeftSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("8fb394fb-e496-43f4-a8de-2d40f0c493ab"));
+                backgroundComponent.MiddleRightSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("15a813ab-d61d-477a-b967-3fe1b8ca31bc"));
+                backgroundComponent.LowerLeftSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("5fde8aa8-0c97-4f23-8c2b-353e58a32bb0"));
+                backgroundComponent.LowerRightSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("823769f9-e3b3-45e2-a2fd-f2a9d4a24111"));
                 break;
             case Background.Desert:
-                backgroundComponent.UpperLeftSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("e7578873-4ce9-4587-a30e-11b8b32debec")));
-                backgroundComponent.UpperRightSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("e22e9b3d-5edf-432c-8265-cceccf9da82f")));
-                backgroundComponent.MiddleLeftSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("7d2fd7b8-f340-4e33-90ab-8cbdb972fd22")));
-                backgroundComponent.MiddleRightSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("813da2ea-44ff-4bc1-b385-f69d9655f22a")));
-                backgroundComponent.LowerLeftSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("ebe80a7b-6623-41d7-84b7-3293f2f9c37b")));
-                backgroundComponent.LowerRightSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("a02506b8-48b3-44c7-976b-62b9118f4192")));
+                backgroundComponent.UpperLeftSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("e7578873-4ce9-4587-a30e-11b8b32debec"));
+                backgroundComponent.UpperRightSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("e22e9b3d-5edf-432c-8265-cceccf9da82f"));
+                backgroundComponent.MiddleLeftSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("7d2fd7b8-f340-4e33-90ab-8cbdb972fd22"));
+                backgroundComponent.MiddleRightSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("813da2ea-44ff-4bc1-b385-f69d9655f22a"));
+                backgroundComponent.LowerLeftSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("ebe80a7b-6623-41d7-84b7-3293f2f9c37b"));
+                backgroundComponent.LowerRightSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("a02506b8-48b3-44c7-976b-62b9118f4192"));
                 break;
             case Background.Forest:
-                backgroundComponent.UpperLeftSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("1874af1e-f2b6-47de-8b45-655ca0fb1c99")));
-                backgroundComponent.UpperRightSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("c8affdad-d36b-4657-b95d-9a7e16b17488")));
-                backgroundComponent.MiddleLeftSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("dcaf0105-3b16-4563-8344-eaa2803c3726")));
-                backgroundComponent.MiddleRightSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("479b01d4-d48b-4bea-a81e-5cd2bed34dc1")));
-                backgroundComponent.LowerLeftSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("881d5acc-b063-473d-9b90-24047f3f6dd0")));
-                backgroundComponent.LowerRightSprite = _assetStore.GetAsset<Sprite>(new AssetId(new Guid("7bd94eb9-4c1e-42f4-ae42-5bcd172e3688")));
+                backgroundComponent.UpperLeftSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("1874af1e-f2b6-47de-8b45-655ca0fb1c99"));
+                backgroundComponent.UpperRightSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("c8affdad-d36b-4657-b95d-9a7e16b17488"));
+                backgroundComponent.MiddleLeftSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("dcaf0105-3b16-4563-8344-eaa2803c3726"));
+                backgroundComponent.MiddleRightSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("479b01d4-d48b-4bea-a81e-5cd2bed34dc1"));
+                backgroundComponent.LowerLeftSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("881d5acc-b063-473d-9b90-24047f3f6dd0"));
+                backgroundComponent.LowerRightSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("7bd94eb9-4c1e-42f4-ae42-5bcd172e3688"));
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(background), background, null);
