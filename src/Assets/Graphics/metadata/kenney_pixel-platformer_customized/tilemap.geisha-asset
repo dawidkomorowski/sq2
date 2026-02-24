@@ -1,0 +1,6 @@
+{
+  "AssetId": "94771a29-49a4-43db-9083-5c8867396bd9",
+  "AssetType": "Geisha.Engine.Rendering.Texture",
+  "ContentFormat": "Json",
+  "Content": { "TextureFilePath": "../../kenney_pixel-platformer_customized/tilemap.png" }
+}
