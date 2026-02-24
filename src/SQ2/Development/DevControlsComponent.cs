@@ -5,6 +5,7 @@ using Geisha.Engine.Input;
 using Geisha.Engine.Input.Components;
 using Geisha.Engine.Input.Mapping;
 using Geisha.Engine.Physics.Systems;
+using SQ2.GamePlay.Common;
 
 namespace SQ2.Development;
 
@@ -52,6 +53,17 @@ internal sealed class DevControlsComponent : BehaviorComponent
                 },
                 new ActionMapping
                 {
+                    ActionName = "Respawn",
+                    HardwareActions =
+                    {
+                        new HardwareAction
+                        {
+                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.F8)
+                        }
+                    }
+                },
+                new ActionMapping
+                {
                     ActionName = "ToggleDebugPhysics",
                     HardwareActions =
                     {
@@ -66,7 +78,14 @@ internal sealed class DevControlsComponent : BehaviorComponent
 
         inputComponent.BindAction("Exit", _engineManager.ScheduleEngineShutdown);
         inputComponent.BindAction("Reload", () => { _sceneManager.LoadEmptyScene("GameWorld", SceneLoadMode.PreserveAssets); });
+        inputComponent.BindAction("Respawn", Respawn);
         inputComponent.BindAction("ToggleDebugPhysics", () => { _physicsSystem.EnableDebugRendering = !_physicsSystem.EnableDebugRendering; });
+    }
+
+    private void Respawn()
+    {
+        var playerComponent = Query.GetPlayerComponent(Scene);
+        playerComponent.KillPlayer();
     }
 }
 
