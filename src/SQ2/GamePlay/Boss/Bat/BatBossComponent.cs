@@ -4,6 +4,7 @@ using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
+using SQ2.Core;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
 using System;
@@ -12,16 +13,23 @@ namespace SQ2.GamePlay.Boss.Bat;
 
 internal sealed class BatBossComponent : BehaviorComponent, IRespawnable
 {
+    private readonly EntityFactory _entityFactory;
+
     private Transform2DComponent _transform2DComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;
     private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
 
-    public BatBossComponent(Entity entity) : base(entity)
+    private double _secondsTimer;
+
+    public BatBossComponent(Entity entity, EntityFactory entityFactory) : base(entity)
     {
+        _entityFactory = entityFactory;
     }
 
     public Vector2 TargetPoint { get; set; }
     public double Velocity { get; set; }
+    public DropType Drop { get; set; }
+    public double DropAfterSeconds { get; set; }
 
     public override void OnStart()
     {
@@ -32,6 +40,10 @@ internal sealed class BatBossComponent : BehaviorComponent, IRespawnable
 
     public override void OnFixedUpdate()
     {
+        _secondsTimer += GameTime.FixedDeltaTimeSeconds;
+
+        HandleDrop();
+
         var contacts = _rectangleColliderComponent.IsColliding ? _rectangleColliderComponent.GetContacts() : Array.Empty<Contact2D>();
 
         foreach (var contact2D in contacts)
@@ -65,10 +77,32 @@ internal sealed class BatBossComponent : BehaviorComponent, IRespawnable
     {
         Entity.RemoveAfterFixedTimeStep();
     }
+
+    private void HandleDrop()
+    {
+        if (_secondsTimer >= DropAfterSeconds)
+        {
+            if (Drop is DropType.BlueEnemy)
+            {
+                var initialMovementDirection = TargetPoint.X > _transform2DComponent.Translation.X ? MovementDirection.Right : MovementDirection.Left;
+                _entityFactory.CreateBlueEnemy(Scene, _transform2DComponent.Translation + new Vector2(0, -20), initialMovementDirection, false, 0);
+                _secondsTimer = 0;
+            }
+
+            Drop = DropType.None;
+        }
+    }
 }
 
 // ReSharper disable once ClassNeverInstantiated.Global
 internal sealed class BatBossComponentFactory : ComponentFactory<BatBossComponent>
 {
-    protected override BatBossComponent CreateComponent(Entity entity) => new(entity);
+    private readonly EntityFactory _entityFactory;
+
+    public BatBossComponentFactory(EntityFactory entityFactory)
+    {
+        _entityFactory = entityFactory;
+    }
+
+    protected override BatBossComponent CreateComponent(Entity entity) => new(entity, _entityFactory);
 }

@@ -6,6 +6,7 @@ using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Rendering;
 using Geisha.Extensions.Tiled;
 using NLog;
+using SQ2.GamePlay.Boss.Bat;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
 
@@ -311,9 +312,9 @@ internal sealed class MapLoader
                     var targetPoint = new Vector2(targetPointObject.X, -targetPointObject.Y);
 
                     var spawnAfterSeconds = 0d;
-                    if (tiledObject.Properties.TryGetProperty("SpawnAfterSeconds", out var property))
+                    if (tiledObject.Properties.TryGetProperty("SpawnAfterSeconds", out var property1))
                     {
-                        spawnAfterSeconds = property.FloatValue;
+                        spawnAfterSeconds = property1.FloatValue;
                     }
 
                     var velocity = 60d;
@@ -322,7 +323,19 @@ internal sealed class MapLoader
                         velocity = property2.FloatValue;
                     }
 
-                    _entityFactory.CreateBatBossSpawner(scene, x, y, targetPoint, spawnAfterSeconds, velocity);
+                    var drop = DropType.None;
+                    if (tiledObject.Properties.TryGetProperty("Drop", out var property3))
+                    {
+                        drop = Enum.Parse<DropType>(property3.StringValue);
+                    }
+
+                    var dropAfterSeconds = 0d;
+                    if (tiledObject.Properties.TryGetProperty("DropAfterSeconds", out var property4))
+                    {
+                        dropAfterSeconds = property4.FloatValue;
+                    }
+
+                    _entityFactory.CreateBatBossSpawner(scene, x, y, targetPoint, spawnAfterSeconds, velocity, drop, dropAfterSeconds);
                     break;
                 }
                 case "BossBatTrigger" when tiledObject is TiledObject.Rectangle:

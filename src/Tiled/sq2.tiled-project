@@ -90,6 +90,17 @@
             "id": 16,
             "members": [
                 {
+                    "name": "Drop",
+                    "propertyType": "BossBatDropType",
+                    "type": "string",
+                    "value": "None"
+                },
+                {
+                    "name": "DropAfterSeconds",
+                    "type": "float",
+                    "value": 0
+                },
+                {
                     "name": "SpawnAfterSeconds",
                     "type": "float",
                     "value": 0
@@ -111,6 +122,17 @@
                 "object",
                 "project"
             ]
+        },
+        {
+            "id": 21,
+            "name": "BossBatDropType",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "None",
+                "BlueEnemy"
+            ],
+            "valuesAsFlags": false
         },
         {
             "color": "#ffffff00",
