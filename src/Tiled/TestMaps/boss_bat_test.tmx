@@ -1,9 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="70" height="50" tilewidth="18" tileheight="18" infinite="0" nextlayerid="5" nextobjectid="34">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="70" height="100" tilewidth="18" tileheight="18" infinite="0" nextlayerid="6" nextobjectid="59">
  <tileset firstgid="1" source="../../Assets/TileSets/pixel-platformer.tsx"/>
  <tileset firstgid="181" source="../../Assets/TileSets/pixel-platformer-characters.tsx"/>
- <layer id="1" name="GamePlayTiles" width="70" height="50">
+ <layer id="1" name="GamePlayTiles" width="70" height="100">
   <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -53,72 +83,233 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="5" name="Wave3">
+  <object id="34" name="Bat 1" type="BossBat" gid="205" x="468" y="738" width="24" height="24">
+   <properties>
+    <property name="SpawnAfterSeconds" type="float" value="25"/>
+    <property name="TargetPoint" type="object" value="35"/>
+    <property name="Velocity" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="35" name="Target Point 1" type="Metadata" x="477" y="1251">
+   <point/>
+  </object>
+  <object id="36" name="Bat 2" type="BossBat" gid="205" x="522" y="702" width="24" height="24">
+   <properties>
+    <property name="SpawnAfterSeconds" type="float" value="25"/>
+    <property name="TargetPoint" type="object" value="47"/>
+    <property name="Velocity" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="37" name="Target Point 2" type="Metadata" x="558" y="1251">
+   <point/>
+  </object>
+  <object id="38" name="Bat 3" type="BossBat" gid="205" x="576" y="666" width="24" height="24">
+   <properties>
+    <property name="SpawnAfterSeconds" type="float" value="25"/>
+    <property name="TargetPoint" type="object" value="48"/>
+    <property name="Velocity" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="39" name="Target Point 3" type="Metadata" x="612" y="1251">
+   <point/>
+  </object>
+  <object id="40" name="Bat 4" type="BossBat" gid="205" x="630" y="630" width="24" height="24">
+   <properties>
+    <property name="SpawnAfterSeconds" type="float" value="25"/>
+    <property name="TargetPoint" type="object" value="49"/>
+    <property name="Velocity" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="41" name="Target Point 4" type="Metadata" x="666" y="1251">
+   <point/>
+  </object>
+  <object id="42" name="Bat 1" type="BossBat" gid="205" x="495" y="720" width="24" height="24">
+   <properties>
+    <property name="SpawnAfterSeconds" type="float" value="25"/>
+    <property name="TargetPoint" type="object" value="46"/>
+    <property name="Velocity" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="43" name="Bat 2" type="BossBat" gid="205" x="549" y="684" width="24" height="24">
+   <properties>
+    <property name="SpawnAfterSeconds" type="float" value="25"/>
+    <property name="TargetPoint" type="object" value="37"/>
+    <property name="Velocity" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="44" name="Bat 3" type="BossBat" gid="205" x="603" y="648" width="24" height="24">
+   <properties>
+    <property name="SpawnAfterSeconds" type="float" value="25"/>
+    <property name="TargetPoint" type="object" value="39"/>
+    <property name="Velocity" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="45" name="Bat 4" type="BossBat" gid="205" x="657" y="612" width="24" height="24">
+   <properties>
+    <property name="SpawnAfterSeconds" type="float" value="25"/>
+    <property name="TargetPoint" type="object" value="41"/>
+    <property name="Velocity" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="46" name="Target Point 1" type="Metadata" x="504" y="1251">
+   <point/>
+  </object>
+  <object id="47" name="Target Point 2" type="Metadata" x="531" y="1251">
+   <point/>
+  </object>
+  <object id="48" name="Target Point 3" type="Metadata" x="585" y="1251">
+   <point/>
+  </object>
+  <object id="49" name="Target Point 4" type="Metadata" x="639" y="1251">
+   <point/>
+  </object>
+  <object id="50" name="Bat 4" type="BossBat" gid="205" x="657" y="432" width="24" height="24">
+   <properties>
+    <property name="SpawnAfterSeconds" type="float" value="25"/>
+    <property name="TargetPoint" type="object" value="41"/>
+    <property name="Velocity" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="51" name="Bat 4" type="BossBat" gid="205" x="630" y="414" width="24" height="24">
+   <properties>
+    <property name="SpawnAfterSeconds" type="float" value="25"/>
+    <property name="TargetPoint" type="object" value="49"/>
+    <property name="Velocity" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="52" name="Bat 3" type="BossBat" gid="205" x="603" y="396" width="24" height="24">
+   <properties>
+    <property name="SpawnAfterSeconds" type="float" value="25"/>
+    <property name="TargetPoint" type="object" value="39"/>
+    <property name="Velocity" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="53" name="Bat 3" type="BossBat" gid="205" x="576" y="378" width="24" height="24">
+   <properties>
+    <property name="SpawnAfterSeconds" type="float" value="25"/>
+    <property name="TargetPoint" type="object" value="48"/>
+    <property name="Velocity" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="54" name="Bat 2" type="BossBat" gid="205" x="549" y="360" width="24" height="24">
+   <properties>
+    <property name="SpawnAfterSeconds" type="float" value="25"/>
+    <property name="TargetPoint" type="object" value="37"/>
+    <property name="Velocity" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="55" name="Bat 2" type="BossBat" gid="205" x="522" y="342" width="24" height="24">
+   <properties>
+    <property name="SpawnAfterSeconds" type="float" value="25"/>
+    <property name="TargetPoint" type="object" value="47"/>
+    <property name="Velocity" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="56" name="Bat 1" type="BossBat" gid="205" x="495" y="324" width="24" height="24">
+   <properties>
+    <property name="SpawnAfterSeconds" type="float" value="25"/>
+    <property name="TargetPoint" type="object" value="46"/>
+    <property name="Velocity" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="57" name="Bat 1" type="BossBat" gid="205" x="684" y="450" width="24" height="24">
+   <properties>
+    <property name="SpawnAfterSeconds" type="float" value="25"/>
+    <property name="TargetPoint" type="object" value="58"/>
+    <property name="Velocity" type="float" value="100"/>
+   </properties>
+  </object>
+  <object id="58" name="Target Point 1" type="Metadata" x="693" y="1251">
+   <point/>
+  </object>
+ </objectgroup>
  <objectgroup id="2" name="Wave2">
-  <object id="7" name="Bat 1" type="BossBat" gid="205" x="234" y="543" width="24" height="24">
+  <object id="7" name="Bat 1" type="BossBat" gid="205" x="234" y="1083" width="24" height="24">
    <properties>
     <property name="SpawnAfterSeconds" type="float" value="15"/>
     <property name="TargetPoint" type="object" value="8"/>
     <property name="Velocity" type="float" value="60"/>
    </properties>
   </object>
-  <object id="8" name="Target Point 1" type="Metadata" x="927.364" y="531">
+  <object id="8" name="Target Point 1" type="Metadata" x="927.364" y="1071">
    <point/>
   </object>
-  <object id="9" name="Bat 2" type="BossBat" gid="205" x="233.636" y="525.091" width="24" height="24">
+  <object id="9" name="Bat 2" type="BossBat" gid="205" x="233.636" y="1065.09" width="24" height="24">
    <properties>
     <property name="SpawnAfterSeconds" type="float" value="15"/>
     <property name="TargetPoint" type="object" value="10"/>
     <property name="Velocity" type="float" value="60"/>
    </properties>
   </object>
-  <object id="10" name="Target Point 2" type="Metadata" x="927" y="513.091">
+  <object id="10" name="Target Point 2" type="Metadata" x="927" y="1053.09">
    <point/>
   </object>
-  <object id="11" name="Bat 3" type="BossBat" gid="205" x="179.636" y="507.091" width="24" height="24">
+  <object id="11" name="Bat 3" type="BossBat" gid="205" x="179.636" y="1047.09" width="24" height="24">
    <properties>
     <property name="SpawnAfterSeconds" type="float" value="15"/>
     <property name="TargetPoint" type="object" value="12"/>
     <property name="Velocity" type="float" value="60"/>
    </properties>
   </object>
-  <object id="12" name="Target Point 3" type="Metadata" x="927" y="495.091">
+  <object id="12" name="Target Point 3" type="Metadata" x="927" y="1035.09">
    <point/>
   </object>
-  <object id="15" name="Bat 4" type="BossBat" gid="205" x="180" y="489" width="24" height="24">
+  <object id="15" name="Bat 4" type="BossBat" gid="205" x="180" y="1029" width="24" height="24">
    <properties>
     <property name="SpawnAfterSeconds" type="float" value="15"/>
     <property name="TargetPoint" type="object" value="16"/>
     <property name="Velocity" type="float" value="60"/>
    </properties>
   </object>
-  <object id="16" name="Target Point 4" type="Metadata" x="927.364" y="477">
+  <object id="16" name="Target Point 4" type="Metadata" x="927.364" y="1017">
    <point/>
   </object>
-  <object id="17" name="Bat 1" type="BossBat" gid="205" x="126" y="543" width="24" height="24">
+  <object id="17" name="Bat 1" type="BossBat" gid="205" x="126" y="1083" width="24" height="24">
    <properties>
     <property name="SpawnAfterSeconds" type="float" value="15"/>
     <property name="TargetPoint" type="object" value="8"/>
     <property name="Velocity" type="float" value="60"/>
    </properties>
   </object>
-  <object id="18" name="Bat 2" type="BossBat" gid="205" x="126" y="525" width="24" height="24">
+  <object id="18" name="Bat 2" type="BossBat" gid="205" x="126" y="1065" width="24" height="24">
    <properties>
     <property name="SpawnAfterSeconds" type="float" value="15"/>
     <property name="TargetPoint" type="object" value="10"/>
     <property name="Velocity" type="float" value="60"/>
    </properties>
   </object>
-  <object id="19" name="Bat 3" type="BossBat" gid="205" x="72" y="507" width="24" height="24">
+  <object id="19" name="Bat 3" type="BossBat" gid="205" x="72" y="1047" width="24" height="24">
    <properties>
     <property name="SpawnAfterSeconds" type="float" value="15"/>
     <property name="TargetPoint" type="object" value="12"/>
     <property name="Velocity" type="float" value="60"/>
    </properties>
   </object>
-  <object id="20" name="Bat 4" type="BossBat" gid="205" x="72" y="489" width="24" height="24">
+  <object id="20" name="Bat 4" type="BossBat" gid="205" x="72" y="1029" width="24" height="24">
    <properties>
     <property name="SpawnAfterSeconds" type="float" value="15"/>
     <property name="TargetPoint" type="object" value="16"/>
@@ -127,68 +318,68 @@
   </object>
  </objectgroup>
  <objectgroup id="4" name="Wave1">
-  <object id="21" name="Bat 1" type="BossBat" gid="205" x="918" y="543" width="24" height="24">
+  <object id="21" name="Bat 1" type="BossBat" gid="205" x="918" y="1083" width="24" height="24">
    <properties>
     <property name="SpawnAfterSeconds" type="float" value="5"/>
     <property name="TargetPoint" type="object" value="22"/>
     <property name="Velocity" type="float" value="60"/>
    </properties>
   </object>
-  <object id="22" name="Target Point 1" type="Metadata" x="243" y="531">
+  <object id="22" name="Target Point 1" type="Metadata" x="243" y="1071">
    <point/>
   </object>
-  <object id="23" name="Bat 2" type="BossBat" gid="205" x="917.636" y="525.091" width="24" height="24">
+  <object id="23" name="Bat 2" type="BossBat" gid="205" x="917.636" y="1065.09" width="24" height="24">
    <properties>
     <property name="SpawnAfterSeconds" type="float" value="5"/>
     <property name="TargetPoint" type="object" value="24"/>
     <property name="Velocity" type="float" value="60"/>
    </properties>
   </object>
-  <object id="24" name="Target Point 2" type="Metadata" x="242.636" y="513.091">
+  <object id="24" name="Target Point 2" type="Metadata" x="242.636" y="1053.09">
    <point/>
   </object>
-  <object id="25" name="Bat 3" type="BossBat" gid="205" x="971.636" y="507.091" width="24" height="24">
+  <object id="25" name="Bat 3" type="BossBat" gid="205" x="971.636" y="1047.09" width="24" height="24">
    <properties>
     <property name="SpawnAfterSeconds" type="float" value="5"/>
     <property name="TargetPoint" type="object" value="26"/>
     <property name="Velocity" type="float" value="60"/>
    </properties>
   </object>
-  <object id="26" name="Target Point 3" type="Metadata" x="242.636" y="495.091">
+  <object id="26" name="Target Point 3" type="Metadata" x="242.636" y="1035.09">
    <point/>
   </object>
-  <object id="27" name="Bat 4" type="BossBat" gid="205" x="972" y="489" width="24" height="24">
+  <object id="27" name="Bat 4" type="BossBat" gid="205" x="972" y="1029" width="24" height="24">
    <properties>
     <property name="SpawnAfterSeconds" type="float" value="5"/>
     <property name="TargetPoint" type="object" value="28"/>
     <property name="Velocity" type="float" value="60"/>
    </properties>
   </object>
-  <object id="28" name="Target Point 4" type="Metadata" x="243" y="477">
+  <object id="28" name="Target Point 4" type="Metadata" x="243" y="1017">
    <point/>
   </object>
-  <object id="29" name="Bat 1" type="BossBat" gid="205" x="1026" y="543" width="24" height="24">
+  <object id="29" name="Bat 1" type="BossBat" gid="205" x="1026" y="1083" width="24" height="24">
    <properties>
     <property name="SpawnAfterSeconds" type="float" value="5"/>
     <property name="TargetPoint" type="object" value="22"/>
     <property name="Velocity" type="float" value="60"/>
    </properties>
   </object>
-  <object id="30" name="Bat 2" type="BossBat" gid="205" x="1026" y="525" width="24" height="24">
+  <object id="30" name="Bat 2" type="BossBat" gid="205" x="1026" y="1065" width="24" height="24">
    <properties>
     <property name="SpawnAfterSeconds" type="float" value="5"/>
     <property name="TargetPoint" type="object" value="24"/>
     <property name="Velocity" type="float" value="60"/>
    </properties>
   </object>
-  <object id="31" name="Bat 3" type="BossBat" gid="205" x="1080" y="507" width="24" height="24">
+  <object id="31" name="Bat 3" type="BossBat" gid="205" x="1080" y="1047" width="24" height="24">
    <properties>
     <property name="SpawnAfterSeconds" type="float" value="5"/>
     <property name="TargetPoint" type="object" value="26"/>
     <property name="Velocity" type="float" value="60"/>
    </properties>
   </object>
-  <object id="32" name="Bat 4" type="BossBat" gid="205" x="1080" y="489" width="24" height="24">
+  <object id="32" name="Bat 4" type="BossBat" gid="205" x="1080" y="1029" width="24" height="24">
    <properties>
     <property name="SpawnAfterSeconds" type="float" value="5"/>
     <property name="TargetPoint" type="object" value="28"/>
@@ -197,9 +388,9 @@
   </object>
  </objectgroup>
  <objectgroup id="3" name="GamePlayObjects">
-  <object id="13" name="Player Spawn Point" type="PlayerSpawnPoint" x="279.667" y="423.333">
+  <object id="13" name="Player Spawn Point" type="PlayerSpawnPoint" x="279.667" y="963.333">
    <point/>
   </object>
-  <object id="33" name="Bat Boss Trigger Area" type="BossBatTrigger" x="468" y="468" width="234" height="72"/>
+  <object id="33" name="Bat Boss Trigger Area" type="BossBatTrigger" x="468" y="1008" width="234" height="72"/>
  </objectgroup>
 </map>
