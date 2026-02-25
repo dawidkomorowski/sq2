@@ -8,6 +8,7 @@ using SQ2.Core;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
 using System;
+using SQ2.GamePlay.Enemies;
 
 namespace SQ2.GamePlay.Boss.Bat;
 
@@ -85,7 +86,8 @@ internal sealed class BatBossComponent : BehaviorComponent, IRespawnable
             if (Drop is DropType.BlueEnemy)
             {
                 var initialMovementDirection = TargetPoint.X > _transform2DComponent.Translation.X ? MovementDirection.Right : MovementDirection.Left;
-                _entityFactory.CreateBlueEnemy(Scene, _transform2DComponent.Translation + new Vector2(0, -20), initialMovementDirection, false, 0);
+                var entity = _entityFactory.CreateBlueEnemy(Scene, _transform2DComponent.Translation + new Vector2(0, -20), initialMovementDirection, false, 0);
+                entity.GetComponent<BlueEnemyComponent>().RemoveOnRespawn = true;
                 _secondsTimer = 0;
             }
 

@@ -36,6 +36,7 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable, IPro
 
     public bool RequireActivation { get; set; }
     public MovementDirection InitialMovementDirection { get; set; }
+    public bool RemoveOnRespawn { get; set; }
 
     public override void OnStart()
     {
@@ -114,10 +115,13 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable, IPro
             _proximityActivationService.Unregister(this);
         }
 
-        _respawnService.AddOneTimeRespawnAction(() =>
+        if (!RemoveOnRespawn)
         {
-            _entityFactory.CreateBlueEnemy(Scene, _startPosition, InitialMovementDirection, RequireActivation, ActivationGroup);
-        });
+            _respawnService.AddOneTimeRespawnAction(() =>
+            {
+                _entityFactory.CreateBlueEnemy(Scene, _startPosition, InitialMovementDirection, RequireActivation, ActivationGroup);
+            });
+        }
 
         var offset = new Vector2(SpriteOffset.X * _transform2DComponent.Scale.X, SpriteOffset.Y);
         _entityFactory.CreateBlueEnemyDeathAnimation(Scene, _transform2DComponent.Translation + offset, _transform2DComponent.Scale);
@@ -127,6 +131,12 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable, IPro
 
     public void Respawn()
     {
+        if (RemoveOnRespawn)
+        {
+            Entity.RemoveAfterFixedTimeStep();
+            return;
+        }
+
         _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with
         {
             Translation = _startPosition
