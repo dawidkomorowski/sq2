@@ -593,6 +593,19 @@ internal sealed class EntityFactory
         spriteAnimationComponent.PlaybackSpeed = 2;
         spriteAnimationComponent.PlayAnimation("Fly");
 
+        var dropPreview = entity.CreateChildEntity();
+        var dropPreviewTransform2DComponent = dropPreview.CreateComponent<Transform2DComponent>();
+        dropPreviewTransform2DComponent.Translation = new Vector2(0, -8);
+        dropPreviewTransform2DComponent.IsInterpolated = true;
+        var dropPreviewSpriteRendererComponent = dropPreview.CreateComponent<SpriteRendererComponent>();
+        dropPreviewSpriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
+        dropPreviewSpriteRendererComponent.OrderInLayer = 1;
+
+        if (drop is DropType.BlueEnemy)
+        {
+            dropPreviewSpriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("31fbfb4d-988a-4382-85f9-f41c63bd4f27"));
+        }
+
         return entity;
     }
 

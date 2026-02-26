@@ -1,14 +1,15 @@
-﻿using Geisha.Engine.Core;
+﻿using System;
+using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
+using Geisha.Engine.Rendering.Components;
 using SQ2.Core;
 using SQ2.GamePlay.Common;
-using SQ2.GamePlay.Player;
-using System;
 using SQ2.GamePlay.Enemies;
+using SQ2.GamePlay.Player;
 
 namespace SQ2.GamePlay.Boss.Bat;
 
@@ -19,6 +20,7 @@ internal sealed class BatBossComponent : BehaviorComponent, IRespawnable
     private Transform2DComponent _transform2DComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;
     private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
+    private SpriteRendererComponent _dropPreviewSpriteRendererComponent = null!;
 
     private double _secondsTimer;
 
@@ -37,6 +39,7 @@ internal sealed class BatBossComponent : BehaviorComponent, IRespawnable
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
         _rectangleColliderComponent = Entity.GetComponent<RectangleColliderComponent>();
         _kinematicRigidBody2DComponent = Entity.GetComponent<KinematicRigidBody2DComponent>();
+        _dropPreviewSpriteRendererComponent = Entity.Children[0].GetComponent<SpriteRendererComponent>();
     }
 
     public override void OnFixedUpdate()
@@ -86,11 +89,14 @@ internal sealed class BatBossComponent : BehaviorComponent, IRespawnable
             if (Drop is DropType.BlueEnemy)
             {
                 var initialMovementDirection = TargetPoint.X > _transform2DComponent.Translation.X ? MovementDirection.Right : MovementDirection.Left;
-                var entity = _entityFactory.CreateBlueEnemy(Scene, _transform2DComponent.Translation + new Vector2(0, -20), initialMovementDirection, false, 0);
+                var dropPosition = _transform2DComponent.Translation +
+                                   _dropPreviewSpriteRendererComponent.Entity.GetComponent<Transform2DComponent>().Translation;
+                var entity = _entityFactory.CreateBlueEnemy(Scene, dropPosition, initialMovementDirection, false, 0);
                 entity.GetComponent<BlueEnemyComponent>().RemoveOnRespawn = true;
                 _secondsTimer = 0;
             }
 
+            _dropPreviewSpriteRendererComponent.Visible = false;
             Drop = DropType.None;
         }
     }
