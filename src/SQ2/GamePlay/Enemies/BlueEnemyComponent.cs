@@ -5,6 +5,7 @@ using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
 using SQ2.Core;
+using SQ2.GamePlay.Boss.Bat;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
 
@@ -25,6 +26,7 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable, IPro
     private const double BaseVelocity = 20;
     private double _currentVelocity;
     private Vector2 _startPosition;
+    private bool _died;
 
     public BlueEnemyComponent(Entity entity, EntityFactory entityFactory, RespawnService respawnService,
         ProximityActivationService proximityActivationService) : base(entity)
@@ -86,6 +88,11 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable, IPro
                 break;
             }
 
+            if (contact2D.OtherCollider.Entity.HasComponent<BatBossComponent>())
+            {
+                Die();
+            }
+
             if (contact2D.CollisionNormal.X < 0)
             {
                 // Enemy hit a wall on the right side, change direction.
@@ -108,6 +115,9 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable, IPro
 
     private void Die()
     {
+        if (_died) return;
+        _died = true;
+
         Entity.RemoveAfterFixedTimeStep();
 
         if (RequireActivation)
@@ -142,6 +152,7 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable, IPro
             Translation = _startPosition
         });
         _currentVelocity = Movement.GetVelocityForDirection(InitialMovementDirection, BaseVelocity);
+        _died = false;
     }
 
     #endregion

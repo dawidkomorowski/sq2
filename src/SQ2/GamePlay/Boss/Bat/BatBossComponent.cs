@@ -88,9 +88,11 @@ internal sealed class BatBossComponent : BehaviorComponent, IRespawnable
         {
             if (Drop is DropType.BlueEnemy)
             {
+                var dropPosition =
+                    _transform2DComponent.Translation +
+                    _dropPreviewSpriteRendererComponent.Entity.GetComponent<Transform2DComponent>().Translation -
+                    BlueEnemyComponent.SpriteOffset;
                 var initialMovementDirection = TargetPoint.X > _transform2DComponent.Translation.X ? MovementDirection.Right : MovementDirection.Left;
-                var dropPosition = _transform2DComponent.Translation +
-                                   _dropPreviewSpriteRendererComponent.Entity.GetComponent<Transform2DComponent>().Translation;
                 var entity = _entityFactory.CreateBlueEnemy(Scene, dropPosition, initialMovementDirection, false, 0);
                 entity.GetComponent<BlueEnemyComponent>().RemoveOnRespawn = true;
                 _secondsTimer = 0;

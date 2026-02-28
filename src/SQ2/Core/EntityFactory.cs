@@ -595,7 +595,7 @@ internal sealed class EntityFactory
 
         var dropPreview = entity.CreateChildEntity();
         var dropPreviewTransform2DComponent = dropPreview.CreateComponent<Transform2DComponent>();
-        dropPreviewTransform2DComponent.Translation = new Vector2(0, -8);
+        dropPreviewTransform2DComponent.Translation = new Vector2(0, -9);
         dropPreviewTransform2DComponent.IsInterpolated = true;
         var dropPreviewSpriteRendererComponent = dropPreview.CreateComponent<SpriteRendererComponent>();
         dropPreviewSpriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
