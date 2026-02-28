@@ -23,7 +23,7 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable, IPro
     private RectangleColliderComponent _rectangleColliderComponent = null!;
     private Transform2DComponent _transform2DComponent = null!;
 
-    private const double BaseVelocity = 20;
+    private const double OnGroundVelocity = 20;
     private double _currentVelocity;
     private Vector2 _startPosition;
     private bool _died;
@@ -39,6 +39,7 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable, IPro
     public bool RequireActivation { get; set; }
     public MovementDirection InitialMovementDirection { get; set; }
     public bool RemoveOnRespawn { get; set; }
+    public double HorizontalVelocity { get; set; } = OnGroundVelocity;
 
     public override void OnStart()
     {
@@ -47,7 +48,7 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable, IPro
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
 
         _startPosition = _transform2DComponent.Translation;
-        _currentVelocity = Movement.GetVelocityForDirection(InitialMovementDirection, BaseVelocity);
+        _currentVelocity = Movement.GetVelocityForDirection(InitialMovementDirection, HorizontalVelocity);
 
         if (RequireActivation)
         {
@@ -93,17 +94,27 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable, IPro
                 Die();
             }
 
+            if (contact2D.CollisionNormal.Y > 0)
+            {
+                // Enemy is on the ground, ensure it moves with the correct horizontal velocity.
+                HorizontalVelocity = OnGroundVelocity;
+                if (Math.Abs(Math.Abs(_currentVelocity) - HorizontalVelocity) > double.Epsilon)
+                {
+                    _currentVelocity = HorizontalVelocity * Math.Sign(_currentVelocity);
+                }
+            }
+
             if (contact2D.CollisionNormal.X < 0)
             {
                 // Enemy hit a wall on the right side, change direction.
-                _currentVelocity = -BaseVelocity;
+                _currentVelocity = -HorizontalVelocity;
                 break;
             }
 
             if (contact2D.CollisionNormal.X > 0)
             {
                 // Enemy hit a wall on the left side, change direction.
-                _currentVelocity = BaseVelocity;
+                _currentVelocity = HorizontalVelocity;
                 break;
             }
         }
@@ -151,7 +162,7 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable, IPro
         {
             Translation = _startPosition
         });
-        _currentVelocity = Movement.GetVelocityForDirection(InitialMovementDirection, BaseVelocity);
+        _currentVelocity = Movement.GetVelocityForDirection(InitialMovementDirection, HorizontalVelocity);
         _died = false;
     }
 

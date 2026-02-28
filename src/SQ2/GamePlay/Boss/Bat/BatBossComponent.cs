@@ -94,7 +94,9 @@ internal sealed class BatBossComponent : BehaviorComponent, IRespawnable
                     BlueEnemyComponent.SpriteOffset;
                 var initialMovementDirection = TargetPoint.X > _transform2DComponent.Translation.X ? MovementDirection.Right : MovementDirection.Left;
                 var entity = _entityFactory.CreateBlueEnemy(Scene, dropPosition, initialMovementDirection, false, 0);
-                entity.GetComponent<BlueEnemyComponent>().RemoveOnRespawn = true;
+                var blueEnemyComponent = entity.GetComponent<BlueEnemyComponent>();
+                blueEnemyComponent.RemoveOnRespawn = true;
+                blueEnemyComponent.HorizontalVelocity = Math.Abs(_kinematicRigidBody2DComponent.LinearVelocity.X);
                 _secondsTimer = 0;
             }
 

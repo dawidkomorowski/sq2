@@ -47,11 +47,11 @@ internal static class Movement
         }
     }
 
-    public static double GetVelocityForDirection(MovementDirection movementDirection, double baseVelocity) =>
+    public static double GetVelocityForDirection(MovementDirection movementDirection, double velocity) =>
         movementDirection switch
         {
-            MovementDirection.Left => -baseVelocity,
-            MovementDirection.Right => baseVelocity,
+            MovementDirection.Left => -velocity,
+            MovementDirection.Right => velocity,
             _ => throw new ArgumentOutOfRangeException(nameof(movementDirection), movementDirection, "Invalid movement direction.")
         };
 }
