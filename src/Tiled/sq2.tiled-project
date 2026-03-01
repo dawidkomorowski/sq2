@@ -139,6 +139,11 @@
             "drawFill": true,
             "id": 17,
             "members": [
+                {
+                    "name": "TimerStartValue",
+                    "type": "float",
+                    "value": 0
+                }
             ],
             "name": "BossBatTrigger",
             "type": "class",

@@ -539,11 +539,12 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateBatBossTrigger(Scene scene, double x, double y, double width, double height)
+    public Entity CreateBatBossTrigger(Scene scene, double x, double y, double width, double height, double timerStartValue)
     {
         var entity = scene.CreateEntity();
         var batBossTriggerComponent = entity.CreateComponent<BatBossTriggerComponent>();
         batBossTriggerComponent.TriggerArea = new AxisAlignedRectangle(new Vector2(x, y), new Vector2(width, height));
+        batBossTriggerComponent.TimerStartValue = timerStartValue;
         return entity;
     }
 

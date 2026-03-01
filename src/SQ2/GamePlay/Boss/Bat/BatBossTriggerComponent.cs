@@ -26,6 +26,7 @@ internal sealed class BatBossTriggerComponent : BehaviorComponent, IRespawnable
     }
 
     public AxisAlignedRectangle TriggerArea { get; set; }
+    public double TimerStartValue { get; set; }
 
     public override void OnStart()
     {
@@ -37,6 +38,11 @@ internal sealed class BatBossTriggerComponent : BehaviorComponent, IRespawnable
 
         _playerTransform2DComponent = Query.GetPlayerTransform2DComponent(Scene);
         _playerRectangleColliderComponent = Query.GetPlayerRectangleColliderComponent(Scene);
+
+        if (TimerStartValue > 0)
+        {
+            SetSpawnerTimerStartValue(TimerStartValue);
+        }
     }
 
     public override void OnFixedUpdate()
@@ -69,6 +75,18 @@ internal sealed class BatBossTriggerComponent : BehaviorComponent, IRespawnable
     public void Respawn()
     {
         _hasBeenActivated = false;
+    }
+
+    /// <summary>
+    ///     Debug only. Sets the start value for the internal timer of all spawners.
+    /// </summary>
+    private void SetSpawnerTimerStartValue(double value)
+    {
+        foreach (var spawner in _spawners)
+        {
+            spawner.TimerStartValue = value;
+            spawner.Respawn(); // Force internal timer to be set to the new start value.
+        }
     }
 }
 

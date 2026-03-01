@@ -25,10 +25,17 @@ internal sealed class BatBossSpawnerComponent : BehaviorComponent, IRespawnable
     public DropType Drop { get; set; }
     public double DropAfterSeconds { get; set; }
     public bool Active { get; set; }
+    public double TimerStartValue { get; set; }
+
+    public override void OnStart()
+    {
+        _secondsTimer = TimerStartValue;
+    }
 
     public override void OnFixedUpdate()
     {
         if (!Active) return;
+        if (TimerStartValue > SpawnAfterSeconds) return;
 
         _secondsTimer += GameTime.FixedDeltaTimeSeconds;
 
@@ -42,7 +49,7 @@ internal sealed class BatBossSpawnerComponent : BehaviorComponent, IRespawnable
     public void Respawn()
     {
         Active = false;
-        _secondsTimer = 0;
+        _secondsTimer = TimerStartValue;
         _hasSpawned = false;
     }
 }

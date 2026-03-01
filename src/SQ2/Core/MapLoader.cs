@@ -344,7 +344,14 @@ internal sealed class MapLoader
                     var height = tiledObject.Height;
                     var xCenter = x + width / 2d;
                     var yCenter = y - height / 2d;
-                    _entityFactory.CreateBatBossTrigger(scene, xCenter, yCenter, width, height);
+
+                    var timerStartValue = 0d;
+                    if (tiledObject.Properties.TryGetProperty("TimerStartValue", out var property))
+                    {
+                        timerStartValue = property.FloatValue;
+                    }
+
+                    _entityFactory.CreateBatBossTrigger(scene, xCenter, yCenter, width, height, timerStartValue);
                     break;
                 }
                 case "Button" when tiledObject is TiledObject.Tile:
