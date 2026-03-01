@@ -37,6 +37,7 @@ public class MapLoadingTests
         Thread.Sleep(TimeSpan.FromSeconds(1));
 
         var logContent = GetLogContent();
+        Assert.That(logContent, Does.Contain($"Info SQ2.Core.MapLoader Loading map from file: \"{mapFilePath}\""));
         Assert.That(logContent, Does.Not.Contain("Error"));
         Assert.That(logContent, Does.Not.Contain("Fatal"));
     }
