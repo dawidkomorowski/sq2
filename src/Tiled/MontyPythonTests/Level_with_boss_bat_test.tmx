@@ -1382,13 +1382,9 @@
   <object id="372" type="Coin" gid="152" x="1494" y="450" width="18" height="18"/>
   <object id="373" type="Coin" gid="152" x="1440" y="450" width="18" height="18"/>
   <object id="374" type="Coin" gid="152" x="1386" y="450" width="18" height="18"/>
-  <object id="375" type="Coin" gid="152" x="1412" y="424.5" width="18" height="18"/>
-  <object id="376" type="Coin" gid="152" x="1466" y="424.5" width="18" height="18"/>
   <object id="377" type="Coin" gid="152" x="1314" y="450" width="18" height="18"/>
   <object id="378" type="Coin" gid="152" x="1260" y="450" width="18" height="18"/>
   <object id="379" type="Coin" gid="152" x="1206" y="450" width="18" height="18"/>
-  <object id="380" type="Coin" gid="152" x="1286" y="423.5" width="18" height="18"/>
-  <object id="381" type="Coin" gid="152" x="1232" y="425" width="18" height="18"/>
   <object id="382" type="Coin" gid="152" x="1026" y="540" width="18" height="18"/>
   <object id="383" type="Coin" gid="152" x="1062" y="504" width="18" height="18"/>
   <object id="384" type="Coin" gid="152" x="1098" y="468" width="18" height="18"/>
