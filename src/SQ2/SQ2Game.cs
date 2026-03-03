@@ -5,6 +5,7 @@ using SQ2.Core;
 using SQ2.Development;
 using SQ2.GamePlay.Boss.Bat;
 using SQ2.GamePlay.Boss.Blue;
+using SQ2.GamePlay.Collectibles;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Enemies;
 using SQ2.GamePlay.LevelGeometry;
@@ -108,6 +109,8 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<BatBossTriggerComponentFactory>();
         componentsRegistry.RegisterComponentFactory<BatBossSpawnerComponentFactory>();
         componentsRegistry.RegisterComponentFactory<BatBossComponentFactory>();
+        // Collectibles
+        componentsRegistry.RegisterComponentFactory<CoinComponentFactory>();
 
         // VFX
         componentsRegistry.RegisterComponentFactory<WallParticleComponentFactory>();

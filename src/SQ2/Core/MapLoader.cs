@@ -361,6 +361,13 @@ internal sealed class MapLoader
                     _entityFactory.CreateButton(scene, xx, yy, tiledObject.Id);
                     break;
                 }
+                case "Coin" when tiledObject is TiledObject.Tile:
+                {
+                    var xx = x + GlobalSettings.TileSize.Width / 2d;
+                    var yy = y + GlobalSettings.TileSize.Height / 2d;
+                    _entityFactory.CreateCoin(scene, xx, yy);
+                    break;
+                }
                 case "DestructibleWall" when tiledObject is TiledObject.Tile:
                 {
                     var buttonId = tiledObject.Properties["Button"].ObjectValue;

@@ -12,6 +12,7 @@ using Geisha.Engine.Rendering.Components;
 using SQ2.Development;
 using SQ2.GamePlay.Boss.Bat;
 using SQ2.GamePlay.Boss.Blue;
+using SQ2.GamePlay.Collectibles;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Enemies;
 using SQ2.GamePlay.LevelGeometry;
@@ -377,6 +378,22 @@ internal sealed class EntityFactory
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("b1535e09-96d5-4f20-9934-0204cb7a9abc"));
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         entity.CreateComponent<TileColliderComponent>();
+        return entity;
+    }
+
+    public Entity CreateCoin(Scene scene, double x, double y)
+    {
+        var entity = scene.CreateEntity();
+        entity.CreateComponent<CoinComponent>();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = new Vector2(x, y);
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
+        var spriteAnimationComponent = entity.CreateComponent<SpriteAnimationComponent>();
+        spriteAnimationComponent.AddAnimation("Spin", _assetStore.GetAsset<SpriteAnimation>(AssetId.Parse("0ea11568-b514-468d-8ada-2b7bd9bad1fb")));
+        spriteAnimationComponent.PlayInLoop = true;
+        spriteAnimationComponent.PlaybackSpeed = 2;
+        spriteAnimationComponent.PlayAnimation("Spin");
         return entity;
     }
 
