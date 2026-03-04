@@ -377,6 +377,13 @@ internal sealed class MapLoader
                     _entityFactory.CreateDestructibleWall(scene, xx, yy, buttonId);
                     break;
                 }
+                case "Diamond" when tiledObject is TiledObject.Tile:
+                {
+                    var xx = x + GlobalSettings.TileSize.Width / 2d;
+                    var yy = y + GlobalSettings.TileSize.Height / 2d;
+                    _entityFactory.CreateDiamond(scene, xx, yy);
+                    break;
+                }
                 case "FishEnemy" when tiledObject is TiledObject.Tile:
                 {
                     var jumpOffset = 0;

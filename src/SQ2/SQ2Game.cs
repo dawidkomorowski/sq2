@@ -111,6 +111,7 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<BatBossComponentFactory>();
         // Collectibles
         componentsRegistry.RegisterComponentFactory<CoinComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<DiamondComponentFactory>();
 
         // VFX
         componentsRegistry.RegisterComponentFactory<WallParticleComponentFactory>();

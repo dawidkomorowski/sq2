@@ -397,6 +397,18 @@ internal sealed class EntityFactory
         return entity;
     }
 
+    public Entity CreateDiamond(Scene scene, double x, double y)
+    {
+        var entity = scene.CreateEntity();
+        entity.CreateComponent<DiamondComponent>();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = new Vector2(x, y);
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("fd94100c-a1fd-4c5b-bc5c-a7337ca94f02"));
+        return entity;
+    }
+
     public Entity CreateBlueEnemy(Scene scene, Vector2 position, MovementDirection initialMovementDirection, bool requireActivation, int activationGroup)
     {
         var entity = scene.CreateEntity();
