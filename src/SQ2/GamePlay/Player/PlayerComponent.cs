@@ -40,6 +40,9 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
     private int _jumpPressFrames;
     private bool _lastJumpState;
 
+    // Camera
+    private CameraMovementComponent _cameraMovementComponent = null!;
+
     // Animation
     private SpriteAnimationComponent _spriteAnimationComponent = null!;
     private Transform2DComponent _spriteTransformComponent = null!;
@@ -143,6 +146,8 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
             .Where(e => e.HasComponent<LadderComponent>())
             .Select(e => e.GetComponent<LadderComponent>().HitBox)
             .ToArray();
+
+        _cameraMovementComponent = Query.GetCameraMovementComponent(Scene);
     }
 
     public override void OnFixedUpdate()
@@ -503,6 +508,8 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
         }
 
         KeysCollected = 0;
+
+        _cameraMovementComponent.TeleportTo(_transform2DComponent.Translation);
     }
 }
 

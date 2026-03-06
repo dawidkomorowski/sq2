@@ -90,6 +90,11 @@ internal sealed class CameraMovementComponent : BehaviorComponent
     {
         _shakeDuration = TimeSpan.FromSeconds(0.5);
     }
+
+    public void TeleportTo(Vector2 position)
+    {
+        _cameraTransform.Translation = position;
+    }
 }
 
 // ReSharper disable once ClassNeverInstantiated.Global
