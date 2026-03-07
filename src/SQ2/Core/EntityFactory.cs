@@ -381,7 +381,7 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateDoor(Scene scene, double x, double y, int objectId, int exitObjectId)
+    public Entity CreateDoor(Scene scene, double x, double y, AssetId assetId, int objectId, int exitObjectId)
     {
         var entity = scene.CreateEntity();
         var doorComponent = entity.CreateComponent<DoorComponent>();
@@ -390,7 +390,7 @@ internal sealed class EntityFactory
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = new Vector2(x, y);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
-        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("6d311705-1faa-4e6c-acc6-b6df5eaee59d"));
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         return entity;
     }

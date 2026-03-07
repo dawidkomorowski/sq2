@@ -242,7 +242,7 @@
             ]
         },
         {
-            "color": "#ffa0a0a4",
+            "color": "#ffffff00",
             "drawFill": true,
             "id": 24,
             "members": [
@@ -250,6 +250,12 @@
                     "name": "Exit",
                     "type": "object",
                     "value": 0
+                },
+                {
+                    "name": "Sprite",
+                    "propertyType": "DoorSprite",
+                    "type": "string",
+                    "value": "Basic"
                 }
             ],
             "name": "Door",
@@ -258,6 +264,17 @@
                 "object",
                 "project"
             ]
+        },
+        {
+            "id": 25,
+            "name": "DoorSprite",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "Basic",
+                "WithWindow"
+            ],
+            "valuesAsFlags": false
         },
         {
             "color": "#ffa0a0a4",

@@ -387,14 +387,25 @@ internal sealed class MapLoader
                 case "Door" when tiledObject is TiledObject.Tile:
                 {
                     var exitObjectId = 0;
-                    if (tiledObject.Properties.TryGetProperty("Exit", out var property))
+                    if (tiledObject.Properties.TryGetProperty("Exit", out var property1))
                     {
-                        exitObjectId = property.ObjectValue;
+                        exitObjectId = property1.ObjectValue;
+                    }
+
+                    var assetId = AssetId.Parse("77632123-994d-49eb-bfac-0899075fdebe");
+                    if (tiledObject.Properties.TryGetProperty("Sprite", out var property2))
+                    {
+                        assetId = property2.StringValue switch
+                        {
+                            "Basic" => assetId,
+                            "WithWindow" => AssetId.Parse("6d311705-1faa-4e6c-acc6-b6df5eaee59d"),
+                            _ => throw new InvalidOperationException($"Unknown door sprite: {property2.StringValue}")
+                        };
                     }
 
                     var xx = x + GlobalSettings.TileSize.Width / 2d;
                     var yy = y + GlobalSettings.TileSize.Height / 2d;
-                    _entityFactory.CreateDoor(scene, xx, yy, tiledObject.Id, exitObjectId);
+                    _entityFactory.CreateDoor(scene, xx, yy, assetId, tiledObject.Id, exitObjectId);
                     break;
                 }
                 case "FishEnemy" when tiledObject is TiledObject.Tile:
