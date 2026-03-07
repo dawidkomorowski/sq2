@@ -390,9 +390,19 @@ internal sealed class EntityFactory
         doorComponent.UpdateCameraPosition = updateCameraPosition;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = new Vector2(x, y);
+        transform2DComponent.Scale = new Vector2(1.01, 1.01);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
+
+        var childEntity = entity.CreateChildEntity();
+        var childTransform2DComponent = childEntity.CreateComponent<Transform2DComponent>();
+        childTransform2DComponent.Translation = new Vector2(0, GlobalSettings.TileSize.Height);
+        childTransform2DComponent.Scale = new Vector2(1.01, 1.01);
+        var childSpriteRendererComponent = childEntity.CreateComponent<SpriteRendererComponent>();
+        childSpriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("d71a0d14-7955-4e95-8a68-efe124ee8cbc"));
+        childSpriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
+
         return entity;
     }
 
