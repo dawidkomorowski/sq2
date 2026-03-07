@@ -27,6 +27,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
     private const string MoveUpAction = "MoveUp";
     private const string MoveDownAction = "MoveDown";
     private const string JumpAction = "Jump";
+    private const string EnterDoorAction = "EnterDoor";
 
     // Debugging
     private readonly bool _enableDebugDraw = DevConfig.DebugDraw.Ladders;
@@ -61,6 +62,10 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
     // Keys
     public int KeysCollected { get; set; }
+
+    // Doors
+    internal DoorComponent? DoorInRange { get; set; }
+    private bool _enterDoorRequested;
 
     public PlayerComponent(Entity entity, IDebugRenderer debugRenderer, RespawnService respawnService) : base(entity)
     {
@@ -136,9 +141,22 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
                             HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Space)
                         }
                     }
+                },
+                new ActionMapping
+                {
+                    ActionName = EnterDoorAction,
+                    HardwareActions =
+                    {
+                        new HardwareAction
+                        {
+                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Enter)
+                        }
+                    }
                 }
             }
         };
+
+        _inputComponent.BindAction(EnterDoorAction, RequestEnterDoor);
 
         _playerSpawnPointComponent = Scene.RootEntities.Single(e => e.HasComponent<PlayerSpawnPointComponent>()).GetComponent<PlayerSpawnPointComponent>();
 
@@ -191,6 +209,8 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
             _kinematicBodyComponent.LinearVelocity = linearVelocity;
         }
+
+        EnterDoorLogic();
 
         UpdateHorizontalSpriteFacing();
         UpdateAnimationState(_kinematicBodyComponent.LinearVelocity, isOnGround, isOnLadder);
@@ -406,6 +426,21 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
         return linearVelocity;
     }
 
+    private void RequestEnterDoor()
+    {
+        _enterDoorRequested = true;
+    }
+
+    private void EnterDoorLogic()
+    {
+        if (_enterDoorRequested && DoorInRange is not null)
+        {
+            DoorInRange.EnterDoor();
+        }
+
+        _enterDoorRequested = false;
+    }
+
     private void UpdateAnimationState(Vector2 linearVelocity, bool isOnGround, bool isOnLadder)
     {
         _spriteTransformComponent.Transform = _spriteDefaultTransform;
@@ -492,24 +527,26 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
     {
         _kinematicBodyComponent.LinearVelocity = Vector2.Zero;
 
-        if (ActiveCheckPoint is null)
-        {
-            _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with
-            {
-                Translation = _playerSpawnPointComponent.Entity.GetComponent<Transform2DComponent>().Translation
-            });
-        }
-        else
-        {
-            _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with
-            {
-                Translation = ActiveCheckPoint.Entity.GetComponent<Transform2DComponent>().Translation
-            });
-        }
+        var spawnPosition = ActiveCheckPoint is null
+            ? _playerSpawnPointComponent.Entity.GetComponent<Transform2DComponent>().Translation
+            : ActiveCheckPoint.Entity.GetComponent<Transform2DComponent>().Translation;
+        TeleportTo(spawnPosition);
 
         KeysCollected = 0;
+        DoorInRange = null;
+    }
 
-        _cameraMovementComponent.TeleportTo(_transform2DComponent.Translation);
+    public void TeleportTo(Vector2 position, bool updateCamera = true)
+    {
+        _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with
+        {
+            Translation = position
+        });
+
+        if (updateCamera)
+        {
+            _cameraMovementComponent.TeleportTo(position);
+        }
     }
 }
 

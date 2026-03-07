@@ -386,9 +386,15 @@ internal sealed class MapLoader
                 }
                 case "Door" when tiledObject is TiledObject.Tile:
                 {
+                    var exitObjectId = 0;
+                    if (tiledObject.Properties.TryGetProperty("Exit", out var property))
+                    {
+                        exitObjectId = property.ObjectValue;
+                    }
+
                     var xx = x + GlobalSettings.TileSize.Width / 2d;
                     var yy = y + GlobalSettings.TileSize.Height / 2d;
-                    _entityFactory.CreateDoor(scene, xx, yy);
+                    _entityFactory.CreateDoor(scene, xx, yy, tiledObject.Id, exitObjectId);
                     break;
                 }
                 case "FishEnemy" when tiledObject is TiledObject.Tile:
