@@ -381,6 +381,18 @@ internal sealed class EntityFactory
         return entity;
     }
 
+    public Entity CreateDoor(Scene scene, double x, double y)
+    {
+        var entity = scene.CreateEntity();
+        entity.CreateComponent<DoorComponent>();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = new Vector2(x, y);
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("6d311705-1faa-4e6c-acc6-b6df5eaee59d"));
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
+        return entity;
+    }
+
     public Entity CreateCoin(Scene scene, double x, double y)
     {
         var entity = scene.CreateEntity();

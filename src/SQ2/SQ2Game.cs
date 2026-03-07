@@ -102,6 +102,7 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<KeyComponentFactory>();
         componentsRegistry.RegisterComponentFactory<KeyHoleComponentFactory>();
         componentsRegistry.RegisterComponentFactory<RaisingWaterComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<DoorComponentFactory>();
         // Boss: blue
         componentsRegistry.RegisterComponentFactory<BlueBossComponentFactory>();
         componentsRegistry.RegisterComponentFactory<BlueBossProjectileComponentFactory>();
