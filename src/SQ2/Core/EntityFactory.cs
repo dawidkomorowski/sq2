@@ -381,12 +381,13 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateDoor(Scene scene, double x, double y, AssetId assetId, int objectId, int exitObjectId)
+    public Entity CreateDoor(Scene scene, double x, double y, AssetId assetId, int objectId, int exitObjectId, bool updateCameraPosition)
     {
         var entity = scene.CreateEntity();
         var doorComponent = entity.CreateComponent<DoorComponent>();
         doorComponent.ObjectId = objectId;
         doorComponent.ExitObjectId = exitObjectId;
+        doorComponent.UpdateCameraPosition = updateCameraPosition;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = new Vector2(x, y);
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();

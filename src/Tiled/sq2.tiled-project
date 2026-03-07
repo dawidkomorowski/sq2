@@ -256,6 +256,11 @@
                     "propertyType": "DoorSprite",
                     "type": "string",
                     "value": "Basic"
+                },
+                {
+                    "name": "UpdateCameraPosition",
+                    "type": "bool",
+                    "value": false
                 }
             ],
             "name": "Door",

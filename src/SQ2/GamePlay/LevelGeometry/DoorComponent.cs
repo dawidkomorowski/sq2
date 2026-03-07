@@ -20,6 +20,7 @@ internal sealed class DoorComponent : BehaviorComponent
 
     public int ObjectId { get; set; }
     public int ExitObjectId { get; set; }
+    public bool UpdateCameraPosition { get; set; }
 
     public override void OnStart()
     {
@@ -49,7 +50,7 @@ internal sealed class DoorComponent : BehaviorComponent
 
     public void EnterDoor()
     {
-        _playerComponent.TeleportTo(_exitPosition, false);
+        _playerComponent.TeleportTo(_exitPosition, UpdateCameraPosition);
     }
 }
 
