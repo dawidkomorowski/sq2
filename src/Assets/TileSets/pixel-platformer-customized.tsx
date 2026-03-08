@@ -13,6 +13,18 @@
    <property name="TileType" propertytype="TileType" value="Geometry"/>
   </properties>
  </tile>
+ <tile id="2" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="c096150b-1173-42cc-a092-d3551c9ef6b8"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
+ <tile id="3" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="7d7006a1-0c73-4da6-988b-e62adbbe158b"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
  <tile id="20" type="WorldTile">
   <properties>
    <property name="AssetId" value="67dc0dbb-9a16-4822-90a7-06520a42f651"/>
@@ -22,6 +34,24 @@
  <tile id="21" type="WorldTile">
   <properties>
    <property name="AssetId" value="fb89812c-6085-4995-b1df-27135fbe4c35"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
+ <tile id="22" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="c945d882-1ca8-4f29-969e-1b74ccc7f0b4"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
+ <tile id="23" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="b6d4a5ff-963e-4a0c-9bb0-8e705c5319d9"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
+ <tile id="24" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="38eecb0a-bfb3-40cc-a1f8-aa9784082dd0"/>
    <property name="TileType" propertytype="TileType" value="Geometry"/>
   </properties>
  </tile>

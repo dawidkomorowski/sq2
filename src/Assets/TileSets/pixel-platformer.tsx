@@ -462,6 +462,12 @@
    <property name="TileType" propertytype="TileType" value="Geometry"/>
   </properties>
  </tile>
+ <tile id="104" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="c28490ad-7c6e-4102-bbd0-5584071cec7a"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
  <tile id="105" type="WorldTile">
   <properties>
    <property name="AssetId" value="94fe40d8-12a4-4341-b20c-87e019c95d27"/>
