@@ -471,7 +471,10 @@ internal sealed class MapLoader
                         platformWidth = property.IntValue;
                     }
 
-                    _entityFactory.CreateMovingPlatform(scene, x, y, sx, sy, ex, ey, platformWidth);
+                    var xCenter = x + tiledObject.Width / 2d;
+                    var yCenter = y + tiledObject.Height / 2d;
+
+                    _entityFactory.CreateMovingPlatform(scene, xCenter, yCenter, sx, sy, ex, ey, platformWidth);
                     break;
                 }
                 case "PlayerSpawnPoint":
