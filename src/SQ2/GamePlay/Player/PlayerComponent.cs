@@ -40,6 +40,8 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
     private InputComponent _inputComponent = null!;
     private int _jumpPressFrames;
     private bool _lastJumpState;
+    internal bool ForceMoveRight { get; set; }
+    internal bool ForceMoveLeft { get; set; }
 
     // Camera
     private CameraMovementComponent _cameraMovementComponent = null!;
@@ -291,8 +293,8 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
         const double acceleration = 250;
         const double deceleration = 450;
 
-        var moveLeftState = _inputComponent.GetActionState(MoveLeftAction);
-        var moveRightState = _inputComponent.GetActionState(MoveRightAction);
+        var moveLeftState = _inputComponent.GetActionState(MoveLeftAction) || ForceMoveLeft;
+        var moveRightState = _inputComponent.GetActionState(MoveRightAction) || ForceMoveRight;
 
         if (moveLeftState && !moveRightState)
         {
@@ -547,6 +549,16 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
         {
             _cameraMovementComponent.TeleportTo(position);
         }
+    }
+
+    public void EnableInput()
+    {
+        _inputComponent.Enabled = true;
+    }
+
+    public void DisableInput()
+    {
+        _inputComponent.Enabled = false;
     }
 }
 

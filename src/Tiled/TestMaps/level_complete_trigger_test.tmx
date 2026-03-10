@@ -107,7 +107,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="GamePlayObjects">
-  <object id="1" name="Player Spawn Point" type="PlayerSpawnPoint" x="891.176" y="928.776">
+  <object id="1" name="Player Spawn Point" type="PlayerSpawnPoint" x="891.176" y="925.401">
    <point/>
   </object>
   <object id="5" name="Trigger: Level Complete Right " type="LevelCompleteTrigger" x="1314" y="810" width="324" height="126"/>

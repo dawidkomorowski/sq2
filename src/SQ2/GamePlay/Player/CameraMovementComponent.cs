@@ -17,6 +17,7 @@ internal sealed class CameraMovementComponent : BehaviorComponent
     {
     }
 
+    public bool EnableFollow { get; set; } = true;
     public Transform2DComponent? PointOfInterest { get; set; }
 
     public override void OnStart()
@@ -29,6 +30,8 @@ internal sealed class CameraMovementComponent : BehaviorComponent
 
     public override void OnUpdate(GameTime gameTime)
     {
+        if (!EnableFollow) return;
+
         // Determine target camera position.
         var playerPosition = _playerTransform.InterpolatedTransform.Translation;
         var targetPosition = playerPosition;
