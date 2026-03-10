@@ -438,6 +438,16 @@ internal sealed class MapLoader
                     _entityFactory.CreateKeyHole(scene, xx, yy, keysRequired);
                     break;
                 }
+                case "LevelCompleteTrigger" when tiledObject is TiledObject.Rectangle:
+                {
+                    var width = tiledObject.Width;
+                    var height = tiledObject.Height;
+                    var xCenter = x + width / 2d;
+                    var yCenter = y - height / 2d;
+
+                    _entityFactory.CreateLevelCompleteTrigger(scene, xCenter, yCenter, width, height);
+                    break;
+                }
                 case "Metadata":
                 {
                     // Ignore metadata objects

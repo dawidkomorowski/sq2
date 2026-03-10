@@ -76,11 +76,19 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterSystem<ProximityActivationSystem>();
 
         // Gameplay components
-        // Player
-        componentsRegistry.RegisterComponentFactory<CameraMovementComponentFactory>();
-        componentsRegistry.RegisterComponentFactory<PlayerComponentFactory>();
-        componentsRegistry.RegisterComponentFactory<PlayerSpawnPointComponentFactory>();
-        componentsRegistry.RegisterComponentFactory<CheckPointComponentFactory>();
+
+        // Boss: bat
+        componentsRegistry.RegisterComponentFactory<BatBossTriggerComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<BatBossSpawnerComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<BatBossComponentFactory>();
+        // Boss: blue
+        componentsRegistry.RegisterComponentFactory<BlueBossComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<BlueBossProjectileComponentFactory>();
+        // Collectibles
+        componentsRegistry.RegisterComponentFactory<CoinComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<DiamondComponentFactory>();
+        // Common
+        componentsRegistry.RegisterComponentFactory<LevelCompleteTriggerComponentFactory>();
         // Enemies
         componentsRegistry.RegisterComponentFactory<BlueEnemyComponentFactory>();
         componentsRegistry.RegisterComponentFactory<BlueEnemyDeathAnimationComponentFactory>();
@@ -103,16 +111,11 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<KeyHoleComponentFactory>();
         componentsRegistry.RegisterComponentFactory<RaisingWaterComponentFactory>();
         componentsRegistry.RegisterComponentFactory<DoorComponentFactory>();
-        // Boss: blue
-        componentsRegistry.RegisterComponentFactory<BlueBossComponentFactory>();
-        componentsRegistry.RegisterComponentFactory<BlueBossProjectileComponentFactory>();
-        // Boss: bat
-        componentsRegistry.RegisterComponentFactory<BatBossTriggerComponentFactory>();
-        componentsRegistry.RegisterComponentFactory<BatBossSpawnerComponentFactory>();
-        componentsRegistry.RegisterComponentFactory<BatBossComponentFactory>();
-        // Collectibles
-        componentsRegistry.RegisterComponentFactory<CoinComponentFactory>();
-        componentsRegistry.RegisterComponentFactory<DiamondComponentFactory>();
+        // Player
+        componentsRegistry.RegisterComponentFactory<CameraMovementComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<PlayerComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<PlayerSpawnPointComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<CheckPointComponentFactory>();
 
         // VFX
         componentsRegistry.RegisterComponentFactory<WallParticleComponentFactory>();

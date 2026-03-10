@@ -20,6 +20,7 @@ internal static class DevConfig
         public static bool BlueBoss => ReadConfig()?.DebugDraw?.BlueBoss ?? false;
         public static bool BatBoss => ReadConfig()?.DebugDraw?.BatBoss ?? false;
         public static bool ProximityActivation => ReadConfig()?.DebugDraw?.ProximityActivation ?? false;
+        public static bool LevelCompleteTrigger => ReadConfig()?.DebugDraw?.LevelCompleteTrigger ?? false;
     }
 
     public static void InitializeFromArgs(string[] args)
@@ -74,5 +75,6 @@ internal static class DevConfig
         public bool? BlueBoss { get; init; }
         public bool? BatBoss { get; init; }
         public bool? ProximityActivation { get; init; }
+        public bool? LevelCompleteTrigger { get; init; }
     }
 }

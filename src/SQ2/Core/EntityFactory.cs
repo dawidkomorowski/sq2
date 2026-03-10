@@ -805,6 +805,14 @@ internal sealed class EntityFactory
         }
     }
 
+    public Entity CreateLevelCompleteTrigger(Scene scene, double x, double y, double width, double height)
+    {
+        var entity = scene.CreateEntity();
+        var levelCompleteTriggerComponent = entity.CreateComponent<LevelCompleteTriggerComponent>();
+        levelCompleteTriggerComponent.TriggerArea = new AxisAlignedRectangle(x, y, width, height);
+        return entity;
+    }
+
     public Entity CreateBackground(Scene scene, Background background)
     {
         var entity = scene.CreateEntity();

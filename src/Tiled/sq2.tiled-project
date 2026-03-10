@@ -318,6 +318,19 @@
             ]
         },
         {
+            "color": "#ffff007f",
+            "drawFill": true,
+            "id": 26,
+            "members": [
+            ],
+            "name": "LevelCompleteTrigger",
+            "type": "class",
+            "useAs": [
+                "object",
+                "project"
+            ]
+        },
+        {
             "color": "#ff5555ff",
             "drawFill": true,
             "id": 10,
