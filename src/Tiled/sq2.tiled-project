@@ -318,10 +318,28 @@
             ]
         },
         {
+            "id": 27,
+            "name": "LevelCompleteDirection",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "Left",
+                "Right",
+                "Down"
+            ],
+            "valuesAsFlags": false
+        },
+        {
             "color": "#ffff007f",
             "drawFill": true,
             "id": 26,
             "members": [
+                {
+                    "name": "LevelCompleteDirection",
+                    "propertyType": "LevelCompleteDirection",
+                    "type": "string",
+                    "value": "Left"
+                }
             ],
             "name": "LevelCompleteTrigger",
             "type": "class",

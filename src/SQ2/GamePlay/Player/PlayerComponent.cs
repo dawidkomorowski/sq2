@@ -293,8 +293,8 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
         const double acceleration = 250;
         const double deceleration = 450;
 
-        var moveLeftState = _inputComponent.GetActionState(MoveLeftAction) || ForceMoveLeft;
-        var moveRightState = _inputComponent.GetActionState(MoveRightAction) || ForceMoveRight;
+        var moveLeftState = GetActionState_MoveLeft();
+        var moveRightState = GetActionState_MoveRight();
 
         if (moveLeftState && !moveRightState)
         {
@@ -384,12 +384,12 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
         linearVelocity = new Vector2(0, 0);
 
-        if (_inputComponent.GetActionState(MoveLeftAction))
+        if (GetActionState_MoveLeft())
         {
             linearVelocity += new Vector2(-1, 0);
         }
 
-        if (_inputComponent.GetActionState(MoveRightAction))
+        if (GetActionState_MoveRight())
         {
             linearVelocity += new Vector2(1, 0);
         }
@@ -506,8 +506,8 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
     /// </summary>
     private void UpdateHorizontalSpriteFacing()
     {
-        var moveLeftState = _inputComponent.GetActionState(MoveLeftAction);
-        var moveRightState = _inputComponent.GetActionState(MoveRightAction);
+        var moveLeftState = GetActionState_MoveLeft();
+        var moveRightState = GetActionState_MoveRight();
 
         if (moveLeftState && !moveRightState && _transform2DComponent.Transform.Scale.X < 0)
         {
@@ -551,15 +551,13 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
         }
     }
 
-    public void EnableInput()
-    {
-        _inputComponent.Enabled = true;
-    }
-
     public void DisableInput()
     {
         _inputComponent.Enabled = false;
     }
+
+    private bool GetActionState_MoveLeft() => _inputComponent.GetActionState(MoveLeftAction) || ForceMoveLeft;
+    private bool GetActionState_MoveRight() => _inputComponent.GetActionState(MoveRightAction) || ForceMoveRight;
 }
 
 // ReSharper disable once ClassNeverInstantiated.Global

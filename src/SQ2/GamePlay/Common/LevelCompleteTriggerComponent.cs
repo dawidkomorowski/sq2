@@ -19,6 +19,7 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
     private Transform2DComponent _playerTransform2DComponent = null!;
     private RectangleColliderComponent _playerRectangleColliderComponent = null!;
     private CameraMovementComponent _cameraMovementComponent = null!;
+    private bool _triggered;
     private TimeSpan _timer;
 
     public LevelCompleteTriggerComponent(Entity entity, IDebugRenderer debugRenderer, ISceneManager sceneManager) : base(entity)
@@ -28,6 +29,7 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
     }
 
     public AxisAlignedRectangle TriggerArea { get; set; }
+    public LevelCompleteDirection LevelCompleteDirection { get; set; }
 
     public override void OnStart()
     {
@@ -41,21 +43,42 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
 
     public override void OnFixedUpdate()
     {
+        if (_triggered)
+        {
+            _timer += GameTime.FixedDeltaTime;
+
+            if (_timer >= TimeSpan.FromSeconds(3))
+            {
+                _sceneManager.LoadEmptyScene("GameWorld");
+            }
+
+            return;
+        }
+
         var playerPosition = _playerTransform2DComponent.Translation;
         var playerDimensions = _playerRectangleColliderComponent.Dimensions;
         var playerHitBox = new AxisAlignedRectangle(playerPosition, playerDimensions);
 
         if (TriggerArea.Overlaps(playerHitBox))
         {
-            _timer += GameTime.FixedDeltaTime;
+            _triggered = true;
 
-            _playerComponent.DisableInput();
-            _playerComponent.ForceMoveRight = true;
             _cameraMovementComponent.EnableFollow = false;
 
-            if (_timer >= TimeSpan.FromSeconds(3))
+            _playerComponent.DisableInput();
+
+            switch (LevelCompleteDirection)
             {
-                _sceneManager.LoadEmptyScene("GameWorld");
+                case LevelCompleteDirection.Left:
+                    _playerComponent.ForceMoveLeft = true;
+                    break;
+                case LevelCompleteDirection.Right:
+                    _playerComponent.ForceMoveRight = true;
+                    break;
+                case LevelCompleteDirection.Down:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
     }

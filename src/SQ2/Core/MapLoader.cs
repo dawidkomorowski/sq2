@@ -445,7 +445,13 @@ internal sealed class MapLoader
                     var xCenter = x + width / 2d;
                     var yCenter = y - height / 2d;
 
-                    _entityFactory.CreateLevelCompleteTrigger(scene, xCenter, yCenter, width, height);
+                    var levelCompleteDirection = LevelCompleteDirection.Left;
+                    if (tiledObject.Properties.TryGetProperty("LevelCompleteDirection", out var property1))
+                    {
+                        levelCompleteDirection = Enum.Parse<LevelCompleteDirection>(property1.StringValue);
+                    }
+
+                    _entityFactory.CreateLevelCompleteTrigger(scene, xCenter, yCenter, width, height, levelCompleteDirection);
                     break;
                 }
                 case "Metadata":
