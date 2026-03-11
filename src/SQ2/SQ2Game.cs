@@ -45,7 +45,8 @@ internal class SQ2Game : Game
                     GlobalSettings.SortingLayers.Background,
                     GlobalSettings.SortingLayers.DecorBackground,
                     RenderingConfiguration.DefaultSortingLayerName,
-                    GlobalSettings.SortingLayers.DecorForeground
+                    GlobalSettings.SortingLayers.DecorForeground,
+                    GlobalSettings.SortingLayers.CameraEffects
                 },
                 EnableVSync = true
             },
@@ -88,6 +89,7 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<CoinComponentFactory>();
         componentsRegistry.RegisterComponentFactory<DiamondComponentFactory>();
         // Common
+        componentsRegistry.RegisterComponentFactory<CinematicCameraComponentFactory>();
         componentsRegistry.RegisterComponentFactory<LevelCompleteTriggerComponentFactory>();
         // Enemies
         componentsRegistry.RegisterComponentFactory<BlueEnemyComponentFactory>();

@@ -870,6 +870,7 @@ internal sealed class EntityFactory
         var cameraComponent = entity.CreateComponent<CameraComponent>();
         cameraComponent.ViewRectangle = GlobalSettings.ViewSize;
         entity.CreateComponent<CameraMovementComponent>();
+        entity.CreateComponent<CinematicCameraComponent>();
         return entity;
     }
 }

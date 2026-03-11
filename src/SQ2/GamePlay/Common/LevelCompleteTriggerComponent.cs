@@ -19,6 +19,7 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
     private Transform2DComponent _playerTransform2DComponent = null!;
     private RectangleColliderComponent _playerRectangleColliderComponent = null!;
     private CameraMovementComponent _cameraMovementComponent = null!;
+    private CinematicCameraComponent _cinematicCameraComponent = null!;
     private bool _triggered;
     private TimeSpan _timer;
 
@@ -37,6 +38,7 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
         _playerTransform2DComponent = Query.GetPlayerTransform2DComponent(Scene);
         _playerRectangleColliderComponent = Query.GetPlayerRectangleColliderComponent(Scene);
         _cameraMovementComponent = Query.GetCameraMovementComponent(Scene);
+        _cinematicCameraComponent = Query.GetCinematicCameraComponent(Scene);
 
         _timer = TimeSpan.Zero;
     }
@@ -46,6 +48,11 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
         if (_triggered)
         {
             _timer += GameTime.FixedDeltaTime;
+
+            if (_timer >= TimeSpan.FromSeconds(0.5))
+            {
+                _cameraMovementComponent.EnableFollow = false;
+            }
 
             if (_timer >= TimeSpan.FromSeconds(3))
             {
@@ -63,7 +70,7 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
         {
             _triggered = true;
 
-            _cameraMovementComponent.EnableFollow = false;
+            _cinematicCameraComponent.Show();
 
             _playerComponent.DisableInput();
 
