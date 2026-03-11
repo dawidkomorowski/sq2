@@ -120,7 +120,8 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<CheckPointComponentFactory>();
 
         // VFX
-        componentsRegistry.RegisterComponentFactory<WallParticleComponentFactory>();
         componentsRegistry.RegisterComponentFactory<BackgroundComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<FadeOutComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<WallParticleComponentFactory>();
     }
 }

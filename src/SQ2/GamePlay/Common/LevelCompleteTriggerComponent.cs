@@ -7,6 +7,7 @@ using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics.Components;
 using SQ2.Development;
 using SQ2.GamePlay.Player;
+using SQ2.VFX;
 
 namespace SQ2.GamePlay.Common;
 
@@ -22,6 +23,7 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
     private CinematicCameraComponent _cinematicCameraComponent = null!;
     private bool _triggered;
     private TimeSpan _timer;
+    private Entity? _fadeOutEntity;
 
     public LevelCompleteTriggerComponent(Entity entity, IDebugRenderer debugRenderer, ISceneManager sceneManager) : base(entity)
     {
@@ -54,7 +56,13 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
                 _cameraMovementComponent.EnableFollow = false;
             }
 
-            if (_timer >= TimeSpan.FromSeconds(3))
+            if (_timer >= TimeSpan.FromSeconds(3) && _fadeOutEntity is null)
+            {
+                _fadeOutEntity = _cinematicCameraComponent.Entity.CreateChildEntity();
+                _fadeOutEntity.CreateComponent<FadeOutComponent>();
+            }
+
+            if (_timer >= TimeSpan.FromSeconds(4.5))
             {
                 _sceneManager.LoadEmptyScene("GameWorld");
             }
