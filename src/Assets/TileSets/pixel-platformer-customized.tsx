@@ -67,4 +67,28 @@
    <property name="TileType" propertytype="TileType" value="Geometry"/>
   </properties>
  </tile>
+ <tile id="60" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="1f1808b6-45d0-4cae-b73a-9b0e890c759f"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
+ <tile id="61" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="8dcb33fe-6f7a-427f-b2cb-dcf630e2b714"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
+ <tile id="80" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="9ebeb39f-0f53-4d95-b9df-bb8f040566e0"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
+ <tile id="81" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="2b8a827e-81be-4d00-9019-0d2532ea57a7"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
 </tileset>
