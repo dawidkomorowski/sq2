@@ -55,4 +55,16 @@
    <property name="TileType" propertytype="TileType" value="Geometry"/>
   </properties>
  </tile>
+ <tile id="40" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="c06076d9-1a66-4891-bb3e-f0c88f670039"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
+ <tile id="41" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="c78f8bd0-3452-4559-813a-15a46624a72c"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
 </tileset>
