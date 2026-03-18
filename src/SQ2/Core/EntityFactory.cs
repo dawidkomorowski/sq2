@@ -506,13 +506,15 @@ internal sealed class EntityFactory
     }
 
     public Entity CreateYellowWalkingEnemy(Scene scene, Vector2 position, MovementDirection initialMovementDirection, bool requireActivation,
-        int activationGroup)
+        int activationGroup, double minX, double maxX)
     {
         var entity = scene.CreateEntity();
         var spikeEnemyComponent = entity.CreateComponent<WalkingSpikeEnemyComponent>();
         spikeEnemyComponent.InitialMovementDirection = initialMovementDirection;
         spikeEnemyComponent.RequireActivation = requireActivation;
         spikeEnemyComponent.ActivationGroup = activationGroup;
+        spikeEnemyComponent.MinX = minX;
+        spikeEnemyComponent.MaxX = maxX;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = position;
         transform2DComponent.IsInterpolated = true;

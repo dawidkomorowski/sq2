@@ -28,6 +28,8 @@ internal sealed class WalkingSpikeEnemyComponent : BehaviorComponent, IRespawnab
 
     public bool RequireActivation { get; set; }
     public MovementDirection InitialMovementDirection { get; set; }
+    public double? MinX { get; set; }
+    public double? MaxX { get; set; }
 
     public override void OnStart()
     {
@@ -78,6 +80,16 @@ internal sealed class WalkingSpikeEnemyComponent : BehaviorComponent, IRespawnab
                 _currentVelocity = BaseVelocity;
                 break;
             }
+        }
+
+        if (MinX.HasValue && _transform2DComponent.Translation.X < MinX.Value)
+        {
+            _currentVelocity = BaseVelocity;
+        }
+
+        if (MaxX.HasValue && _transform2DComponent.Translation.X > MaxX.Value)
+        {
+            _currentVelocity = -BaseVelocity;
         }
 
         _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(_currentVelocity);

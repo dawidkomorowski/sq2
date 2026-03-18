@@ -515,6 +515,16 @@
                     "value": 0
                 },
                 {
+                    "name": "HorizontalLimit1",
+                    "type": "object",
+                    "value": 0
+                },
+                {
+                    "name": "HorizontalLimit2",
+                    "type": "object",
+                    "value": 0
+                },
+                {
                     "name": "InitialMovementDirection",
                     "propertyType": "MovementDirection",
                     "type": "string",

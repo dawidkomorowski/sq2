@@ -545,9 +545,19 @@ internal sealed class MapLoader
                         activationGroupId = property2.IntValue;
                     }
 
+                    var horizontalLimit1Id = tiledObject.Properties["HorizontalLimit1"].ObjectValue;
+                    var horizontalLimit2Id = tiledObject.Properties["HorizontalLimit2"].ObjectValue;
+                    var horizontalLimit1Object = objectLayer.Objects.Single(o => o.Id == horizontalLimit1Id);
+                    var horizontalLimit2Object = objectLayer.Objects.Single(o => o.Id == horizontalLimit2Id);
+
+                    var xLimit1 = GetWorldCoordinates(horizontalLimit1Object).X;
+                    var xLimit2 = GetWorldCoordinates(horizontalLimit2Object).X;
+
+                    var minX = Math.Min(xLimit1, xLimit2);
+                    var maxX = Math.Max(xLimit1, xLimit2);
+
                     var position = new Vector2(x + 10, y + 8);
-                    _entityFactory.CreateYellowWalkingEnemy(scene, position, initialMovementDirection, requireActivation: true,
-                        activationGroup: activationGroupId);
+                    _entityFactory.CreateYellowWalkingEnemy(scene, position, initialMovementDirection, requireActivation: true, activationGroupId, minX, maxX);
                     break;
                 }
                 default:
@@ -555,6 +565,13 @@ internal sealed class MapLoader
                     break;
             }
         }
+    }
+
+    private static Vector2 GetWorldCoordinates(TiledObject tiledObject)
+    {
+        var x = tiledObject.X - GlobalSettings.TileSize.Width / 2d;
+        var y = -(tiledObject.Y - GlobalSettings.TileSize.Height / 2d);
+        return new Vector2(x, y);
     }
 
     private static Orientation GetOrientationFromGlobalTileId(GlobalTileId globalTileId)
