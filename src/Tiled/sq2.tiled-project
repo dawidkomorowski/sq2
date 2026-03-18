@@ -503,6 +503,30 @@
                 "tile",
                 "project"
             ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 28,
+            "members": [
+                {
+                    "name": "ActivationGroupId",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "InitialMovementDirection",
+                    "propertyType": "MovementDirection",
+                    "type": "string",
+                    "value": "Left"
+                }
+            ],
+            "name": "YellowWalkingEnemy",
+            "type": "class",
+            "useAs": [
+                "object",
+                "project"
+            ]
         }
     ]
 }

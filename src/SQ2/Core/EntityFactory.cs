@@ -479,10 +479,10 @@ internal sealed class EntityFactory
     public Entity CreateRedEnemy(Scene scene, Vector2 position, MovementDirection initialMovementDirection, bool requireActivation, int activationGroup)
     {
         var entity = scene.CreateEntity();
-        var redEnemyComponent = entity.CreateComponent<RedEnemyComponent>();
-        redEnemyComponent.InitialMovementDirection = initialMovementDirection;
-        redEnemyComponent.RequireActivation = requireActivation;
-        redEnemyComponent.ActivationGroup = activationGroup;
+        var spikeEnemyComponent = entity.CreateComponent<WalkingSpikeEnemyComponent>();
+        spikeEnemyComponent.InitialMovementDirection = initialMovementDirection;
+        spikeEnemyComponent.RequireActivation = requireActivation;
+        spikeEnemyComponent.ActivationGroup = activationGroup;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = position;
         transform2DComponent.IsInterpolated = true;
@@ -498,6 +498,36 @@ internal sealed class EntityFactory
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         var spriteAnimationComponent = spriteEntity.CreateComponent<SpriteAnimationComponent>();
         spriteAnimationComponent.AddAnimation("Walk", _assetStore.GetAsset<SpriteAnimation>(AssetId.Parse("724f4eb7-fbbd-4ebf-894f-8b354e16b69e")));
+        spriteAnimationComponent.PlayInLoop = true;
+        spriteAnimationComponent.PlaybackSpeed = 3;
+        spriteAnimationComponent.PlayAnimation("Walk");
+
+        return entity;
+    }
+
+    public Entity CreateYellowWalkingEnemy(Scene scene, Vector2 position, MovementDirection initialMovementDirection, bool requireActivation,
+        int activationGroup)
+    {
+        var entity = scene.CreateEntity();
+        var spikeEnemyComponent = entity.CreateComponent<WalkingSpikeEnemyComponent>();
+        spikeEnemyComponent.InitialMovementDirection = initialMovementDirection;
+        spikeEnemyComponent.RequireActivation = requireActivation;
+        spikeEnemyComponent.ActivationGroup = activationGroup;
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = position;
+        transform2DComponent.IsInterpolated = true;
+        var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
+        rectangleColliderComponent.Dimensions = new Vector2(14, 15);
+        var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
+        kinematicRigidBody2DComponent.EnableCollisionResponse = true;
+
+        var spriteEntity = entity.CreateChildEntity();
+        var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
+        spriteTransform2DComponent.Translation = new Vector2(0.5, 4);
+        var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
+        var spriteAnimationComponent = spriteEntity.CreateComponent<SpriteAnimationComponent>();
+        spriteAnimationComponent.AddAnimation("Walk", _assetStore.GetAsset<SpriteAnimation>(AssetId.Parse("f2cbe445-e292-4169-ab8d-2aa9384d42e0")));
         spriteAnimationComponent.PlayInLoop = true;
         spriteAnimationComponent.PlaybackSpeed = 3;
         spriteAnimationComponent.PlayAnimation("Walk");

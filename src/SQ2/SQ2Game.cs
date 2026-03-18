@@ -94,7 +94,7 @@ internal class SQ2Game : Game
         // Enemies
         componentsRegistry.RegisterComponentFactory<BlueEnemyComponentFactory>();
         componentsRegistry.RegisterComponentFactory<BlueEnemyDeathAnimationComponentFactory>();
-        componentsRegistry.RegisterComponentFactory<RedEnemyComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<WalkingSpikeEnemyComponentFactory>();
         componentsRegistry.RegisterComponentFactory<YellowEnemyComponentFactory>();
         componentsRegistry.RegisterComponentFactory<FishEnemyComponentFactory>();
         componentsRegistry.RegisterComponentFactory<BatEnemyComponentFactory>();

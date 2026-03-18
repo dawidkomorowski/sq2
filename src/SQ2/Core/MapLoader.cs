@@ -531,6 +531,25 @@ internal sealed class MapLoader
                     _entityFactory.CreateRedEnemy(scene, position, initialMovementDirection, requireActivation: true, activationGroup: activationGroupId);
                     break;
                 }
+                case "YellowWalkingEnemy" when tiledObject is TiledObject.Tile:
+                {
+                    var initialMovementDirection = MovementDirection.Left;
+                    if (tiledObject.Properties.TryGetProperty("InitialMovementDirection", out var property1))
+                    {
+                        initialMovementDirection = Enum.Parse<MovementDirection>(property1.StringValue);
+                    }
+
+                    var activationGroupId = 0;
+                    if (tiledObject.Properties.TryGetProperty("ActivationGroupId", out var property2))
+                    {
+                        activationGroupId = property2.IntValue;
+                    }
+
+                    var position = new Vector2(x + 10, y + 8);
+                    _entityFactory.CreateYellowWalkingEnemy(scene, position, initialMovementDirection, requireActivation: true,
+                        activationGroup: activationGroupId);
+                    break;
+                }
                 default:
                     Logger.Error("Unknown object type: {tiledObject.Type} with id {tiledObject.Id}", tiledObject.Type, tiledObject.Id);
                     break;

@@ -9,7 +9,7 @@ using SQ2.GamePlay.Player;
 
 namespace SQ2.GamePlay.Enemies;
 
-internal sealed class RedEnemyComponent : BehaviorComponent, IRespawnable, IProximityActivatable
+internal sealed class WalkingSpikeEnemyComponent : BehaviorComponent, IRespawnable, IProximityActivatable
 {
     private readonly ProximityActivationService _proximityActivationService;
 
@@ -21,7 +21,7 @@ internal sealed class RedEnemyComponent : BehaviorComponent, IRespawnable, IProx
     private double _currentVelocity;
     private Vector2 _startPosition;
 
-    public RedEnemyComponent(Entity entity, ProximityActivationService proximityActivationService) : base(entity)
+    public WalkingSpikeEnemyComponent(Entity entity, ProximityActivationService proximityActivationService) : base(entity)
     {
         _proximityActivationService = proximityActivationService;
     }
@@ -108,14 +108,14 @@ internal sealed class RedEnemyComponent : BehaviorComponent, IRespawnable, IProx
 }
 
 // ReSharper disable once ClassNeverInstantiated.Global
-internal sealed class RedEnemyComponentFactory : ComponentFactory<RedEnemyComponent>
+internal sealed class WalkingSpikeEnemyComponentFactory : ComponentFactory<WalkingSpikeEnemyComponent>
 {
     private readonly ProximityActivationService _proximityActivationService;
 
-    public RedEnemyComponentFactory(ProximityActivationService proximityActivationService)
+    public WalkingSpikeEnemyComponentFactory(ProximityActivationService proximityActivationService)
     {
         _proximityActivationService = proximityActivationService;
     }
 
-    protected override RedEnemyComponent CreateComponent(Entity entity) => new(entity, _proximityActivationService);
+    protected override WalkingSpikeEnemyComponent CreateComponent(Entity entity) => new(entity, _proximityActivationService);
 }
