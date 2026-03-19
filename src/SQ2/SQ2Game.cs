@@ -92,8 +92,8 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<CinematicCameraComponentFactory>();
         componentsRegistry.RegisterComponentFactory<LevelCompleteTriggerComponentFactory>();
         // Enemies
-        componentsRegistry.RegisterComponentFactory<BlueEnemyComponentFactory>();
-        componentsRegistry.RegisterComponentFactory<BlueEnemyDeathAnimationComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<WalkingEnemyComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<WalkingEnemyDeathAnimationComponentFactory>();
         componentsRegistry.RegisterComponentFactory<WalkingSpikeEnemyComponentFactory>();
         componentsRegistry.RegisterComponentFactory<YellowEnemyComponentFactory>();
         componentsRegistry.RegisterComponentFactory<FishEnemyComponentFactory>();

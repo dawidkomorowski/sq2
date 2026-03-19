@@ -269,7 +269,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
                 }
 
                 // Ignore blue enemies when checking for ground because they automatically bounce the player.
-                if (contact2D.OtherCollider.Entity.Root.HasComponent<BlueEnemyComponent>())
+                if (contact2D.OtherCollider.Entity.Root.HasComponent<WalkingEnemyComponent>())
                 {
                     continue;
                 }

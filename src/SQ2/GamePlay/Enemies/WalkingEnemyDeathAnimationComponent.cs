@@ -6,9 +6,9 @@ using Geisha.Engine.Core.SceneModel;
 namespace SQ2.GamePlay.Enemies;
 
 /// <summary>
-/// Used to animate the death of a blue enemy and blue boss.
+/// Used to animate the death of a blue enemy, green enemy and blue boss.
 /// </summary>
-internal sealed class BlueEnemyDeathAnimationComponent : BehaviorComponent
+internal sealed class WalkingEnemyDeathAnimationComponent : BehaviorComponent
 {
     private Transform2DComponent _transform2DComponent = null!;
     private Transform2D _initialTransform;
@@ -16,7 +16,7 @@ internal sealed class BlueEnemyDeathAnimationComponent : BehaviorComponent
     private Transform2D _targetTransform;
     private double _elapsedTime;
 
-    public BlueEnemyDeathAnimationComponent(Entity entity) : base(entity)
+    public WalkingEnemyDeathAnimationComponent(Entity entity) : base(entity)
     {
     }
 
@@ -62,7 +62,7 @@ internal sealed class BlueEnemyDeathAnimationComponent : BehaviorComponent
 }
 
 // ReSharper disable once ClassNeverInstantiated.Global
-internal sealed class BlueEnemyDeathAnimationComponentFactory : ComponentFactory<BlueEnemyDeathAnimationComponent>
+internal sealed class WalkingEnemyDeathAnimationComponentFactory : ComponentFactory<WalkingEnemyDeathAnimationComponent>
 {
-    protected override BlueEnemyDeathAnimationComponent CreateComponent(Entity entity) => new(entity);
+    protected override WalkingEnemyDeathAnimationComponent CreateComponent(Entity entity) => new(entity);
 }

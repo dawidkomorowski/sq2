@@ -437,10 +437,11 @@ internal sealed class EntityFactory
     public Entity CreateBlueEnemy(Scene scene, Vector2 position, MovementDirection initialMovementDirection, bool requireActivation, int activationGroup)
     {
         var entity = scene.CreateEntity();
-        var blueEnemyComponent = entity.CreateComponent<BlueEnemyComponent>();
-        blueEnemyComponent.InitialMovementDirection = initialMovementDirection;
-        blueEnemyComponent.RequireActivation = requireActivation;
-        blueEnemyComponent.ActivationGroup = activationGroup;
+        var walkingEnemyComponent = entity.CreateComponent<WalkingEnemyComponent>();
+        walkingEnemyComponent.InitialMovementDirection = initialMovementDirection;
+        walkingEnemyComponent.RequireActivation = requireActivation;
+        walkingEnemyComponent.ActivationGroup = activationGroup;
+        walkingEnemyComponent.Type = WalkingEnemyComponent.WalkingEnemyType.Blue;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = position;
         transform2DComponent.IsInterpolated = true;
@@ -451,7 +452,7 @@ internal sealed class EntityFactory
 
         var spriteEntity = entity.CreateChildEntity();
         var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
-        spriteTransform2DComponent.Translation = BlueEnemyComponent.SpriteOffset;
+        spriteTransform2DComponent.Translation = WalkingEnemyComponent.SpriteOffset;
         var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         var spriteAnimationComponent = spriteEntity.CreateComponent<SpriteAnimationComponent>();
@@ -463,26 +464,14 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateBlueEnemyDeathAnimation(Scene scene, Vector2 position, Vector2 scale)
-    {
-        var entity = scene.CreateEntity();
-        entity.CreateComponent<BlueEnemyDeathAnimationComponent>();
-        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = position;
-        transform2DComponent.Scale = scale;
-        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
-        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("31fbfb4d-988a-4382-85f9-f41c63bd4f27"));
-        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
-        return entity;
-    }
-
     public Entity CreateGreenEnemy(Scene scene, Vector2 position, MovementDirection initialMovementDirection, bool requireActivation, int activationGroup)
     {
         var entity = scene.CreateEntity();
-        var blueEnemyComponent = entity.CreateComponent<BlueEnemyComponent>();
-        blueEnemyComponent.InitialMovementDirection = initialMovementDirection;
-        blueEnemyComponent.RequireActivation = requireActivation;
-        blueEnemyComponent.ActivationGroup = activationGroup;
+        var walkingEnemyComponent = entity.CreateComponent<WalkingEnemyComponent>();
+        walkingEnemyComponent.InitialMovementDirection = initialMovementDirection;
+        walkingEnemyComponent.RequireActivation = requireActivation;
+        walkingEnemyComponent.ActivationGroup = activationGroup;
+        walkingEnemyComponent.Type = WalkingEnemyComponent.WalkingEnemyType.Green;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = position;
         transform2DComponent.IsInterpolated = true;
@@ -493,7 +482,7 @@ internal sealed class EntityFactory
 
         var spriteEntity = entity.CreateChildEntity();
         var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
-        spriteTransform2DComponent.Translation = BlueEnemyComponent.SpriteOffset;
+        spriteTransform2DComponent.Translation = WalkingEnemyComponent.SpriteOffset;
         var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         var spriteAnimationComponent = spriteEntity.CreateComponent<SpriteAnimationComponent>();
@@ -502,6 +491,26 @@ internal sealed class EntityFactory
         spriteAnimationComponent.PlaybackSpeed = 3;
         spriteAnimationComponent.PlayAnimation("Walk");
 
+        return entity;
+    }
+
+    public Entity CreateWalkingEnemyDeathAnimation(Scene scene, Vector2 position, Vector2 scale, WalkingEnemyComponent.WalkingEnemyType type)
+    {
+        var assetId = type switch
+        {
+            WalkingEnemyComponent.WalkingEnemyType.Blue => AssetId.Parse("31fbfb4d-988a-4382-85f9-f41c63bd4f27"),
+            WalkingEnemyComponent.WalkingEnemyType.Green => AssetId.Parse("7fe4fd22-c9b2-4fe8-86c2-6949df3eb5f8"),
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+        };
+
+        var entity = scene.CreateEntity();
+        entity.CreateComponent<WalkingEnemyDeathAnimationComponent>();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = position;
+        transform2DComponent.Scale = scale;
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         return entity;
     }
 
@@ -783,7 +792,7 @@ internal sealed class EntityFactory
     public Entity CreateBlueBossDeathAnimation(Scene scene, Vector2 position, Vector2 scale)
     {
         var entity = scene.CreateEntity();
-        entity.CreateComponent<BlueEnemyDeathAnimationComponent>();
+        entity.CreateComponent<WalkingEnemyDeathAnimationComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = position;
         transform2DComponent.Scale = scale;

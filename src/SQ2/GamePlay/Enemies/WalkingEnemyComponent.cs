@@ -11,7 +11,7 @@ using SQ2.GamePlay.Player;
 
 namespace SQ2.GamePlay.Enemies;
 
-internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable, IProximityActivatable
+internal sealed class WalkingEnemyComponent : BehaviorComponent, IRespawnable, IProximityActivatable
 {
     internal static readonly Vector2 SpriteOffset = new(-1, 5);
 
@@ -28,7 +28,7 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable, IPro
     private Vector2 _startPosition;
     private bool _died;
 
-    public BlueEnemyComponent(Entity entity, EntityFactory entityFactory, RespawnService respawnService,
+    public WalkingEnemyComponent(Entity entity, EntityFactory entityFactory, RespawnService respawnService,
         ProximityActivationService proximityActivationService) : base(entity)
     {
         _entityFactory = entityFactory;
@@ -40,6 +40,7 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable, IPro
     public MovementDirection InitialMovementDirection { get; set; }
     public bool RemoveOnRespawn { get; set; }
     public double HorizontalVelocity { get; set; } = OnGroundVelocity;
+    public WalkingEnemyType Type { get; set; } = WalkingEnemyType.Blue;
 
     public override void OnStart()
     {
@@ -140,12 +141,22 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable, IPro
         {
             _respawnService.AddOneTimeRespawnAction(() =>
             {
-                _entityFactory.CreateBlueEnemy(Scene, _startPosition, InitialMovementDirection, RequireActivation, ActivationGroup);
+                switch (Type)
+                {
+                    case WalkingEnemyType.Blue:
+                        _entityFactory.CreateBlueEnemy(Scene, _startPosition, InitialMovementDirection, RequireActivation, ActivationGroup);
+                        break;
+                    case WalkingEnemyType.Green:
+                        _entityFactory.CreateGreenEnemy(Scene, _startPosition, InitialMovementDirection, RequireActivation, ActivationGroup);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             });
         }
 
         var offset = new Vector2(SpriteOffset.X * _transform2DComponent.Scale.X, SpriteOffset.Y);
-        _entityFactory.CreateBlueEnemyDeathAnimation(Scene, _transform2DComponent.Translation + offset, _transform2DComponent.Scale);
+        _entityFactory.CreateWalkingEnemyDeathAnimation(Scene, _transform2DComponent.Translation + offset, _transform2DComponent.Scale, Type);
     }
 
     #region IRespawnable
@@ -175,21 +186,27 @@ internal sealed class BlueEnemyComponent : BehaviorComponent, IRespawnable, IPro
     public bool Active { get; set; }
 
     #endregion
+
+    public enum WalkingEnemyType
+    {
+        Blue,
+        Green
+    }
 }
 
 // ReSharper disable once ClassNeverInstantiated.Global
-internal sealed class BlueEnemyComponentFactory : ComponentFactory<BlueEnemyComponent>
+internal sealed class WalkingEnemyComponentFactory : ComponentFactory<WalkingEnemyComponent>
 {
     private readonly EntityFactory _entityFactory;
     private readonly RespawnService _respawnService;
     private readonly ProximityActivationService _proximityActivationService;
 
-    public BlueEnemyComponentFactory(EntityFactory entityFactory, RespawnService respawnService, ProximityActivationService proximityActivationService)
+    public WalkingEnemyComponentFactory(EntityFactory entityFactory, RespawnService respawnService, ProximityActivationService proximityActivationService)
     {
         _entityFactory = entityFactory;
         _respawnService = respawnService;
         _proximityActivationService = proximityActivationService;
     }
 
-    protected override BlueEnemyComponent CreateComponent(Entity entity) => new(entity, _entityFactory, _respawnService, _proximityActivationService);
+    protected override WalkingEnemyComponent CreateComponent(Entity entity) => new(entity, _entityFactory, _respawnService, _proximityActivationService);
 }
