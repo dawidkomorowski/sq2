@@ -425,6 +425,24 @@ internal sealed class MapLoader
                     _entityFactory.CreateFishEnemy(scene, x, y, jumpOffset);
                     break;
                 }
+                case "GreenWalkingEnemy" when tiledObject is TiledObject.Tile:
+                {
+                    var initialMovementDirection = MovementDirection.Left;
+                    if (tiledObject.Properties.TryGetProperty("InitialMovementDirection", out var property1))
+                    {
+                        initialMovementDirection = Enum.Parse<MovementDirection>(property1.StringValue);
+                    }
+
+                    var activationGroupId = 0;
+                    if (tiledObject.Properties.TryGetProperty("ActivationGroupId", out var property2))
+                    {
+                        activationGroupId = property2.IntValue;
+                    }
+
+                    var position = new Vector2(x + 10, y + 7);
+                    _entityFactory.CreateGreenEnemy(scene, position, initialMovementDirection, requireActivation: true, activationGroup: activationGroupId);
+                    break;
+                }
                 case "KeyHole" when tiledObject is TiledObject.Tile:
                 {
                     var keysRequired = 1;

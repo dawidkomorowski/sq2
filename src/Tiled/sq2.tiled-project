@@ -302,6 +302,40 @@
         {
             "color": "#ffa0a0a4",
             "drawFill": true,
+            "id": 29,
+            "members": [
+                {
+                    "name": "ActivationGroupId",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "HorizontalLimit1",
+                    "type": "object",
+                    "value": 0
+                },
+                {
+                    "name": "HorizontalLimit2",
+                    "type": "object",
+                    "value": 0
+                },
+                {
+                    "name": "InitialMovementDirection",
+                    "propertyType": "MovementDirection",
+                    "type": "string",
+                    "value": "Left"
+                }
+            ],
+            "name": "GreenWalkingEnemy",
+            "type": "class",
+            "useAs": [
+                "object",
+                "project"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
             "id": 11,
             "members": [
                 {
