@@ -53,6 +53,7 @@
    <properties>
     <property name="HorizontalLimit1" type="object" value="13"/>
     <property name="HorizontalLimit2" type="object" value="12"/>
+    <property name="InitialMovementDirection" propertytype="MovementDirection" value="Right"/>
    </properties>
   </object>
   <object id="15" type="GreenWalkingEnemy" gid="208" x="54" y="216" width="24" height="24">

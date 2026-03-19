@@ -41,6 +41,8 @@ internal sealed class WalkingEnemyComponent : BehaviorComponent, IRespawnable, I
     public bool RemoveOnRespawn { get; set; }
     public double HorizontalVelocity { get; set; } = OnGroundVelocity;
     public WalkingEnemyType Type { get; set; } = WalkingEnemyType.Blue;
+    public double? MinX { get; set; }
+    public double? MaxX { get; set; }
 
     public override void OnStart()
     {
@@ -120,6 +122,16 @@ internal sealed class WalkingEnemyComponent : BehaviorComponent, IRespawnable, I
             }
         }
 
+        if (MinX.HasValue && _transform2DComponent.Translation.X < MinX.Value)
+        {
+            _currentVelocity = OnGroundVelocity;
+        }
+
+        if (MaxX.HasValue && _transform2DComponent.Translation.X > MaxX.Value)
+        {
+            _currentVelocity = -OnGroundVelocity;
+        }
+
         _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(_currentVelocity);
 
         Movement.UpdateHorizontalSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
@@ -147,8 +159,16 @@ internal sealed class WalkingEnemyComponent : BehaviorComponent, IRespawnable, I
                         _entityFactory.CreateBlueEnemy(Scene, _startPosition, InitialMovementDirection, RequireActivation, ActivationGroup);
                         break;
                     case WalkingEnemyType.Green:
-                        _entityFactory.CreateGreenEnemy(Scene, _startPosition, InitialMovementDirection, RequireActivation, ActivationGroup);
+                    {
+                        if (MinX is null || MaxX is null)
+                        {
+                            throw new InvalidOperationException("Green walking enemy requires MinX and MaxX to be set.");
+                        }
+
+                        _entityFactory.CreateGreenEnemy(Scene, _startPosition, InitialMovementDirection, RequireActivation, ActivationGroup, MinX.Value,
+                            MaxX.Value);
                         break;
+                    }
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

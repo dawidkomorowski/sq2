@@ -464,7 +464,8 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateGreenEnemy(Scene scene, Vector2 position, MovementDirection initialMovementDirection, bool requireActivation, int activationGroup)
+    public Entity CreateGreenEnemy(Scene scene, Vector2 position, MovementDirection initialMovementDirection, bool requireActivation, int activationGroup,
+        double minX, double maxX)
     {
         var entity = scene.CreateEntity();
         var walkingEnemyComponent = entity.CreateComponent<WalkingEnemyComponent>();
@@ -472,6 +473,8 @@ internal sealed class EntityFactory
         walkingEnemyComponent.RequireActivation = requireActivation;
         walkingEnemyComponent.ActivationGroup = activationGroup;
         walkingEnemyComponent.Type = WalkingEnemyComponent.WalkingEnemyType.Green;
+        walkingEnemyComponent.MinX = minX;
+        walkingEnemyComponent.MaxX = maxX;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = position;
         transform2DComponent.IsInterpolated = true;

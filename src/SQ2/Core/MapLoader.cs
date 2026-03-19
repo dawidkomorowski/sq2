@@ -439,8 +439,19 @@ internal sealed class MapLoader
                         activationGroupId = property2.IntValue;
                     }
 
+                    var horizontalLimit1Id = tiledObject.Properties["HorizontalLimit1"].ObjectValue;
+                    var horizontalLimit2Id = tiledObject.Properties["HorizontalLimit2"].ObjectValue;
+                    var horizontalLimit1Object = objectLayer.Objects.Single(o => o.Id == horizontalLimit1Id);
+                    var horizontalLimit2Object = objectLayer.Objects.Single(o => o.Id == horizontalLimit2Id);
+
+                    var xLimit1 = GetWorldCoordinates(horizontalLimit1Object).X;
+                    var xLimit2 = GetWorldCoordinates(horizontalLimit2Object).X;
+
+                    var minX = Math.Min(xLimit1, xLimit2);
+                    var maxX = Math.Max(xLimit1, xLimit2);
+
                     var position = new Vector2(x + 10, y + 7);
-                    _entityFactory.CreateGreenEnemy(scene, position, initialMovementDirection, requireActivation: true, activationGroup: activationGroupId);
+                    _entityFactory.CreateGreenEnemy(scene, position, initialMovementDirection, requireActivation: true, activationGroupId, minX, maxX);
                     break;
                 }
                 case "KeyHole" when tiledObject is TiledObject.Tile:
