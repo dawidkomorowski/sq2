@@ -620,14 +620,14 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateBatEnemy(Scene scene, double x, double y, double sx, double sy, double ex, double ey)
+    public Entity CreateBatEnemy(Scene scene, Vector2 position, Vector2 startPosition, Vector2 endPosition)
     {
         var entity = scene.CreateEntity();
         var batEnemyComponent = entity.CreateComponent<BatEnemyComponent>();
-        batEnemyComponent.StartPosition = new Vector2(sx, sy) + new Vector2(-GlobalSettings.TileSize.Width / 2, GlobalSettings.TileSize.Height / 2);
-        batEnemyComponent.EndPosition = new Vector2(ex, ey) + new Vector2(-GlobalSettings.TileSize.Width / 2, GlobalSettings.TileSize.Height / 2);
+        batEnemyComponent.StartPosition = startPosition;
+        batEnemyComponent.EndPosition = endPosition;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = new Vector2(x, y) + new Vector2(9, 12);
+        transform2DComponent.Translation = position;
         transform2DComponent.IsInterpolated = true;
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(13, 13);
@@ -644,12 +644,12 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateBat2Enemy(Scene scene, double x, double y)
+    public Entity CreateBat2Enemy(Scene scene, Vector2 position)
     {
         var entity = scene.CreateEntity();
         entity.CreateComponent<Bat2EnemyComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = new Vector2(x, y) + new Vector2(9, 12);
+        transform2DComponent.Translation = position;
         transform2DComponent.IsInterpolated = true;
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(13, 13);
@@ -666,26 +666,26 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateBatBossTrigger(Scene scene, double x, double y, double width, double height, double timerStartValue)
+    public Entity CreateBatBossTrigger(Scene scene, Vector2 center, SizeD size, double timerStartValue)
     {
         var entity = scene.CreateEntity();
         var batBossTriggerComponent = entity.CreateComponent<BatBossTriggerComponent>();
-        batBossTriggerComponent.TriggerArea = new AxisAlignedRectangle(new Vector2(x, y), new Vector2(width, height));
+        batBossTriggerComponent.TriggerArea = new AxisAlignedRectangle(center, size);
         batBossTriggerComponent.TimerStartValue = timerStartValue;
         return entity;
     }
 
     public Entity CreateBatBossSpawner
     (
-        Scene scene, double x, double y,
+        Scene scene, Vector2 spawnPosition,
         Vector2 targetPoint, double spawnAfterSeconds, double velocity,
         DropType drop, double dropAfterSeconds
     )
     {
         var entity = scene.CreateEntity();
         var batBossSpawnerComponent = entity.CreateComponent<BatBossSpawnerComponent>();
-        batBossSpawnerComponent.SpawnPosition = new Vector2(x, y);
-        batBossSpawnerComponent.TargetPoint = targetPoint + new Vector2(-GlobalSettings.TileSize.Width / 2, GlobalSettings.TileSize.Height / 2);
+        batBossSpawnerComponent.SpawnPosition = spawnPosition;
+        batBossSpawnerComponent.TargetPoint = targetPoint;
         batBossSpawnerComponent.SpawnAfterSeconds = spawnAfterSeconds;
         batBossSpawnerComponent.Velocity = velocity;
         batBossSpawnerComponent.Drop = drop;
@@ -707,7 +707,7 @@ internal sealed class EntityFactory
         batBossComponent.Drop = drop;
         batBossComponent.DropAfterSeconds = dropAfterSeconds;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = spawnPosition + new Vector2(9, 12);
+        transform2DComponent.Translation = spawnPosition;
         transform2DComponent.IsInterpolated = true;
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(13, 13);

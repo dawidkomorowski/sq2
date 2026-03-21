@@ -264,6 +264,7 @@ internal sealed class MapLoader
         {
             var x = tiledObject.X - GlobalSettings.TileSize.Width / 2d;
             var y = -(tiledObject.Y - GlobalSettings.TileSize.Height / 2d);
+            var objectPosition = GetWorldCoordinates(tiledObject);
 
             switch (tiledObject.Type)
             {
@@ -274,17 +275,17 @@ internal sealed class MapLoader
                     var startPositionObject = objectLayer.Objects.Single(o => o.Id == startObjectId);
                     var endPositionObject = objectLayer.Objects.Single(o => o.Id == endObjectId);
 
-                    var sx = startPositionObject.X;
-                    var sy = -startPositionObject.Y;
-                    var ex = endPositionObject.X;
-                    var ey = -endPositionObject.Y;
+                    var position = objectPosition + new Vector2(9, 12);
+                    var startPosition = GetWorldCoordinates(startPositionObject);
+                    var endPosition = GetWorldCoordinates(endPositionObject);
 
-                    _entityFactory.CreateBatEnemy(scene, x, y, sx, sy, ex, ey);
+                    _entityFactory.CreateBatEnemy(scene, position, startPosition, endPosition);
                     break;
                 }
                 case "Bat2Enemy" when tiledObject is TiledObject.Tile:
                 {
-                    _entityFactory.CreateBat2Enemy(scene, x, y);
+                    var position = objectPosition + new Vector2(9, 12);
+                    _entityFactory.CreateBat2Enemy(scene, position);
                     break;
                 }
                 case "BlueEnemy" when tiledObject is TiledObject.Tile:
@@ -301,7 +302,7 @@ internal sealed class MapLoader
                         activationGroupId = property2.IntValue;
                     }
 
-                    var position = new Vector2(x + 10, y + 7);
+                    var position = objectPosition + new Vector2(9, 7);
                     _entityFactory.CreateBlueEnemy(scene, position, initialMovementDirection, requireActivation: true, activationGroup: activationGroupId);
                     break;
                 }
@@ -309,7 +310,7 @@ internal sealed class MapLoader
                 {
                     var targetPointObjectId = tiledObject.Properties["TargetPoint"].ObjectValue;
                     var targetPointObject = objectLayer.Objects.Single(o => o.Id == targetPointObjectId);
-                    var targetPoint = new Vector2(targetPointObject.X, -targetPointObject.Y);
+                    var targetPoint = GetWorldCoordinates(targetPointObject);
 
                     var spawnAfterSeconds = 0d;
                     if (tiledObject.Properties.TryGetProperty("SpawnAfterSeconds", out var property1))
@@ -335,15 +336,15 @@ internal sealed class MapLoader
                         dropAfterSeconds = property4.FloatValue;
                     }
 
-                    _entityFactory.CreateBatBossSpawner(scene, x, y, targetPoint, spawnAfterSeconds, velocity, drop, dropAfterSeconds);
+                    var spawnPosition = objectPosition + new Vector2(9, 12);
+
+                    _entityFactory.CreateBatBossSpawner(scene, spawnPosition, targetPoint, spawnAfterSeconds, velocity, drop, dropAfterSeconds);
                     break;
                 }
                 case "BossBatTrigger" when tiledObject is TiledObject.Rectangle:
                 {
-                    var width = tiledObject.Width;
-                    var height = tiledObject.Height;
-                    var xCenter = x + width / 2d;
-                    var yCenter = y - height / 2d;
+                    var center = objectPosition + new Vector2(tiledObject.Width / 2d, -tiledObject.Height / 2d);
+                    var size = new SizeD(tiledObject.Width, tiledObject.Height);
 
                     var timerStartValue = 0d;
                     if (tiledObject.Properties.TryGetProperty("TimerStartValue", out var property))
@@ -351,7 +352,7 @@ internal sealed class MapLoader
                         timerStartValue = property.FloatValue;
                     }
 
-                    _entityFactory.CreateBatBossTrigger(scene, xCenter, yCenter, width, height, timerStartValue);
+                    _entityFactory.CreateBatBossTrigger(scene, center, size, timerStartValue);
                     break;
                 }
                 case "Button" when tiledObject is TiledObject.Tile:
@@ -450,7 +451,7 @@ internal sealed class MapLoader
                     var minX = Math.Min(xLimit1, xLimit2);
                     var maxX = Math.Max(xLimit1, xLimit2);
 
-                    var position = new Vector2(x + 10, y + 7);
+                    var position = new Vector2(x + 9, y + 7);
                     _entityFactory.CreateGreenEnemy(scene, position, initialMovementDirection, requireActivation: true, activationGroupId, minX, maxX);
                     break;
                 }
