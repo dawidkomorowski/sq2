@@ -260,6 +260,8 @@ internal sealed class MapLoader
 
     private void LoadObjectLayer(Scene scene, ObjectLayer objectLayer)
     {
+        var tileCenterOffset = new Vector2(GlobalSettings.TileSize.Width / 2d, GlobalSettings.TileSize.Height / 2d);
+
         foreach (var tiledObject in objectLayer.Objects)
         {
             var x = tiledObject.X - GlobalSettings.TileSize.Width / 2d;
@@ -357,32 +359,28 @@ internal sealed class MapLoader
                 }
                 case "Button" when tiledObject is TiledObject.Tile:
                 {
-                    var xx = x + GlobalSettings.TileSize.Width / 2d;
-                    var yy = y + GlobalSettings.TileSize.Height / 2d;
-                    _entityFactory.CreateButton(scene, xx, yy, tiledObject.Id);
+                    var position = objectPosition + tileCenterOffset + new Vector2(0, -6);
+                    _entityFactory.CreateButton(scene, position, tiledObject.Id);
                     break;
                 }
                 case "Coin" when tiledObject is TiledObject.Tile:
                 {
-                    var xx = x + GlobalSettings.TileSize.Width / 2d;
-                    var yy = y + GlobalSettings.TileSize.Height / 2d;
-                    _entityFactory.CreateCoin(scene, xx, yy);
+                    var position = objectPosition + tileCenterOffset;
+                    _entityFactory.CreateCoin(scene, position);
                     break;
                 }
                 case "DestructibleWall" when tiledObject is TiledObject.Tile:
                 {
                     var buttonId = tiledObject.Properties["Button"].ObjectValue;
 
-                    var xx = x + GlobalSettings.TileSize.Width / 2d;
-                    var yy = y + GlobalSettings.TileSize.Height / 2d;
-                    _entityFactory.CreateDestructibleWall(scene, xx, yy, buttonId);
+                    var position = objectPosition + tileCenterOffset;
+                    _entityFactory.CreateDestructibleWall(scene, position, buttonId);
                     break;
                 }
                 case "Diamond" when tiledObject is TiledObject.Tile:
                 {
-                    var xx = x + GlobalSettings.TileSize.Width / 2d;
-                    var yy = y + GlobalSettings.TileSize.Height / 2d;
-                    _entityFactory.CreateDiamond(scene, xx, yy);
+                    var position = objectPosition + tileCenterOffset;
+                    _entityFactory.CreateDiamond(scene, position);
                     break;
                 }
                 case "Door" when tiledObject is TiledObject.Tile:
@@ -410,9 +408,8 @@ internal sealed class MapLoader
                         updateCameraPosition = property3.BoolValue;
                     }
 
-                    var xx = x + GlobalSettings.TileSize.Width / 2d;
-                    var yy = y + GlobalSettings.TileSize.Height / 2d;
-                    _entityFactory.CreateDoor(scene, xx, yy, assetId, tiledObject.Id, exitObjectId, updateCameraPosition);
+                    var position = objectPosition + tileCenterOffset;
+                    _entityFactory.CreateDoor(scene, position, assetId, tiledObject.Id, exitObjectId, updateCameraPosition);
                     break;
                 }
                 case "FishEnemy" when tiledObject is TiledObject.Tile:

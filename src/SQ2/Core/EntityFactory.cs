@@ -298,13 +298,13 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateDestructibleWall(Scene scene, double x, double y, int buttonId)
+    public Entity CreateDestructibleWall(Scene scene, Vector2 position, int buttonId)
     {
         var entity = scene.CreateEntity();
         var destructibleWallComponent = entity.CreateComponent<DestructibleWallComponent>();
         destructibleWallComponent.ButtonId = buttonId;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = new Vector2(x, y);
+        transform2DComponent.Translation = position;
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("9ba1d62b-7ffa-4732-a2c8-180f044281e4"));
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
@@ -312,7 +312,7 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateButton(Scene scene, double x, double y, int objectId)
+    public Entity CreateButton(Scene scene, Vector2 position, int objectId)
     {
         var entity = scene.CreateEntity();
         var buttonComponent = entity.CreateComponent<ButtonComponent>();
@@ -320,7 +320,7 @@ internal sealed class EntityFactory
         buttonComponent.PressedSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("22061613-dde7-4909-88f9-a0897673b9cd"));
         buttonComponent.ReleasedSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("7fa96723-2c98-4597-991d-1bbaf2fa43e5"));
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = new Vector2(x, y - 6);
+        transform2DComponent.Translation = position;
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(15, 5);
 
@@ -381,7 +381,7 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateDoor(Scene scene, double x, double y, AssetId assetId, int objectId, int exitObjectId, bool updateCameraPosition)
+    public Entity CreateDoor(Scene scene, Vector2 position, AssetId assetId, int objectId, int exitObjectId, bool updateCameraPosition)
     {
         var entity = scene.CreateEntity();
         var doorComponent = entity.CreateComponent<DoorComponent>();
@@ -389,8 +389,7 @@ internal sealed class EntityFactory
         doorComponent.ExitObjectId = exitObjectId;
         doorComponent.UpdateCameraPosition = updateCameraPosition;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = new Vector2(x, y);
-        transform2DComponent.Scale = new Vector2(1.01, 1.01);
+        transform2DComponent.Translation = position;
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
@@ -398,7 +397,7 @@ internal sealed class EntityFactory
         var childEntity = entity.CreateChildEntity();
         var childTransform2DComponent = childEntity.CreateComponent<Transform2DComponent>();
         childTransform2DComponent.Translation = new Vector2(0, GlobalSettings.TileSize.Height);
-        childTransform2DComponent.Scale = new Vector2(1.01, 1.01);
+        childTransform2DComponent.Scale = new Vector2(1, 1.02);
         var childSpriteRendererComponent = childEntity.CreateComponent<SpriteRendererComponent>();
         childSpriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("d71a0d14-7955-4e95-8a68-efe124ee8cbc"));
         childSpriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
@@ -406,12 +405,12 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateCoin(Scene scene, double x, double y)
+    public Entity CreateCoin(Scene scene, Vector2 position)
     {
         var entity = scene.CreateEntity();
         entity.CreateComponent<CoinComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = new Vector2(x, y);
+        transform2DComponent.Translation = position;
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         var spriteAnimationComponent = entity.CreateComponent<SpriteAnimationComponent>();
@@ -422,12 +421,12 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateDiamond(Scene scene, double x, double y)
+    public Entity CreateDiamond(Scene scene, Vector2 position)
     {
         var entity = scene.CreateEntity();
         entity.CreateComponent<DiamondComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = new Vector2(x, y);
+        transform2DComponent.Translation = position;
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("fd94100c-a1fd-4c5b-bc5c-a7337ca94f02"));
