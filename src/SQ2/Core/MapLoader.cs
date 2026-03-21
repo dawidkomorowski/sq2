@@ -264,8 +264,6 @@ internal sealed class MapLoader
 
         foreach (var tiledObject in objectLayer.Objects)
         {
-            var x = tiledObject.X - GlobalSettings.TileSize.Width / 2d;
-            var y = -(tiledObject.Y - GlobalSettings.TileSize.Height / 2d);
             var objectPosition = GetWorldCoordinates(tiledObject);
 
             switch (tiledObject.Type)
@@ -420,7 +418,8 @@ internal sealed class MapLoader
                         jumpOffset = property.IntValue;
                     }
 
-                    _entityFactory.CreateFishEnemy(scene, x, y, jumpOffset);
+                    var position = objectPosition + new Vector2(9, 12);
+                    _entityFactory.CreateFishEnemy(scene, position, jumpOffset);
                     break;
                 }
                 case "GreenWalkingEnemy" when tiledObject is TiledObject.Tile:
@@ -448,7 +447,7 @@ internal sealed class MapLoader
                     var minX = Math.Min(xLimit1, xLimit2);
                     var maxX = Math.Max(xLimit1, xLimit2);
 
-                    var position = new Vector2(x + 9, y + 7);
+                    var position = objectPosition + new Vector2(9, 7);
                     _entityFactory.CreateGreenEnemy(scene, position, initialMovementDirection, requireActivation: true, activationGroupId, minX, maxX);
                     break;
                 }
@@ -460,17 +459,14 @@ internal sealed class MapLoader
                         keysRequired = property.IntValue;
                     }
 
-                    var xx = x + GlobalSettings.TileSize.Width / 2d;
-                    var yy = y + GlobalSettings.TileSize.Height / 2d;
-                    _entityFactory.CreateKeyHole(scene, xx, yy, keysRequired);
+                    var position = objectPosition + tileCenterOffset;
+                    _entityFactory.CreateKeyHole(scene, position, keysRequired);
                     break;
                 }
                 case "LevelCompleteTrigger" when tiledObject is TiledObject.Rectangle:
                 {
-                    var width = tiledObject.Width;
-                    var height = tiledObject.Height;
-                    var xCenter = x + width / 2d;
-                    var yCenter = y - height / 2d;
+                    var center = objectPosition + new Vector2(tiledObject.Width / 2d, -tiledObject.Height / 2d);
+                    var size = new SizeD(tiledObject.Width, tiledObject.Height);
 
                     var levelCompleteDirection = LevelCompleteDirection.Left;
                     if (tiledObject.Properties.TryGetProperty("LevelCompleteDirection", out var property1))
@@ -478,7 +474,7 @@ internal sealed class MapLoader
                         levelCompleteDirection = Enum.Parse<LevelCompleteDirection>(property1.StringValue);
                     }
 
-                    _entityFactory.CreateLevelCompleteTrigger(scene, xCenter, yCenter, width, height, levelCompleteDirection);
+                    _entityFactory.CreateLevelCompleteTrigger(scene, center, size, levelCompleteDirection);
                     break;
                 }
                 case "Metadata":
@@ -493,10 +489,8 @@ internal sealed class MapLoader
                     var startPositionObject = objectLayer.Objects.Single(o => o.Id == startObjectId);
                     var endPositionObject = objectLayer.Objects.Single(o => o.Id == endObjectId);
 
-                    var sx = startPositionObject.X;
-                    var sy = -startPositionObject.Y;
-                    var ex = endPositionObject.X;
-                    var ey = -endPositionObject.Y;
+                    var startPosition = GetWorldCoordinates(startPositionObject) + new Vector2(0, GlobalSettings.TileSize.Height * 0.25);
+                    var endPosition = GetWorldCoordinates(endPositionObject) + new Vector2(0, GlobalSettings.TileSize.Height * 0.25);
 
                     var platformWidth = 1;
                     if (tiledObject.Properties.TryGetProperty("Width", out var property))
@@ -504,25 +498,24 @@ internal sealed class MapLoader
                         platformWidth = property.IntValue;
                     }
 
-                    var xCenter = x + tiledObject.Width / 2d;
-                    var yCenter = y + tiledObject.Height / 2d;
+                    var position = objectPosition + new Vector2(tiledObject.Width / 2d, tiledObject.Height * 0.75);
 
-                    _entityFactory.CreateMovingPlatform(scene, xCenter, yCenter, sx, sy, ex, ey, platformWidth);
+                    _entityFactory.CreateMovingPlatform(scene, position, startPosition, endPosition, platformWidth);
                     break;
                 }
                 case "PlayerSpawnPoint":
                 {
-                    _entityFactory.CreatePlayerSpawnPoint(scene, x, y);
-                    _entityFactory.CreatePlayer(scene, x, y);
+                    _entityFactory.CreatePlayerSpawnPoint(scene, objectPosition);
+                    _entityFactory.CreatePlayer(scene, objectPosition);
                     break;
                 }
                 case "RaisingWater" when tiledObject is TiledObject.Rectangle:
                 {
                     var width = tiledObject.Width;
                     var height = tiledObject.Height;
-                    var xCenter = x + width / 2d;
-                    var maxY = y;
-                    var minY = y - height;
+                    var xCenter = objectPosition.X + width / 2d;
+                    var maxY = objectPosition.Y;
+                    var minY = objectPosition.Y - height;
 
                     var velocity = 20d;
                     if (tiledObject.Properties.TryGetProperty("Velocity", out var property1))
@@ -554,7 +547,7 @@ internal sealed class MapLoader
                         activationGroupId = property2.IntValue;
                     }
 
-                    var position = new Vector2(x + 10, y + 8);
+                    var position = objectPosition + new Vector2(9, 8);
                     _entityFactory.CreateRedEnemy(scene, position, initialMovementDirection, requireActivation: true, activationGroup: activationGroupId);
                     break;
                 }
@@ -583,7 +576,7 @@ internal sealed class MapLoader
                     var minX = Math.Min(xLimit1, xLimit2);
                     var maxX = Math.Max(xLimit1, xLimit2);
 
-                    var position = new Vector2(x + 10, y + 8);
+                    var position = objectPosition + new Vector2(9, 8);
                     _entityFactory.CreateYellowWalkingEnemy(scene, position, initialMovementDirection, requireActivation: true, activationGroupId, minX, maxX);
                     break;
                 }

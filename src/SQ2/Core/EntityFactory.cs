@@ -38,12 +38,12 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreatePlayerSpawnPoint(Scene scene, double x, double y)
+    public Entity CreatePlayerSpawnPoint(Scene scene, Vector2 position)
     {
         var entity = scene.CreateEntity();
         entity.CreateComponent<PlayerSpawnPointComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = new Vector2(x, y);
+        transform2DComponent.Translation = position;
         return entity;
     }
 
@@ -61,13 +61,13 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreatePlayer(Scene scene, double x, double y)
+    public Entity CreatePlayer(Scene scene, Vector2 position)
     {
         var entity = scene.CreateEntity();
         entity.CreateComponent<PlayerComponent>();
         entity.CreateComponent<InputComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = new Vector2(x, y);
+        transform2DComponent.Translation = position;
         transform2DComponent.IsInterpolated = true;
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(14, 22);
@@ -210,14 +210,14 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateMovingPlatform(Scene scene, double x, double y, double sx, double sy, double ex, double ey, int platformWidth)
+    public Entity CreateMovingPlatform(Scene scene, Vector2 position, Vector2 startPosition, Vector2 endPosition, int platformWidth)
     {
         var entity = scene.CreateEntity();
         var movingPlatformComponent = entity.CreateComponent<MovingPlatformComponent>();
-        movingPlatformComponent.StartPosition = new Vector2(sx, sy) + new Vector2(-GlobalSettings.TileSize.Width / 2, GlobalSettings.TileSize.Height * 0.75);
-        movingPlatformComponent.EndPosition = new Vector2(ex, ey) + new Vector2(-GlobalSettings.TileSize.Width / 2, GlobalSettings.TileSize.Height * 0.75);
+        movingPlatformComponent.StartPosition = startPosition;
+        movingPlatformComponent.EndPosition = endPosition;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = new Vector2(x, y) + new Vector2(0, GlobalSettings.TileSize.Height * 0.25);
+        transform2DComponent.Translation = position;
         transform2DComponent.IsInterpolated = true;
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(GlobalSettings.TileSize.Width * platformWidth, GlobalSettings.TileSize.Height / 2);
@@ -367,13 +367,13 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateKeyHole(Scene scene, double x, double y, int keysRequired)
+    public Entity CreateKeyHole(Scene scene, Vector2 position, int keysRequired)
     {
         var entity = scene.CreateEntity();
         var keyHoleComponent = entity.CreateComponent<KeyHoleComponent>();
         keyHoleComponent.KeysRequired = keysRequired;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = new Vector2(x, y);
+        transform2DComponent.Translation = position;
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("b1535e09-96d5-4f20-9934-0204cb7a9abc"));
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
@@ -596,13 +596,13 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateFishEnemy(Scene scene, double x, double y, int jumpOffset)
+    public Entity CreateFishEnemy(Scene scene, Vector2 position, int jumpOffset)
     {
         var entity = scene.CreateEntity();
         var fishEnemyComponent = entity.CreateComponent<FishEnemyComponent>();
         fishEnemyComponent.JumpOffset = jumpOffset;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = new Vector2(x, y) + new Vector2(9, 12);
+        transform2DComponent.Translation = position;
         transform2DComponent.IsInterpolated = true;
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(11, 15);
@@ -823,24 +823,27 @@ internal sealed class EntityFactory
 
     public Entity CreateRaisingWater(Scene scene, double centerX, double minY, double maxY, double width, double height, double velocity, double delay)
     {
+        var halfWidth = width / 2;
+        var halfHeight = height / 2;
+
         var entity = scene.CreateEntity();
         var raisingWaterComponent = entity.CreateComponent<RaisingWaterComponent>();
         raisingWaterComponent.Velocity = velocity;
         raisingWaterComponent.Delay = delay;
         raisingWaterComponent.Dimensions = new Vector2(width, height);
-        raisingWaterComponent.MaxY = maxY - height / 2;
+        raisingWaterComponent.MaxY = maxY - halfHeight;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = new Vector2(centerX, minY - height / 2);
+        transform2DComponent.Translation = new Vector2(centerX, minY - halfHeight);
         transform2DComponent.IsInterpolated = true;
 
-        for (var x = -width / 2; x < width / 2; x += GlobalSettings.TileSize.Width)
+        for (var x = -halfWidth; x < halfWidth; x += GlobalSettings.TileSize.Width)
         {
-            AddWaterSurface(x + GlobalSettings.TileSize.Width / 2, height / 2 - GlobalSettings.TileSize.Height / 2);
+            AddWaterSurface(x + GlobalSettings.TileSize.Width / 2, halfHeight - GlobalSettings.TileSize.Height / 2);
         }
 
-        for (var x = -width / 2; x < width / 2; x += GlobalSettings.TileSize.Width)
+        for (var x = -halfWidth; x < width / 2; x += GlobalSettings.TileSize.Width)
         {
-            for (var y = height / 2 - GlobalSettings.TileSize.Height; y > -height / 2; y -= GlobalSettings.TileSize.Height)
+            for (var y = halfHeight - GlobalSettings.TileSize.Height; y > -halfHeight; y -= GlobalSettings.TileSize.Height)
             {
                 AddWaterBody(x + GlobalSettings.TileSize.Width / 2, y - GlobalSettings.TileSize.Height / 2);
             }
@@ -877,11 +880,11 @@ internal sealed class EntityFactory
         }
     }
 
-    public Entity CreateLevelCompleteTrigger(Scene scene, double x, double y, double width, double height, LevelCompleteDirection direction)
+    public Entity CreateLevelCompleteTrigger(Scene scene, Vector2 center, SizeD size, LevelCompleteDirection direction)
     {
         var entity = scene.CreateEntity();
         var levelCompleteTriggerComponent = entity.CreateComponent<LevelCompleteTriggerComponent>();
-        levelCompleteTriggerComponent.TriggerArea = new AxisAlignedRectangle(x, y, width, height);
+        levelCompleteTriggerComponent.TriggerArea = new AxisAlignedRectangle(center, size);
         levelCompleteTriggerComponent.LevelCompleteDirection = direction;
         return entity;
     }

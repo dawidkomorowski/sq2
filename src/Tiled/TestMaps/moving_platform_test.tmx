@@ -27,7 +27,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="GamePlayObjects">
-  <object id="1" name="Player Spawn Point" type="PlayerSpawnPoint" x="231.659" y="191.682">
+  <object id="1" name="Player Spawn Point" type="PlayerSpawnPoint" x="225" y="207">
    <point/>
   </object>
   <object id="17" type="MovingPlatform" gid="148" x="342" y="198" width="18" height="18">
