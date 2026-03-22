@@ -64,6 +64,8 @@ internal sealed class MovingPlatformComponent : BehaviorComponent, IRespawnable
         }
 
         var moveDirection = toTarget.Unit;
+        var changedVerticalDirection = _kinematicRigidBody2DComponent.LinearVelocity.Y != 0 && moveDirection.Y != 0 &&
+                                       Math.Sign(_kinematicRigidBody2DComponent.LinearVelocity.Y) != Math.Sign(moveDirection.Y);
         _kinematicRigidBody2DComponent.LinearVelocity = moveDirection * v;
 
         // Move player along with the platform
@@ -73,7 +75,23 @@ internal sealed class MovingPlatformComponent : BehaviorComponent, IRespawnable
             if (contact2D.CollisionNormal.Y < 0 && contact2D.OtherCollider.Entity.HasComponent<PlayerComponent>())
             {
                 var playerTransform = contact2D.OtherCollider.Entity.GetComponent<Transform2DComponent>();
+
+                // Only move the player horizontally
                 playerTransform.Translation += _kinematicRigidBody2DComponent.LinearVelocity.WithY(0) * GameTime.FixedDeltaTimeSeconds;
+
+                // If the platform changed vertical direction to downwards, set player's vertical velocity to platform's vertical velocity (which is downwards),
+                // so that the player moves along with the platform instead of "bouncing" when the platform starts moving downwards.
+                if (changedVerticalDirection && _kinematicRigidBody2DComponent.LinearVelocity.Y < 0)
+                {
+                    var playerRigidBody = contact2D.OtherCollider.Entity.GetComponent<KinematicRigidBody2DComponent>();
+
+                    // If the player is moving upwards faster than the platform's speed, don't set its vertical velocity to platform's vertical velocity,
+                    // so that the player can "jump off" the platform when it starts moving downwards.
+                    if (playerRigidBody.LinearVelocity.Y <= v)
+                    {
+                        playerRigidBody.LinearVelocity = playerRigidBody.LinearVelocity.WithY(_kinematicRigidBody2DComponent.LinearVelocity.Y);
+                    }
+                }
             }
         }
     }

@@ -35,7 +35,8 @@ internal class SQ2Game : Game
                 },
                 ShowFps = true,
                 ShowRootEntitiesCount = true,
-                ShowGameLoopStatistics = false
+                ShowGameLoopStatistics = false,
+                FixedUpdatesPerSecond = 60 // Game logic is tuned for 60 FPS, changing this may cause issues with gameplay and physics.
             },
             Rendering = configuration.Rendering with
             {
