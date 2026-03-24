@@ -953,6 +953,8 @@ internal sealed class EntityFactory
     public Entity CreateUI_CoinCounter(Entity parent, double x, double y)
     {
         var entity = parent.CreateChildEntity();
+        entity.Name = GlobalSettings.HudElements.CoinCounter;
+
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = new Vector2(x, y);
 

@@ -16,6 +16,7 @@ using SQ2.GamePlay.Boss.Blue;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Enemies;
 using SQ2.GamePlay.LevelGeometry;
+using SQ2.UI;
 
 namespace SQ2.GamePlay.Player;
 
@@ -68,6 +69,10 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
     // Doors
     internal DoorComponent? DoorInRange { get; set; }
     private bool _enterDoorRequested;
+
+    // Coins
+    private NumberRendererComponent _coinNumberRendererComponent = null!;
+    public int CoinsCollected { get; set; }
 
     public PlayerComponent(Entity entity, IDebugRenderer debugRenderer, RespawnService respawnService) : base(entity)
     {
@@ -168,6 +173,11 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
             .ToArray();
 
         _cameraMovementComponent = Query.GetCameraMovementComponent(Scene);
+
+        _coinNumberRendererComponent = Scene.AllEntities
+            .Single(e => e.Name == GlobalSettings.HudElements.CoinCounter).Children
+            .Single(e => e.HasComponent<NumberRendererComponent>())
+            .GetComponent<NumberRendererComponent>();
     }
 
     public override void OnFixedUpdate()
@@ -220,6 +230,8 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
     public override void OnUpdate(GameTime gameTime)
     {
+        _coinNumberRendererComponent.Value = CoinsCollected;
+
         if (_enableDebugDraw)
         {
             foreach (var ladderHitBox in _ladderHitBoxes)
@@ -536,6 +548,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
         KeysCollected = 0;
         DoorInRange = null;
+        CoinsCollected = 0;
     }
 
     public void TeleportTo(Vector2 position, bool updateCamera = true)

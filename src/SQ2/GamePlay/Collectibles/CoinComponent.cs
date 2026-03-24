@@ -2,6 +2,7 @@
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Rendering.Components;
 using SQ2.GamePlay.Common;
+using SQ2.GamePlay.Player;
 
 namespace SQ2.GamePlay.Collectibles;
 
@@ -33,6 +34,8 @@ internal sealed class CoinComponent : BehaviorComponent, IRespawnable
         {
             _isCollected = true;
             _spriteRendererComponent.Visible = false;
+
+            _playerTransform.Entity.GetComponent<PlayerComponent>().CoinsCollected++;
         }
     }
 

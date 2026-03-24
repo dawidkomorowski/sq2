@@ -68,6 +68,16 @@ internal sealed class NumberRendererComponent : BehaviorComponent
         _spriteRendererComponent1.Sprite = GetSpriteForDigit(onesDigit);
         _spriteRendererComponent10.Sprite = GetSpriteForDigit(tensDigit);
         _spriteRendererComponent100.Sprite = GetSpriteForDigit(hundredsDigit);
+
+        if (hundredsDigit == 0)
+        {
+            _spriteRendererComponent100.Visible = false;
+            _spriteRendererComponent10.Visible = tensDigit != 0;
+        }
+        else
+        {
+            _spriteRendererComponent100.Visible = true;
+        }
     }
 
     private Sprite? GetSpriteForDigit(int digit) => digit switch

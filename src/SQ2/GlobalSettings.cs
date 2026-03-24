@@ -16,4 +16,9 @@ internal static class GlobalSettings
         public const string CameraEffects = "CameraEffects";
         public const string UI = "UI";
     }
+
+    public static class HudElements
+    {
+        public const string CoinCounter = "UI_CoinCounter";
+    }
 }
