@@ -17,6 +17,7 @@ using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Enemies;
 using SQ2.GamePlay.LevelGeometry;
 using SQ2.GamePlay.Player;
+using SQ2.UI;
 using SQ2.VFX;
 
 namespace SQ2.Core;
@@ -946,6 +947,44 @@ internal sealed class EntityFactory
         cameraComponent.ViewRectangle = GlobalSettings.ViewSize;
         entity.CreateComponent<CameraMovementComponent>();
         entity.CreateComponent<CinematicCameraComponent>();
+        return entity;
+    }
+
+    public Entity CreateUI_CoinCounter(Entity parent, double x, double y)
+    {
+        var entity = parent.CreateChildEntity();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = new Vector2(x, y);
+
+        var numberEntity = entity.CreateChildEntity();
+        var numberTransform = numberEntity.CreateComponent<Transform2DComponent>();
+        numberTransform.Translation = new Vector2(-10, 0);
+        var numberRendererComponent = numberEntity.CreateComponent<NumberRendererComponent>();
+        numberRendererComponent.Digit0Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("7b973a46-3c17-4d6c-a20a-97214db7086a"));
+        numberRendererComponent.Digit1Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("19398cc8-0a86-4aee-9e82-0a95bb4317c7"));
+        numberRendererComponent.Digit2Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("71fa41ca-2162-47de-a7b1-de7462bd1cb0"));
+        numberRendererComponent.Digit3Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("aacd2f7c-5145-4b8c-b7f6-1342e3a7d8ad"));
+        numberRendererComponent.Digit4Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("72126ad3-6cd7-4c39-b3b7-266bb614686d"));
+        numberRendererComponent.Digit5Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("9eeb80fa-485b-4f21-8db9-0a3412796863"));
+        numberRendererComponent.Digit6Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("55a98703-d4e5-4f7e-b15e-b2a169cb1b93"));
+        numberRendererComponent.Digit7Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("6fd29513-cf28-4678-aeb6-40d2a93c8817"));
+        numberRendererComponent.Digit8Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("2db0e507-4e38-4d61-8c65-aca6aba26a20"));
+        numberRendererComponent.Digit9Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("74fe02bb-b7fc-4f9d-882f-fe584de17c26"));
+
+        var timesIconEntity = entity.CreateChildEntity();
+        var timesIconTransform = timesIconEntity.CreateComponent<Transform2DComponent>();
+        timesIconTransform.Translation = new Vector2(20, 0);
+        var timesIconSpriteRenderer = timesIconEntity.CreateComponent<SpriteRendererComponent>();
+        timesIconSpriteRenderer.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("fa82409e-2840-4492-bc9b-4b48e6030430"));
+        timesIconSpriteRenderer.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
+
+        var coinIconEntity = entity.CreateChildEntity();
+        var coinIconTransform = coinIconEntity.CreateComponent<Transform2DComponent>();
+        coinIconTransform.Translation = new Vector2(40, 0);
+        var coinIconSpriteRenderer = coinIconEntity.CreateComponent<SpriteRendererComponent>();
+        coinIconSpriteRenderer.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("eb06525a-acc2-4593-abc9-506763f077cc"));
+        coinIconSpriteRenderer.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
+
         return entity;
     }
 }

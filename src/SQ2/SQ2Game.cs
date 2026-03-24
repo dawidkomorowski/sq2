@@ -10,6 +10,7 @@ using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Enemies;
 using SQ2.GamePlay.LevelGeometry;
 using SQ2.GamePlay.Player;
+using SQ2.UI;
 using SQ2.VFX;
 
 namespace SQ2;
@@ -47,7 +48,8 @@ internal class SQ2Game : Game
                     GlobalSettings.SortingLayers.DecorBackground,
                     RenderingConfiguration.DefaultSortingLayerName,
                     GlobalSettings.SortingLayers.DecorForeground,
-                    GlobalSettings.SortingLayers.CameraEffects
+                    GlobalSettings.SortingLayers.CameraEffects,
+                    GlobalSettings.SortingLayers.UI
                 },
                 EnableVSync = true
             },
@@ -119,6 +121,9 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<PlayerComponentFactory>();
         componentsRegistry.RegisterComponentFactory<PlayerSpawnPointComponentFactory>();
         componentsRegistry.RegisterComponentFactory<CheckPointComponentFactory>();
+
+        // UI
+        componentsRegistry.RegisterComponentFactory<NumberRendererComponentFactory>();
 
         // VFX
         componentsRegistry.RegisterComponentFactory<BackgroundComponentFactory>();
