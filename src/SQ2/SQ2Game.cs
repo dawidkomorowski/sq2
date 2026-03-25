@@ -10,6 +10,8 @@ using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Enemies;
 using SQ2.GamePlay.LevelGeometry;
 using SQ2.GamePlay.Player;
+using SQ2.MainMenu;
+using SQ2.MainMenu.MainView;
 using SQ2.UI;
 using SQ2.VFX;
 
@@ -27,7 +29,7 @@ internal class SQ2Game : Game
         {
             Core = configuration.Core with
             {
-                StartUpSceneBehavior = "GameWorld",
+                StartUpSceneBehavior = DevConfig.MapFile is not null ? GlobalSettings.SceneNames.GameWorld : GlobalSettings.SceneNames.MainMenu,
                 CustomGameLoopSteps = new[]
                 {
                     "CheckPointSystem",
@@ -67,6 +69,7 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterSingleInstance<MapLoader>();
 
         // Scene behaviors
+        componentsRegistry.RegisterSceneBehaviorFactory<MainMenuBehaviorFactory>();
         componentsRegistry.RegisterSceneBehaviorFactory<GameWorldBehaviorFactory>();
 
         // Development components
@@ -121,6 +124,9 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<PlayerComponentFactory>();
         componentsRegistry.RegisterComponentFactory<PlayerSpawnPointComponentFactory>();
         componentsRegistry.RegisterComponentFactory<CheckPointComponentFactory>();
+
+        // Main menu
+        componentsRegistry.RegisterComponentFactory<MainViewComponentFactory>();
 
         // UI
         componentsRegistry.RegisterComponentFactory<NumberRendererComponentFactory>();

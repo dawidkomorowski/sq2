@@ -9,7 +9,7 @@ namespace SQ2;
 // ReSharper disable once ClassNeverInstantiated.Global
 internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
 {
-    private const string SceneBehaviorName = "GameWorld";
+    private const string SceneBehaviorName = GlobalSettings.SceneNames.GameWorld;
     private readonly EntityFactory _entityFactory;
     private readonly MapLoader _mapLoader;
     private readonly RespawnService _respawnService;
@@ -65,7 +65,7 @@ internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
 
             _entityFactory.CreateUI_CoinCounter(uiRoot, 160, 110);
 
-            var tmxPath = DevConfig.MapFile ?? Path.Combine("Assets", "Maps", "level_05.tmx");
+            var tmxPath = DevConfig.MapFile ?? Path.Combine("Assets", "Maps", "level_01.tmx");
             _mapLoader.LoadMap(Scene, tmxPath);
         }
     }

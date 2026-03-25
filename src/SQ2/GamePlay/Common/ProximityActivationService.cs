@@ -1,10 +1,12 @@
-﻿using Geisha.Engine.Core;
+﻿using System.Collections.Generic;
+using Geisha.Engine.Core;
+using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Diagnostics;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Core.Systems;
 using SQ2.Development;
-using System.Collections.Generic;
+using SQ2.GamePlay.Player;
 
 namespace SQ2.GamePlay.Common;
 
@@ -91,6 +93,7 @@ internal sealed class ProximityActivationSystem : ICustomSystem
 {
     private readonly ISceneManager _sceneManager;
     private readonly ProximityActivationService _proximityActivationService;
+    private Transform2DComponent? _playerTransform2DComponent;
 
     public ProximityActivationSystem(ISceneManager sceneManager, ProximityActivationService proximityActivationService)
     {
@@ -102,8 +105,12 @@ internal sealed class ProximityActivationSystem : ICustomSystem
 
     public void ProcessFixedUpdate()
     {
-        var playerPosition = Query.GetPlayerTransform2DComponent(_sceneManager.CurrentScene).Translation;
-        _proximityActivationService.UpdateActivations(playerPosition);
+        if (_playerTransform2DComponent is null)
+        {
+            return;
+        }
+
+        _proximityActivationService.UpdateActivations(_playerTransform2DComponent.Translation);
     }
 
     public void ProcessUpdate(GameTime gameTime)
@@ -125,9 +132,17 @@ internal sealed class ProximityActivationSystem : ICustomSystem
 
     public void OnComponentCreated(Component component)
     {
+        if (component.Entity.HasComponent<Transform2DComponent>() && component.Entity.HasComponent<PlayerComponent>())
+        {
+            _playerTransform2DComponent = component.Entity.GetComponent<Transform2DComponent>();
+        }
     }
 
     public void OnComponentRemoved(Component component)
     {
+        if (component == _playerTransform2DComponent)
+        {
+            _playerTransform2DComponent = null;
+        }
     }
 }

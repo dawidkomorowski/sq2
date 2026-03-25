@@ -21,4 +21,10 @@ internal static class GlobalSettings
     {
         public const string CoinCounter = "UI_CoinCounter";
     }
+
+    public static class SceneNames
+    {
+        public const string MainMenu = "MainMenu";
+        public const string GameWorld = "GameWorld";
+    }
 }
