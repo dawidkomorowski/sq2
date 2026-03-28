@@ -3,6 +3,7 @@
  <tileset firstgid="1" source="../../Assets/TileSets/pixel-platformer.tsx"/>
  <tileset firstgid="181" source="../../Assets/TileSets/pixel-platformer-characters.tsx"/>
  <tileset firstgid="208" source="../../Assets/TileSets/pixel-platformer-customized.tsx"/>
+ <tileset firstgid="388" source="../../Assets/TileSets/pixel-platformer-characters-customized.tsx"/>
  <layer id="9" name="Decorations" width="141" height="143">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -681,8 +682,8 @@
   <object id="77" name="End" type="Metadata" x="915" y="252">
    <point/>
   </object>
-  <object id="78" type="Bat2Enemy" gid="205" x="1242" y="162" width="24" height="24"/>
-  <object id="80" type="Bat2Enemy" gid="205" x="1746" y="162" width="24" height="24"/>
+  <object id="78" type="Bat2Enemy" gid="406" x="1242" y="162" width="24" height="24"/>
+  <object id="80" type="Bat2Enemy" gid="406" x="1746" y="162" width="24" height="24"/>
   <object id="81" type="BatEnemy" gid="205" x="1484.67" y="156" width="24" height="24">
    <properties>
     <property name="EndPosition" type="object" value="83"/>
@@ -695,7 +696,7 @@
   <object id="83" name="End" type="Metadata" x="1557.67" y="144.333">
    <point/>
   </object>
-  <object id="84" type="BatEnemy" gid="205" x="2386" y="213.333" width="24" height="24">
+  <object id="84" type="BatEnemy" gid="205" x="2385.75" y="213.708" width="24" height="24">
    <properties>
     <property name="EndPosition" type="object" value="86"/>
     <property name="StartPosition" type="object" value="85"/>
@@ -707,7 +708,7 @@
   <object id="86" name="End" type="Metadata" x="2394" y="262.667">
    <point/>
   </object>
-  <object id="87" type="BatEnemy" gid="205" x="2445.67" y="176" width="24" height="24">
+  <object id="87" type="BatEnemy" gid="205" x="2445.92" y="175.75" width="24" height="24">
    <properties>
     <property name="EndPosition" type="object" value="89"/>
     <property name="StartPosition" type="object" value="88"/>
@@ -719,7 +720,7 @@
   <object id="89" name="End" type="Metadata" x="2484" y="234">
    <point/>
   </object>
-  <object id="93" type="BatEnemy" gid="205" x="2430" y="72" width="24" height="24">
+  <object id="93" type="BatEnemy" gid="205" x="2426" y="76.5" width="24" height="24">
    <properties>
     <property name="EndPosition" type="object" value="95"/>
     <property name="StartPosition" type="object" value="94"/>
@@ -731,7 +732,7 @@
   <object id="95" name="End" type="Metadata" x="2484" y="90">
    <point/>
   </object>
-  <object id="100" type="BatEnemy" gid="205" x="2268" y="90" width="24" height="24">
+  <object id="100" type="BatEnemy" gid="205" x="2270.75" y="100.25" width="24" height="24">
    <properties>
     <property name="EndPosition" type="object" value="102"/>
     <property name="StartPosition" type="object" value="101"/>
@@ -1265,9 +1266,9 @@
   <object id="282" name="End" type="Metadata" x="1242" y="1404">
    <point/>
   </object>
-  <object id="283" type="Bat2Enemy" gid="205" x="1450" y="1348.5" width="24" height="24"/>
-  <object id="284" type="Bat2Enemy" gid="205" x="1375.5" y="1347" width="24" height="24"/>
-  <object id="285" type="Bat2Enemy" gid="205" x="1522.5" y="1347.5" width="24" height="24"/>
+  <object id="283" type="Bat2Enemy" gid="406" x="1450" y="1348.5" width="24" height="24"/>
+  <object id="284" type="Bat2Enemy" gid="406" x="1375.5" y="1347" width="24" height="24"/>
+  <object id="285" type="Bat2Enemy" gid="406" x="1522.5" y="1347.5" width="24" height="24"/>
   <object id="286" type="BatEnemy" gid="205" x="1874.5" y="1488.5" width="24" height="24">
    <properties>
     <property name="EndPosition" type="object" value="288"/>
