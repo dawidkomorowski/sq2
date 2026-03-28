@@ -137,6 +137,8 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
     {
         Entity.RemoveAfterFixedTimeStep();
         _respawnService.AddOneTimeRespawnAction(() => { _entityFactory.CreateBat2Enemy(Scene, _initialPosition); });
+
+        _entityFactory.CreateSmokePuffAnimation(Scene, _transform2DComponent.Translation);
     }
 
     private void OnIdle()

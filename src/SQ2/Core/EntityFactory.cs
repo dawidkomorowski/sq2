@@ -667,6 +667,23 @@ internal sealed class EntityFactory
         return entity;
     }
 
+    public Entity CreateSmokePuffAnimation(Scene scene, Vector2 position) =>
+        CreateOneTimeAnimation(scene, position, AssetId.Parse("dc2cfaed-d0a0-4c4f-a768-eca074289370"));
+
+    private Entity CreateOneTimeAnimation(Scene scene, Vector2 position, AssetId animationId)
+    {
+        var entity = scene.CreateEntity();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = position;
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
+        var spriteAnimationComponent = entity.CreateComponent<SpriteAnimationComponent>();
+        spriteAnimationComponent.AddAnimation("Animation", _assetStore.GetAsset<SpriteAnimation>(animationId));
+        spriteAnimationComponent.AnimationCompleted += (s, e) => entity.RemoveAfterFullFrame();
+        spriteAnimationComponent.PlayAnimation("Animation");
+        return entity;
+    }
+
     public Entity CreateBatBossTrigger(Scene scene, Vector2 center, SizeD size, double timerStartValue)
     {
         var entity = scene.CreateEntity();
