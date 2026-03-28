@@ -233,6 +233,11 @@
             "drawFill": true,
             "id": 23,
             "members": [
+                {
+                    "name": "ID",
+                    "type": "string",
+                    "value": ""
+                }
             ],
             "name": "Diamond",
             "type": "class",

@@ -30,7 +30,15 @@
   <object id="1" name="Player Spawn Point" type="PlayerSpawnPoint" x="177.366" y="188.501">
    <point/>
   </object>
-  <object id="12" type="Diamond" gid="68" x="252" y="180" width="18" height="18"/>
-  <object id="13" type="Diamond" gid="68" x="324" y="162" width="18" height="18"/>
+  <object id="12" type="Diamond" gid="68" x="252" y="180" width="18" height="18">
+   <properties>
+    <property name="ID" value="d761aeb3-abdd-4d15-bd6e-c518c503adc7"/>
+   </properties>
+  </object>
+  <object id="13" type="Diamond" gid="68" x="324" y="162" width="18" height="18">
+   <properties>
+    <property name="ID" value="ce5a3811-36fc-4471-b212-265d5d765c06"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

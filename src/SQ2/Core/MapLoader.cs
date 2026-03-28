@@ -377,8 +377,14 @@ internal sealed class MapLoader
                 }
                 case "Diamond" when tiledObject is TiledObject.Tile:
                 {
+                    var id = string.Empty;
+                    if (tiledObject.Properties.TryGetProperty("ID", out var property))
+                    {
+                        id = property.StringValue;
+                    }
+
                     var position = objectPosition + tileCenterOffset;
-                    _entityFactory.CreateDiamond(scene, position);
+                    _entityFactory.CreateDiamond(scene, position, id);
                     break;
                 }
                 case "Door" when tiledObject is TiledObject.Tile:

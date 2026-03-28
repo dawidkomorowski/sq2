@@ -1,10 +1,12 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Text.Json;
 
 namespace SQ2.Core;
 
 internal sealed class GameSaveData
 {
+    public HashSet<string> CollectedDiamondIds { get; init; } = new();
 }
 
 // ReSharper disable once ClassNeverInstantiated.Global
@@ -27,5 +29,11 @@ internal sealed class GameSaveService
         var json = JsonSerializer.Serialize(GameSave);
         Directory.CreateDirectory(Path.GetDirectoryName(_saveFilePath) ?? string.Empty);
         File.WriteAllText(_saveFilePath, json);
+    }
+
+    public void ClearSave()
+    {
+        GameSave = new GameSaveData();
+        SaveGame();
     }
 }

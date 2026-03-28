@@ -14,19 +14,22 @@ internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
     private readonly MapLoader _mapLoader;
     private readonly RespawnService _respawnService;
     private readonly ProximityActivationService _proximityActivationService;
+    private readonly GameSaveService _gameSaveService;
 
     public GameWorldBehaviorFactory(EntityFactory entityFactory, MapLoader mapLoader, RespawnService respawnService,
-        ProximityActivationService proximityActivationService)
+        ProximityActivationService proximityActivationService, GameSaveService gameSaveService)
     {
         _entityFactory = entityFactory;
         _mapLoader = mapLoader;
         _respawnService = respawnService;
         _proximityActivationService = proximityActivationService;
+        _gameSaveService = gameSaveService;
     }
 
     public string BehaviorName => SceneBehaviorName;
 
-    public SceneBehavior Create(Scene scene) => new GameWorldSceneBehavior(scene, _entityFactory, _mapLoader, _respawnService, _proximityActivationService);
+    public SceneBehavior Create(Scene scene) =>
+        new GameWorldSceneBehavior(scene, _entityFactory, _mapLoader, _respawnService, _proximityActivationService, _gameSaveService);
 
     private sealed class GameWorldSceneBehavior : SceneBehavior
     {
@@ -34,6 +37,7 @@ internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
         private readonly MapLoader _mapLoader;
         private readonly RespawnService _respawnService;
         private readonly ProximityActivationService _proximityActivationService;
+        private readonly GameSaveService _gameSaveService;
 
         public GameWorldSceneBehavior
         (
@@ -41,19 +45,21 @@ internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
             EntityFactory entityFactory,
             MapLoader mapLoader,
             RespawnService respawnService,
-            ProximityActivationService proximityActivationService
-        ) : base(scene)
+            ProximityActivationService proximityActivationService, GameSaveService gameSaveService) : base(scene)
         {
             _entityFactory = entityFactory;
             _mapLoader = mapLoader;
             _respawnService = respawnService;
             _proximityActivationService = proximityActivationService;
+            _gameSaveService = gameSaveService;
         }
 
         public override string Name => SceneBehaviorName;
 
         protected override void OnLoaded()
         {
+            _gameSaveService.LoadGame();
+
             _proximityActivationService.Reset();
             _respawnService.Reset();
 

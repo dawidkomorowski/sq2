@@ -422,10 +422,11 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateDiamond(Scene scene, Vector2 position)
+    public Entity CreateDiamond(Scene scene, Vector2 position, string id)
     {
         var entity = scene.CreateEntity();
-        entity.CreateComponent<DiamondComponent>();
+        var diamondComponent = entity.CreateComponent<DiamondComponent>();
+        diamondComponent.Id = id;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = position;
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
