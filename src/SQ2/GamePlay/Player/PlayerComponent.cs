@@ -73,6 +73,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
     // Coins
     private NumberRendererComponent _coinNumberRendererComponent = null!;
     public int CoinsCollected { get; set; }
+    public int CoinsCollectedSavedByCheckPoint { get; set; }
 
     public PlayerComponent(Entity entity, IDebugRenderer debugRenderer, RespawnService respawnService) : base(entity)
     {
@@ -548,7 +549,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
         KeysCollected = 0;
         DoorInRange = null;
-        CoinsCollected = 0;
+        CoinsCollected = CoinsCollectedSavedByCheckPoint;
     }
 
     public void TeleportTo(Vector2 position, bool updateCamera = true)

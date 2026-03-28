@@ -1,9 +1,10 @@
-﻿using Geisha.Engine.Core;
+﻿using System.Collections.Generic;
+using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Core.Systems;
-using System.Collections.Generic;
 using Geisha.Engine.Rendering.Components;
+using SQ2.GamePlay.Collectibles;
 
 namespace SQ2.GamePlay.Player;
 
@@ -11,6 +12,7 @@ namespace SQ2.GamePlay.Player;
 internal sealed class CheckPointSystem : ICustomSystem
 {
     private readonly List<CheckPointComponent> _checkPoints = new();
+    private readonly List<CoinComponent> _coins = new();
     private PlayerComponent? _playerComponent;
     private Transform2DComponent? _playerTransform;
 
@@ -22,16 +24,12 @@ internal sealed class CheckPointSystem : ICustomSystem
         {
             foreach (var checkPoint in _checkPoints)
             {
+                if (checkPoint == _playerComponent.ActiveCheckPoint) continue;
+
                 var checkPointTransform = checkPoint.Entity.GetComponent<Transform2DComponent>();
                 if (_playerTransform.Translation.Distance(checkPointTransform.Translation) < 10)
                 {
-                    _playerComponent.ActiveCheckPoint = checkPoint;
-
-                    foreach (var cp in _checkPoints)
-                    {
-                        var spriteRenderer = cp.Entity.GetComponent<SpriteRendererComponent>();
-                        spriteRenderer.Sprite = cp == checkPoint ? cp.ActiveSprite : cp.InactiveSprite;
-                    }
+                    OnCheckPointReached(checkPoint, _playerComponent);
                 }
             }
         }
@@ -60,6 +58,11 @@ internal sealed class CheckPointSystem : ICustomSystem
             _checkPoints.Add(checkPointComponent);
         }
 
+        if (component is CoinComponent coinComponent)
+        {
+            _coins.Add(coinComponent);
+        }
+
         if (component.Entity.HasComponent<PlayerComponent>() && component.Entity.HasComponent<Transform2DComponent>())
         {
             _playerComponent = component.Entity.GetComponent<PlayerComponent>();
@@ -74,10 +77,32 @@ internal sealed class CheckPointSystem : ICustomSystem
             _checkPoints.Remove(checkPointComponent);
         }
 
+        if (component is CoinComponent coinComponent)
+        {
+            _coins.Remove(coinComponent);
+        }
+
         if (component is PlayerComponent)
         {
             _playerComponent = null!;
             _playerTransform = null!;
+        }
+    }
+
+    private void OnCheckPointReached(CheckPointComponent checkPoint, PlayerComponent playerComponent)
+    {
+        playerComponent.ActiveCheckPoint = checkPoint;
+        playerComponent.CoinsCollectedSavedByCheckPoint = playerComponent.CoinsCollected;
+
+        foreach (var cp in _checkPoints)
+        {
+            var spriteRenderer = cp.Entity.GetComponent<SpriteRendererComponent>();
+            spriteRenderer.Sprite = cp == checkPoint ? cp.ActiveSprite : cp.InactiveSprite;
+        }
+
+        foreach (var coin in _coins)
+        {
+            coin.OnCheckPointReached();
         }
     }
 }

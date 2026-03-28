@@ -13,6 +13,7 @@ internal sealed class CoinComponent : BehaviorComponent, IRespawnable
     private Transform2DComponent _playerTransform = null!;
 
     private bool _isCollected;
+    private bool _isSavedByCheckPoint;
 
     public CoinComponent(Entity entity) : base(entity)
     {
@@ -41,8 +42,15 @@ internal sealed class CoinComponent : BehaviorComponent, IRespawnable
 
     public void Respawn()
     {
+        if (_isSavedByCheckPoint) return;
+
         _isCollected = false;
         _spriteRendererComponent.Visible = true;
+    }
+
+    public void OnCheckPointReached()
+    {
+        _isSavedByCheckPoint = _isCollected;
     }
 }
 
