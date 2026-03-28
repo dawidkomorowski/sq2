@@ -659,7 +659,7 @@ internal sealed class EntityFactory
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         var spriteAnimationComponent = entity.CreateComponent<SpriteAnimationComponent>();
-        spriteAnimationComponent.AddAnimation("Fly", _assetStore.GetAsset<SpriteAnimation>(AssetId.Parse("3a27bb5c-62a2-4f96-be5b-fbb176593312")));
+        spriteAnimationComponent.AddAnimation("Fly", _assetStore.GetAsset<SpriteAnimation>(AssetId.Parse("b699683a-bf38-4c3a-822c-0c3275476417")));
         spriteAnimationComponent.PlayInLoop = true;
         spriteAnimationComponent.PlaybackSpeed = 2;
         spriteAnimationComponent.PlayAnimation("Fly");
