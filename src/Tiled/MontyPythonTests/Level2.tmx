@@ -506,7 +506,11 @@
   <object id="85" name="Secret1" type="Metadata" x="2106" y="648">
    <point/>
   </object>
-  <object id="93" type="Diamond" gid="68" x="2088" y="72" width="18" height="18"/>
+  <object id="93" type="Diamond" gid="68" x="2088" y="72" width="18" height="18">
+   <properties>
+    <property name="ID" value="f9491c64-518c-41f2-b380-ff4426da66e9"/>
+   </properties>
+  </object>
   <object id="97" type="BlueEnemy" gid="199" x="3348" y="900" width="24" height="24">
    <properties>
     <property name="InitialMovementDirection" propertytype="MovementDirection" value="Right"/>
