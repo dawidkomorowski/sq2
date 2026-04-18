@@ -1,10 +1,12 @@
 ﻿using System.IO;
+using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.SceneModel;
 using SQ2.Core;
 using SQ2.Development;
 using SQ2.GamePlay.Common;
+using SQ2.GamePlay.PauseMenu;
 
-namespace SQ2;
+namespace SQ2.GamePlay;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
@@ -70,6 +72,9 @@ internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
             uiRoot.Parent = camera;
 
             _entityFactory.CreateUI_CoinCounter(uiRoot, 160, 110);
+
+            var pauseMenu = uiRoot.CreateChildEntity();
+            pauseMenu.CreateComponent<PauseMenuComponent>();
 
             var tmxPath = DevConfig.MapFile ?? Path.Combine("Assets", "Maps", "level_01.tmx");
             _mapLoader.LoadMap(Scene, tmxPath);

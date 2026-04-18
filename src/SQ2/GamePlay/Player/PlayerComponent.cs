@@ -568,6 +568,11 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
         }
     }
 
+    public void EnableInput()
+    {
+        _inputComponent.Enabled = true;
+    }
+
     public void DisableInput()
     {
         _inputComponent.Enabled = false;

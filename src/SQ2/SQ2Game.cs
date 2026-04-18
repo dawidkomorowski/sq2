@@ -3,12 +3,14 @@ using Geisha.Engine;
 using Geisha.Engine.Rendering;
 using SQ2.Core;
 using SQ2.Development;
+using SQ2.GamePlay;
 using SQ2.GamePlay.Boss.Bat;
 using SQ2.GamePlay.Boss.Blue;
 using SQ2.GamePlay.Collectibles;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Enemies;
 using SQ2.GamePlay.LevelGeometry;
+using SQ2.GamePlay.PauseMenu;
 using SQ2.GamePlay.Player;
 using SQ2.MainMenu;
 using SQ2.MainMenu.MainView;
@@ -120,6 +122,8 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<KeyHoleComponentFactory>();
         componentsRegistry.RegisterComponentFactory<RaisingWaterComponentFactory>();
         componentsRegistry.RegisterComponentFactory<DoorComponentFactory>();
+        // Pause menu
+        componentsRegistry.RegisterComponentFactory<PauseMenuComponentFactory>();
         // Player
         componentsRegistry.RegisterComponentFactory<CameraMovementComponentFactory>();
         componentsRegistry.RegisterComponentFactory<PlayerComponentFactory>();
