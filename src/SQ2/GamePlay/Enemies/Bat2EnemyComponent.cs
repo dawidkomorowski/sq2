@@ -102,7 +102,7 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
                 throw new ArgumentOutOfRangeException();
         }
 
-        _stateTime += GameTime.FixedDeltaTime;
+        _stateTime += TimeStep.FixedDeltaTime;
 
         if (stateBefore != _state)
         {
@@ -112,7 +112,7 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
         Movement.UpdateHorizontalSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
     }
 
-    public override void OnUpdate(GameTime gameTime)
+    public override void OnUpdate(in TimeStep timeStep)
     {
         if (_enableDebugDraw)
         {
@@ -169,7 +169,7 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
             if (_transform2DComponent.Translation.Distance(_diveStartPosition) < 20 && Random.Shared.NextDouble() > 0.5)
             {
                 _diveDirection = Random.Shared.NextDouble() > 0.5 ? _diveDirection.Normal : -_diveDirection.Normal;
-                _diveDirection = (Matrix3x3.CreateRotation(Angle.Deg2Rad(Random.Shared.Next(-30, 30))) * _diveDirection.Homogeneous).ToVector2();
+                _diveDirection = (Matrix3x3.CreateRotation(Angle.DegreesToRadians(Random.Shared.Next(-30, 30))) * _diveDirection.Homogeneous).ToVector2();
             }
 
             _diveStartPosition = _transform2DComponent.Translation;

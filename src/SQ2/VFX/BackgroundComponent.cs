@@ -56,7 +56,7 @@ internal sealed class BackgroundComponent : BehaviorComponent
         }
     }
 
-    public override void OnUpdate(GameTime gameTime)
+    public override void OnUpdate(in TimeStep timeStep)
     {
         // Parallax scrolling
         var cameraPosition = _cameraTransform.Translation;

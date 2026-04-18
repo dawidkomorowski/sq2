@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Immutable;
 using System.Linq;
 using Geisha.Engine.Animation.Components;
 using Geisha.Engine.Core;
@@ -93,75 +94,75 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
         _inputComponent.InputMapping = new InputMapping
         {
-            ActionMappings =
-            {
+            ActionMappings = ImmutableArray.Create
+            (
                 new ActionMapping
                 {
                     ActionName = MoveLeftAction,
-                    HardwareActions =
-                    {
+                    HardwareActions = ImmutableArray.Create
+                    (
                         new HardwareAction
                         {
                             HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Left)
                         }
-                    }
+                    )
                 },
                 new ActionMapping
                 {
                     ActionName = MoveRightAction,
-                    HardwareActions =
-                    {
+                    HardwareActions = ImmutableArray.Create
+                    (
                         new HardwareAction
                         {
                             HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Right)
                         }
-                    }
+                    )
                 },
                 new ActionMapping
                 {
                     ActionName = MoveUpAction,
-                    HardwareActions =
-                    {
+                    HardwareActions = ImmutableArray.Create
+                    (
                         new HardwareAction
                         {
                             HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Up)
                         }
-                    }
+                    )
                 },
                 new ActionMapping
                 {
                     ActionName = MoveDownAction,
-                    HardwareActions =
-                    {
+                    HardwareActions = ImmutableArray.Create
+                    (
                         new HardwareAction
                         {
                             HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Down)
                         }
-                    }
+                    )
                 },
                 new ActionMapping
                 {
                     ActionName = JumpAction,
-                    HardwareActions =
-                    {
+                    HardwareActions = ImmutableArray.Create
+                    (
                         new HardwareAction
                         {
                             HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Space)
                         }
-                    }
+                    )
                 },
                 new ActionMapping
                 {
                     ActionName = EnterDoorAction,
-                    HardwareActions =
-                    {
+                    HardwareActions = ImmutableArray.Create
+                    (
                         new HardwareAction
                         {
                             HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Enter)
                         }
-                    }
+                    )
                 }
-            }
+            )
         };
 
         _inputComponent.BindAction(EnterDoorAction, RequestEnterDoor);
@@ -229,7 +230,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
         UpdateAnimationState(_kinematicBodyComponent.LinearVelocity, isOnGround, isOnLadder);
     }
 
-    public override void OnUpdate(GameTime gameTime)
+    public override void OnUpdate(in TimeStep timeStep)
     {
         _coinNumberRendererComponent.Value = CoinsCollected;
 
@@ -306,32 +307,34 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
         const double acceleration = 250;
         const double deceleration = 450;
 
+        var dt = TimeStep.FixedDeltaTimeSeconds;
+
         var moveLeftState = GetActionState_MoveLeft();
         var moveRightState = GetActionState_MoveRight();
 
         if (moveLeftState && !moveRightState)
         {
             var effectiveAcceleration = linearVelocity.X > 0 ? deceleration : acceleration;
-            var verticalVelocity = linearVelocity.X - effectiveAcceleration * GameTime.FixedDeltaTimeSeconds;
+            var verticalVelocity = linearVelocity.X - effectiveAcceleration * dt;
             linearVelocity = linearVelocity.WithX(verticalVelocity);
         }
 
         if (moveRightState && !moveLeftState)
         {
             var effectiveAcceleration = linearVelocity.X < 0 ? deceleration : acceleration;
-            var verticalVelocity = linearVelocity.X + effectiveAcceleration * GameTime.FixedDeltaTimeSeconds;
+            var verticalVelocity = linearVelocity.X + effectiveAcceleration * dt;
             linearVelocity = linearVelocity.WithX(verticalVelocity);
         }
 
         if (moveLeftState == moveRightState)
         {
-            if (Math.Abs(linearVelocity.X) < deceleration * GameTime.FixedDeltaTimeSeconds)
+            if (Math.Abs(linearVelocity.X) < deceleration * dt)
             {
                 linearVelocity = linearVelocity.WithX(0);
             }
             else
             {
-                var verticalVelocity = linearVelocity.X - Math.Sign(linearVelocity.X) * deceleration * GameTime.FixedDeltaTimeSeconds;
+                var verticalVelocity = linearVelocity.X - Math.Sign(linearVelocity.X) * deceleration * dt;
                 linearVelocity = linearVelocity.WithX(verticalVelocity);
             }
         }
@@ -356,7 +359,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
         {
             _jumpPressFrames++;
             var jumpAcceleration = longJumpAcceleration - longJumpAcceleration * _jumpPressFrames / maxJumpPressFrames;
-            linearVelocity = linearVelocity.WithY(linearVelocity.Y + jumpAcceleration * GameTime.FixedDeltaTimeSeconds);
+            linearVelocity = linearVelocity.WithY(linearVelocity.Y + jumpAcceleration * TimeStep.FixedDeltaTimeSeconds);
         }
 
         if (isOnGround && _jumpPressFrames == 0 && jumpState && !_lastJumpState)
@@ -420,7 +423,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
         linearVelocity = linearVelocity.OfLength(climbSpeed);
 
         // Prevent climbing out of ladder upwards.
-        var newTranslation = _transform2DComponent.Translation + linearVelocity * GameTime.FixedDeltaTimeSeconds;
+        var newTranslation = _transform2DComponent.Translation + linearVelocity * TimeStep.FixedDeltaTimeSeconds;
         if (!IsOnLadder(newTranslation) && linearVelocity.Y > 0)
         {
             linearVelocity = linearVelocity.WithY(0);
@@ -499,9 +502,9 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
                 if (linearVelocity != Vector2.Zero)
                 {
-                    _ladderClimbingAnimationTimer += GameTime.FixedDeltaTimeSeconds;
+                    _ladderClimbingAnimationTimer += TimeStep.FixedDeltaTimeSeconds;
                     var leaningAngle = Math.Sin(_ladderClimbingAnimationTimer * 15) * 4;
-                    _spriteTransformComponent.Rotation = Angle.Deg2Rad(leaningAngle);
+                    _spriteTransformComponent.Rotation = Angle.DegreesToRadians(leaningAngle);
                 }
             }
             else

@@ -44,7 +44,8 @@ internal sealed class BatBossComponent : BehaviorComponent, IRespawnable
 
     public override void OnFixedUpdate()
     {
-        _secondsTimer += GameTime.FixedDeltaTimeSeconds;
+        var dt = TimeStep.FixedDeltaTimeSeconds;
+        _secondsTimer += dt;
 
         HandleDrop();
 
@@ -60,7 +61,7 @@ internal sealed class BatBossComponent : BehaviorComponent, IRespawnable
             }
         }
 
-        var dv = Velocity * GameTime.FixedDeltaTimeSeconds;
+        var dv = Velocity * dt;
 
         var currentPosition = _transform2DComponent.Translation;
         var toTarget = TargetPoint - currentPosition;

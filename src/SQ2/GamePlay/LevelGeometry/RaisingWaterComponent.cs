@@ -39,6 +39,8 @@ internal sealed class RaisingWaterComponent : BehaviorComponent, IRespawnable
 
     public override void OnFixedUpdate()
     {
+        var dt = TimeStep.FixedDeltaTimeSeconds;
+
         var deadlyArea = new AxisAlignedRectangle(_transform2DComponent.Translation, Dimensions);
         var playerHitbox = new AxisAlignedRectangle(_playerTransform.Translation, _playerCollider.Dimensions);
         if (deadlyArea.Overlaps(playerHitbox))
@@ -61,7 +63,7 @@ internal sealed class RaisingWaterComponent : BehaviorComponent, IRespawnable
 
         if (_delayTimer > 0)
         {
-            _delayTimer -= GameTime.FixedDeltaTimeSeconds;
+            _delayTimer -= dt;
             return;
         }
 
@@ -70,7 +72,7 @@ internal sealed class RaisingWaterComponent : BehaviorComponent, IRespawnable
             return;
         }
 
-        _transform2DComponent.Translation += new Vector2(0, Velocity * GameTime.FixedDeltaTimeSeconds);
+        _transform2DComponent.Translation += new Vector2(0, Velocity * dt);
     }
 
     public void Respawn()

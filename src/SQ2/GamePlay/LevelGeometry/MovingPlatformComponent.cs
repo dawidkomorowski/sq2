@@ -1,4 +1,5 @@
-﻿using Geisha.Engine.Core;
+﻿using System;
+using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Diagnostics;
 using Geisha.Engine.Core.Math;
@@ -6,7 +7,6 @@ using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
 using SQ2.Development;
-using System;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
 
@@ -41,8 +41,9 @@ internal sealed class MovingPlatformComponent : BehaviorComponent, IRespawnable
 
     public override void OnFixedUpdate()
     {
+        var dt = TimeStep.FixedDeltaTimeSeconds;
         const double v = 30;
-        var dv = v * GameTime.FixedDeltaTimeSeconds;
+        var dv = v * dt;
 
         var targetPosition = _direction switch
         {
@@ -77,7 +78,7 @@ internal sealed class MovingPlatformComponent : BehaviorComponent, IRespawnable
                 var playerTransform = contact2D.OtherCollider.Entity.GetComponent<Transform2DComponent>();
 
                 // Only move the player horizontally
-                playerTransform.Translation += _kinematicRigidBody2DComponent.LinearVelocity.WithY(0) * GameTime.FixedDeltaTimeSeconds;
+                playerTransform.Translation += _kinematicRigidBody2DComponent.LinearVelocity.WithY(0) * dt;
 
                 // If the platform changed vertical direction to downwards, set player's vertical velocity to platform's vertical velocity (which is downwards),
                 // so that the player moves along with the platform instead of "bouncing" when the platform starts moving downwards.
@@ -96,7 +97,7 @@ internal sealed class MovingPlatformComponent : BehaviorComponent, IRespawnable
         }
     }
 
-    public override void OnUpdate(GameTime gameTime)
+    public override void OnUpdate(in TimeStep timeStep)
     {
         if (_enableDebugDraw)
         {

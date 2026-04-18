@@ -95,7 +95,7 @@ internal sealed class RespawnSystem : ICustomSystem
         }
     }
 
-    public void ProcessUpdate(GameTime gameTime)
+    public void ProcessUpdate(in TimeStep timeStep)
     {
     }
 

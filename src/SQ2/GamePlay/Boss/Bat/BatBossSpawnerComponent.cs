@@ -37,7 +37,7 @@ internal sealed class BatBossSpawnerComponent : BehaviorComponent, IRespawnable
         if (!Active) return;
         if (TimerStartValue > SpawnAfterSeconds) return;
 
-        _secondsTimer += GameTime.FixedDeltaTimeSeconds;
+        _secondsTimer += TimeStep.FixedDeltaTimeSeconds;
 
         if (_secondsTimer >= SpawnAfterSeconds && !_hasSpawned)
         {

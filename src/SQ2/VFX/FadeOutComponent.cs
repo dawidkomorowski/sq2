@@ -29,9 +29,9 @@ internal sealed class FadeOutComponent : BehaviorComponent
         _elapsedFadeOutTime = TimeSpan.Zero;
     }
 
-    public override void OnUpdate(GameTime gameTime)
+    public override void OnUpdate(in TimeStep timeStep)
     {
-        _elapsedFadeOutTime += gameTime.DeltaTime;
+        _elapsedFadeOutTime += timeStep.DeltaTime;
 
         var ratio = _fadeOutDuration.TotalSeconds > 0
             ? _elapsedFadeOutTime.TotalSeconds / _fadeOutDuration.TotalSeconds

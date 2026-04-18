@@ -37,10 +37,10 @@ internal sealed class WalkingEnemyDeathAnimationComponent : BehaviorComponent
         );
     }
 
-    public override void OnUpdate(GameTime gameTime)
+    public override void OnUpdate(in TimeStep timeStep)
     {
         const double animationDuration = 0.2;
-        _elapsedTime += gameTime.DeltaTimeSeconds;
+        _elapsedTime += timeStep.DeltaTimeSeconds;
 
         if (_elapsedTime > animationDuration)
         {

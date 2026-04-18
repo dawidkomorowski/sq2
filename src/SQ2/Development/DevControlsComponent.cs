@@ -1,4 +1,5 @@
-﻿using Geisha.Engine.Core;
+﻿using System.Collections.Immutable;
+using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Input;
@@ -31,68 +32,68 @@ internal sealed class DevControlsComponent : BehaviorComponent
         var inputComponent = Entity.CreateComponent<InputComponent>();
         inputComponent.InputMapping = new InputMapping
         {
-            ActionMappings =
-            {
+            ActionMappings = ImmutableArray.Create
+            (
                 new ActionMapping
                 {
                     ActionName = "Exit",
-                    HardwareActions =
-                    {
+                    HardwareActions = ImmutableArray.Create
+                    (
                         new HardwareAction
                         {
                             HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Escape)
                         }
-                    }
+                    )
                 },
                 new ActionMapping
                 {
                     ActionName = "Reload",
-                    HardwareActions =
-                    {
+                    HardwareActions = ImmutableArray.Create
+                    (
                         new HardwareAction
                         {
                             HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.F5)
                         }
-                    }
+                    )
                 },
                 new ActionMapping
                 {
                     ActionName = "ClearSave",
-                    HardwareActions =
-                    {
+                    HardwareActions = ImmutableArray.Create
+                    (
                         new HardwareAction
                         {
                             HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.F6)
                         }
-                    }
+                    )
                 },
                 new ActionMapping
                 {
                     ActionName = "Respawn",
-                    HardwareActions =
-                    {
+                    HardwareActions = ImmutableArray.Create
+                    (
                         new HardwareAction
                         {
                             HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.F8)
                         }
-                    }
+                    )
                 },
                 new ActionMapping
                 {
                     ActionName = "ToggleDebugPhysics",
-                    HardwareActions =
-                    {
+                    HardwareActions = ImmutableArray.Create
+                    (
                         new HardwareAction
                         {
                             HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.F12)
                         }
-                    }
+                    )
                 }
-            }
+            )
         };
 
         inputComponent.BindAction("Exit", _engineManager.ScheduleEngineShutdown);
-        inputComponent.BindAction("Reload", () => { _sceneManager.LoadEmptyScene("GameWorld", SceneLoadMode.PreserveAssets); });
+        inputComponent.BindAction("Reload", () => { _sceneManager.LoadEmptyScene("GameWorld"); });
         inputComponent.BindAction("ClearSave", _gameSaveService.ClearSave);
         inputComponent.BindAction("Respawn", Respawn);
         inputComponent.BindAction("ToggleDebugPhysics", () => { _physicsSystem.EnableDebugRendering = !_physicsSystem.EnableDebugRendering; });

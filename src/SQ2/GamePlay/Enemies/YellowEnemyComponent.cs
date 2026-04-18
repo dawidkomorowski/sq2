@@ -93,7 +93,7 @@ internal sealed class YellowEnemyComponent : BehaviorComponent, IRespawnable
 
     private void AngryStateUpdate()
     {
-        _stateTimer += GameTime.FixedDeltaTime;
+        _stateTimer += TimeStep.FixedDeltaTime;
 
         if (_stateTimer >= TimeSpan.FromMilliseconds(100))
         {
@@ -106,7 +106,7 @@ internal sealed class YellowEnemyComponent : BehaviorComponent, IRespawnable
         const double fallingAcceleration = 500;
         const double maxFallingSpeed = 250;
 
-        _kinematicRigidBody2DComponent.LinearVelocity += new Vector2(0, -fallingAcceleration * GameTime.FixedDeltaTimeSeconds);
+        _kinematicRigidBody2DComponent.LinearVelocity += new Vector2(0, -fallingAcceleration * TimeStep.FixedDeltaTimeSeconds);
         if (_kinematicRigidBody2DComponent.LinearVelocity.Y < -maxFallingSpeed)
         {
             _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithY(-maxFallingSpeed);
@@ -131,7 +131,7 @@ internal sealed class YellowEnemyComponent : BehaviorComponent, IRespawnable
 
     private void OnGroundStateUpdate()
     {
-        _stateTimer += GameTime.FixedDeltaTime;
+        _stateTimer += TimeStep.FixedDeltaTime;
 
         if (_stateTimer >= TimeSpan.FromMilliseconds(250))
         {
@@ -176,7 +176,7 @@ internal sealed class YellowEnemyComponent : BehaviorComponent, IRespawnable
         }
     }
 
-    public override void OnUpdate(GameTime gameTime)
+    public override void OnUpdate(in TimeStep timeStep)
     {
         if (_enableDebugDraw)
         {

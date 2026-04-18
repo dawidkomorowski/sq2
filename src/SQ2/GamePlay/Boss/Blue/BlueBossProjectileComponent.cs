@@ -1,11 +1,11 @@
-﻿using Geisha.Engine.Core;
+﻿using System;
+using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Diagnostics;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics.Components;
 using SQ2.Development;
-using System;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
 
@@ -39,7 +39,8 @@ internal sealed class BlueBossProjectileComponent : BehaviorComponent, IRespawna
 
     public override void OnFixedUpdate()
     {
-        _lifetime += GameTime.FixedDeltaTime;
+        var dt = TimeStep.FixedDeltaTime;
+        _lifetime += dt;
 
         if (_lifetime >= TimeSpan.FromSeconds(5))
         {
@@ -48,7 +49,7 @@ internal sealed class BlueBossProjectileComponent : BehaviorComponent, IRespawna
         }
 
         const double speed = 200.0;
-        _transform2DComponent.Translation += Direction * speed * GameTime.FixedDeltaTime.TotalSeconds;
+        _transform2DComponent.Translation += Direction * speed * dt.TotalSeconds;
 
         var playerAABB = new AxisAlignedRectangle(_playerTransform2DComponent.Translation, _playerRectangleColliderComponent.Dimensions);
         var transformedHitBox = _hitBox.Transform(_transform2DComponent.ToMatrix());
@@ -59,7 +60,7 @@ internal sealed class BlueBossProjectileComponent : BehaviorComponent, IRespawna
         }
     }
 
-    public override void OnUpdate(GameTime gameTime)
+    public override void OnUpdate(in TimeStep timeStep)
     {
         if (_enableDebugDraw)
         {

@@ -28,7 +28,7 @@ internal sealed class CameraMovementComponent : BehaviorComponent
         _cameraTransform.Translation = _playerTransform.InterpolatedTransform.Translation;
     }
 
-    public override void OnUpdate(GameTime gameTime)
+    public override void OnUpdate(in TimeStep timeStep)
     {
         if (!EnableFollow) return;
 
@@ -71,7 +71,7 @@ internal sealed class CameraMovementComponent : BehaviorComponent
             const double baseVelocity = 20;
             var distanceFactor = distanceToTarget - minDistance;
             var directionToPlayer = (targetPosition - _cameraTransform.Translation).Unit;
-            _cameraTransform.Translation += directionToPlayer * distanceFactor * baseVelocity * gameTime.DeltaTimeSeconds;
+            _cameraTransform.Translation += directionToPlayer * distanceFactor * baseVelocity * timeStep.DeltaTimeSeconds;
         }
 
         // Camera shake.
@@ -81,7 +81,7 @@ internal sealed class CameraMovementComponent : BehaviorComponent
             var shakeOffsetX = (Random.Shared.NextDouble() * 2 - 1) * shakeIntensity;
             var shakeOffsetY = (Random.Shared.NextDouble() * 2 - 1) * shakeIntensity;
             _cameraTransform.Translation += new Vector2(shakeOffsetX, shakeOffsetY);
-            _shakeDuration -= gameTime.DeltaTime;
+            _shakeDuration -= timeStep.DeltaTime;
             if (_shakeDuration < TimeSpan.Zero)
             {
                 _shakeDuration = TimeSpan.Zero;

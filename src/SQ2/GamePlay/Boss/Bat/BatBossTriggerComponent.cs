@@ -64,7 +64,7 @@ internal sealed class BatBossTriggerComponent : BehaviorComponent, IRespawnable
         }
     }
 
-    public override void OnUpdate(GameTime gameTime)
+    public override void OnUpdate(in TimeStep timeStep)
     {
         if (_enableDebugDraw)
         {

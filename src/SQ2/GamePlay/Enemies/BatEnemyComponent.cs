@@ -1,4 +1,5 @@
-﻿using Geisha.Engine.Core;
+﻿using System;
+using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Diagnostics;
 using Geisha.Engine.Core.Math;
@@ -8,7 +9,6 @@ using Geisha.Engine.Physics.Components;
 using SQ2.Development;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
-using System;
 
 namespace SQ2.GamePlay.Enemies;
 
@@ -54,7 +54,7 @@ internal sealed class BatEnemyComponent : BehaviorComponent, IRespawnable
         }
 
         const double v = 60;
-        var dv = v * GameTime.FixedDeltaTimeSeconds;
+        var dv = v * TimeStep.FixedDeltaTimeSeconds;
 
         var targetPosition = _direction switch
         {
@@ -81,7 +81,7 @@ internal sealed class BatEnemyComponent : BehaviorComponent, IRespawnable
         Movement.UpdateHorizontalSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
     }
 
-    public override void OnUpdate(GameTime gameTime)
+    public override void OnUpdate(in TimeStep timeStep)
     {
         if (_enableDebugDraw)
         {

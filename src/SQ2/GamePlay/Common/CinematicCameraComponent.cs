@@ -51,10 +51,10 @@ internal sealed class CinematicCameraComponent : BehaviorComponent
         _bottomBarRenderer.Visible = false;
     }
 
-    public override void OnUpdate(GameTime gameTime)
+    public override void OnUpdate(in TimeStep timeStep)
     {
         const double barMovementSpeed = 200;
-        var distanceToMove = barMovementSpeed * gameTime.DeltaTimeSeconds;
+        var distanceToMove = barMovementSpeed * timeStep.DeltaTimeSeconds;
 
         if (_topBarTransform.Translation != _topBarTargetPosition)
         {

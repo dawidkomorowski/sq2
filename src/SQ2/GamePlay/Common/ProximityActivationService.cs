@@ -91,13 +91,11 @@ internal sealed class ProximityActivationService
 // ReSharper disable once ClassNeverInstantiated.Global
 internal sealed class ProximityActivationSystem : ICustomSystem
 {
-    private readonly ISceneManager _sceneManager;
     private readonly ProximityActivationService _proximityActivationService;
     private Transform2DComponent? _playerTransform2DComponent;
 
-    public ProximityActivationSystem(ISceneManager sceneManager, ProximityActivationService proximityActivationService)
+    public ProximityActivationSystem(ProximityActivationService proximityActivationService)
     {
-        _sceneManager = sceneManager;
         _proximityActivationService = proximityActivationService;
     }
 
@@ -113,7 +111,7 @@ internal sealed class ProximityActivationSystem : ICustomSystem
         _proximityActivationService.UpdateActivations(_playerTransform2DComponent.Translation);
     }
 
-    public void ProcessUpdate(GameTime gameTime)
+    public void ProcessUpdate(in TimeStep timeStep)
     {
         _proximityActivationService.DebugDraw();
     }

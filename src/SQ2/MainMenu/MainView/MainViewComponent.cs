@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
@@ -37,42 +38,42 @@ internal sealed class MainViewComponent : BehaviorComponent
         _inputComponent = Entity.CreateComponent<InputComponent>();
         _inputComponent.InputMapping = new InputMapping
         {
-            ActionMappings =
-            {
+            ActionMappings = ImmutableArray.Create
+            (
                 new ActionMapping
                 {
                     ActionName = ActionNavigateUp,
-                    HardwareActions =
-                    {
+                    HardwareActions = ImmutableArray.Create
+                    (
                         new HardwareAction
                         {
                             HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Up)
                         }
-                    }
+                    )
                 },
                 new ActionMapping
                 {
                     ActionName = ActionNavigateDown,
-                    HardwareActions =
-                    {
+                    HardwareActions = ImmutableArray.Create
+                    (
                         new HardwareAction
                         {
                             HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Down)
                         }
-                    }
+                    )
                 },
                 new ActionMapping
                 {
                     ActionName = ActionSelect,
-                    HardwareActions =
-                    {
+                    HardwareActions = ImmutableArray.Create
+                    (
                         new HardwareAction
                         {
                             HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Enter)
                         }
-                    }
+                    )
                 }
-            }
+            )
         };
 
         _inputComponent.BindAction(ActionNavigateUp, OnActionNavigateUp);
@@ -87,18 +88,11 @@ internal sealed class MainViewComponent : BehaviorComponent
         _selectedMenuItem = _menuItems[0];
     }
 
-    public override void OnUpdate(GameTime gameTime)
+    public override void OnUpdate(in TimeStep timeStep)
     {
         foreach (var menuItem in _menuItems)
         {
-            if (menuItem == _selectedMenuItem)
-            {
-                menuItem.GetComponent<TextRendererComponent>().Color = Color.White;
-            }
-            else
-            {
-                menuItem.GetComponent<TextRendererComponent>().Color = Color.FromArgb(255, 128, 128, 128);
-            }
+            menuItem.GetComponent<TextRendererComponent>().Color = menuItem == _selectedMenuItem ? Color.White : Color.FromArgb(255, 128, 128, 128);
         }
     }
 

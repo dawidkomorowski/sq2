@@ -13,7 +13,7 @@ internal static class Movement
 
     public static void ApplyGravity(KinematicRigidBody2DComponent kinematicBody)
     {
-        kinematicBody.LinearVelocity += Gravity * GameTime.FixedDeltaTimeSeconds;
+        kinematicBody.LinearVelocity += Gravity * TimeStep.FixedDeltaTimeSeconds;
 
         if (kinematicBody.LinearVelocity.Y < MaxFallVelocity)
         {

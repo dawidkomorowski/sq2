@@ -59,7 +59,7 @@ internal sealed class NumberRendererComponent : BehaviorComponent
         _spriteRendererComponent100.Sprite = Digit0Sprite;
     }
 
-    public override void OnUpdate(GameTime gameTime)
+    public override void OnUpdate(in TimeStep timeStep)
     {
         var onesDigit = Value % 10;
         var tensDigit = (Value / 10) % 10;

@@ -49,7 +49,7 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
     {
         if (_triggered)
         {
-            _timer += GameTime.FixedDeltaTime;
+            _timer += TimeStep.FixedDeltaTime;
 
             if (_timer >= TimeSpan.FromSeconds(0.5))
             {
@@ -98,7 +98,7 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
         }
     }
 
-    public override void OnUpdate(GameTime gameTime)
+    public override void OnUpdate(in TimeStep timeStep)
     {
         if (_enableDebugDraw)
         {

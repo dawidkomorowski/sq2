@@ -188,7 +188,7 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
                 throw new ArgumentOutOfRangeException(nameof(_state), _state, $"Unexpected BlueBoss state: {_state}");
         }
 
-        _stateTime += GameTime.FixedDeltaTime;
+        _stateTime += TimeStep.FixedDeltaTime;
 
         if (stateBefore != _state)
         {
@@ -199,7 +199,7 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
         Movement.UpdateHorizontalSpriteFacing(_transform2DComponent, _kinematicRigidBody2DComponent);
     }
 
-    public override void OnUpdate(GameTime gameTime)
+    public override void OnUpdate(in TimeStep timeStep)
     {
         if (_enableDebugDraw)
         {

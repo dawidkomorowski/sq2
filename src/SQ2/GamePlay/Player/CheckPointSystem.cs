@@ -35,7 +35,7 @@ internal sealed class CheckPointSystem : ICustomSystem
         }
     }
 
-    public void ProcessUpdate(GameTime gameTime)
+    public void ProcessUpdate(in TimeStep timeStep)
     {
     }
 

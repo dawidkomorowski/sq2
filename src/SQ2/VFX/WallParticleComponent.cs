@@ -24,22 +24,22 @@ internal sealed class WallParticleComponent : BehaviorComponent
         _angularVelocity = (Random.Shared.NextDouble() * 2 - 1) * 10;
     }
 
-    public override void OnUpdate(GameTime gameTime)
+    public override void OnUpdate(in TimeStep timeStep)
     {
-        _velocity += new Vector2(0, -300) * gameTime.DeltaTimeSeconds; // gravity
+        _velocity += new Vector2(0, -300) * timeStep.DeltaTimeSeconds; // gravity
 
         var translation = _transform2DComponent.Translation;
-        translation += _velocity * gameTime.DeltaTimeSeconds;
+        translation += _velocity * timeStep.DeltaTimeSeconds;
         _transform2DComponent.Translation = translation;
 
-        _transform2DComponent.Rotation += _angularVelocity * gameTime.DeltaTimeSeconds;
+        _transform2DComponent.Rotation += _angularVelocity * timeStep.DeltaTimeSeconds;
 
         if (_lifeTime < TimeSpan.Zero)
         {
             Entity.RemoveAfterFullFrame();
         }
 
-        _lifeTime -= gameTime.DeltaTime;
+        _lifeTime -= timeStep.DeltaTime;
     }
 }
 
