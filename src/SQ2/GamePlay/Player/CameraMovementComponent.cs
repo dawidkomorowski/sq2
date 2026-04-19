@@ -11,6 +11,7 @@ internal sealed class CameraMovementComponent : BehaviorComponent
 {
     private Transform2DComponent _cameraTransform = null!;
     private Transform2DComponent _playerTransform = null!;
+    private TimeSpan _shakeTimer = TimeSpan.Zero;
     private TimeSpan _shakeDuration = TimeSpan.Zero;
 
     public CameraMovementComponent(Entity entity) : base(entity)
@@ -77,13 +78,22 @@ internal sealed class CameraMovementComponent : BehaviorComponent
         // Camera shake.
         if (_shakeDuration > TimeSpan.Zero)
         {
-            const double shakeIntensity = 4;
-            var shakeOffsetX = (Random.Shared.NextDouble() * 2 - 1) * shakeIntensity;
-            var shakeOffsetY = (Random.Shared.NextDouble() * 2 - 1) * shakeIntensity;
-            _cameraTransform.Translation += new Vector2(shakeOffsetX, shakeOffsetY);
+            _shakeTimer += timeStep.DeltaTime;
+
+            if (_shakeTimer > TimeSpan.FromMilliseconds(16))
+            {
+                _shakeTimer = TimeSpan.Zero;
+
+                const double shakeIntensity = 4;
+                var shakeOffsetX = (Random.Shared.NextDouble() * 2 - 1) * shakeIntensity;
+                var shakeOffsetY = (Random.Shared.NextDouble() * 2 - 1) * shakeIntensity;
+                _cameraTransform.Translation += new Vector2(shakeOffsetX, shakeOffsetY);
+            }
+
             _shakeDuration -= timeStep.DeltaTime;
             if (_shakeDuration < TimeSpan.Zero)
             {
+                _shakeTimer = TimeSpan.Zero;
                 _shakeDuration = TimeSpan.Zero;
             }
         }
