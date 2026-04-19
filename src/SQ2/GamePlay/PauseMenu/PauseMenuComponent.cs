@@ -31,6 +31,8 @@ internal sealed class PauseMenuComponent : BehaviorComponent
     // Services
     private readonly ITimeSystem _timeSystem;
     private readonly IEngineManager _engineManager;
+    private readonly ISceneManager _sceneManager;
+    private readonly RespawnService _respawnService;
 
     // Menu
     private sealed record MenuItem(string Text, Action Action)
@@ -44,10 +46,13 @@ internal sealed class PauseMenuComponent : BehaviorComponent
     // UI
     private readonly List<Renderer2DComponent> _uiElements = new();
 
-    public PauseMenuComponent(Entity entity, ITimeSystem timeSystem, IEngineManager engineManager) : base(entity)
+    public PauseMenuComponent(Entity entity, ITimeSystem timeSystem, IEngineManager engineManager, ISceneManager sceneManager,
+        RespawnService respawnService) : base(entity)
     {
         _timeSystem = timeSystem;
         _engineManager = engineManager;
+        _sceneManager = sceneManager;
+        _respawnService = respawnService;
     }
 
     public override void OnStart()
@@ -130,7 +135,10 @@ internal sealed class PauseMenuComponent : BehaviorComponent
 
     private void CreateMenuItems()
     {
-        _menuItems.Add(new MenuItem("Resume", OnActionPause));
+        _menuItems.Add(new MenuItem("Resume", () => { }));
+        _menuItems.Add(new MenuItem("Last Checkpoint", _respawnService.RequestRespawn));
+        _menuItems.Add(new MenuItem("Restart Level", () => { _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld); }));
+        _menuItems.Add(new MenuItem("Main Menu", () => { _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.MainMenu); }));
         _menuItems.Add(new MenuItem("Exit Game", _engineManager.ScheduleEngineShutdown));
 
         _selectedMenuItem = _menuItems[0];
@@ -152,6 +160,8 @@ internal sealed class PauseMenuComponent : BehaviorComponent
         {
             playerComponent.EnableInput();
         }
+
+        _selectedMenuItem = _menuItems[0];
     }
 
     private void OnActionSelect()
@@ -159,6 +169,7 @@ internal sealed class PauseMenuComponent : BehaviorComponent
         if (_isPaused)
         {
             _selectedMenuItem.Action.Invoke();
+            OnActionPause();
         }
     }
 
@@ -193,19 +204,19 @@ internal sealed class PauseMenuComponent : BehaviorComponent
     // ReSharper disable once InconsistentNaming
     private void BuildUI()
     {
-        var pauseMenuSize = GlobalSettings.ViewSize / 2d;
+        var pauseMenuSize = new Vector2(175, 130);
 
         var background = Entity.CreateChildEntity();
         background.CreateComponent<Transform2DComponent>();
         var backgroundRenderer = background.CreateComponent<RectangleRendererComponent>();
         backgroundRenderer.SortingLayerName = GlobalSettings.SortingLayers.UI;
-        backgroundRenderer.Color = Color.FromArgb(128, 0, 0, 0);
+        backgroundRenderer.Color = Color.FromArgb(192, 0, 0, 0);
         backgroundRenderer.Dimensions = pauseMenuSize;
         backgroundRenderer.FillInterior = true;
         _uiElements.Add(backgroundRenderer);
 
 
-        var verticalOffset = 0;
+        var verticalOffset = 5;
         foreach (var menuItem in _menuItems)
         {
             var textEntity = Entity.CreateChildEntity();
@@ -218,11 +229,11 @@ internal sealed class PauseMenuComponent : BehaviorComponent
             textRenderer.Text = menuItem.Text;
             textRenderer.MaxWidth = pauseMenuSize.X;
             textRenderer.TextAlignment = TextAlignment.Center;
-            textRenderer.FontSize = FontSize.FromDips(24);
+            textRenderer.FontSize = FontSize.FromDips(16);
             _uiElements.Add(textRenderer);
             menuItem.TextRendererComponent = textRenderer;
 
-            verticalOffset += 30; // Adjust this value based on your desired spacing
+            verticalOffset += 25; // Adjust this value based on your desired spacing
         }
     }
 }
@@ -232,12 +243,16 @@ internal sealed class PauseMenuComponentFactory : ComponentFactory<PauseMenuComp
 {
     private readonly ITimeSystem _timeSystem;
     private readonly IEngineManager _engineManager;
+    private readonly ISceneManager _sceneManager;
+    private readonly RespawnService _respawnService;
 
-    public PauseMenuComponentFactory(ITimeSystem timeSystem, IEngineManager engineManager)
+    public PauseMenuComponentFactory(ITimeSystem timeSystem, IEngineManager engineManager, ISceneManager sceneManager, RespawnService respawnService)
     {
         _timeSystem = timeSystem;
         _engineManager = engineManager;
+        _sceneManager = sceneManager;
+        _respawnService = respawnService;
     }
 
-    protected override PauseMenuComponent CreateComponent(Entity entity) => new(entity, _timeSystem, _engineManager);
+    protected override PauseMenuComponent CreateComponent(Entity entity) => new(entity, _timeSystem, _engineManager, _sceneManager, _respawnService);
 }

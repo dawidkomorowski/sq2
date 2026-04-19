@@ -78,7 +78,7 @@ internal sealed class DevControlsComponent : BehaviorComponent
             )
         };
 
-        inputComponent.BindAction("Reload", () => { _sceneManager.LoadEmptyScene("GameWorld"); });
+        inputComponent.BindAction("Reload", () => { _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld); });
         inputComponent.BindAction("ClearSave", _gameSaveService.ClearSave);
         inputComponent.BindAction("Respawn", Respawn);
         inputComponent.BindAction("ToggleDebugPhysics", () => { _physicsSystem.EnableDebugRendering = !_physicsSystem.EnableDebugRendering; });
