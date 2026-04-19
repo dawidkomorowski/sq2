@@ -6,6 +6,7 @@ using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics.Components;
 using SQ2.Development;
+using SQ2.GamePlay.PauseMenu;
 using SQ2.GamePlay.Player;
 using SQ2.VFX;
 
@@ -21,6 +22,7 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
     private RectangleColliderComponent _playerRectangleColliderComponent = null!;
     private CameraMovementComponent _cameraMovementComponent = null!;
     private CinematicCameraComponent _cinematicCameraComponent = null!;
+    private PauseMenuComponent _pauseMenuComponent = null!;
     private bool _triggered;
     private TimeSpan _timer;
     private Entity? _fadeOutEntity;
@@ -41,6 +43,7 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
         _playerRectangleColliderComponent = Query.GetPlayerRectangleColliderComponent(Scene);
         _cameraMovementComponent = Query.GetCameraMovementComponent(Scene);
         _cinematicCameraComponent = Query.GetCinematicCameraComponent(Scene);
+        _pauseMenuComponent = Query.GetPauseMenuComponent(Scene);
 
         _timer = TimeSpan.Zero;
     }
@@ -79,8 +82,8 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
             _triggered = true;
 
             _cinematicCameraComponent.Show();
-
             _playerComponent.DisableInput();
+            _pauseMenuComponent.Disable();
 
             switch (LevelCompleteDirection)
             {

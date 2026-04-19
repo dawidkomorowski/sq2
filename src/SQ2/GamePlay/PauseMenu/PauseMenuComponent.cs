@@ -17,7 +17,6 @@ namespace SQ2.GamePlay.PauseMenu;
 
 internal sealed class PauseMenuComponent : BehaviorComponent
 {
-    private Transform2DComponent _transform2DComponent = null!;
     private bool _isPaused;
 
     // Input
@@ -57,7 +56,6 @@ internal sealed class PauseMenuComponent : BehaviorComponent
 
     public override void OnStart()
     {
-        _transform2DComponent = Entity.CreateComponent<Transform2DComponent>();
         _inputComponent = Entity.CreateComponent<InputComponent>();
         _inputComponent.InputMapping = new InputMapping
         {
@@ -130,6 +128,16 @@ internal sealed class PauseMenuComponent : BehaviorComponent
 
                 menuItem.TextRendererComponent.Color = menuItem == _selectedMenuItem ? Color.White : Color.FromArgb(255, 192, 192, 192);
             }
+        }
+    }
+
+    public void Disable()
+    {
+        _inputComponent.Enabled = false;
+
+        if (_isPaused)
+        {
+            OnActionPause();
         }
     }
 

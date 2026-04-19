@@ -4,41 +4,34 @@ using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics.Components;
 using SQ2.Core;
+using SQ2.GamePlay.PauseMenu;
 using SQ2.GamePlay.Player;
 
 namespace SQ2.GamePlay.Common;
 
 internal static class Query
 {
-    public static Transform2DComponent GetPlayerTransform2DComponent(Scene scene)
-    {
-        return scene.RootEntities.Single(e => e.HasComponent<PlayerComponent>()).GetComponent<Transform2DComponent>();
-    }
+    public static Transform2DComponent GetPlayerTransform2DComponent(Scene scene) =>
+        scene.RootEntities.Single(e => e.HasComponent<PlayerComponent>()).GetComponent<Transform2DComponent>();
 
-    public static RectangleColliderComponent GetPlayerRectangleColliderComponent(Scene scene)
-    {
-        return scene.RootEntities.Single(e => e.HasComponent<PlayerComponent>()).GetComponent<RectangleColliderComponent>();
-    }
+    public static RectangleColliderComponent GetPlayerRectangleColliderComponent(Scene scene) =>
+        scene.RootEntities.Single(e => e.HasComponent<PlayerComponent>()).GetComponent<RectangleColliderComponent>();
 
-    public static KinematicRigidBody2DComponent GetPlayerKinematicRigidBody2DComponent(Scene scene)
-    {
-        return scene.RootEntities.Single(e => e.HasComponent<PlayerComponent>()).GetComponent<KinematicRigidBody2DComponent>();
-    }
+    public static KinematicRigidBody2DComponent GetPlayerKinematicRigidBody2DComponent(Scene scene) =>
+        scene.RootEntities.Single(e => e.HasComponent<PlayerComponent>()).GetComponent<KinematicRigidBody2DComponent>();
 
-    public static PlayerComponent GetPlayerComponent(Scene scene)
-    {
-        return scene.RootEntities.Single(e => e.HasComponent<PlayerComponent>()).GetComponent<PlayerComponent>();
-    }
+    public static PlayerComponent GetPlayerComponent(Scene scene) =>
+        scene.RootEntities.Single(e => e.HasComponent<PlayerComponent>()).GetComponent<PlayerComponent>();
 
-    public static CameraMovementComponent GetCameraMovementComponent(Scene scene)
-    {
-        return scene.RootEntities.Single(e => e.HasComponent<CameraMovementComponent>()).GetComponent<CameraMovementComponent>();
-    }
+    public static CameraMovementComponent GetCameraMovementComponent(Scene scene) =>
+        scene.RootEntities.Single(e => e.HasComponent<CameraMovementComponent>()).GetComponent<CameraMovementComponent>();
 
-    public static CinematicCameraComponent GetCinematicCameraComponent(Scene scene)
-    {
-        return scene.RootEntities.Single(e => e.HasComponent<CinematicCameraComponent>()).GetComponent<CinematicCameraComponent>();
-    }
+    public static CinematicCameraComponent GetCinematicCameraComponent(Scene scene) =>
+        scene.RootEntities.Single(e => e.HasComponent<CinematicCameraComponent>()).GetComponent<CinematicCameraComponent>();
+
+    public static PauseMenuComponent GetPauseMenuComponent(Scene scene) =>
+        scene.AllEntities.Single(e => e.Name == GlobalSettings.SpecialEntities.UIRoot)
+            .GetChildrenRecursively().Single(e => e.HasComponent<PauseMenuComponent>()).GetComponent<PauseMenuComponent>();
 
     public static bool TileHitTest(Scene scene, int tx, int ty)
     {

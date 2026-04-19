@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.SceneModel;
 using SQ2.Core;
 using SQ2.Development;
@@ -69,6 +68,7 @@ internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
             var camera = _entityFactory.CreateCamera(Scene);
 
             var uiRoot = Scene.CreateEntity();
+            uiRoot.Name = GlobalSettings.SpecialEntities.UIRoot;
             uiRoot.Parent = camera;
 
             _entityFactory.CreateUI_CoinCounter(uiRoot, 160, 110);

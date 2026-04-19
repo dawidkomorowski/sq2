@@ -27,4 +27,9 @@ internal static class GlobalSettings
         public const string MainMenu = "MainMenu";
         public const string GameWorld = "GameWorld";
     }
+
+    public static class SpecialEntities
+    {
+        public const string UIRoot = "UI_Root";
+    }
 }
