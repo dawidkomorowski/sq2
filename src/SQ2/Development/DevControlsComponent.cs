@@ -1,5 +1,4 @@
 ﻿using System.Collections.Immutable;
-using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Input;
@@ -13,15 +12,13 @@ namespace SQ2.Development;
 
 internal sealed class DevControlsComponent : BehaviorComponent
 {
-    private readonly IEngineManager _engineManager;
     private readonly ISceneManager _sceneManager;
     private readonly IPhysicsSystem _physicsSystem;
     private readonly GameSaveService _gameSaveService;
 
-    public DevControlsComponent(Entity entity, IEngineManager engineManager, ISceneManager sceneManager, IPhysicsSystem physicsSystem,
+    public DevControlsComponent(Entity entity, ISceneManager sceneManager, IPhysicsSystem physicsSystem,
         GameSaveService gameSaveService) : base(entity)
     {
-        _engineManager = engineManager;
         _sceneManager = sceneManager;
         _physicsSystem = physicsSystem;
         _gameSaveService = gameSaveService;
@@ -34,17 +31,6 @@ internal sealed class DevControlsComponent : BehaviorComponent
         {
             ActionMappings = ImmutableArray.Create
             (
-                new ActionMapping
-                {
-                    ActionName = "Exit",
-                    HardwareActions = ImmutableArray.Create
-                    (
-                        new HardwareAction
-                        {
-                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Escape)
-                        }
-                    )
-                },
                 new ActionMapping
                 {
                     ActionName = "Reload",
@@ -92,7 +78,6 @@ internal sealed class DevControlsComponent : BehaviorComponent
             )
         };
 
-        inputComponent.BindAction("Exit", _engineManager.ScheduleEngineShutdown);
         inputComponent.BindAction("Reload", () => { _sceneManager.LoadEmptyScene("GameWorld"); });
         inputComponent.BindAction("ClearSave", _gameSaveService.ClearSave);
         inputComponent.BindAction("Respawn", Respawn);
@@ -109,18 +94,16 @@ internal sealed class DevControlsComponent : BehaviorComponent
 // ReSharper disable once ClassNeverInstantiated.Global
 internal sealed class DevControlsComponentFactory : ComponentFactory<DevControlsComponent>
 {
-    private readonly IEngineManager _engineManager;
     private readonly ISceneManager _sceneManager;
     private readonly IPhysicsSystem _physicsSystem;
     private readonly GameSaveService _gameSaveService;
 
-    public DevControlsComponentFactory(IEngineManager engineManager, ISceneManager sceneManager, IPhysicsSystem physicsSystem, GameSaveService gameSaveService)
+    public DevControlsComponentFactory(ISceneManager sceneManager, IPhysicsSystem physicsSystem, GameSaveService gameSaveService)
     {
-        _engineManager = engineManager;
         _sceneManager = sceneManager;
         _physicsSystem = physicsSystem;
         _gameSaveService = gameSaveService;
     }
 
-    protected override DevControlsComponent CreateComponent(Entity entity) => new(entity, _engineManager, _sceneManager, _physicsSystem, _gameSaveService);
+    protected override DevControlsComponent CreateComponent(Entity entity) => new(entity, _sceneManager, _physicsSystem, _gameSaveService);
 }
