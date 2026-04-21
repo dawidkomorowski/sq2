@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
@@ -9,6 +10,8 @@ using Geisha.Engine.Input.Components;
 using Geisha.Engine.Input.Mapping;
 using Geisha.Engine.Rendering;
 using Geisha.Engine.Rendering.Components;
+using SQ2.Core;
+using SQ2.VFX;
 
 namespace SQ2.MainMenu.MainView;
 
@@ -19,18 +22,21 @@ internal sealed class MainViewComponent : BehaviorComponent
     private const string ActionSelect = "Select";
     private InputComponent _inputComponent = null!;
 
-    private const string MenuItemStartGameId = "StartGame";
+    private const string MenuItemNewGameId = "NewGame";
+    private const string MenuItemContinueId = "Continue";
     private const string MenuItemExitId = "Exit";
     private readonly List<Entity> _menuItems = new();
     private Entity _selectedMenuItem = null!;
 
     private readonly IEngineManager _engineManager;
     private readonly ISceneManager _sceneManager;
+    private readonly GameSaveService _gameSaveService;
 
-    public MainViewComponent(Entity entity, IEngineManager engineManager, ISceneManager sceneManager) : base(entity)
+    public MainViewComponent(Entity entity, IEngineManager engineManager, ISceneManager sceneManager, GameSaveService gameSaveService) : base(entity)
     {
         _engineManager = engineManager;
         _sceneManager = sceneManager;
+        _gameSaveService = gameSaveService;
     }
 
     public override void OnStart()
@@ -82,8 +88,18 @@ internal sealed class MainViewComponent : BehaviorComponent
 
         CreateBackground();
 
-        _menuItems.Add(CreateMenuItem(MenuItemStartGameId, "Start Game", new Vector2(0, 10)));
-        _menuItems.Add(CreateMenuItem(MenuItemExitId, "Exit", new Vector2(0, -10)));
+        const double menuStartY = 20;
+        const double menuItemSpacing = 20;
+        var menuItemsCount = 0;
+
+        _menuItems.Add(CreateMenuItem(MenuItemNewGameId, "New Game", new Vector2(0, menuStartY - menuItemSpacing * menuItemsCount++)));
+
+        if (_gameSaveService.GameSave.NewGameStarted)
+        {
+            _menuItems.Add(CreateMenuItem(MenuItemContinueId, "Continue", new Vector2(0, menuStartY - menuItemSpacing * menuItemsCount++)));
+        }
+
+        _menuItems.Add(CreateMenuItem(MenuItemExitId, "Exit", new Vector2(0, menuStartY - menuItemSpacing * menuItemsCount)));
 
         _selectedMenuItem = _menuItems[0];
     }
@@ -114,12 +130,36 @@ internal sealed class MainViewComponent : BehaviorComponent
     {
         switch (_selectedMenuItem.Name)
         {
-            case MenuItemStartGameId:
-                _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld);
+            case MenuItemNewGameId:
+            {
+                _inputComponent.Enabled = false;
+                var entity = Scene.CreateEntity();
+                var fadeOutComponent = entity.CreateComponent<FadeOutComponent>();
+                fadeOutComponent.Duration = TimeSpan.FromMilliseconds(300);
+                fadeOutComponent.CompleteDelay = TimeSpan.FromMilliseconds(300);
+                fadeOutComponent.OnComplete = () =>
+                {
+                    _gameSaveService.GameSave.NewGameStarted = true;
+                    _gameSaveService.SaveGame();
+                    _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld);
+                };
                 break;
+            }
+            case MenuItemContinueId:
+            {
+                _inputComponent.Enabled = false;
+                var entity = Scene.CreateEntity();
+                var fadeOutComponent = entity.CreateComponent<FadeOutComponent>();
+                fadeOutComponent.Duration = TimeSpan.FromMilliseconds(300);
+                fadeOutComponent.CompleteDelay = TimeSpan.FromMilliseconds(300);
+                fadeOutComponent.OnComplete = () => { _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld); };
+                break;
+            }
             case MenuItemExitId:
+            {
                 _engineManager.ScheduleEngineShutdown();
                 break;
+            }
         }
     }
 
@@ -143,6 +183,9 @@ internal sealed class MainViewComponent : BehaviorComponent
         textRenderer.Text = text;
         textRenderer.Color = Color.White;
         textRenderer.FontSize = FontSize.FromDips(24);
+        textRenderer.MaxWidth = 300;
+        textRenderer.TextAlignment = TextAlignment.Center;
+        textRenderer.Pivot = new Vector2(150, 0);
         return menuItemEntity;
     }
 }
@@ -152,12 +195,14 @@ internal sealed class MainViewComponentFactory : ComponentFactory<MainViewCompon
 {
     private readonly IEngineManager _engineManager;
     private readonly ISceneManager _sceneManager;
+    private readonly GameSaveService _gameSaveService;
 
-    public MainViewComponentFactory(IEngineManager engineManager, ISceneManager sceneManager)
+    public MainViewComponentFactory(IEngineManager engineManager, ISceneManager sceneManager, GameSaveService gameSaveService)
     {
         _engineManager = engineManager;
         _sceneManager = sceneManager;
+        _gameSaveService = gameSaveService;
     }
 
-    protected override MainViewComponent CreateComponent(Entity entity) => new(entity, _engineManager, _sceneManager);
+    protected override MainViewComponent CreateComponent(Entity entity) => new(entity, _engineManager, _sceneManager, _gameSaveService);
 }

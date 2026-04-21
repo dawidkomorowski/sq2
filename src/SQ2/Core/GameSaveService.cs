@@ -6,6 +6,7 @@ namespace SQ2.Core;
 
 internal sealed class GameSaveData
 {
+    public bool NewGameStarted { get; set; }
     public HashSet<string> CollectedDiamondIds { get; init; } = new();
 }
 

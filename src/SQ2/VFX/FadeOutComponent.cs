@@ -10,12 +10,16 @@ namespace SQ2.VFX;
 internal sealed class FadeOutComponent : BehaviorComponent
 {
     private RectangleRendererComponent _rectangleRendererComponent = null!;
-    private readonly TimeSpan _fadeOutDuration = TimeSpan.FromSeconds(1);
-    private TimeSpan _elapsedFadeOutTime;
+    private TimeSpan _elapsed;
+    private bool _completed;
 
     public FadeOutComponent(Entity entity) : base(entity)
     {
     }
+
+    public TimeSpan Duration { get; set; } = TimeSpan.FromSeconds(1);
+    public TimeSpan CompleteDelay { get; set; } = TimeSpan.Zero;
+    public Action? OnComplete { get; set; }
 
     public override void OnStart()
     {
@@ -26,21 +30,32 @@ internal sealed class FadeOutComponent : BehaviorComponent
         _rectangleRendererComponent.Dimensions = GlobalSettings.ViewSize * 2;
         _rectangleRendererComponent.FillInterior = true;
 
-        _elapsedFadeOutTime = TimeSpan.Zero;
+        _elapsed = TimeSpan.Zero;
     }
 
     public override void OnUpdate(in TimeStep timeStep)
     {
-        _elapsedFadeOutTime += timeStep.DeltaTime;
+        if (_completed)
+        {
+            return;
+        }
 
-        var ratio = _fadeOutDuration.TotalSeconds > 0
-            ? _elapsedFadeOutTime.TotalSeconds / _fadeOutDuration.TotalSeconds
+        _elapsed += timeStep.DeltaTime;
+
+        var ratio = Duration.TotalSeconds > 0
+            ? _elapsed.TotalSeconds / Duration.TotalSeconds
             : 1.0;
         ratio = Math.Clamp(ratio, 0.0, 1.0);
 
         var color = _rectangleRendererComponent.Color;
         var alpha = (byte)Math.Round(255 * ratio);
         _rectangleRendererComponent.Color = Color.FromArgb(alpha, color.R, color.G, color.B);
+
+        if (_elapsed > Duration + CompleteDelay)
+        {
+            _completed = true;
+            OnComplete?.Invoke();
+        }
     }
 }
 
