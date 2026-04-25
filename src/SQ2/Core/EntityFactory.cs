@@ -449,7 +449,10 @@ internal sealed class EntityFactory
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(15, 13);
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
-        kinematicRigidBody2DComponent.EnableCollisionResponse = true;
+
+        // Walking enemy component will enable collision response once spawned.
+        // It is a workaround to avoid bug/limitation in physics engine that makes colliding entities to get impulse after respawn.
+        kinematicRigidBody2DComponent.EnableCollisionResponse = false;
 
         var spriteEntity = entity.CreateChildEntity();
         var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
@@ -482,7 +485,10 @@ internal sealed class EntityFactory
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(15, 13);
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
-        kinematicRigidBody2DComponent.EnableCollisionResponse = true;
+
+        // Walking enemy component will enable collision response once spawned.
+        // It is a workaround to avoid bug/limitation in physics engine that makes colliding entities to get impulse after respawn.
+        kinematicRigidBody2DComponent.EnableCollisionResponse = false;
 
         var spriteEntity = entity.CreateChildEntity();
         var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();

@@ -63,6 +63,8 @@ internal sealed class WalkingEnemyComponent : BehaviorComponent, IRespawnable, I
 
     public override void OnFixedUpdate()
     {
+        _kinematicRigidBody2DComponent.EnableCollisionResponse = true;
+
         if (RequireActivation && !Active)
         {
             _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
@@ -185,6 +187,8 @@ internal sealed class WalkingEnemyComponent : BehaviorComponent, IRespawnable, I
 
     public void Respawn()
     {
+        _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
+
         if (RemoveOnRespawn)
         {
             Entity.RemoveAfterFixedTimeStep();
