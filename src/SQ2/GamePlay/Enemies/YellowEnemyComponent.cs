@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Diagnostics;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
+using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
 using Geisha.Engine.Rendering;
 using Geisha.Engine.Rendering.Components;
@@ -25,6 +27,7 @@ internal sealed class YellowEnemyComponent : BehaviorComponent, IRespawnable
     private Transform2DComponent _playerTransform2DComponent = null!;
     private RectangleColliderComponent _playerRectangleColliderComponent = null!;
     private PlayerComponent _playerComponent = null!;
+    private readonly List<Contact2D> _contacts = new();
     private Vector2 _startPosition;
     private AxisAlignedRectangle _detector;
     private State _state = State.Ready;
@@ -114,7 +117,7 @@ internal sealed class YellowEnemyComponent : BehaviorComponent, IRespawnable
 
         if (_rectangleColliderComponent.IsColliding)
         {
-            var contacts = _rectangleColliderComponent.GetContacts();
+            var contacts = _rectangleColliderComponent.GetContactsAsSpan(_contacts);
             foreach (var contact in contacts)
             {
                 if (contact.CollisionNormal.Y > 0)
@@ -165,7 +168,7 @@ internal sealed class YellowEnemyComponent : BehaviorComponent, IRespawnable
             return;
         }
 
-        var contacts = _rectangleColliderComponent.GetContacts();
+        var contacts = _rectangleColliderComponent.GetContactsAsSpan(_contacts);
         foreach (var contact in contacts)
         {
             if (contact.OtherCollider.Entity.HasComponent<PlayerComponent>())

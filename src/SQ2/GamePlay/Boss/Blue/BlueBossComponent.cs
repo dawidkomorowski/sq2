@@ -1,4 +1,6 @@
-﻿using Geisha.Engine.Animation.Components;
+﻿using System;
+using System.Collections.Generic;
+using Geisha.Engine.Animation.Components;
 using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Diagnostics;
@@ -12,7 +14,6 @@ using SQ2.Core;
 using SQ2.Development;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
-using System;
 
 namespace SQ2.GamePlay.Boss.Blue;
 
@@ -39,6 +40,7 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
     private Transform2DComponent? _debugTransform;
     private TextRendererComponent? _debugText;
 
+    private readonly List<Contact2D> _contacts = new();
     private Vector2 _startPosition;
     private State _state = State.WaitingForPlayer;
     private TimeSpan _stateTime;
@@ -107,7 +109,7 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
     {
         Movement.ApplyGravity(_kinematicRigidBody2DComponent);
 
-        var contacts = _rectangleColliderComponent.IsColliding ? _rectangleColliderComponent.GetContacts() : Array.Empty<Contact2D>();
+        var contacts = _rectangleColliderComponent.GetContactsAsSpan(_contacts);
 
         foreach (var contact2D in contacts)
         {
@@ -327,7 +329,7 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
         }
     }
 
-    private void OnChase(Contact2D[] contacts)
+    private void OnChase(ReadOnlySpan<Contact2D> contacts)
     {
         _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(_chaseSpeed);
 
@@ -341,7 +343,7 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
         }
     }
 
-    private void OnRageChase(Contact2D[] contacts)
+    private void OnRageChase(ReadOnlySpan<Contact2D> contacts)
     {
         _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(_chaseSpeed);
 
@@ -481,7 +483,7 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
         }
     }
 
-    private void OnJumpShoot(Contact2D[] contacts)
+    private void OnJumpShoot(ReadOnlySpan<Contact2D> contacts)
     {
         if (_stateTime < TimeSpan.FromSeconds(1))
         {
@@ -595,7 +597,7 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
         }
     }
 
-    private void OnChaseShoot(Contact2D[] contacts)
+    private void OnChaseShoot(ReadOnlySpan<Contact2D> contacts)
     {
         if (_stateTime > TimeSpan.FromSeconds(0.6) * _shootCounter)
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Geisha.Engine.Animation.Components;
 using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
@@ -26,6 +27,7 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
     private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
     private SpriteAnimationComponent _spriteAnimationComponent = null!;
     private Transform2DComponent _playerTransform = null!;
+    private readonly List<Contact2D> _contacts = new();
     private Vector2 _initialPosition;
     private const double IdleAgroRange = 100;
     private const double ChaseAgroRange = 200;
@@ -61,7 +63,7 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
 
     public override void OnFixedUpdate()
     {
-        var contacts = _rectangleColliderComponent.IsColliding ? _rectangleColliderComponent.GetContacts() : Array.Empty<Contact2D>();
+        var contacts = _rectangleColliderComponent.GetContactsAsSpan(_contacts);
 
         foreach (var contact2D in contacts)
         {
@@ -177,7 +179,7 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
         }
     }
 
-    private void OnDive(Contact2D[] contacts)
+    private void OnDive(ReadOnlySpan<Contact2D> contacts)
     {
         _spriteAnimationComponent.Position = 0.25;
         _spriteAnimationComponent.Pause();
@@ -206,7 +208,7 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
         }
     }
 
-    private void OnStunned(Contact2D[] contacts)
+    private void OnStunned(ReadOnlySpan<Contact2D> contacts)
     {
         if (contacts.Length > 0)
         {

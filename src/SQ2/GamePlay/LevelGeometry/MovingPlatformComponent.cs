@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Diagnostics;
@@ -19,6 +20,7 @@ internal sealed class MovingPlatformComponent : BehaviorComponent, IRespawnable
     private Transform2DComponent _transform2DComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;
     private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
+    private readonly List<Contact2D> _contacts = new();
     private Vector2 _initialPosition;
     private Direction _direction = Direction.ToEnd;
 
@@ -70,7 +72,7 @@ internal sealed class MovingPlatformComponent : BehaviorComponent, IRespawnable
         _kinematicRigidBody2DComponent.LinearVelocity = moveDirection * v;
 
         // Move player along with the platform
-        var contacts = _rectangleColliderComponent.IsColliding ? _rectangleColliderComponent.GetContacts() : Array.Empty<Contact2D>();
+        var contacts = _rectangleColliderComponent.GetContactsAsSpan(_contacts);
         foreach (var contact2D in contacts)
         {
             if (contact2D.CollisionNormal.Y < 0 && contact2D.OtherCollider.Entity.HasComponent<PlayerComponent>())

@@ -1,11 +1,11 @@
-﻿using Geisha.Engine.Core.Components;
+﻿using System.Collections.Generic;
+using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
-using System;
 
 namespace SQ2.GamePlay.Enemies;
 
@@ -14,6 +14,7 @@ internal sealed class FishEnemyComponent : BehaviorComponent, IRespawnable
     private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;
     private Transform2DComponent _transform2DComponent = null!;
+    private readonly List<Contact2D> _contacts = new();
     private Vector2 _startPosition;
     private int _jumpCooldown = 0;
 
@@ -35,7 +36,7 @@ internal sealed class FishEnemyComponent : BehaviorComponent, IRespawnable
 
     public override void OnFixedUpdate()
     {
-        var contacts = _rectangleColliderComponent.IsColliding ? _rectangleColliderComponent.GetContacts() : Array.Empty<Contact2D>();
+        var contacts = _rectangleColliderComponent.GetContactsAsSpan(_contacts);
         foreach (var contact2D in contacts)
         {
             if (contact2D.OtherCollider.Entity.HasComponent<PlayerComponent>())

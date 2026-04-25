@@ -1,5 +1,7 @@
-﻿using Geisha.Engine.Core.Components;
+﻿using System.Collections.Generic;
+using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.SceneModel;
+using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
 using Geisha.Engine.Rendering.Components;
 using SQ2.GamePlay.Common;
@@ -10,6 +12,7 @@ namespace SQ2.GamePlay.LevelGeometry;
 internal sealed class VanishPlatformComponent : BehaviorComponent, IRespawnable
 {
     private TileColliderComponent _tileColliderComponent = null!;
+    private readonly List<Contact2D> _contacts = new();
     private bool _isReadyForVanish;
 
     public VanishPlatformComponent(Entity entity) : base(entity)
@@ -29,7 +32,7 @@ internal sealed class VanishPlatformComponent : BehaviorComponent, IRespawnable
 
         if (_tileColliderComponent.IsColliding)
         {
-            var contacts = _tileColliderComponent.GetContacts();
+            var contacts = _tileColliderComponent.GetContactsAsSpan(_contacts);
             foreach (var contact in contacts)
             {
                 if (contact.CollisionNormal.Y < 0 && contact.OtherCollider.Entity.HasComponent<PlayerComponent>())

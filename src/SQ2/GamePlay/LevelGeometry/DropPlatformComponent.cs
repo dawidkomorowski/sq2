@@ -1,6 +1,8 @@
-﻿using Geisha.Engine.Core.Components;
+﻿using System.Collections.Generic;
+using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
+using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
@@ -12,6 +14,7 @@ internal sealed class DropPlatformComponent : BehaviorComponent, IRespawnable
     private Transform2DComponent _transform2DComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;
     private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
+    private readonly List<Contact2D> _contacts = new();
     private Vector2 _startPosition;
 
     public DropPlatformComponent(Entity entity) : base(entity)
@@ -35,7 +38,7 @@ internal sealed class DropPlatformComponent : BehaviorComponent, IRespawnable
 
         if (_rectangleColliderComponent.IsColliding)
         {
-            var contacts = _rectangleColliderComponent.GetContacts();
+            var contacts = _rectangleColliderComponent.GetContactsAsSpan(_contacts);
             foreach (var contact in contacts)
             {
                 if (contact.CollisionNormal.Y < 0 && contact.OtherCollider.Entity.HasComponent<PlayerComponent>())

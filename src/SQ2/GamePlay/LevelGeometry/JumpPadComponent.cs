@@ -1,6 +1,8 @@
-﻿using Geisha.Engine.Core.Components;
+﻿using System.Collections.Generic;
+using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
+using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
 using Geisha.Engine.Rendering;
 using Geisha.Engine.Rendering.Components;
@@ -14,6 +16,7 @@ internal sealed class JumpPadComponent : BehaviorComponent
     private RectangleColliderComponent _rectangleColliderComponent = null!;
     private SpriteRendererComponent _spriteRendererComponent = null!;
     private KinematicRigidBody2DComponent _playerKinematicComponent = null!;
+    private readonly List<Contact2D> _contacts = new();
     private int _launchTimer = 0;
 
     public JumpPadComponent(Entity entity) : base(entity)
@@ -63,7 +66,8 @@ internal sealed class JumpPadComponent : BehaviorComponent
     private bool IsPlayerOnJumpPad()
     {
         if (!_rectangleColliderComponent.IsColliding) return false;
-        var contacts = _rectangleColliderComponent.GetContacts();
+
+        var contacts = _rectangleColliderComponent.GetContactsAsSpan(_contacts);
         foreach (var contact in contacts)
         {
             if (contact.CollisionNormal.Y < 0 && contact.OtherCollider.Entity.HasComponent<PlayerComponent>())

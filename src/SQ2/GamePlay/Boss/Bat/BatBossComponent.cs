@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
@@ -22,6 +23,7 @@ internal sealed class BatBossComponent : BehaviorComponent, IRespawnable
     private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
     private SpriteRendererComponent _dropPreviewSpriteRendererComponent = null!;
 
+    private readonly List<Contact2D> _contacts = new();
     private double _secondsTimer;
 
     public BatBossComponent(Entity entity, EntityFactory entityFactory) : base(entity)
@@ -49,7 +51,7 @@ internal sealed class BatBossComponent : BehaviorComponent, IRespawnable
 
         HandleDrop();
 
-        var contacts = _rectangleColliderComponent.IsColliding ? _rectangleColliderComponent.GetContacts() : Array.Empty<Contact2D>();
+        var contacts = _rectangleColliderComponent.GetContactsAsSpan(_contacts);
 
         foreach (var contact2D in contacts)
         {

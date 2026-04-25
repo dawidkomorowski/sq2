@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
@@ -23,6 +24,7 @@ internal sealed class WalkingEnemyComponent : BehaviorComponent, IRespawnable, I
     private RectangleColliderComponent _rectangleColliderComponent = null!;
     private Transform2DComponent _transform2DComponent = null!;
 
+    private readonly List<Contact2D> _contacts = new();
     private const double OnGroundVelocity = 20;
     private double _currentVelocity;
     private Vector2 _startPosition;
@@ -69,7 +71,7 @@ internal sealed class WalkingEnemyComponent : BehaviorComponent, IRespawnable, I
 
         Movement.ApplyGravity(_kinematicRigidBody2DComponent);
 
-        var contacts = _rectangleColliderComponent.IsColliding ? _rectangleColliderComponent.GetContacts() : Array.Empty<Contact2D>();
+        var contacts = _rectangleColliderComponent.GetContactsAsSpan(_contacts);
 
         foreach (var contact2D in contacts)
         {

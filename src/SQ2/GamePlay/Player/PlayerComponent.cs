@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Geisha.Engine.Animation.Components;
@@ -40,6 +41,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
     private RectangleColliderComponent _rectangleColliderComponent = null!;
     private Transform2DComponent _transform2DComponent = null!;
     private InputComponent _inputComponent = null!;
+    private readonly List<Contact2D> _contacts = new();
     private int _jumpPressFrames;
     private bool _lastJumpState;
     internal bool ForceMoveRight { get; set; }
@@ -184,7 +186,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
     public override void OnFixedUpdate()
     {
-        var contacts = GetPlayerContacts();
+        var contacts = _rectangleColliderComponent.GetContactsAsSpan(_contacts);
 
         if (CheckForCollisionsWithOtherEntities(contacts))
         {
@@ -245,12 +247,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
         }
     }
 
-    private Contact2D[] GetPlayerContacts()
-    {
-        return _rectangleColliderComponent.IsColliding ? _rectangleColliderComponent.GetContacts() : Array.Empty<Contact2D>();
-    }
-
-    private bool CheckForCollisionsWithOtherEntities(Contact2D[] contacts)
+    private bool CheckForCollisionsWithOtherEntities(ReadOnlySpan<Contact2D> contacts)
     {
         foreach (var contact2D in contacts)
         {
@@ -270,7 +267,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
         return false;
     }
 
-    private static bool IsOnGround(Contact2D[] contacts)
+    private static bool IsOnGround(ReadOnlySpan<Contact2D> contacts)
     {
         foreach (var contact2D in contacts)
         {

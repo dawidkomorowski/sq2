@@ -1,5 +1,7 @@
-﻿using Geisha.Engine.Core.Components;
+﻿using System.Collections.Generic;
+using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.SceneModel;
+using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
 using Geisha.Engine.Rendering.Components;
 using SQ2.GamePlay.Common;
@@ -11,6 +13,7 @@ internal sealed class KeyHoleComponent : BehaviorComponent, IRespawnable
 {
     private TileColliderComponent _tileColliderComponent = null!;
     private SpriteRendererComponent _spriteRendererComponent = null!;
+    private readonly List<Contact2D> _contacts = new();
 
     public KeyHoleComponent(Entity entity) : base(entity)
     {
@@ -26,7 +29,7 @@ internal sealed class KeyHoleComponent : BehaviorComponent, IRespawnable
 
     public override void OnFixedUpdate()
     {
-        var contacts = _tileColliderComponent.GetContacts();
+        var contacts = _tileColliderComponent.GetContactsAsSpan(_contacts);
         foreach (var contact in contacts)
         {
             if (contact.OtherCollider.Entity.HasComponent<PlayerComponent>() &&

@@ -1,11 +1,11 @@
-﻿using Geisha.Engine.Core.Components;
+﻿using System;
+using System.Collections.Generic;
+using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
 using Geisha.Engine.Rendering;
 using Geisha.Engine.Rendering.Components;
-using System;
-using System.Collections.Generic;
 using SQ2.GamePlay.Common;
 
 namespace SQ2.GamePlay.LevelGeometry;
@@ -15,6 +15,7 @@ internal sealed class ButtonComponent : BehaviorComponent, IRespawnable
     private RectangleColliderComponent _rectangleColliderComponent = null!;
     private SpriteRendererComponent _spriteRendererComponent = null!;
 
+    private readonly List<Contact2D> _contacts = new();
     private bool _isPressed;
 
     public ButtonComponent(Entity entity) : base(entity)
@@ -40,7 +41,7 @@ internal sealed class ButtonComponent : BehaviorComponent, IRespawnable
     {
         if (_isPressed) return;
 
-        var contacts = _rectangleColliderComponent.IsColliding ? _rectangleColliderComponent.GetContacts() : Array.Empty<Contact2D>();
+        var contacts = _rectangleColliderComponent.GetContactsAsSpan(_contacts);
         foreach (var contact2D in contacts)
         {
             if (contact2D.CollisionNormal.Y < 0)
