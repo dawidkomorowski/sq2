@@ -82,6 +82,9 @@ internal sealed class BatBossComponent : BehaviorComponent, IRespawnable
 
     public void Respawn()
     {
+        // Set velocity to zero to avoid bug/limitation in physics engine that makes colliding entities to get impulse after respawn.
+        _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
+
         Entity.RemoveAfterFixedTimeStep();
     }
 
