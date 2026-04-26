@@ -1002,7 +1002,7 @@ internal sealed class EntityFactory
         timesIconTransform.Translation = new Vector2(20, 0);
         var timesIconSpriteRenderer = timesIconEntity.CreateComponent<SpriteRendererComponent>();
         timesIconSpriteRenderer.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("fa82409e-2840-4492-bc9b-4b48e6030430"));
-        timesIconSpriteRenderer.SortingLayerName = GlobalSettings.SortingLayers.UI;
+        timesIconSpriteRenderer.SortingLayerName = GlobalSettings.SortingLayers.Hud;
         timesIconSpriteRenderer.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
 
         var coinIconEntity = entity.CreateChildEntity();
@@ -1010,7 +1010,7 @@ internal sealed class EntityFactory
         coinIconTransform.Translation = new Vector2(40, 0);
         var coinIconSpriteRenderer = coinIconEntity.CreateComponent<SpriteRendererComponent>();
         coinIconSpriteRenderer.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("eb06525a-acc2-4593-abc9-506763f077cc"));
-        coinIconSpriteRenderer.SortingLayerName = GlobalSettings.SortingLayers.UI;
+        coinIconSpriteRenderer.SortingLayerName = GlobalSettings.SortingLayers.Hud;
         coinIconSpriteRenderer.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
 
         return entity;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
+using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Core.Systems;
 using Geisha.Engine.Rendering.Components;
@@ -99,6 +100,10 @@ internal sealed class CheckPointSystem : ICustomSystem
             var spriteRenderer = cp.Entity.GetComponent<SpriteRendererComponent>();
             spriteRenderer.Sprite = cp == checkPoint ? cp.ActiveSprite : cp.InactiveSprite;
         }
+
+        var flyOut = checkPoint.Entity.Scene.CreateEntity();
+        var flyOutComponent = flyOut.CreateComponent<CheckPointReachedFlyOutComponent>();
+        flyOutComponent.StartPosition = checkPoint.Entity.GetComponent<Transform2DComponent>().Translation + new Vector2(0, 20);
 
         foreach (var coin in _coins)
         {

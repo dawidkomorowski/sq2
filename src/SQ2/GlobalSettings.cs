@@ -14,6 +14,7 @@ internal static class GlobalSettings
         public const string DecorBackground = "DecorBackground";
         public const string DecorForeground = "DecorForeground";
         public const string CameraEffects = "CameraEffects";
+        public const string Hud = "Hud";
         public const string UI = "UI";
     }
 

@@ -17,7 +17,7 @@ internal sealed class NumberRendererComponent : BehaviorComponent
     {
     }
 
-    public string SortingLayerName { get; set; } = GlobalSettings.SortingLayers.UI;
+    public string SortingLayerName { get; set; } = GlobalSettings.SortingLayers.Hud;
     public Sprite? Digit0Sprite { get; set; }
     public Sprite? Digit1Sprite { get; set; }
     public Sprite? Digit2Sprite { get; set; }

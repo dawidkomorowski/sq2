@@ -54,6 +54,7 @@ internal class SQ2Game : Game
                     RenderingConfiguration.DefaultSortingLayerName,
                     GlobalSettings.SortingLayers.DecorForeground,
                     GlobalSettings.SortingLayers.CameraEffects,
+                    GlobalSettings.SortingLayers.Hud,
                     GlobalSettings.SortingLayers.UI
                 },
                 EnableVSync = true
@@ -130,6 +131,7 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<PlayerComponentFactory>();
         componentsRegistry.RegisterComponentFactory<PlayerSpawnPointComponentFactory>();
         componentsRegistry.RegisterComponentFactory<CheckPointComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<CheckPointReachedFlyOutComponentFactory>();
 
         // Main menu
         componentsRegistry.RegisterComponentFactory<MainViewComponentFactory>();
