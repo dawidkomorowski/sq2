@@ -23,6 +23,9 @@ jobs:
           submodules: true
           lfs: false
 
+      - name: Test LFS
+        run: cat .\external\geisha\test\Geisha.Engine.IntegrationTests\Rendering\ReferenceImages\01_Rectangles.png
+
       - name: Set up .NET SDK
         uses: actions/setup-dotnet@v4
         with:
