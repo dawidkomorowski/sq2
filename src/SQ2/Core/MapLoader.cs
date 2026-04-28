@@ -296,11 +296,7 @@ internal sealed class MapLoader
                         initialMovementDirection = Enum.Parse<MovementDirection>(property1.StringValue);
                     }
 
-                    var activationGroupId = 0;
-                    if (tiledObject.Properties.TryGetProperty("ActivationGroupId", out var property2))
-                    {
-                        activationGroupId = property2.IntValue;
-                    }
+                    var activationGroupId = tiledObject.Properties.GetPropertyOrNull("ActivationGroupId")?.IntValue ?? 0;
 
                     var position = objectPosition + new Vector2(9, 7);
                     _entityFactory.CreateBlueEnemy(scene, position, initialMovementDirection, requireActivation: true, activationGroup: activationGroupId);
@@ -312,28 +308,14 @@ internal sealed class MapLoader
                     var targetPointObject = objectLayer.Objects.Single(o => o.Id == targetPointObjectId);
                     var targetPoint = GetWorldCoordinates(targetPointObject);
 
-                    var spawnAfterSeconds = 0d;
-                    if (tiledObject.Properties.TryGetProperty("SpawnAfterSeconds", out var property1))
-                    {
-                        spawnAfterSeconds = property1.FloatValue;
-                    }
-
-                    var velocity = 60d;
-                    if (tiledObject.Properties.TryGetProperty("Velocity", out var property2))
-                    {
-                        velocity = property2.FloatValue;
-                    }
+                    var spawnAfterSeconds = tiledObject.Properties.GetPropertyOrNull("SpawnAfterSeconds")?.FloatValue ?? 0d;
+                    var velocity = tiledObject.Properties.GetPropertyOrNull("Velocity")?.FloatValue ?? 60d;
+                    var dropAfterSeconds = tiledObject.Properties.GetPropertyOrNull("DropAfterSeconds")?.FloatValue ?? 0d;
 
                     var drop = DropType.None;
                     if (tiledObject.Properties.TryGetProperty("Drop", out var property3))
                     {
                         drop = Enum.Parse<DropType>(property3.StringValue);
-                    }
-
-                    var dropAfterSeconds = 0d;
-                    if (tiledObject.Properties.TryGetProperty("DropAfterSeconds", out var property4))
-                    {
-                        dropAfterSeconds = property4.FloatValue;
                     }
 
                     var spawnPosition = objectPosition + new Vector2(9, 12);
@@ -346,11 +328,7 @@ internal sealed class MapLoader
                     var center = objectPosition + new Vector2(tiledObject.Width / 2d, -tiledObject.Height / 2d);
                     var size = new SizeD(tiledObject.Width, tiledObject.Height);
 
-                    var timerStartValue = 0d;
-                    if (tiledObject.Properties.TryGetProperty("TimerStartValue", out var property))
-                    {
-                        timerStartValue = property.FloatValue;
-                    }
+                    var timerStartValue = tiledObject.Properties.GetPropertyOrNull("TimerStartValue")?.FloatValue ?? 0d;
 
                     _entityFactory.CreateBatBossTrigger(scene, center, size, timerStartValue);
                     break;
@@ -377,11 +355,7 @@ internal sealed class MapLoader
                 }
                 case "Diamond" when tiledObject is TiledObject.Tile:
                 {
-                    var id = string.Empty;
-                    if (tiledObject.Properties.TryGetProperty("ID", out var property))
-                    {
-                        id = property.StringValue;
-                    }
+                    var id = tiledObject.Properties.GetPropertyOrNull("ID")?.StringValue ?? string.Empty;
 
                     var position = objectPosition + tileCenterOffset;
                     _entityFactory.CreateDiamond(scene, position, id);
@@ -389,41 +363,24 @@ internal sealed class MapLoader
                 }
                 case "Door" when tiledObject is TiledObject.Tile:
                 {
-                    var exitObjectId = 0;
-                    if (tiledObject.Properties.TryGetProperty("Exit", out var property1))
-                    {
-                        exitObjectId = property1.ObjectValue;
-                    }
+                    var exitObjectId = tiledObject.Properties.GetPropertyOrNull("Exit")?.ObjectValue ?? 0;
 
-                    var assetId = AssetId.Parse("77632123-994d-49eb-bfac-0899075fdebe");
-                    if (tiledObject.Properties.TryGetProperty("Sprite", out var property2))
+                    var sprite = tiledObject.Properties.GetPropertyOrNull("Sprite")?.StringValue ?? "Basic";
+                    var assetId = sprite switch
                     {
-                        assetId = property2.StringValue switch
-                        {
-                            "Basic" => assetId,
-                            "WithWindow" => AssetId.Parse("6d311705-1faa-4e6c-acc6-b6df5eaee59d"),
-                            _ => throw new InvalidOperationException($"Unknown door sprite: {property2.StringValue}")
-                        };
-                    }
+                        "Basic" => AssetId.Parse("77632123-994d-49eb-bfac-0899075fdebe"),
+                        "WithWindow" => AssetId.Parse("6d311705-1faa-4e6c-acc6-b6df5eaee59d"),
+                        _ => throw new InvalidOperationException($"Unknown door sprite: {sprite}")
+                    };
 
-                    var updateCameraPosition = false;
-                    if (tiledObject.Properties.TryGetProperty("UpdateCameraPosition", out var property3))
-                    {
-                        updateCameraPosition = property3.BoolValue;
-                    }
-
+                    var updateCameraPosition = tiledObject.Properties.GetPropertyOrNull("UpdateCameraPosition")?.BoolValue ?? false;
                     var position = objectPosition + tileCenterOffset;
                     _entityFactory.CreateDoor(scene, position, assetId, tiledObject.Id, exitObjectId, updateCameraPosition);
                     break;
                 }
                 case "FishEnemy" when tiledObject is TiledObject.Tile:
                 {
-                    var jumpOffset = 0;
-                    if (tiledObject.Properties.TryGetProperty("JumpOffset", out var property))
-                    {
-                        jumpOffset = property.IntValue;
-                    }
-
+                    var jumpOffset = tiledObject.Properties.GetPropertyOrNull("JumpOffset")?.IntValue ?? 0;
                     var position = objectPosition + new Vector2(9, 12);
                     _entityFactory.CreateFishEnemy(scene, position, jumpOffset);
                     break;
@@ -436,12 +393,7 @@ internal sealed class MapLoader
                         initialMovementDirection = Enum.Parse<MovementDirection>(property1.StringValue);
                     }
 
-                    var activationGroupId = 0;
-                    if (tiledObject.Properties.TryGetProperty("ActivationGroupId", out var property2))
-                    {
-                        activationGroupId = property2.IntValue;
-                    }
-
+                    var activationGroupId = tiledObject.Properties.GetPropertyOrNull("ActivationGroupId")?.IntValue ?? 0;
                     var horizontalLimit1Id = tiledObject.Properties["HorizontalLimit1"].ObjectValue;
                     var horizontalLimit2Id = tiledObject.Properties["HorizontalLimit2"].ObjectValue;
                     var horizontalLimit1Object = objectLayer.Objects.Single(o => o.Id == horizontalLimit1Id);
@@ -459,12 +411,7 @@ internal sealed class MapLoader
                 }
                 case "KeyHole" when tiledObject is TiledObject.Tile:
                 {
-                    var keysRequired = 1;
-                    if (tiledObject.Properties.TryGetProperty("KeysRequired", out var property))
-                    {
-                        keysRequired = property.IntValue;
-                    }
-
+                    var keysRequired = tiledObject.Properties.GetPropertyOrNull("KeysRequired")?.IntValue ?? 1;
                     var position = objectPosition + tileCenterOffset;
                     _entityFactory.CreateKeyHole(scene, position, keysRequired);
                     break;
@@ -498,12 +445,7 @@ internal sealed class MapLoader
                     var startPosition = GetWorldCoordinates(startPositionObject) + new Vector2(0, GlobalSettings.TileSize.Height * 0.25);
                     var endPosition = GetWorldCoordinates(endPositionObject) + new Vector2(0, GlobalSettings.TileSize.Height * 0.25);
 
-                    var platformWidth = 1;
-                    if (tiledObject.Properties.TryGetProperty("Width", out var property))
-                    {
-                        platformWidth = property.IntValue;
-                    }
-
+                    var platformWidth = tiledObject.Properties.GetPropertyOrNull("Width")?.IntValue ?? 1;
                     var position = objectPosition + new Vector2(tiledObject.Width / 2d, tiledObject.Height * 0.75);
 
                     _entityFactory.CreateMovingPlatform(scene, position, startPosition, endPosition, platformWidth);
@@ -523,18 +465,8 @@ internal sealed class MapLoader
                     var maxY = objectPosition.Y;
                     var minY = objectPosition.Y - height;
 
-                    var velocity = 20d;
-                    if (tiledObject.Properties.TryGetProperty("Velocity", out var property1))
-                    {
-                        velocity = property1.FloatValue;
-                    }
-
-                    var delay = 5d;
-                    if (tiledObject.Properties.TryGetProperty("DelaySeconds", out var property2))
-                    {
-                        delay = property2.FloatValue;
-                    }
-
+                    var velocity = tiledObject.Properties.GetPropertyOrNull("Velocity")?.FloatValue ?? 20d;
+                    var delay = tiledObject.Properties.GetPropertyOrNull("DelaySeconds")?.FloatValue ?? 5d;
                     _entityFactory.CreateRaisingWater(scene, xCenter, minY, maxY, width, height, velocity, delay);
 
                     break;
@@ -547,12 +479,7 @@ internal sealed class MapLoader
                         initialMovementDirection = Enum.Parse<MovementDirection>(property1.StringValue);
                     }
 
-                    var activationGroupId = 0;
-                    if (tiledObject.Properties.TryGetProperty("ActivationGroupId", out var property2))
-                    {
-                        activationGroupId = property2.IntValue;
-                    }
-
+                    var activationGroupId = tiledObject.Properties.GetPropertyOrNull("ActivationGroupId")?.IntValue ?? 0;
                     var position = objectPosition + new Vector2(9, 8);
                     _entityFactory.CreateRedEnemy(scene, position, initialMovementDirection, requireActivation: true, activationGroup: activationGroupId);
                     break;
@@ -565,12 +492,7 @@ internal sealed class MapLoader
                         initialMovementDirection = Enum.Parse<MovementDirection>(property1.StringValue);
                     }
 
-                    var activationGroupId = 0;
-                    if (tiledObject.Properties.TryGetProperty("ActivationGroupId", out var property2))
-                    {
-                        activationGroupId = property2.IntValue;
-                    }
-
+                    var activationGroupId = tiledObject.Properties.GetPropertyOrNull("ActivationGroupId")?.IntValue ?? 0;
                     var horizontalLimit1Id = tiledObject.Properties["HorizontalLimit1"].ObjectValue;
                     var horizontalLimit2Id = tiledObject.Properties["HorizontalLimit2"].ObjectValue;
                     var horizontalLimit1Object = objectLayer.Objects.Single(o => o.Id == horizontalLimit1Id);
