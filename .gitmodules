@@ -1,3 +1,5 @@
 [submodule "external/geisha"]
 	path = external/geisha
 	url = https://github.com/dawidkomorowski/geisha
+    branch = master
+    lfsSkipSmudge = true
