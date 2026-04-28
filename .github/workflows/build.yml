@@ -18,13 +18,13 @@ jobs:
       PUBLISH_DIR: ./src/SQ2/bin/Release/net6.0-windows/win-x64/publish
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: true
           lfs: false
 
       - name: Set up .NET SDK
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 6.0.x
 
@@ -35,7 +35,7 @@ jobs:
           "PACKAGE_VERSION=$packageVersion" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Upload published package as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: SQ2.${{ env.PACKAGE_VERSION }}
           path: ${{ env.PUBLISH_DIR }}
@@ -43,13 +43,13 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: true
           lfs: false
 
       - name: Set up .NET SDK
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 6.0.x
 
