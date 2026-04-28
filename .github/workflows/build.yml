@@ -74,7 +74,7 @@ jobs:
         run: dotnet test SQ2.sln --configuration Debug --no-build --logger "trx;LogFileName=test-results.trx"
 
       - name: Publish test results
-        uses: dorny/test-reporter@v2
+        uses: dorny/test-reporter@v3
         if: ${{ !cancelled() }}
         with:
           name: Test Results
