@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -8,6 +8,7 @@
     <SelfContained>true</SelfContained>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <Nullable>enable</Nullable>
+    <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -16,14 +17,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Geisha.Engine.Windows" Version="0.11.0" />
-    <PackageReference Include="Geisha.Extensions.Tiled" Version="0.11.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\Assets\**\*.*" CopyToOutputDirectory="PreserveNewest">
       <Link>Assets\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\external\geisha\src\Geisha.Engine.Windows\Geisha.Engine.Windows.csproj" />
+    <ProjectReference Include="..\..\external\geisha\src\Geisha.Extensions.Tiled\Geisha.Extensions.Tiled.csproj" />
   </ItemGroup>
 
 </Project>
