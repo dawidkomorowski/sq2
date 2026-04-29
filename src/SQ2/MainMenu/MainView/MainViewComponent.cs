@@ -30,15 +30,12 @@ internal sealed class MainViewComponent : BehaviorComponent
 
     private readonly IEngineManager _engineManager;
     private readonly ISceneManager _sceneManager;
-    private readonly GameSaveService _gameSaveService;
     private readonly GameStateService _gameStateService;
 
-    public MainViewComponent(Entity entity, IEngineManager engineManager, ISceneManager sceneManager, GameSaveService gameSaveService,
-        GameStateService gameStateService) : base(entity)
+    public MainViewComponent(Entity entity, IEngineManager engineManager, ISceneManager sceneManager, GameStateService gameStateService) : base(entity)
     {
         _engineManager = engineManager;
         _sceneManager = sceneManager;
-        _gameSaveService = gameSaveService;
         _gameStateService = gameStateService;
     }
 
@@ -95,7 +92,7 @@ internal sealed class MainViewComponent : BehaviorComponent
         const double menuItemSpacing = 20;
         var menuItemsCount = 0;
 
-        if (_gameSaveService.GameSave.NewGameStarted)
+        if (_gameStateService.IsContinueAvailable)
         {
             _menuItems.Add(CreateMenuItem(MenuItemContinueId, "Continue", new Vector2(0, menuStartY - menuItemSpacing * menuItemsCount++)));
         }
@@ -141,10 +138,7 @@ internal sealed class MainViewComponent : BehaviorComponent
                 fadeOutComponent.CompleteDelay = TimeSpan.FromMilliseconds(300);
                 fadeOutComponent.OnComplete = () =>
                 {
-                    _gameSaveService.GameSave.NewGameStarted = true;
-                    _gameSaveService.GameSave.CurrentLevel = 1;
-                    _gameSaveService.SaveGame();
-                    _gameStateService.SelectedLevel = _gameSaveService.GameSave.CurrentLevel;
+                    _gameStateService.StartNewGame();
                     _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld);
                 };
                 break;
@@ -158,7 +152,7 @@ internal sealed class MainViewComponent : BehaviorComponent
                 fadeOutComponent.CompleteDelay = TimeSpan.FromMilliseconds(300);
                 fadeOutComponent.OnComplete = () =>
                 {
-                    _gameStateService.SelectedLevel = _gameSaveService.GameSave.CurrentLevel;
+                    _gameStateService.ContinueGame();
                     _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld);
                 };
                 break;
@@ -203,17 +197,14 @@ internal sealed class MainViewComponentFactory : ComponentFactory<MainViewCompon
 {
     private readonly IEngineManager _engineManager;
     private readonly ISceneManager _sceneManager;
-    private readonly GameSaveService _gameSaveService;
     private readonly GameStateService _gameStateService;
 
-    public MainViewComponentFactory(IEngineManager engineManager, ISceneManager sceneManager, GameSaveService gameSaveService,
-        GameStateService gameStateService)
+    public MainViewComponentFactory(IEngineManager engineManager, ISceneManager sceneManager, GameStateService gameStateService)
     {
         _engineManager = engineManager;
         _sceneManager = sceneManager;
-        _gameSaveService = gameSaveService;
         _gameStateService = gameStateService;
     }
 
-    protected override MainViewComponent CreateComponent(Entity entity) => new(entity, _engineManager, _sceneManager, _gameSaveService, _gameStateService);
+    protected override MainViewComponent CreateComponent(Entity entity) => new(entity, _engineManager, _sceneManager, _gameStateService);
 }
