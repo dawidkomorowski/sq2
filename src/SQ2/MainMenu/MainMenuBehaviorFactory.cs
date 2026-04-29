@@ -10,32 +10,31 @@ namespace SQ2.MainMenu;
 internal sealed class MainMenuBehaviorFactory : ISceneBehaviorFactory
 {
     private const string SceneBehaviorName = GlobalSettings.SceneNames.MainMenu;
-    private readonly GameSaveService _gameSaveService;
+    private readonly GameStateService _gameStateService;
 
-    public MainMenuBehaviorFactory(GameSaveService gameSaveService)
+    public MainMenuBehaviorFactory(GameStateService gameStateService)
     {
-        _gameSaveService = gameSaveService;
+        _gameStateService = gameStateService;
     }
 
-    public SceneBehavior Create(Scene scene) => new MainMenuSceneBehavior(scene, _gameSaveService);
+    public SceneBehavior Create(Scene scene) => new MainMenuSceneBehavior(scene, _gameStateService);
 
     public string BehaviorName => SceneBehaviorName;
 
     private sealed class MainMenuSceneBehavior : SceneBehavior
     {
-        private readonly GameSaveService _gameSaveService;
+        private readonly GameStateService _gameStateService;
 
-        public MainMenuSceneBehavior(Scene scene, GameSaveService gameSaveService) : base(scene)
+        public MainMenuSceneBehavior(Scene scene, GameStateService gameStateService) : base(scene)
         {
-            _gameSaveService = gameSaveService;
+            _gameStateService = gameStateService;
         }
 
         public override string Name => SceneBehaviorName;
 
         protected override void OnLoaded()
         {
-            _gameSaveService.LoadGame();
-            _gameSaveService.SaveGame();
+            _gameStateService.InitializeGameSave();
 
             var cameraEntity = Scene.CreateEntity();
             cameraEntity.CreateComponent<Transform2DComponent>();

@@ -1,5 +1,4 @@
-﻿using System.IO;
-using Geisha.Engine.Core.SceneModel;
+﻿using Geisha.Engine.Core.SceneModel;
 using SQ2.Core;
 using SQ2.Development;
 using SQ2.GamePlay.Common;
@@ -15,24 +14,28 @@ internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
     private readonly MapLoader _mapLoader;
     private readonly RespawnService _respawnService;
     private readonly ProximityActivationService _proximityActivationService;
-    private readonly GameSaveService _gameSaveService;
     private readonly GameStateService _gameStateService;
 
-    public GameWorldBehaviorFactory(EntityFactory entityFactory, MapLoader mapLoader, RespawnService respawnService,
-        ProximityActivationService proximityActivationService, GameSaveService gameSaveService, GameStateService gameStateService)
+    public GameWorldBehaviorFactory
+    (
+        EntityFactory entityFactory,
+        MapLoader mapLoader,
+        RespawnService respawnService,
+        ProximityActivationService proximityActivationService,
+        GameStateService gameStateService
+    )
     {
         _entityFactory = entityFactory;
         _mapLoader = mapLoader;
         _respawnService = respawnService;
         _proximityActivationService = proximityActivationService;
-        _gameSaveService = gameSaveService;
         _gameStateService = gameStateService;
     }
 
     public string BehaviorName => SceneBehaviorName;
 
     public SceneBehavior Create(Scene scene) =>
-        new GameWorldSceneBehavior(scene, _entityFactory, _mapLoader, _respawnService, _proximityActivationService, _gameSaveService, _gameStateService);
+        new GameWorldSceneBehavior(scene, _entityFactory, _mapLoader, _respawnService, _proximityActivationService, _gameStateService);
 
     private sealed class GameWorldSceneBehavior : SceneBehavior
     {
@@ -40,7 +43,6 @@ internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
         private readonly MapLoader _mapLoader;
         private readonly RespawnService _respawnService;
         private readonly ProximityActivationService _proximityActivationService;
-        private readonly GameSaveService _gameSaveService;
         private readonly GameStateService _gameStateService;
 
         public GameWorldSceneBehavior
@@ -49,13 +51,14 @@ internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
             EntityFactory entityFactory,
             MapLoader mapLoader,
             RespawnService respawnService,
-            ProximityActivationService proximityActivationService, GameSaveService gameSaveService, GameStateService gameStateService) : base(scene)
+            ProximityActivationService proximityActivationService,
+            GameStateService gameStateService
+        ) : base(scene)
         {
             _entityFactory = entityFactory;
             _mapLoader = mapLoader;
             _respawnService = respawnService;
             _proximityActivationService = proximityActivationService;
-            _gameSaveService = gameSaveService;
             _gameStateService = gameStateService;
         }
 
@@ -63,7 +66,7 @@ internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
 
         protected override void OnLoaded()
         {
-            _gameSaveService.LoadGame();
+            _gameStateService.InitializeGameSave();
 
             _proximityActivationService.Reset();
             _respawnService.Reset();

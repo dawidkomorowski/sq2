@@ -8,15 +8,15 @@ namespace SQ2.GamePlay.Collectibles;
 
 internal sealed class DiamondComponent : BehaviorComponent, IRespawnable
 {
-    private readonly GameSaveService _gameSaveService;
+    private readonly GameStateService _gameStateService;
     private Transform2DComponent _transform2DComponent = null!;
     private SpriteRendererComponent _spriteRendererComponent = null!;
     private Transform2DComponent _playerTransform = null!;
     private bool _isCollected;
 
-    public DiamondComponent(Entity entity, GameSaveService gameSaveService) : base(entity)
+    public DiamondComponent(Entity entity, GameStateService gameStateService) : base(entity)
     {
-        _gameSaveService = gameSaveService;
+        _gameStateService = gameStateService;
     }
 
     public string Id { get; set; } = string.Empty;
@@ -27,7 +27,7 @@ internal sealed class DiamondComponent : BehaviorComponent, IRespawnable
         _spriteRendererComponent = Entity.GetComponent<SpriteRendererComponent>();
         _playerTransform = Query.GetPlayerTransform2DComponent(Scene);
 
-        if (_gameSaveService.GameSave.CollectedDiamondIds.Contains(Id))
+        if (_gameStateService.IsDiamondCollected(Id))
         {
             _isCollected = true;
             _spriteRendererComponent.Visible = false;
@@ -43,14 +43,13 @@ internal sealed class DiamondComponent : BehaviorComponent, IRespawnable
         {
             _isCollected = true;
             _spriteRendererComponent.Visible = false;
-            _gameSaveService.GameSave.CollectedDiamondIds.Add(Id);
-            _gameSaveService.SaveGame();
+            _gameStateService.CollectDiamond(Id);
         }
     }
 
     public void Respawn()
     {
-        if (_gameSaveService.GameSave.CollectedDiamondIds.Contains(Id)) return;
+        if (_gameStateService.IsDiamondCollected(Id)) return;
 
         _isCollected = false;
         _spriteRendererComponent.Visible = true;
@@ -60,12 +59,12 @@ internal sealed class DiamondComponent : BehaviorComponent, IRespawnable
 // ReSharper disable once ClassNeverInstantiated.Global
 internal sealed class DiamondComponentFactory : ComponentFactory<DiamondComponent>
 {
-    private readonly GameSaveService _gameSaveService;
+    private readonly GameStateService _gameStateService;
 
-    public DiamondComponentFactory(GameSaveService gameSaveService)
+    public DiamondComponentFactory(GameStateService gameStateService)
     {
-        _gameSaveService = gameSaveService;
+        _gameStateService = gameStateService;
     }
 
-    protected override DiamondComponent CreateComponent(Entity entity) => new(entity, _gameSaveService);
+    protected override DiamondComponent CreateComponent(Entity entity) => new(entity, _gameStateService);
 }

@@ -16,6 +16,12 @@ internal sealed class GameStateService
 
     public bool IsContinueAvailable => _gameSaveService.GameSave.NewGameStarted;
 
+    public void InitializeGameSave()
+    {
+        _gameSaveService.LoadGame();
+        _gameSaveService.SaveGame();
+    }
+
     public void StartNewGame()
     {
         _gameSaveService.GameSave.NewGameStarted = true;
@@ -27,6 +33,17 @@ internal sealed class GameStateService
     public void ContinueGame()
     {
         _selectedLevel = _gameSaveService.GameSave.CurrentLevel;
+    }
+
+    public bool IsDiamondCollected(string id)
+    {
+        return _gameSaveService.GameSave.CollectedDiamondIds.Contains(id);
+    }
+
+    public void CollectDiamond(string id)
+    {
+        _gameSaveService.GameSave.CollectedDiamondIds.Add(id);
+        _gameSaveService.SaveGame();
     }
 
     public string GetMapFile()
