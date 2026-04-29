@@ -5,6 +5,7 @@ using Geisha.Engine.Core.Diagnostics;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics.Components;
+using SQ2.Core;
 using SQ2.Development;
 using SQ2.GamePlay.PauseMenu;
 using SQ2.GamePlay.Player;
@@ -17,6 +18,7 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
     private readonly bool _enableDebugDraw = DevConfig.DebugDraw.LevelCompleteTrigger;
     private readonly IDebugRenderer _debugRenderer;
     private readonly ISceneManager _sceneManager;
+    private readonly GameStateService _gameStateService;
     private PlayerComponent _playerComponent = null!;
     private Transform2DComponent _playerTransform2DComponent = null!;
     private RectangleColliderComponent _playerRectangleColliderComponent = null!;
@@ -27,10 +29,12 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
     private TimeSpan _timer;
     private Entity? _fadeOutEntity;
 
-    public LevelCompleteTriggerComponent(Entity entity, IDebugRenderer debugRenderer, ISceneManager sceneManager) : base(entity)
+    public LevelCompleteTriggerComponent(Entity entity, IDebugRenderer debugRenderer, ISceneManager sceneManager, GameStateService gameStateService) :
+        base(entity)
     {
         _debugRenderer = debugRenderer;
         _sceneManager = sceneManager;
+        _gameStateService = gameStateService;
     }
 
     public AxisAlignedRectangle TriggerArea { get; set; }
@@ -67,7 +71,8 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
 
             if (_timer >= TimeSpan.FromSeconds(4.5))
             {
-                _sceneManager.LoadEmptyScene("GameWorld");
+                _gameStateService.CompleteLevel();
+                _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld);
             }
 
             return;
@@ -115,12 +120,14 @@ internal sealed class LevelCompleteTriggerComponentFactory : ComponentFactory<Le
 {
     private readonly IDebugRenderer _debugRenderer;
     private readonly ISceneManager _sceneManager;
+    private readonly GameStateService _gameStateService;
 
-    public LevelCompleteTriggerComponentFactory(IDebugRenderer debugRenderer, ISceneManager sceneManager)
+    public LevelCompleteTriggerComponentFactory(IDebugRenderer debugRenderer, ISceneManager sceneManager, GameStateService gameStateService)
     {
         _debugRenderer = debugRenderer;
         _sceneManager = sceneManager;
+        _gameStateService = gameStateService;
     }
 
-    protected override LevelCompleteTriggerComponent CreateComponent(Entity entity) => new(entity, _debugRenderer, _sceneManager);
+    protected override LevelCompleteTriggerComponent CreateComponent(Entity entity) => new(entity, _debugRenderer, _sceneManager, _gameStateService);
 }

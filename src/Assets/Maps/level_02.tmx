@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="215" height="64" tilewidth="18" tileheight="18" infinite="0" nextlayerid="10" nextobjectid="580">
- <tileset firstgid="1" source="../../Assets/TileSets/pixel-platformer.tsx"/>
- <tileset firstgid="181" source="../../Assets/TileSets/pixel-platformer-characters.tsx"/>
- <tileset firstgid="208" source="../../Assets/TileSets/pixel-platformer-customized.tsx"/>
+ <tileset firstgid="1" source="../TileSets/pixel-platformer.tsx"/>
+ <tileset firstgid="181" source="../TileSets/pixel-platformer-characters.tsx"/>
+ <tileset firstgid="208" source="../TileSets/pixel-platformer-customized.tsx"/>
  <layer id="8" name="TestingBackground" width="215" height="64">
   <data encoding="csv">
 123,123,123,123,123,123,123,123,0,0,0,0,0,0,0,0,0,0,211,211,211,211,211,211,211,211,211,211,211,211,211,211,211,211,211,211,211,211,211,211,211,211,211,211,211,211,211,211,123,123,123,123,123,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

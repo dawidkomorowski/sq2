@@ -35,6 +35,13 @@ internal sealed class GameStateService
         _selectedLevel = _gameSaveService.GameSave.CurrentLevel;
     }
 
+    public void CompleteLevel()
+    {
+        _selectedLevel = Math.Min(_selectedLevel + 1, 2);
+        _gameSaveService.GameSave.CurrentLevel = _selectedLevel;
+        _gameSaveService.SaveGame();
+    }
+
     public bool IsDiamondCollected(string id)
     {
         return _gameSaveService.GameSave.CollectedDiamondIds.Contains(id);
