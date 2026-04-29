@@ -31,12 +31,15 @@ internal sealed class MainViewComponent : BehaviorComponent
     private readonly IEngineManager _engineManager;
     private readonly ISceneManager _sceneManager;
     private readonly GameSaveService _gameSaveService;
+    private readonly GameStateService _gameStateService;
 
-    public MainViewComponent(Entity entity, IEngineManager engineManager, ISceneManager sceneManager, GameSaveService gameSaveService) : base(entity)
+    public MainViewComponent(Entity entity, IEngineManager engineManager, ISceneManager sceneManager, GameSaveService gameSaveService,
+        GameStateService gameStateService) : base(entity)
     {
         _engineManager = engineManager;
         _sceneManager = sceneManager;
         _gameSaveService = gameSaveService;
+        _gameStateService = gameStateService;
     }
 
     public override void OnStart()
@@ -139,7 +142,9 @@ internal sealed class MainViewComponent : BehaviorComponent
                 fadeOutComponent.OnComplete = () =>
                 {
                     _gameSaveService.GameSave.NewGameStarted = true;
+                    _gameSaveService.GameSave.CurrentLevel = 1;
                     _gameSaveService.SaveGame();
+                    _gameStateService.SelectedLevel = _gameSaveService.GameSave.CurrentLevel;
                     _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld);
                 };
                 break;
@@ -151,7 +156,11 @@ internal sealed class MainViewComponent : BehaviorComponent
                 var fadeOutComponent = entity.CreateComponent<FadeOutComponent>();
                 fadeOutComponent.Duration = TimeSpan.FromMilliseconds(300);
                 fadeOutComponent.CompleteDelay = TimeSpan.FromMilliseconds(300);
-                fadeOutComponent.OnComplete = () => { _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld); };
+                fadeOutComponent.OnComplete = () =>
+                {
+                    _gameStateService.SelectedLevel = _gameSaveService.GameSave.CurrentLevel;
+                    _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld);
+                };
                 break;
             }
             case MenuItemExitId:
@@ -195,13 +204,16 @@ internal sealed class MainViewComponentFactory : ComponentFactory<MainViewCompon
     private readonly IEngineManager _engineManager;
     private readonly ISceneManager _sceneManager;
     private readonly GameSaveService _gameSaveService;
+    private readonly GameStateService _gameStateService;
 
-    public MainViewComponentFactory(IEngineManager engineManager, ISceneManager sceneManager, GameSaveService gameSaveService)
+    public MainViewComponentFactory(IEngineManager engineManager, ISceneManager sceneManager, GameSaveService gameSaveService,
+        GameStateService gameStateService)
     {
         _engineManager = engineManager;
         _sceneManager = sceneManager;
         _gameSaveService = gameSaveService;
+        _gameStateService = gameStateService;
     }
 
-    protected override MainViewComponent CreateComponent(Entity entity) => new(entity, _engineManager, _sceneManager, _gameSaveService);
+    protected override MainViewComponent CreateComponent(Entity entity) => new(entity, _engineManager, _sceneManager, _gameSaveService, _gameStateService);
 }

@@ -71,6 +71,7 @@ internal class SQ2Game : Game
         // Common services
         componentsRegistry.RegisterSingleInstance<EntityFactory>();
         componentsRegistry.RegisterSingleInstance<GameSaveService>();
+        componentsRegistry.RegisterSingleInstance<GameStateService>();
         componentsRegistry.RegisterSingleInstance<MapLoader>();
 
         // Scene behaviors
