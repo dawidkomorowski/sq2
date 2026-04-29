@@ -92,13 +92,12 @@ internal sealed class MainViewComponent : BehaviorComponent
         const double menuItemSpacing = 20;
         var menuItemsCount = 0;
 
-        _menuItems.Add(CreateMenuItem(MenuItemNewGameId, "New Game", new Vector2(0, menuStartY - menuItemSpacing * menuItemsCount++)));
-
         if (_gameSaveService.GameSave.NewGameStarted)
         {
             _menuItems.Add(CreateMenuItem(MenuItemContinueId, "Continue", new Vector2(0, menuStartY - menuItemSpacing * menuItemsCount++)));
         }
 
+        _menuItems.Add(CreateMenuItem(MenuItemNewGameId, "New Game", new Vector2(0, menuStartY - menuItemSpacing * menuItemsCount++)));
         _menuItems.Add(CreateMenuItem(MenuItemExitId, "Exit", new Vector2(0, menuStartY - menuItemSpacing * menuItemsCount)));
 
         _selectedMenuItem = _menuItems[0];
