@@ -24,7 +24,6 @@ internal sealed class YellowEnemyComponent : BehaviorComponent, IRespawnable
     private KinematicRigidBody2DComponent _kinematicRigidBody2DComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;
     private SpriteRendererComponent _spriteRendererComponent = null!;
-    private Transform2DComponent _playerTransform2DComponent = null!;
     private RectangleColliderComponent _playerRectangleColliderComponent = null!;
     private PlayerComponent _playerComponent = null!;
     private readonly List<Contact2D> _contacts = new();
@@ -47,7 +46,6 @@ internal sealed class YellowEnemyComponent : BehaviorComponent, IRespawnable
         _kinematicRigidBody2DComponent = Entity.GetComponent<KinematicRigidBody2DComponent>();
         _rectangleColliderComponent = Entity.GetComponent<RectangleColliderComponent>();
         _spriteRendererComponent = Entity.GetComponent<SpriteRendererComponent>();
-        _playerTransform2DComponent = Query.GetPlayerTransform2DComponent(Scene);
         _playerRectangleColliderComponent = Query.GetPlayerRectangleColliderComponent(Scene);
         _playerComponent = Query.GetPlayerComponent(Scene);
 
@@ -84,9 +82,7 @@ internal sealed class YellowEnemyComponent : BehaviorComponent, IRespawnable
 
     private void ReadyStateUpdate()
     {
-        // ReSharper disable once InconsistentNaming
-        var playerAABB = new AxisAlignedRectangle(_playerTransform2DComponent.Translation, _playerRectangleColliderComponent.Dimensions);
-        if (_detector.Overlaps(playerAABB))
+        if (_detector.Overlaps(_playerRectangleColliderComponent.BoundingRectangle))
         {
             _state = State.Angry;
             _spriteRendererComponent.Sprite = AngrySprite;

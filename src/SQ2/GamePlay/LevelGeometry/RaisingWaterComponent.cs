@@ -14,8 +14,8 @@ internal sealed class RaisingWaterComponent : BehaviorComponent, IRespawnable
     private Transform2DComponent _playerTransform = null!;
     private PlayerComponent _playerComponent = null!;
     private RectangleColliderComponent _playerCollider = null!;
-    private bool _hasStarted = false;
-    private double _delayTimer = 0;
+    private bool _hasStarted;
+    private double _delayTimer;
     private Vector2 _initialPosition;
 
     public RaisingWaterComponent(Entity entity) : base(entity)
@@ -42,8 +42,7 @@ internal sealed class RaisingWaterComponent : BehaviorComponent, IRespawnable
         var dt = TimeStep.FixedDeltaTimeSeconds;
 
         var deadlyArea = new AxisAlignedRectangle(_transform2DComponent.Translation, Dimensions);
-        var playerHitbox = new AxisAlignedRectangle(_playerTransform.Translation, _playerCollider.Dimensions);
-        if (deadlyArea.Overlaps(playerHitbox))
+        if (deadlyArea.Overlaps(_playerCollider.BoundingRectangle))
         {
             _playerComponent.KillPlayer();
         }

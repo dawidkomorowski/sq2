@@ -16,7 +16,6 @@ internal sealed class BlueBossProjectileComponent : BehaviorComponent, IRespawna
     private readonly bool _enableDebugDraw = DevConfig.DebugDraw.BlueBoss;
     private readonly IDebugRenderer _debugRenderer;
     private Transform2DComponent _transform2DComponent = null!;
-    private Transform2DComponent _playerTransform2DComponent = null!;
     private RectangleColliderComponent _playerRectangleColliderComponent = null!;
     private PlayerComponent _playerComponent = null!;
     private TimeSpan _lifetime;
@@ -32,7 +31,6 @@ internal sealed class BlueBossProjectileComponent : BehaviorComponent, IRespawna
     public override void OnStart()
     {
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
-        _playerTransform2DComponent = Query.GetPlayerTransform2DComponent(Scene);
         _playerRectangleColliderComponent = Query.GetPlayerRectangleColliderComponent(Scene);
         _playerComponent = Query.GetPlayerComponent(Scene);
     }
@@ -51,9 +49,8 @@ internal sealed class BlueBossProjectileComponent : BehaviorComponent, IRespawna
         const double speed = 200.0;
         _transform2DComponent.Translation += Direction * speed * dt.TotalSeconds;
 
-        var playerAABB = new AxisAlignedRectangle(_playerTransform2DComponent.Translation, _playerRectangleColliderComponent.Dimensions);
         var transformedHitBox = _hitBox.Transform(_transform2DComponent.ToMatrix());
-        if (transformedHitBox.Overlaps(playerAABB.ToRectangle()))
+        if (transformedHitBox.Overlaps(_playerRectangleColliderComponent.BoundingRectangle.ToRectangle()))
         {
             _playerComponent.KillPlayer();
             Entity.RemoveAfterFixedTimeStep();

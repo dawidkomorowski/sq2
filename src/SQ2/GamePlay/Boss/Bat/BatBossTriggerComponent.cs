@@ -16,7 +16,6 @@ internal sealed class BatBossTriggerComponent : BehaviorComponent, IRespawnable
     private readonly bool _enableDebugDraw = DevConfig.DebugDraw.BatBoss;
     private readonly IDebugRenderer _debugRenderer;
     private readonly List<BatBossSpawnerComponent> _spawners = new();
-    private Transform2DComponent _playerTransform2DComponent = null!;
     private RectangleColliderComponent _playerRectangleColliderComponent = null!;
     private bool _hasBeenActivated;
 
@@ -36,7 +35,6 @@ internal sealed class BatBossTriggerComponent : BehaviorComponent, IRespawnable
                 .Select(e => e.GetComponent<BatBossSpawnerComponent>())
         );
 
-        _playerTransform2DComponent = Query.GetPlayerTransform2DComponent(Scene);
         _playerRectangleColliderComponent = Query.GetPlayerRectangleColliderComponent(Scene);
 
         if (TimerStartValue > 0)
@@ -49,11 +47,7 @@ internal sealed class BatBossTriggerComponent : BehaviorComponent, IRespawnable
     {
         if (_hasBeenActivated) return;
 
-        var playerPosition = _playerTransform2DComponent.Translation;
-        var playerDimensions = _playerRectangleColliderComponent.Dimensions;
-        var playerHitBox = new AxisAlignedRectangle(playerPosition, playerDimensions);
-
-        if (TriggerArea.Overlaps(playerHitBox))
+        if (TriggerArea.Overlaps(_playerRectangleColliderComponent.BoundingRectangle))
         {
             _hasBeenActivated = true;
 

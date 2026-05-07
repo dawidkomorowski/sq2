@@ -1,4 +1,5 @@
 ﻿using Geisha.Engine.Core.SceneModel;
+using Geisha.Engine.Physics.Systems;
 using SQ2.Core;
 using SQ2.Development;
 using SQ2.GamePlay.Common;
@@ -15,6 +16,7 @@ internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
     private readonly RespawnService _respawnService;
     private readonly ProximityActivationService _proximityActivationService;
     private readonly GameStateService _gameStateService;
+    private readonly IPhysicsSystem _physicsSystem;
 
     public GameWorldBehaviorFactory
     (
@@ -22,7 +24,8 @@ internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
         MapLoader mapLoader,
         RespawnService respawnService,
         ProximityActivationService proximityActivationService,
-        GameStateService gameStateService
+        GameStateService gameStateService,
+        IPhysicsSystem physicsSystem
     )
     {
         _entityFactory = entityFactory;
@@ -30,12 +33,13 @@ internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
         _respawnService = respawnService;
         _proximityActivationService = proximityActivationService;
         _gameStateService = gameStateService;
+        _physicsSystem = physicsSystem;
     }
 
     public string BehaviorName => SceneBehaviorName;
 
     public SceneBehavior Create(Scene scene) =>
-        new GameWorldSceneBehavior(scene, _entityFactory, _mapLoader, _respawnService, _proximityActivationService, _gameStateService);
+        new GameWorldSceneBehavior(scene, _entityFactory, _mapLoader, _respawnService, _proximityActivationService, _gameStateService, _physicsSystem);
 
     private sealed class GameWorldSceneBehavior : SceneBehavior
     {
@@ -44,6 +48,7 @@ internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
         private readonly RespawnService _respawnService;
         private readonly ProximityActivationService _proximityActivationService;
         private readonly GameStateService _gameStateService;
+        private readonly IPhysicsSystem _physicsSystem;
 
         public GameWorldSceneBehavior
         (
@@ -52,7 +57,8 @@ internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
             MapLoader mapLoader,
             RespawnService respawnService,
             ProximityActivationService proximityActivationService,
-            GameStateService gameStateService
+            GameStateService gameStateService,
+            IPhysicsSystem physicsSystem
         ) : base(scene)
         {
             _entityFactory = entityFactory;
@@ -60,6 +66,7 @@ internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
             _respawnService = respawnService;
             _proximityActivationService = proximityActivationService;
             _gameStateService = gameStateService;
+            _physicsSystem = physicsSystem;
         }
 
         public override string Name => SceneBehaviorName;
@@ -85,6 +92,8 @@ internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
 
             var tmxPath = DevConfig.MapFile ?? _gameStateService.GetMapFile();
             _mapLoader.LoadMap(Scene, tmxPath);
+
+            _physicsSystem.SynchronizePhysicsState();
         }
     }
 }

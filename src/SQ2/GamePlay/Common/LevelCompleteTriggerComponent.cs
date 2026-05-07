@@ -20,7 +20,6 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
     private readonly ISceneManager _sceneManager;
     private readonly GameStateService _gameStateService;
     private PlayerComponent _playerComponent = null!;
-    private Transform2DComponent _playerTransform2DComponent = null!;
     private RectangleColliderComponent _playerRectangleColliderComponent = null!;
     private CameraMovementComponent _cameraMovementComponent = null!;
     private CinematicCameraComponent _cinematicCameraComponent = null!;
@@ -43,7 +42,6 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
     public override void OnStart()
     {
         _playerComponent = Query.GetPlayerComponent(Scene);
-        _playerTransform2DComponent = Query.GetPlayerTransform2DComponent(Scene);
         _playerRectangleColliderComponent = Query.GetPlayerRectangleColliderComponent(Scene);
         _cameraMovementComponent = Query.GetCameraMovementComponent(Scene);
         _cinematicCameraComponent = Query.GetCinematicCameraComponent(Scene);
@@ -78,11 +76,7 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
             return;
         }
 
-        var playerPosition = _playerTransform2DComponent.Translation;
-        var playerDimensions = _playerRectangleColliderComponent.Dimensions;
-        var playerHitBox = new AxisAlignedRectangle(playerPosition, playerDimensions);
-
-        if (TriggerArea.Overlaps(playerHitBox))
+        if (TriggerArea.Overlaps(_playerRectangleColliderComponent.BoundingRectangle))
         {
             _triggered = true;
 

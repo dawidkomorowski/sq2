@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Geisha.Engine.Core.Components;
-using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics.Components;
 using SQ2.Core;
@@ -38,10 +37,10 @@ internal static class Query
         var worldPosition = Geometry.GetWorldCoordinates(tx, ty);
         foreach (var entity in scene.RootEntities)
         {
-            if (!entity.HasComponent<TileColliderComponent>() || !entity.HasComponent<Transform2DComponent>()) continue;
-            var transform2DComponent = entity.GetComponent<Transform2DComponent>();
-            var aabb = new AxisAlignedRectangle(transform2DComponent.Translation, new Vector2(GlobalSettings.TileSize.Width, GlobalSettings.TileSize.Height));
-            if (aabb.Contains(worldPosition))
+            if (!entity.HasComponent<TileColliderComponent>()) continue;
+
+            var tileCollider = entity.GetComponent<TileColliderComponent>();
+            if (tileCollider.BoundingRectangle.Contains(worldPosition))
             {
                 return true;
             }
