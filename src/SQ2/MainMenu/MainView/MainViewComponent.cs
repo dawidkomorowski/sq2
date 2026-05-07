@@ -24,6 +24,7 @@ internal sealed class MainViewComponent : BehaviorComponent
 
     private const string MenuItemNewGameId = "NewGame";
     private const string MenuItemContinueId = "Continue";
+    private const string MenuItemSelectLevelId = "SelectLevel";
     private const string MenuItemExitId = "Exit";
     private readonly List<Entity> _menuItems = new();
     private Entity _selectedMenuItem = null!;
@@ -38,6 +39,8 @@ internal sealed class MainViewComponent : BehaviorComponent
         _sceneManager = sceneManager;
         _gameStateService = gameStateService;
     }
+
+    public ViewTransitionComponent? ViewTransitionComponent { get; set; }
 
     public override void OnStart()
     {
@@ -82,13 +85,13 @@ internal sealed class MainViewComponent : BehaviorComponent
             )
         };
 
-        _inputComponent.BindAction(ActionNavigateUp, OnActionNavigateUp);
-        _inputComponent.BindAction(ActionNavigateDown, OnActionNavigateDown);
-        _inputComponent.BindAction(ActionSelect, OnActionSelect);
+        _inputComponent.BindAction(ActionNavigateUp, OnAction_NavigateUp);
+        _inputComponent.BindAction(ActionNavigateDown, OnAction_NavigateDown);
+        _inputComponent.BindAction(ActionSelect, OnAction_Select);
 
         CreateBackground();
 
-        const double menuStartY = 20;
+        const double menuStartY = 40;
         const double menuItemSpacing = 20;
         var menuItemsCount = 0;
 
@@ -98,6 +101,7 @@ internal sealed class MainViewComponent : BehaviorComponent
         }
 
         _menuItems.Add(CreateMenuItem(MenuItemNewGameId, "New Game", new Vector2(0, menuStartY - menuItemSpacing * menuItemsCount++)));
+        _menuItems.Add(CreateMenuItem(MenuItemSelectLevelId, "Select Level", new Vector2(0, menuStartY - menuItemSpacing * menuItemsCount++)));
         _menuItems.Add(CreateMenuItem(MenuItemExitId, "Exit", new Vector2(0, menuStartY - menuItemSpacing * menuItemsCount)));
 
         _selectedMenuItem = _menuItems[0];
@@ -111,21 +115,26 @@ internal sealed class MainViewComponent : BehaviorComponent
         }
     }
 
-    private void OnActionNavigateUp()
+    public void OnView_Activated()
+    {
+        _inputComponent.Enabled = true;
+    }
+
+    private void OnAction_NavigateUp()
     {
         var currentIndex = _menuItems.IndexOf(_selectedMenuItem);
         var previousIndex = (currentIndex - 1 + _menuItems.Count) % _menuItems.Count;
         _selectedMenuItem = _menuItems[previousIndex];
     }
 
-    private void OnActionNavigateDown()
+    private void OnAction_NavigateDown()
     {
         var currentIndex = _menuItems.IndexOf(_selectedMenuItem);
         var nextIndex = (currentIndex + 1) % _menuItems.Count;
         _selectedMenuItem = _menuItems[nextIndex];
     }
 
-    private void OnActionSelect()
+    private void OnAction_Select()
     {
         switch (_selectedMenuItem.Name)
         {
@@ -155,6 +164,16 @@ internal sealed class MainViewComponent : BehaviorComponent
                     _gameStateService.ContinueGame();
                     _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld);
                 };
+                break;
+            }
+            case MenuItemSelectLevelId:
+            {
+                if (ViewTransitionComponent is not null)
+                {
+                    _inputComponent.Enabled = false;
+                    ViewTransitionComponent.CurrentView = ViewTransitionComponent.View.SelectLevelView;
+                }
+
                 break;
             }
             case MenuItemExitId:

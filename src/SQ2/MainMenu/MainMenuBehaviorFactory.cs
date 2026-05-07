@@ -3,6 +3,7 @@ using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Rendering.Components;
 using SQ2.Core;
 using SQ2.MainMenu.MainView;
+using SQ2.MainMenu.SelectLevelView;
 
 namespace SQ2.MainMenu;
 
@@ -43,7 +44,19 @@ internal sealed class MainMenuBehaviorFactory : ISceneBehaviorFactory
 
             var mainViewEntity = Scene.CreateEntity();
             mainViewEntity.CreateComponent<Transform2DComponent>();
-            mainViewEntity.CreateComponent<MainViewComponent>();
+            var mainViewComponent = mainViewEntity.CreateComponent<MainViewComponent>();
+
+            var selectLevelViewEntity = Scene.CreateEntity();
+            selectLevelViewEntity.CreateComponent<Transform2DComponent>();
+            var selectLevelViewComponent = selectLevelViewEntity.CreateComponent<SelectLevelViewComponent>();
+
+            var viewTransitionEntity = Scene.CreateEntity();
+            var viewTransitionComponent = viewTransitionEntity.CreateComponent<ViewTransitionComponent>();
+            viewTransitionComponent.MainViewComponent = mainViewComponent;
+            viewTransitionComponent.SelectLevelViewComponent = selectLevelViewComponent;
+
+            mainViewComponent.ViewTransitionComponent = viewTransitionComponent;
+            selectLevelViewComponent.ViewTransitionComponent = viewTransitionComponent;
         }
     }
 }

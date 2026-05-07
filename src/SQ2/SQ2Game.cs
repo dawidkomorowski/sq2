@@ -14,6 +14,7 @@ using SQ2.GamePlay.PauseMenu;
 using SQ2.GamePlay.Player;
 using SQ2.MainMenu;
 using SQ2.MainMenu.MainView;
+using SQ2.MainMenu.SelectLevelView;
 using SQ2.UI;
 using SQ2.VFX;
 
@@ -136,6 +137,8 @@ internal class SQ2Game : Game
 
         // Main menu
         componentsRegistry.RegisterComponentFactory<MainViewComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<SelectLevelViewComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<ViewTransitionComponentFactory>();
 
         // UI
         componentsRegistry.RegisterComponentFactory<NumberRendererComponentFactory>();
