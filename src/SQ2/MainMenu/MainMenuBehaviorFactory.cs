@@ -1,4 +1,5 @@
 ﻿using Geisha.Engine.Core.Components;
+using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Rendering.Components;
 using SQ2.Core;
@@ -42,6 +43,8 @@ internal sealed class MainMenuBehaviorFactory : ISceneBehaviorFactory
             var cameraComponent = cameraEntity.CreateComponent<CameraComponent>();
             cameraComponent.ViewRectangle = GlobalSettings.ViewSize;
 
+            CreateBackground();
+
             var mainViewEntity = Scene.CreateEntity();
             mainViewEntity.CreateComponent<Transform2DComponent>();
             var mainViewComponent = mainViewEntity.CreateComponent<MainViewComponent>();
@@ -57,6 +60,16 @@ internal sealed class MainMenuBehaviorFactory : ISceneBehaviorFactory
 
             mainViewComponent.ViewTransitionComponent = viewTransitionComponent;
             selectLevelViewComponent.ViewTransitionComponent = viewTransitionComponent;
+        }
+
+        private void CreateBackground()
+        {
+            var backgroundEntity = Scene.CreateEntity();
+            backgroundEntity.CreateComponent<Transform2DComponent>();
+            var rectangleRendererComponent = backgroundEntity.CreateComponent<RectangleRendererComponent>();
+            rectangleRendererComponent.Dimensions = GlobalSettings.ViewSize * 2;
+            rectangleRendererComponent.Color = Color.Black;
+            rectangleRendererComponent.FillInterior = true;
         }
     }
 }

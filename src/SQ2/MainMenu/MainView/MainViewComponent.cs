@@ -89,7 +89,7 @@ internal sealed class MainViewComponent : BehaviorComponent
         _inputComponent.BindAction(ActionNavigateDown, OnAction_NavigateDown);
         _inputComponent.BindAction(ActionSelect, OnAction_Select);
 
-        CreateBackground();
+        _inputComponent.Enabled = false; // Transition component activates view.
 
         const double menuStartY = 40;
         const double menuItemSpacing = 20;
@@ -168,11 +168,8 @@ internal sealed class MainViewComponent : BehaviorComponent
             }
             case MenuItemSelectLevelId:
             {
-                if (ViewTransitionComponent is not null)
-                {
-                    _inputComponent.Enabled = false;
-                    ViewTransitionComponent.CurrentView = ViewTransitionComponent.View.SelectLevelView;
-                }
+                _inputComponent.Enabled = false;
+                ViewTransitionComponent?.ChangeView(ViewTransitionComponent.View.SelectLevelView);
 
                 break;
             }
@@ -182,16 +179,6 @@ internal sealed class MainViewComponent : BehaviorComponent
                 break;
             }
         }
-    }
-
-    private void CreateBackground()
-    {
-        var backgroundEntity = Entity.CreateChildEntity();
-        backgroundEntity.CreateComponent<Transform2DComponent>();
-        var rectangleRendererComponent = backgroundEntity.CreateComponent<RectangleRendererComponent>();
-        rectangleRendererComponent.Dimensions = GlobalSettings.ViewSize * 2;
-        rectangleRendererComponent.Color = Color.Black;
-        rectangleRendererComponent.FillInterior = true;
     }
 
     private Entity CreateMenuItem(string id, string text, Vector2 position)

@@ -1,4 +1,5 @@
-﻿using Geisha.Engine.Core.Components;
+﻿using System.Collections.Immutable;
+using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Input;
@@ -6,7 +7,6 @@ using Geisha.Engine.Input.Components;
 using Geisha.Engine.Input.Mapping;
 using Geisha.Engine.Rendering;
 using Geisha.Engine.Rendering.Components;
-using System.Collections.Immutable;
 
 namespace SQ2.MainMenu.SelectLevelView;
 
@@ -44,6 +44,7 @@ internal sealed class SelectLevelViewComponent : BehaviorComponent
 
         _inputComponent.BindAction(ActionNavigateBackToMainView, OnAction_NavigateBackToMainView);
 
+        _inputComponent.Enabled = false; // Transition component activates view.
 
         var textEntity = Entity.CreateChildEntity();
         textEntity.CreateComponent<Transform2DComponent>();
@@ -64,10 +65,7 @@ internal sealed class SelectLevelViewComponent : BehaviorComponent
     private void OnAction_NavigateBackToMainView()
     {
         _inputComponent.Enabled = false;
-        if (ViewTransitionComponent is not null)
-        {
-            ViewTransitionComponent.CurrentView = ViewTransitionComponent.View.MainView;
-        }
+        ViewTransitionComponent?.ChangeView(ViewTransitionComponent.View.MainView);
     }
 }
 
