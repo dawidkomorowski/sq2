@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Diagnostics;
 using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
@@ -57,56 +56,12 @@ internal sealed class PauseMenuComponent : BehaviorComponent
     public override void OnStart()
     {
         _inputComponent = Entity.CreateComponent<InputComponent>();
-        _inputComponent.InputMapping = new InputMapping
-        {
-            ActionMappings = ImmutableArray.Create
-            (
-                new ActionMapping
-                {
-                    ActionName = ActionPause,
-                    HardwareActions = ImmutableArray.Create
-                    (
-                        new HardwareAction
-                        {
-                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Escape)
-                        }
-                    )
-                },
-                new ActionMapping
-                {
-                    ActionName = ActionSelect,
-                    HardwareActions = ImmutableArray.Create
-                    (
-                        new HardwareAction
-                        {
-                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Enter)
-                        }
-                    )
-                },
-                new ActionMapping
-                {
-                    ActionName = ActionNavigateUp,
-                    HardwareActions = ImmutableArray.Create
-                    (
-                        new HardwareAction
-                        {
-                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Up)
-                        }
-                    )
-                },
-                new ActionMapping
-                {
-                    ActionName = ActionNavigateDown,
-                    HardwareActions = ImmutableArray.Create
-                    (
-                        new HardwareAction
-                        {
-                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Down)
-                        }
-                    )
-                }
-            )
-        };
+        _inputComponent.InputMapping = InputMapping.CreateBuilder()
+            .MapAction(ActionPause, Key.Escape)
+            .MapAction(ActionSelect, Key.Enter)
+            .MapAction(ActionNavigateUp, Key.Up)
+            .MapAction(ActionNavigateDown, Key.Down)
+            .Build();
 
         _inputComponent.BindAction(ActionPause, OnActionPause);
         _inputComponent.BindAction(ActionSelect, OnActionSelect);

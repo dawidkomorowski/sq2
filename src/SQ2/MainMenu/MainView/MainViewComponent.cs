@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
@@ -45,45 +44,11 @@ internal sealed class MainViewComponent : BehaviorComponent
     public override void OnStart()
     {
         _inputComponent = Entity.CreateComponent<InputComponent>();
-        _inputComponent.InputMapping = new InputMapping
-        {
-            ActionMappings = ImmutableArray.Create
-            (
-                new ActionMapping
-                {
-                    ActionName = ActionNavigateUp,
-                    HardwareActions = ImmutableArray.Create
-                    (
-                        new HardwareAction
-                        {
-                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Up)
-                        }
-                    )
-                },
-                new ActionMapping
-                {
-                    ActionName = ActionNavigateDown,
-                    HardwareActions = ImmutableArray.Create
-                    (
-                        new HardwareAction
-                        {
-                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Down)
-                        }
-                    )
-                },
-                new ActionMapping
-                {
-                    ActionName = ActionSelect,
-                    HardwareActions = ImmutableArray.Create
-                    (
-                        new HardwareAction
-                        {
-                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Enter)
-                        }
-                    )
-                }
-            )
-        };
+        _inputComponent.InputMapping = InputMapping.CreateBuilder()
+            .MapAction(ActionNavigateUp, Key.Up)
+            .MapAction(ActionNavigateDown, Key.Down)
+            .MapAction(ActionSelect, Key.Enter)
+            .Build();
 
         _inputComponent.BindAction(ActionNavigateUp, OnAction_NavigateUp);
         _inputComponent.BindAction(ActionNavigateDown, OnAction_NavigateDown);

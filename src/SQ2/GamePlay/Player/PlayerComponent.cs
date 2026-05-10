@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using Geisha.Engine.Animation.Components;
 using Geisha.Engine.Core;
@@ -94,78 +93,14 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
         _spriteTransformComponent = Entity.Children[0].GetComponent<Transform2DComponent>();
         _spriteDefaultTransform = _spriteTransformComponent.Transform;
 
-        _inputComponent.InputMapping = new InputMapping
-        {
-            ActionMappings = ImmutableArray.Create
-            (
-                new ActionMapping
-                {
-                    ActionName = MoveLeftAction,
-                    HardwareActions = ImmutableArray.Create
-                    (
-                        new HardwareAction
-                        {
-                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Left)
-                        }
-                    )
-                },
-                new ActionMapping
-                {
-                    ActionName = MoveRightAction,
-                    HardwareActions = ImmutableArray.Create
-                    (
-                        new HardwareAction
-                        {
-                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Right)
-                        }
-                    )
-                },
-                new ActionMapping
-                {
-                    ActionName = MoveUpAction,
-                    HardwareActions = ImmutableArray.Create
-                    (
-                        new HardwareAction
-                        {
-                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Up)
-                        }
-                    )
-                },
-                new ActionMapping
-                {
-                    ActionName = MoveDownAction,
-                    HardwareActions = ImmutableArray.Create
-                    (
-                        new HardwareAction
-                        {
-                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Down)
-                        }
-                    )
-                },
-                new ActionMapping
-                {
-                    ActionName = JumpAction,
-                    HardwareActions = ImmutableArray.Create
-                    (
-                        new HardwareAction
-                        {
-                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Space)
-                        }
-                    )
-                },
-                new ActionMapping
-                {
-                    ActionName = EnterDoorAction,
-                    HardwareActions = ImmutableArray.Create
-                    (
-                        new HardwareAction
-                        {
-                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Enter)
-                        }
-                    )
-                }
-            )
-        };
+        _inputComponent.InputMapping = InputMapping.CreateBuilder()
+            .MapAction(MoveLeftAction, Key.Left)
+            .MapAction(MoveRightAction, Key.Right)
+            .MapAction(MoveUpAction, Key.Up)
+            .MapAction(MoveDownAction, Key.Down)
+            .MapAction(JumpAction, Key.Space)
+            .MapAction(EnterDoorAction, Key.Enter)
+            .Build();
 
         _inputComponent.BindAction(EnterDoorAction, RequestEnterDoor);
 

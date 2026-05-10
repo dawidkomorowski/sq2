@@ -1,5 +1,4 @@
-﻿using System.Collections.Immutable;
-using Geisha.Engine.Core.Components;
+﻿using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Input;
@@ -24,23 +23,9 @@ internal sealed class SelectLevelViewComponent : BehaviorComponent
     public override void OnStart()
     {
         _inputComponent = Entity.CreateComponent<InputComponent>();
-        _inputComponent.InputMapping = new InputMapping
-        {
-            ActionMappings = ImmutableArray.Create
-            (
-                new ActionMapping
-                {
-                    ActionName = ActionNavigateBackToMainView,
-                    HardwareActions = ImmutableArray.Create
-                    (
-                        new HardwareAction
-                        {
-                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.Escape)
-                        }
-                    )
-                }
-            )
-        };
+        _inputComponent.InputMapping = InputMapping.CreateBuilder()
+            .MapAction(ActionNavigateBackToMainView, Key.Escape)
+            .Build();
 
         _inputComponent.BindAction(ActionNavigateBackToMainView, OnAction_NavigateBackToMainView);
 

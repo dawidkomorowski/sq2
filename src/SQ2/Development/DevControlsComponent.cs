@@ -1,5 +1,4 @@
-﻿using System.Collections.Immutable;
-using Geisha.Engine.Core.Components;
+﻿using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Input;
 using Geisha.Engine.Input.Components;
@@ -27,56 +26,12 @@ internal sealed class DevControlsComponent : BehaviorComponent
     public override void OnStart()
     {
         var inputComponent = Entity.CreateComponent<InputComponent>();
-        inputComponent.InputMapping = new InputMapping
-        {
-            ActionMappings = ImmutableArray.Create
-            (
-                new ActionMapping
-                {
-                    ActionName = "Reload",
-                    HardwareActions = ImmutableArray.Create
-                    (
-                        new HardwareAction
-                        {
-                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.F5)
-                        }
-                    )
-                },
-                new ActionMapping
-                {
-                    ActionName = "ClearSave",
-                    HardwareActions = ImmutableArray.Create
-                    (
-                        new HardwareAction
-                        {
-                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.F6)
-                        }
-                    )
-                },
-                new ActionMapping
-                {
-                    ActionName = "Respawn",
-                    HardwareActions = ImmutableArray.Create
-                    (
-                        new HardwareAction
-                        {
-                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.F8)
-                        }
-                    )
-                },
-                new ActionMapping
-                {
-                    ActionName = "ToggleDebugPhysics",
-                    HardwareActions = ImmutableArray.Create
-                    (
-                        new HardwareAction
-                        {
-                            HardwareInputVariant = HardwareInputVariant.CreateKeyboardVariant(Key.F12)
-                        }
-                    )
-                }
-            )
-        };
+        inputComponent.InputMapping = InputMapping.CreateBuilder()
+            .MapAction("Reload", Key.F5)
+            .MapAction("ClearSave", Key.F6)
+            .MapAction("Respawn", Key.F8)
+            .MapAction("ToggleDebugPhysics", Key.F12)
+            .Build();
 
         inputComponent.BindAction("Reload", () => { _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld); });
         inputComponent.BindAction("ClearSave", _gameSaveService.ClearSave);
