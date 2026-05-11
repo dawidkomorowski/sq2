@@ -32,7 +32,8 @@ internal sealed class SelectLevelViewComponent : BehaviorComponent
         _inputComponent.Enabled = false; // Transition component activates view.
 
         var textEntity = Entity.CreateChildEntity();
-        textEntity.CreateComponent<Transform2DComponent>();
+        var textTransform = textEntity.CreateComponent<Transform2DComponent>();
+        textTransform.Translation = new Vector2(0, 100);
         var textRenderer = textEntity.CreateComponent<TextRendererComponent>();
         textRenderer.Text = "Select level";
         textRenderer.Color = Color.White;
@@ -40,6 +41,10 @@ internal sealed class SelectLevelViewComponent : BehaviorComponent
         textRenderer.MaxWidth = 300;
         textRenderer.TextAlignment = TextAlignment.Center;
         textRenderer.Pivot = new Vector2(150, 0);
+
+        var levelPreviewEntity = Entity.CreateChildEntity();
+        levelPreviewEntity.CreateComponent<Transform2DComponent>();
+        levelPreviewEntity.CreateComponent<LevelPreviewComponent>();
     }
 
     public void OnView_Activated()

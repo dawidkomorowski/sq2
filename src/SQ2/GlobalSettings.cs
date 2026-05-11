@@ -10,6 +10,11 @@ internal static class GlobalSettings
 
     public static class SortingLayers
     {
+        // Main menu layers
+        public const string MenuBackground = "MenuBackground";
+        public const string MenuForeground = "MenuForeground";
+
+        // Gameplay layers
         public const string Background = "Background";
         public const string DecorBackground = "DecorBackground";
         public const string DecorForeground = "DecorForeground";

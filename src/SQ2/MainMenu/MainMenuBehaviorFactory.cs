@@ -67,6 +67,7 @@ internal sealed class MainMenuBehaviorFactory : ISceneBehaviorFactory
             var backgroundEntity = Scene.CreateEntity();
             backgroundEntity.CreateComponent<Transform2DComponent>();
             var rectangleRendererComponent = backgroundEntity.CreateComponent<RectangleRendererComponent>();
+            rectangleRendererComponent.SortingLayerName = GlobalSettings.SortingLayers.MenuBackground;
             rectangleRendererComponent.Dimensions = GlobalSettings.ViewSize * 2;
             rectangleRendererComponent.Color = Color.Black;
             rectangleRendererComponent.FillInterior = true;

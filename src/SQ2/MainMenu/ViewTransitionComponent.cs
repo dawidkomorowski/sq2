@@ -18,8 +18,8 @@ internal sealed class ViewTransitionComponent : BehaviorComponent
     }
 
     private readonly Vector2 _viewCenter = Vector2.Zero;
-    private readonly Vector2 _mainViewOutside = new(-400, 0);
-    private readonly Vector2 _selectLevelViewOutside = new(400, 0);
+    private readonly Vector2 _mainViewOutside = new(0, 400);
+    private readonly Vector2 _selectLevelViewOutside = new(0, -400);
 
     private View _currentView = View.MainView;
     private readonly TimeSpan _transitionTime = TimeSpan.FromMilliseconds(200);

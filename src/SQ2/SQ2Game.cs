@@ -50,9 +50,11 @@ internal class SQ2Game : Game
                 ScreenSize = DevConfig.WindowSize ?? GlobalSettings.WindowSize,
                 SortingLayersOrder = new[]
                 {
+                    GlobalSettings.SortingLayers.MenuBackground,
                     GlobalSettings.SortingLayers.Background,
                     GlobalSettings.SortingLayers.DecorBackground,
                     RenderingConfiguration.DefaultSortingLayerName,
+                    GlobalSettings.SortingLayers.MenuForeground,
                     GlobalSettings.SortingLayers.DecorForeground,
                     GlobalSettings.SortingLayers.CameraEffects,
                     GlobalSettings.SortingLayers.Hud,
@@ -136,9 +138,10 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<CheckPointReachedFlyOutComponentFactory>();
 
         // Main menu
+        componentsRegistry.RegisterComponentFactory<ViewTransitionComponentFactory>();
         componentsRegistry.RegisterComponentFactory<MainViewComponentFactory>();
         componentsRegistry.RegisterComponentFactory<SelectLevelViewComponentFactory>();
-        componentsRegistry.RegisterComponentFactory<ViewTransitionComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<LevelPreviewComponentFactory>();
 
         // UI
         componentsRegistry.RegisterComponentFactory<NumberRendererComponentFactory>();
