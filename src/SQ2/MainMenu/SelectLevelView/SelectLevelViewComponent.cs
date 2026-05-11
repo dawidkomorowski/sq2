@@ -1,11 +1,11 @@
-﻿using Geisha.Engine.Core.Components;
+﻿using System.Collections.Generic;
+using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Input;
 using Geisha.Engine.Input.Components;
 using Geisha.Engine.Input.Mapping;
-using Geisha.Engine.Rendering;
-using Geisha.Engine.Rendering.Components;
+using SQ2.Core;
 
 namespace SQ2.MainMenu.SelectLevelView;
 
@@ -13,6 +13,7 @@ internal sealed class SelectLevelViewComponent : BehaviorComponent
 {
     private const string ActionNavigateBackToMainView = "NavigateUp";
     private InputComponent _inputComponent = null!;
+    private readonly List<Transform2DComponent> _levelPreviewTransforms = new();
 
     public SelectLevelViewComponent(Entity entity) : base(entity)
     {
@@ -31,20 +32,18 @@ internal sealed class SelectLevelViewComponent : BehaviorComponent
 
         _inputComponent.Enabled = false; // Transition component activates view.
 
-        var textEntity = Entity.CreateChildEntity();
-        var textTransform = textEntity.CreateComponent<Transform2DComponent>();
-        textTransform.Translation = new Vector2(0, 100);
-        var textRenderer = textEntity.CreateComponent<TextRendererComponent>();
-        textRenderer.Text = "Select level";
-        textRenderer.Color = Color.White;
-        textRenderer.FontSize = FontSize.FromDips(24);
-        textRenderer.MaxWidth = 300;
-        textRenderer.TextAlignment = TextAlignment.Center;
-        textRenderer.Pivot = new Vector2(150, 0);
+        foreach (var levelInfo in LevelInfo.Levels)
+        {
+            var levelPreviewEntity = Entity.CreateChildEntity();
+            var levelPreviewTransform = levelPreviewEntity.CreateComponent<Transform2DComponent>();
+            var levelPreviewComponent = levelPreviewEntity.CreateComponent<LevelPreviewComponent>();
+            levelPreviewComponent.LevelInfo = levelInfo;
 
-        var levelPreviewEntity = Entity.CreateChildEntity();
-        levelPreviewEntity.CreateComponent<Transform2DComponent>();
-        levelPreviewEntity.CreateComponent<LevelPreviewComponent>();
+            var index = _levelPreviewTransforms.Count;
+            levelPreviewTransform.Translation = new Vector2(index * 300, 0);
+
+            _levelPreviewTransforms.Add(levelPreviewTransform);
+        }
     }
 
     public void OnView_Activated()

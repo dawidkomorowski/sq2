@@ -7,7 +7,7 @@ namespace SQ2.Core;
 internal sealed class GameStateService
 {
     private readonly GameSaveService _gameSaveService;
-    private int _selectedLevel = 1;
+    private int _selectedLevel;
 
     public GameStateService(GameSaveService gameSaveService)
     {
@@ -25,7 +25,7 @@ internal sealed class GameStateService
     public void StartNewGame()
     {
         _gameSaveService.GameSave.NewGameStarted = true;
-        _gameSaveService.GameSave.CurrentLevel = 1;
+        _gameSaveService.GameSave.CurrentLevel = 0;
         _gameSaveService.SaveGame();
         _selectedLevel = _gameSaveService.GameSave.CurrentLevel;
     }
@@ -37,7 +37,8 @@ internal sealed class GameStateService
 
     public void CompleteLevel()
     {
-        _selectedLevel = Math.Min(_selectedLevel + 1, 2);
+        var maxLevelIndex = LevelInfo.Levels.Length - 1;
+        _selectedLevel = Math.Min(_selectedLevel + 1, maxLevelIndex);
         _gameSaveService.GameSave.CurrentLevel = _selectedLevel;
         _gameSaveService.SaveGame();
     }
@@ -55,12 +56,7 @@ internal sealed class GameStateService
 
     public string GetMapFile()
     {
-        return _selectedLevel switch
-        {
-            1 => GetMapPath("level_01.tmx"),
-            2 => GetMapPath("level_02.tmx"),
-            _ => throw new InvalidOperationException($"Invalid level: {_selectedLevel}")
-        };
+        return GetMapPath(LevelInfo.Levels[_selectedLevel].MapFileName);
     }
 
     private static string GetMapPath(string mapFileName)
