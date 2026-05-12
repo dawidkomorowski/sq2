@@ -8,6 +8,7 @@ using Geisha.Engine.Input;
 using Geisha.Engine.Input.Components;
 using Geisha.Engine.Input.Mapping;
 using SQ2.Core;
+using SQ2.VFX;
 
 namespace SQ2.MainMenu.SelectLevelView;
 
@@ -16,6 +17,10 @@ internal sealed class SelectLevelViewComponent : BehaviorComponent
     private const string ActionBackToMainView = "BackToMainView";
     private const string ActionNextLevel = "NextLevel";
     private const string ActionPreviousLevel = "PreviousLevel";
+    private const string ActionSelectLevel = "SelectLevel";
+
+    private readonly GameStateService _gameStateService;
+    private readonly ISceneManager _sceneManager;
 
     private InputComponent _inputComponent = null!;
     private readonly List<Transform2DComponent> _levelPreviewTransforms = new();
@@ -26,8 +31,10 @@ internal sealed class SelectLevelViewComponent : BehaviorComponent
     private TimeSpan _transitionTimer;
     private bool _transitionCompleted;
 
-    public SelectLevelViewComponent(Entity entity) : base(entity)
+    public SelectLevelViewComponent(Entity entity, GameStateService gameStateService, ISceneManager sceneManager) : base(entity)
     {
+        _gameStateService = gameStateService;
+        _sceneManager = sceneManager;
     }
 
     public ViewTransitionComponent? ViewTransitionComponent { get; set; }
@@ -39,11 +46,13 @@ internal sealed class SelectLevelViewComponent : BehaviorComponent
             .MapAction(ActionBackToMainView, Key.Escape)
             .MapAction(ActionNextLevel, Key.Right)
             .MapAction(ActionPreviousLevel, Key.Left)
+            .MapAction(ActionSelectLevel, Key.Enter)
             .Build();
 
         _inputComponent.BindAction(ActionBackToMainView, OnAction_NavigateBackToMainView);
         _inputComponent.BindAction(ActionNextLevel, OnAction_NextLevel);
         _inputComponent.BindAction(ActionPreviousLevel, OnAction_PreviousLevel);
+        _inputComponent.BindAction(ActionSelectLevel, OnAction_SelectLevel);
 
         _inputComponent.Enabled = false; // Transition component activates view.
 
@@ -111,10 +120,36 @@ internal sealed class SelectLevelViewComponent : BehaviorComponent
         _transitionTimer = TimeSpan.Zero;
         _transitionCompleted = false;
     }
+
+    private void OnAction_SelectLevel()
+    {
+        if (!_transitionCompleted) return;
+
+        _inputComponent.Enabled = false;
+
+        var entity = Scene.CreateEntity();
+        var fadeOutComponent = entity.CreateComponent<FadeOutComponent>();
+        fadeOutComponent.Duration = TimeSpan.FromMilliseconds(300);
+        fadeOutComponent.CompleteDelay = TimeSpan.FromMilliseconds(300);
+        fadeOutComponent.OnComplete = () =>
+        {
+            _gameStateService.SelectLevel(_selectedLevel);
+            _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld);
+        };
+    }
 }
 
 // ReSharper disable once ClassNeverInstantiated.Global
 internal sealed class SelectLevelViewComponentFactory : ComponentFactory<SelectLevelViewComponent>
 {
-    protected override SelectLevelViewComponent CreateComponent(Entity entity) => new(entity);
+    private readonly GameStateService _gameStateService;
+    private readonly ISceneManager _sceneManager;
+
+    public SelectLevelViewComponentFactory(GameStateService gameStateService, ISceneManager sceneManager)
+    {
+        _gameStateService = gameStateService;
+        _sceneManager = sceneManager;
+    }
+
+    protected override SelectLevelViewComponent CreateComponent(Entity entity) => new(entity, _gameStateService, _sceneManager);
 }

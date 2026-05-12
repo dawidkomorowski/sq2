@@ -35,6 +35,11 @@ internal sealed class GameStateService
         _selectedLevel = _gameSaveService.GameSave.CurrentLevel;
     }
 
+    public void SelectLevel(int level)
+    {
+        _selectedLevel = level;
+    }
+
     public void CompleteLevel()
     {
         var maxLevelIndex = LevelInfo.Levels.Length - 1;
