@@ -4,6 +4,7 @@ using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
+using SQ2.Core;
 using SQ2.MainMenu.MainView;
 using SQ2.MainMenu.SelectLevelView;
 
@@ -46,10 +47,7 @@ internal sealed class ViewTransitionComponent : BehaviorComponent
         Debug.Assert(MainViewComponent != null, nameof(MainViewComponent) + " is null");
         Debug.Assert(SelectLevelViewComponent != null, nameof(SelectLevelViewComponent) + " is null");
 
-        if (_transitionCompleted)
-        {
-            return;
-        }
+        if (_transitionCompleted) return;
 
         _transitionTimer += timeStep.DeltaTime;
         if (_transitionTimer > _transitionTime)
@@ -58,7 +56,7 @@ internal sealed class ViewTransitionComponent : BehaviorComponent
             _transitionCompleted = true;
         }
 
-        var alpha = EaseInOutSine(_transitionTimer / _transitionTime);
+        var alpha = Ease.InOutSine(_transitionTimer / _transitionTime);
 
         var mainViewTransform = MainViewComponent.Entity.GetComponent<Transform2DComponent>();
         var selectLevelViewTransform = SelectLevelViewComponent.Entity.GetComponent<Transform2DComponent>();
@@ -92,8 +90,6 @@ internal sealed class ViewTransitionComponent : BehaviorComponent
             }
         }
     }
-
-    private static double EaseInOutSine(double x) => -(Math.Cos(Math.PI * x) - 1) / 2;
 }
 
 // ReSharper disable once ClassNeverInstantiated.Global
