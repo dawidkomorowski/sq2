@@ -61,6 +61,13 @@ internal sealed class LevelPreviewComponent : BehaviorComponent
         collectedNumberRenderer.UseDefaultSprites(_assetStore);
         collectedNumberRenderer.Value = _gameStateService.IsDiamondCollected(diamondId) ? 1 : 0;
 
+        var separatorEntity = diamondInfoEntity.CreateChildEntity();
+        var separatorTransform = separatorEntity.CreateComponent<Transform2DComponent>();
+        separatorTransform.Translation = new Vector2(-4, 0);
+        var separatorSpriteRenderer = separatorEntity.CreateComponent<SpriteRendererComponent>();
+        separatorSpriteRenderer.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
+        separatorSpriteRenderer.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("c5624f39-cf75-4177-a673-99d7aa785586"));
+
         var totalNumberEntity = diamondInfoEntity.CreateChildEntity();
         var totalNumberTransform = totalNumberEntity.CreateComponent<Transform2DComponent>();
         totalNumberTransform.Translation = new Vector2(0, 0);
