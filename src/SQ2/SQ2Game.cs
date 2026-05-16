@@ -50,15 +50,15 @@ internal class SQ2Game : Game
                 ScreenSize = DevConfig.WindowSize ?? GlobalSettings.WindowSize,
                 SortingLayersOrder = new[]
                 {
-                    GlobalSettings.SortingLayers.MenuBackground,
                     GlobalSettings.SortingLayers.Background,
                     GlobalSettings.SortingLayers.DecorBackground,
+                    GlobalSettings.SortingLayers.MenuBackground,
                     RenderingConfiguration.DefaultSortingLayerName,
-                    GlobalSettings.SortingLayers.MenuForeground,
                     GlobalSettings.SortingLayers.DecorForeground,
-                    GlobalSettings.SortingLayers.CameraEffects,
                     GlobalSettings.SortingLayers.Hud,
-                    GlobalSettings.SortingLayers.UI
+                    GlobalSettings.SortingLayers.UI,
+                    GlobalSettings.SortingLayers.MenuForeground,
+                    GlobalSettings.SortingLayers.CameraEffects
                 },
                 EnableVSync = true
             },

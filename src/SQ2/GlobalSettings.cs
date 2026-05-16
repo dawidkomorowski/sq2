@@ -10,17 +10,19 @@ internal static class GlobalSettings
 
     public static class SortingLayers
     {
-        // Main menu layers
-        public const string MenuBackground = "MenuBackground";
-        public const string MenuForeground = "MenuForeground";
-
         // Gameplay layers
         public const string Background = "Background";
         public const string DecorBackground = "DecorBackground";
         public const string DecorForeground = "DecorForeground";
-        public const string CameraEffects = "CameraEffects";
         public const string Hud = "Hud";
         public const string UI = "UI";
+
+        // Main menu layers
+        public const string MenuBackground = "MenuBackground";
+        public const string MenuForeground = "MenuForeground";
+
+        // Common layers
+        public const string CameraEffects = "CameraEffects";
     }
 
     public static class HudElements

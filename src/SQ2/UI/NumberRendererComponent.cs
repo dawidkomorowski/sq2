@@ -1,4 +1,5 @@
 ﻿using Geisha.Engine.Core;
+using Geisha.Engine.Core.Assets;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
@@ -30,6 +31,20 @@ internal sealed class NumberRendererComponent : BehaviorComponent
     public Sprite? Digit9Sprite { get; set; }
 
     public int Value { get; set; }
+
+    public void UseDefaultSprites(IAssetStore assetStore)
+    {
+        Digit0Sprite = assetStore.GetAsset<Sprite>(AssetId.Parse("7b973a46-3c17-4d6c-a20a-97214db7086a"));
+        Digit1Sprite = assetStore.GetAsset<Sprite>(AssetId.Parse("19398cc8-0a86-4aee-9e82-0a95bb4317c7"));
+        Digit2Sprite = assetStore.GetAsset<Sprite>(AssetId.Parse("71fa41ca-2162-47de-a7b1-de7462bd1cb0"));
+        Digit3Sprite = assetStore.GetAsset<Sprite>(AssetId.Parse("aacd2f7c-5145-4b8c-b7f6-1342e3a7d8ad"));
+        Digit4Sprite = assetStore.GetAsset<Sprite>(AssetId.Parse("72126ad3-6cd7-4c39-b3b7-266bb614686d"));
+        Digit5Sprite = assetStore.GetAsset<Sprite>(AssetId.Parse("9eeb80fa-485b-4f21-8db9-0a3412796863"));
+        Digit6Sprite = assetStore.GetAsset<Sprite>(AssetId.Parse("55a98703-d4e5-4f7e-b15e-b2a169cb1b93"));
+        Digit7Sprite = assetStore.GetAsset<Sprite>(AssetId.Parse("6fd29513-cf28-4678-aeb6-40d2a93c8817"));
+        Digit8Sprite = assetStore.GetAsset<Sprite>(AssetId.Parse("2db0e507-4e38-4d61-8c65-aca6aba26a20"));
+        Digit9Sprite = assetStore.GetAsset<Sprite>(AssetId.Parse("74fe02bb-b7fc-4f9d-882f-fe584de17c26"));
+    }
 
     public override void OnStart()
     {
