@@ -302,7 +302,7 @@
   <object id="63" name="Bat 1" type="BossBat" gid="205" x="1260" y="1749" width="24" height="24">
    <properties>
     <property name="Drop" propertytype="BossBatDropType" value="BlueEnemy"/>
-    <property name="DropAfterSeconds" type="float" value="5"/>
+    <property name="DropAfterSeconds" type="float" value="5.4"/>
     <property name="SpawnAfterSeconds" type="float" value="27"/>
     <property name="TargetPoint" type="object" value="64"/>
     <property name="Velocity" type="float" value="100"/>
@@ -314,7 +314,7 @@
   <object id="65" name="Bat 1" type="BossBat" gid="205" x="1386" y="1749" width="24" height="24">
    <properties>
     <property name="Drop" propertytype="BossBatDropType" value="BlueEnemy"/>
-    <property name="DropAfterSeconds" type="float" value="4"/>
+    <property name="DropAfterSeconds" type="float" value="4.2"/>
     <property name="SpawnAfterSeconds" type="float" value="27"/>
     <property name="TargetPoint" type="object" value="64"/>
     <property name="Velocity" type="float" value="100"/>
@@ -346,7 +346,7 @@
   <object id="61" name="Bat 1" type="BossBat" gid="205" x="2322" y="1749" width="24" height="24">
    <properties>
     <property name="Drop" propertytype="BossBatDropType" value="BlueEnemy"/>
-    <property name="DropAfterSeconds" type="float" value="4"/>
+    <property name="DropAfterSeconds" type="float" value="4.2"/>
     <property name="SpawnAfterSeconds" type="float" value="27"/>
     <property name="TargetPoint" type="object" value="60"/>
     <property name="Velocity" type="float" value="100"/>
@@ -355,7 +355,7 @@
   <object id="62" name="Bat 1" type="BossBat" gid="205" x="2448" y="1749" width="24" height="24">
    <properties>
     <property name="Drop" propertytype="BossBatDropType" value="BlueEnemy"/>
-    <property name="DropAfterSeconds" type="float" value="5"/>
+    <property name="DropAfterSeconds" type="float" value="5.4"/>
     <property name="SpawnAfterSeconds" type="float" value="27"/>
     <property name="TargetPoint" type="object" value="60"/>
     <property name="Velocity" type="float" value="100"/>
@@ -1452,12 +1452,12 @@
   <object id="447" type="Coin" gid="152" x="1242" y="1386" width="18" height="18"/>
  </objectgroup>
  <objectgroup id="3" name="GamePlayObjects">
-  <object id="13" name="Player Spawn Point" type="PlayerSpawnPoint" x="96.5003" y="203.333">
+  <object id="13" name="Player Spawn Point" type="PlayerSpawnPoint" x="1861.67" y="1841">
    <point/>
   </object>
   <object id="33" name="Bat Boss Trigger Area" type="BossBatTrigger" x="1746" y="1782" width="234" height="72">
    <properties>
-    <property name="TimerStartValue" type="float" value="0"/>
+    <property name="TimerStartValue" type="float" value="26"/>
    </properties>
   </object>
  </objectgroup>

@@ -103,6 +103,11 @@ internal sealed class BatBossComponent : BehaviorComponent, IRespawnable
                 var walkingEnemyComponent = entity.GetComponent<WalkingEnemyComponent>();
                 walkingEnemyComponent.RemoveOnRespawn = true;
                 walkingEnemyComponent.HorizontalVelocity = Math.Abs(_kinematicRigidBody2DComponent.LinearVelocity.X);
+
+                // Update enemy sprite facing to avoid flicker when the enemy logic is not yet run in this frame.
+                var enemyTransform = entity.GetComponent<Transform2DComponent>();
+                enemyTransform.SetTransformImmediate(enemyTransform.Transform with { Scale = _transform2DComponent.Scale });
+
                 _secondsTimer = 0;
             }
 
