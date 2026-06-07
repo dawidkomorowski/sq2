@@ -137,6 +137,7 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<PlayerSpawnPointComponentFactory>();
         componentsRegistry.RegisterComponentFactory<CheckPointComponentFactory>();
         componentsRegistry.RegisterComponentFactory<CheckPointReachedFlyOutComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<PlaytimeTrackingComponentFactory>();
 
         // Main menu
         componentsRegistry.RegisterComponentFactory<ViewTransitionComponentFactory>();

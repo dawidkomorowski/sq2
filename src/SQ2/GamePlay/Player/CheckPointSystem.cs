@@ -16,6 +16,7 @@ internal sealed class CheckPointSystem : ICustomSystem
     private readonly List<CoinComponent> _coins = new();
     private PlayerComponent? _playerComponent;
     private Transform2DComponent? _playerTransform;
+    private PlaytimeTrackingComponent? _playtimeTrackingComponent;
 
     public string Name => "CheckPointSystem";
 
@@ -69,6 +70,11 @@ internal sealed class CheckPointSystem : ICustomSystem
             _playerComponent = component.Entity.GetComponent<PlayerComponent>();
             _playerTransform = component.Entity.GetComponent<Transform2DComponent>();
         }
+
+        if (component is PlaytimeTrackingComponent playtimeTrackingComponent)
+        {
+            _playtimeTrackingComponent = playtimeTrackingComponent;
+        }
     }
 
     public void OnComponentRemoved(Component component)
@@ -85,8 +91,13 @@ internal sealed class CheckPointSystem : ICustomSystem
 
         if (component is PlayerComponent)
         {
-            _playerComponent = null!;
-            _playerTransform = null!;
+            _playerComponent = null;
+            _playerTransform = null;
+        }
+
+        if (component is PlaytimeTrackingComponent)
+        {
+            _playtimeTrackingComponent = null;
         }
     }
 
@@ -109,5 +120,7 @@ internal sealed class CheckPointSystem : ICustomSystem
         {
             coin.OnCheckPointReached();
         }
+
+        _playtimeTrackingComponent?.RegisterPlaytime();
     }
 }

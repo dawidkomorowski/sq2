@@ -4,6 +4,7 @@ using SQ2.Core;
 using SQ2.Development;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.PauseMenu;
+using SQ2.GamePlay.Player;
 
 namespace SQ2.GamePlay;
 
@@ -89,6 +90,9 @@ internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
 
             var pauseMenu = uiRoot.CreateChildEntity();
             pauseMenu.CreateComponent<PauseMenuComponent>();
+
+            var playtimeTracker = Scene.CreateEntity();
+            playtimeTracker.CreateComponent<PlaytimeTrackingComponent>();
 
             var tmxPath = DevConfig.MapFile ?? _gameStateService.GetMapFile();
             _mapLoader.LoadMap(Scene, tmxPath);

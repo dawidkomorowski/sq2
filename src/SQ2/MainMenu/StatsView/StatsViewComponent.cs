@@ -1,4 +1,5 @@
-﻿using Geisha.Engine.Core.Components;
+﻿using System;
+using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Input;
@@ -42,7 +43,8 @@ internal sealed class StatsViewComponent : BehaviorComponent
         containerRenderer.Dimensions = new Vector2(220, 100);
         containerRenderer.FillInterior = true;
 
-        CreateStatLabel(containerEntity, new Vector2(0, 40), $"Total Deaths: {_gameStateService.TotalDeaths}");
+        CreateStatLabel(containerEntity, new Vector2(0, 40), $"Total Playtime: {FormatPlaytime(_gameStateService.TotalPlaytime)}");
+        CreateStatLabel(containerEntity, new Vector2(0, 20), $"Total Deaths:   {_gameStateService.TotalDeaths}");
     }
 
     public void OnView_Activated()
@@ -69,6 +71,8 @@ internal sealed class StatsViewComponent : BehaviorComponent
         textRenderer.Pivot = new Vector2(100, 0);
         textRenderer.FontSize = FontSize.FromDips(12);
     }
+
+    private static string FormatPlaytime(TimeSpan playtime) => $"{(int)playtime.TotalHours}h {playtime.Minutes}min";
 }
 
 // ReSharper disable once ClassNeverInstantiated.Global

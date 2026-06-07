@@ -17,6 +17,7 @@ internal sealed class GameStateService
     public bool IsContinueAvailable => _gameSaveService.GameSave.NewGameStarted;
 
     public int TotalDeaths => _gameSaveService.GameSave.GameStats.TotalDeaths;
+    public TimeSpan TotalPlaytime => _gameSaveService.GameSave.GameStats.TotalPlaytime;
 
     public void InitializeGameSave()
     {
@@ -64,6 +65,12 @@ internal sealed class GameStateService
     public void RegisterPlayerDeath()
     {
         _gameSaveService.GameSave.GameStats.TotalDeaths++;
+        _gameSaveService.SaveGame();
+    }
+
+    public void RegisterAdditionalPlaytime(TimeSpan additionalPlaytime)
+    {
+        _gameSaveService.GameSave.GameStats.TotalPlaytime += additionalPlaytime;
         _gameSaveService.SaveGame();
     }
 

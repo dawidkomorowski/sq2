@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
@@ -14,7 +15,8 @@ internal sealed class GameSaveData
 
 internal sealed class GameStats
 {
-    public int TotalDeaths { get; set; } = 0;
+    public int TotalDeaths { get; set; }
+    public TimeSpan TotalPlaytime { get; set; }
 }
 
 // ReSharper disable once ClassNeverInstantiated.Global
