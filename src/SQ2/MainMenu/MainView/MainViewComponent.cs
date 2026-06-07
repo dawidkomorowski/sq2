@@ -24,6 +24,7 @@ internal sealed class MainViewComponent : BehaviorComponent
     private const string MenuItemNewGameId = "NewGame";
     private const string MenuItemContinueId = "Continue";
     private const string MenuItemSelectLevelId = "SelectLevel";
+    private const string MenuItemGameStatsId = "GameStats";
     private const string MenuItemExitId = "Exit";
     private readonly List<Entity> _menuItems = new();
     private Entity _selectedMenuItem = null!;
@@ -67,6 +68,7 @@ internal sealed class MainViewComponent : BehaviorComponent
 
         _menuItems.Add(CreateMenuItem(MenuItemNewGameId, "New Game", new Vector2(0, menuStartY - menuItemSpacing * menuItemsCount++)));
         _menuItems.Add(CreateMenuItem(MenuItemSelectLevelId, "Select Level", new Vector2(0, menuStartY - menuItemSpacing * menuItemsCount++)));
+        _menuItems.Add(CreateMenuItem(MenuItemGameStatsId, "Game Stats", new Vector2(0, menuStartY - menuItemSpacing * menuItemsCount++)));
         _menuItems.Add(CreateMenuItem(MenuItemExitId, "Exit", new Vector2(0, menuStartY - menuItemSpacing * menuItemsCount)));
 
         _selectedMenuItem = _menuItems[0];
@@ -135,6 +137,13 @@ internal sealed class MainViewComponent : BehaviorComponent
             {
                 _inputComponent.Enabled = false;
                 ViewTransitionComponent?.ChangeView(ViewTransitionComponent.View.SelectLevelView);
+
+                break;
+            }
+            case MenuItemGameStatsId:
+            {
+                _inputComponent.Enabled = false;
+                ViewTransitionComponent?.ChangeView(ViewTransitionComponent.View.StatsView);
 
                 break;
             }

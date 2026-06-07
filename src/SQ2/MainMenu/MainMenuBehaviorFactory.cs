@@ -5,6 +5,7 @@ using Geisha.Engine.Rendering.Components;
 using SQ2.Core;
 using SQ2.MainMenu.MainView;
 using SQ2.MainMenu.SelectLevelView;
+using SQ2.MainMenu.StatsView;
 
 namespace SQ2.MainMenu;
 
@@ -53,13 +54,19 @@ internal sealed class MainMenuBehaviorFactory : ISceneBehaviorFactory
             selectLevelViewEntity.CreateComponent<Transform2DComponent>();
             var selectLevelViewComponent = selectLevelViewEntity.CreateComponent<SelectLevelViewComponent>();
 
+            var statsViewEntity = Scene.CreateEntity();
+            statsViewEntity.CreateComponent<Transform2DComponent>();
+            var statsViewComponent = statsViewEntity.CreateComponent<StatsViewComponent>();
+
             var viewTransitionEntity = Scene.CreateEntity();
             var viewTransitionComponent = viewTransitionEntity.CreateComponent<ViewTransitionComponent>();
             viewTransitionComponent.MainViewComponent = mainViewComponent;
             viewTransitionComponent.SelectLevelViewComponent = selectLevelViewComponent;
+            viewTransitionComponent.StatsViewComponent = statsViewComponent;
 
             mainViewComponent.ViewTransitionComponent = viewTransitionComponent;
             selectLevelViewComponent.ViewTransitionComponent = viewTransitionComponent;
+            statsViewComponent.ViewTransitionComponent = viewTransitionComponent;
         }
 
         private void CreateBackground()
