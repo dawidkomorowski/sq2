@@ -12,6 +12,7 @@ using Geisha.Engine.Input.Components;
 using Geisha.Engine.Input.Mapping;
 using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
+using SQ2.Core;
 using SQ2.Development;
 using SQ2.GamePlay.Boss.Blue;
 using SQ2.GamePlay.Common;
@@ -23,6 +24,9 @@ namespace SQ2.GamePlay.Player;
 
 internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 {
+    // Game Services
+    private readonly GameStateService _gameStateService;
+
     // Input Actions
     private const string MoveLeftAction = "MoveLeft";
     private const string MoveRightAction = "MoveRight";
@@ -77,10 +81,11 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
     public int CoinsCollected { get; set; }
     public int CoinsCollectedSavedByCheckPoint { get; set; }
 
-    public PlayerComponent(Entity entity, IDebugRenderer debugRenderer, RespawnService respawnService) : base(entity)
+    public PlayerComponent(Entity entity, IDebugRenderer debugRenderer, RespawnService respawnService, GameStateService gameStateService) : base(entity)
     {
         _debugRenderer = debugRenderer;
         _respawnService = respawnService;
+        _gameStateService = gameStateService;
     }
 
     public override void OnStart()
@@ -470,6 +475,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
     public void KillPlayer()
     {
+        _gameStateService.RegisterPlayerDeath();
         _respawnService.RequestRespawn();
     }
 
@@ -519,12 +525,14 @@ internal sealed class PlayerComponentFactory : ComponentFactory<PlayerComponent>
 {
     private readonly IDebugRenderer _debugRenderer;
     private readonly RespawnService _respawnService;
+    private readonly GameStateService _gameStateService;
 
-    public PlayerComponentFactory(IDebugRenderer debugRenderer, RespawnService respawnService)
+    public PlayerComponentFactory(IDebugRenderer debugRenderer, RespawnService respawnService, GameStateService gameStateService)
     {
         _debugRenderer = debugRenderer;
         _respawnService = respawnService;
+        _gameStateService = gameStateService;
     }
 
-    protected override PlayerComponent CreateComponent(Entity entity) => new(entity, _debugRenderer, _respawnService);
+    protected override PlayerComponent CreateComponent(Entity entity) => new(entity, _debugRenderer, _respawnService, _gameStateService);
 }

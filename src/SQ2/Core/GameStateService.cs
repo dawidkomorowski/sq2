@@ -16,6 +16,8 @@ internal sealed class GameStateService
 
     public bool IsContinueAvailable => _gameSaveService.GameSave.NewGameStarted;
 
+    public int TotalDeaths => _gameSaveService.GameSave.GameStats.TotalDeaths;
+
     public void InitializeGameSave()
     {
         _gameSaveService.LoadGame();
@@ -56,6 +58,12 @@ internal sealed class GameStateService
     public void CollectDiamond(string id)
     {
         _gameSaveService.GameSave.CollectedDiamondIds.Add(id);
+        _gameSaveService.SaveGame();
+    }
+
+    public void RegisterPlayerDeath()
+    {
+        _gameSaveService.GameSave.GameStats.TotalDeaths++;
         _gameSaveService.SaveGame();
     }
 

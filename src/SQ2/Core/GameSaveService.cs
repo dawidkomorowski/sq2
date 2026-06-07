@@ -9,6 +9,12 @@ internal sealed class GameSaveData
     public bool NewGameStarted { get; set; }
     public int CurrentLevel { get; set; } = 1;
     public HashSet<string> CollectedDiamondIds { get; init; } = new();
+    public GameStats GameStats { get; init; } = new();
+}
+
+internal sealed class GameStats
+{
+    public int TotalDeaths { get; set; } = 0;
 }
 
 // ReSharper disable once ClassNeverInstantiated.Global
