@@ -961,7 +961,7 @@
     <property name="InitialMovementDirection" propertytype="MovementDirection" value="Right"/>
    </properties>
   </object>
-  <object id="387" name="Trigger: Level Complete Right" type="LevelCompleteTrigger" x="540" y="1008" width="324" height="126">
+  <object id="387" name="Trigger: Level Complete Right" type="LevelCompleteTrigger" x="609.333" y="1006" width="324" height="146.667">
    <properties>
     <property name="LevelCompleteDirection" propertytype="LevelCompleteDirection" value="Right"/>
    </properties>
