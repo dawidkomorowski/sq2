@@ -168,6 +168,7 @@ internal sealed class MainViewComponent : BehaviorComponent
         textRenderer.MaxWidth = 300;
         textRenderer.TextAlignment = TextAlignment.Center;
         textRenderer.Pivot = new Vector2(150, 0);
+        textRenderer.SortingLayerName = GlobalSettings.SortingLayers.MenuForeground;
         return menuItemEntity;
     }
 }

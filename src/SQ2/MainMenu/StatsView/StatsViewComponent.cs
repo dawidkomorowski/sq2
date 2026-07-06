@@ -70,6 +70,7 @@ internal sealed class StatsViewComponent : BehaviorComponent
         textRenderer.MaxWidth = 200;
         textRenderer.Pivot = new Vector2(100, 0);
         textRenderer.FontSize = FontSize.FromDips(12);
+        textRenderer.SortingLayerName = GlobalSettings.SortingLayers.MenuForeground;
     }
 
     private static string FormatPlaytime(TimeSpan playtime) => $"{(int)playtime.TotalHours}h {playtime.Minutes}min";

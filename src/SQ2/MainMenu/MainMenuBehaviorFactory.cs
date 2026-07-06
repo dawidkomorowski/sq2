@@ -1,8 +1,10 @@
-﻿using Geisha.Engine.Core.Components;
-using Geisha.Engine.Core.Math;
+﻿using System.IO;
+using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.SceneModel;
+using Geisha.Engine.Physics.Systems;
 using Geisha.Engine.Rendering.Components;
 using SQ2.Core;
+using SQ2.GamePlay.Player;
 using SQ2.MainMenu.MainView;
 using SQ2.MainMenu.SelectLevelView;
 using SQ2.MainMenu.StatsView;
@@ -14,23 +16,31 @@ internal sealed class MainMenuBehaviorFactory : ISceneBehaviorFactory
 {
     private const string SceneBehaviorName = GlobalSettings.SceneNames.MainMenu;
     private readonly GameStateService _gameStateService;
+    private readonly MapLoader _mapLoader;
+    private readonly IPhysicsSystem _physicsSystem;
 
-    public MainMenuBehaviorFactory(GameStateService gameStateService)
+    public MainMenuBehaviorFactory(GameStateService gameStateService, MapLoader mapLoader, IPhysicsSystem physicsSystem)
     {
         _gameStateService = gameStateService;
+        _mapLoader = mapLoader;
+        _physicsSystem = physicsSystem;
     }
 
-    public SceneBehavior Create(Scene scene) => new MainMenuSceneBehavior(scene, _gameStateService);
+    public SceneBehavior Create(Scene scene) => new MainMenuSceneBehavior(scene, _gameStateService, _mapLoader, _physicsSystem);
 
     public string BehaviorName => SceneBehaviorName;
 
     private sealed class MainMenuSceneBehavior : SceneBehavior
     {
         private readonly GameStateService _gameStateService;
+        private readonly MapLoader _mapLoader;
+        private readonly IPhysicsSystem _physicsSystem;
 
-        public MainMenuSceneBehavior(Scene scene, GameStateService gameStateService) : base(scene)
+        public MainMenuSceneBehavior(Scene scene, GameStateService gameStateService, MapLoader mapLoader, IPhysicsSystem physicsSystem) : base(scene)
         {
             _gameStateService = gameStateService;
+            _mapLoader = mapLoader;
+            _physicsSystem = physicsSystem;
         }
 
         public override string Name => SceneBehaviorName;
@@ -44,17 +54,20 @@ internal sealed class MainMenuBehaviorFactory : ISceneBehaviorFactory
             var cameraComponent = cameraEntity.CreateComponent<CameraComponent>();
             cameraComponent.ViewRectangle = GlobalSettings.ViewSize;
 
-            CreateBackground();
+            CreateAnimatedBackground(cameraEntity);
 
             var mainViewEntity = Scene.CreateEntity();
+            mainViewEntity.Parent = cameraEntity;
             mainViewEntity.CreateComponent<Transform2DComponent>();
             var mainViewComponent = mainViewEntity.CreateComponent<MainViewComponent>();
 
             var selectLevelViewEntity = Scene.CreateEntity();
+            selectLevelViewEntity.Parent = cameraEntity;
             selectLevelViewEntity.CreateComponent<Transform2DComponent>();
             var selectLevelViewComponent = selectLevelViewEntity.CreateComponent<SelectLevelViewComponent>();
 
             var statsViewEntity = Scene.CreateEntity();
+            statsViewEntity.Parent = cameraEntity;
             statsViewEntity.CreateComponent<Transform2DComponent>();
             var statsViewComponent = statsViewEntity.CreateComponent<StatsViewComponent>();
 
@@ -69,15 +82,23 @@ internal sealed class MainMenuBehaviorFactory : ISceneBehaviorFactory
             statsViewComponent.ViewTransitionComponent = viewTransitionComponent;
         }
 
-        private void CreateBackground()
+        private void CreateAnimatedBackground(Entity cameraEntity)
         {
-            var backgroundEntity = Scene.CreateEntity();
-            backgroundEntity.CreateComponent<Transform2DComponent>();
-            var rectangleRendererComponent = backgroundEntity.CreateComponent<RectangleRendererComponent>();
-            rectangleRendererComponent.SortingLayerName = GlobalSettings.SortingLayers.MenuBackground;
-            rectangleRendererComponent.Dimensions = GlobalSettings.ViewSize * 2;
-            rectangleRendererComponent.Color = Color.Black;
-            rectangleRendererComponent.FillInterior = true;
+            cameraEntity.CreateComponent<AnimatedBackgroundComponent>();
+
+            var menuBackground = Path.Combine("Assets", "Maps", "menu.tmx");
+            _mapLoader.LoadMap(Scene, menuBackground);
+
+            foreach (var entity in Scene.AllEntities)
+            {
+                if (entity.HasComponent<PlayerComponent>())
+                {
+                    cameraEntity.GetComponent<Transform2DComponent>().Translation = entity.GetComponent<Transform2DComponent>().Translation;
+                    entity.RemoveComponent(entity.GetComponent<PlayerComponent>());
+                }
+            }
+
+            _physicsSystem.SynchronizePhysicsState();
         }
     }
 }

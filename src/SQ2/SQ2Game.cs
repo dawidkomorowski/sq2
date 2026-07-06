@@ -140,6 +140,7 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<PlaytimeTrackingComponentFactory>();
 
         // Main menu
+        componentsRegistry.RegisterComponentFactory<AnimatedBackgroundComponentFactory>();
         componentsRegistry.RegisterComponentFactory<ViewTransitionComponentFactory>();
         componentsRegistry.RegisterComponentFactory<MainViewComponentFactory>();
         componentsRegistry.RegisterComponentFactory<SelectLevelViewComponentFactory>();
