@@ -7,6 +7,7 @@ using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Input;
 using Geisha.Engine.Input.Components;
 using Geisha.Engine.Input.Mapping;
+using Geisha.Engine.Rendering.Components;
 using SQ2.Core;
 using SQ2.VFX;
 
@@ -55,6 +56,14 @@ internal sealed class SelectLevelViewComponent : BehaviorComponent
         _inputComponent.BindAction(ActionSelectLevel, OnAction_SelectLevel);
 
         _inputComponent.Enabled = false; // Transition component activates view.
+
+        var background = Entity.CreateChildEntity();
+        background.CreateComponent<Transform2DComponent>();
+        var backgroundRenderer = background.CreateComponent<RectangleRendererComponent>();
+        backgroundRenderer.SortingLayerName = GlobalSettings.SortingLayers.Menu;
+        backgroundRenderer.Color = Color.FromArgb(192, 0, 0, 0);
+        backgroundRenderer.Dimensions = new Vector2(GlobalSettings.ViewSize.X * 2, 210);
+        backgroundRenderer.FillInterior = true;
 
         foreach (var levelInfo in LevelInfo.Levels)
         {

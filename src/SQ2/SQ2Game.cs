@@ -53,11 +53,11 @@ internal class SQ2Game : Game
                 {
                     GlobalSettings.SortingLayers.Background,
                     GlobalSettings.SortingLayers.DecorBackground,
-                    GlobalSettings.SortingLayers.MenuBackground,
                     RenderingConfiguration.DefaultSortingLayerName,
                     GlobalSettings.SortingLayers.DecorForeground,
                     GlobalSettings.SortingLayers.Hud,
                     GlobalSettings.SortingLayers.UI,
+                    GlobalSettings.SortingLayers.Menu,
                     GlobalSettings.SortingLayers.MenuForeground,
                     GlobalSettings.SortingLayers.CameraEffects
                 },

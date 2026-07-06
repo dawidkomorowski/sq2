@@ -18,7 +18,7 @@ internal static class GlobalSettings
         public const string UI = "UI";
 
         // Main menu layers
-        public const string MenuBackground = "MenuBackground";
+        public const string Menu = "Menu";
         public const string MenuForeground = "MenuForeground";
 
         // Common layers
