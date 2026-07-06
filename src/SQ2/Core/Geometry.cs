@@ -10,7 +10,7 @@ internal static class Geometry
     public static (int tx, int ty) GetTileCoordinates(Vector2 position) =>
         ((int)(position.X / GlobalSettings.TileSize.Width), (int)(position.Y / GlobalSettings.TileSize.Height));
 
-    public static AxisAlignedRectangle GetWorldRectangle(int tx1, int ty1, int tx2, int ty2)
+    public static AABB2D GetWorldRectangle(int tx1, int ty1, int tx2, int ty2)
     {
         var x1 = tx1 * GlobalSettings.TileSize.Width - GlobalSettings.TileSize.Width * 0.5;
         var y1 = ty1 * GlobalSettings.TileSize.Height + GlobalSettings.TileSize.Height * 0.5;
@@ -26,6 +26,6 @@ internal static class Geometry
         points[0] = new Vector2(left, top);
         points[1] = new Vector2(right, bottom);
 
-        return new AxisAlignedRectangle(points);
+        return AABB2D.FromPoints(points);
     }
 }

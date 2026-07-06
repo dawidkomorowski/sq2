@@ -36,7 +36,7 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
         _gameStateService = gameStateService;
     }
 
-    public AxisAlignedRectangle TriggerArea { get; set; }
+    public AABB2D TriggerArea { get; set; }
     public LevelCompleteDirection LevelCompleteDirection { get; set; }
 
     public override void OnStart()
@@ -76,7 +76,7 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
             return;
         }
 
-        if (TriggerArea.Overlaps(_playerRectangleColliderComponent.BoundingRectangle))
+        if (TriggerArea.Overlaps(_playerRectangleColliderComponent.BoundingBox))
         {
             _triggered = true;
 
@@ -104,7 +104,7 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
     {
         if (_enableDebugDraw)
         {
-            _debugRenderer.DrawRectangle(TriggerArea, Color.Red, Matrix3x3.Identity);
+            _debugRenderer.DrawRectangle(TriggerArea.ToAxisAlignedRectangle(), Color.Red, Matrix3x3.Identity);
         }
     }
 }

@@ -28,7 +28,7 @@ internal sealed class YellowEnemyComponent : BehaviorComponent, IRespawnable
     private PlayerComponent _playerComponent = null!;
     private readonly List<Contact2D> _contacts = new();
     private Vector2 _startPosition;
-    private AxisAlignedRectangle _detector;
+    private AABB2D _detector;
     private State _state = State.Ready;
     private TimeSpan _stateTimer;
 
@@ -82,7 +82,7 @@ internal sealed class YellowEnemyComponent : BehaviorComponent, IRespawnable
 
     private void ReadyStateUpdate()
     {
-        if (_detector.Overlaps(_playerRectangleColliderComponent.BoundingRectangle))
+        if (_detector.Overlaps(_playerRectangleColliderComponent.BoundingBox))
         {
             _state = State.Angry;
             _spriteRendererComponent.Sprite = AngrySprite;
@@ -179,7 +179,7 @@ internal sealed class YellowEnemyComponent : BehaviorComponent, IRespawnable
     {
         if (_enableDebugDraw)
         {
-            _debugRenderer.DrawRectangle(_detector, Color.Red, Matrix3x3.Identity);
+            _debugRenderer.DrawRectangle(_detector.ToAxisAlignedRectangle(), Color.Red, Matrix3x3.Identity);
         }
     }
 
@@ -194,7 +194,7 @@ internal sealed class YellowEnemyComponent : BehaviorComponent, IRespawnable
         _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
     }
 
-    private AxisAlignedRectangle CreateDetector()
+    private AABB2D CreateDetector()
     {
         var (tx, ty) = Geometry.GetTileCoordinates(_transform2DComponent.Translation);
         var detectorHeight = 0;
