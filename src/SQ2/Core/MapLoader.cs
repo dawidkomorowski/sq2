@@ -110,6 +110,7 @@ internal sealed class MapLoader
                         {
                             case "Geometry":
                             case "WaterDeep":
+                            case "Ladder":
                             case "Decor":
                                 _entityFactory.CreateDecor(scene, tx, ty, assetId, orientation, sortingLayerName, layerIndex);
                                 break;
