@@ -41,8 +41,8 @@ internal sealed class RaisingWaterComponent : BehaviorComponent, IRespawnable
     {
         var dt = TimeStep.FixedDeltaTimeSeconds;
 
-        var deadlyArea = new AxisAlignedRectangle(_transform2DComponent.Translation, Dimensions);
-        if (deadlyArea.Overlaps(_playerCollider.BoundingRectangle))
+        var deadlyArea = AABB2D.FromCenterAndSize(_transform2DComponent.Translation, Dimensions);
+        if (deadlyArea.Overlaps(_playerCollider.BoundingBox))
         {
             _playerComponent.KillPlayer();
         }

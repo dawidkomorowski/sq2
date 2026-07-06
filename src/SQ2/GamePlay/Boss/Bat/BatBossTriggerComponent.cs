@@ -24,7 +24,7 @@ internal sealed class BatBossTriggerComponent : BehaviorComponent, IRespawnable
         _debugRenderer = debugRenderer;
     }
 
-    public AxisAlignedRectangle TriggerArea { get; set; }
+    public AABB2D TriggerArea { get; set; }
     public double TimerStartValue { get; set; }
 
     public override void OnStart()
@@ -47,7 +47,7 @@ internal sealed class BatBossTriggerComponent : BehaviorComponent, IRespawnable
     {
         if (_hasBeenActivated) return;
 
-        if (TriggerArea.Overlaps(_playerRectangleColliderComponent.BoundingRectangle))
+        if (TriggerArea.Overlaps(_playerRectangleColliderComponent.BoundingBox))
         {
             _hasBeenActivated = true;
 
@@ -62,7 +62,7 @@ internal sealed class BatBossTriggerComponent : BehaviorComponent, IRespawnable
     {
         if (_enableDebugDraw)
         {
-            _debugRenderer.DrawRectangle(TriggerArea, Color.Red, Matrix3x3.Identity);
+            _debugRenderer.DrawRectangle(TriggerArea.ToAxisAlignedRectangle(), Color.Red, Matrix3x3.Identity);
         }
     }
 

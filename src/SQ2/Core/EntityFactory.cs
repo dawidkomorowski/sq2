@@ -694,7 +694,7 @@ internal sealed class EntityFactory
     {
         var entity = scene.CreateEntity();
         var batBossTriggerComponent = entity.CreateComponent<BatBossTriggerComponent>();
-        batBossTriggerComponent.TriggerArea = new AxisAlignedRectangle(center, size);
+        batBossTriggerComponent.TriggerArea = AABB2D.FromCenterAndSize(center, size);
         batBossTriggerComponent.TimerStartValue = timerStartValue;
         return entity;
     }
@@ -909,7 +909,7 @@ internal sealed class EntityFactory
     {
         var entity = scene.CreateEntity();
         var levelCompleteTriggerComponent = entity.CreateComponent<LevelCompleteTriggerComponent>();
-        levelCompleteTriggerComponent.TriggerArea = new AxisAlignedRectangle(center, size);
+        levelCompleteTriggerComponent.TriggerArea = AABB2D.FromCenterAndSize(center, size);
         levelCompleteTriggerComponent.LevelCompleteDirection = direction;
         return entity;
     }

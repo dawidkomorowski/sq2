@@ -40,7 +40,7 @@ internal static class Query
             if (!entity.HasComponent<TileColliderComponent>()) continue;
 
             var tileCollider = entity.GetComponent<TileColliderComponent>();
-            if (tileCollider.BoundingRectangle.Contains(worldPosition))
+            if (tileCollider.BoundingBox.Contains(worldPosition))
             {
                 return true;
             }

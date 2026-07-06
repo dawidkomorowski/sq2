@@ -50,7 +50,7 @@ internal sealed class BlueBossProjectileComponent : BehaviorComponent, IRespawna
         _transform2DComponent.Translation += Direction * speed * dt.TotalSeconds;
 
         var transformedHitBox = _hitBox.Transform(_transform2DComponent.ToMatrix());
-        if (transformedHitBox.Overlaps(_playerRectangleColliderComponent.BoundingRectangle.ToRectangle()))
+        if (transformedHitBox.Overlaps(_playerRectangleColliderComponent.BoundingBox.ToRectangle()))
         {
             _playerComponent.KillPlayer();
             Entity.RemoveAfterFixedTimeStep();
