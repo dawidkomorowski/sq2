@@ -34,11 +34,13 @@ internal sealed class LevelPreviewComponent : BehaviorComponent
         levelNameTextRenderer.MaxWidth = 300;
         levelNameTextRenderer.Pivot = new Vector2(150, 0);
         levelNameTextRenderer.FontSize = FontSize.FromDips(24);
+        levelNameTextRenderer.SortingLayerName = GlobalSettings.SortingLayers.MenuForeground;
 
         var levelImageEntity = Entity.CreateChildEntity();
         levelImageEntity.CreateComponent<Transform2DComponent>();
         var levelSpriteRenderer = levelImageEntity.CreateComponent<SpriteRendererComponent>();
         levelSpriteRenderer.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
+        levelSpriteRenderer.SortingLayerName = GlobalSettings.SortingLayers.MenuForeground;
 
         if (LevelInfo is not null)
         {
@@ -60,6 +62,7 @@ internal sealed class LevelPreviewComponent : BehaviorComponent
         var collectedNumberRenderer = collectedNumberEntity.CreateComponent<NumberRendererComponent>();
         collectedNumberRenderer.UseDefaultSprites(_assetStore);
         collectedNumberRenderer.Value = _gameStateService.IsDiamondCollected(diamondId) ? 1 : 0;
+        collectedNumberRenderer.SortingLayerName = GlobalSettings.SortingLayers.MenuForeground;
 
         var separatorEntity = diamondInfoEntity.CreateChildEntity();
         var separatorTransform = separatorEntity.CreateComponent<Transform2DComponent>();
@@ -67,6 +70,7 @@ internal sealed class LevelPreviewComponent : BehaviorComponent
         var separatorSpriteRenderer = separatorEntity.CreateComponent<SpriteRendererComponent>();
         separatorSpriteRenderer.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         separatorSpriteRenderer.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("c5624f39-cf75-4177-a673-99d7aa785586"));
+        separatorSpriteRenderer.SortingLayerName = GlobalSettings.SortingLayers.MenuForeground;
 
         var totalNumberEntity = diamondInfoEntity.CreateChildEntity();
         var totalNumberTransform = totalNumberEntity.CreateComponent<Transform2DComponent>();
@@ -74,6 +78,7 @@ internal sealed class LevelPreviewComponent : BehaviorComponent
         var totalNumberRenderer = totalNumberEntity.CreateComponent<NumberRendererComponent>();
         totalNumberRenderer.UseDefaultSprites(_assetStore);
         totalNumberRenderer.Value = diamondId != string.Empty ? 1 : 0;
+        totalNumberRenderer.SortingLayerName = GlobalSettings.SortingLayers.MenuForeground;
 
         var diamondEntity = diamondInfoEntity.CreateChildEntity();
         var diamondTransform = diamondEntity.CreateComponent<Transform2DComponent>();
@@ -81,6 +86,7 @@ internal sealed class LevelPreviewComponent : BehaviorComponent
         var diamondSpriteRenderer = diamondEntity.CreateComponent<SpriteRendererComponent>();
         diamondSpriteRenderer.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         diamondSpriteRenderer.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("fd94100c-a1fd-4c5b-bc5c-a7337ca94f02"));
+        diamondSpriteRenderer.SortingLayerName = GlobalSettings.SortingLayers.MenuForeground;
     }
 }
 

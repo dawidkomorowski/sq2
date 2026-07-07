@@ -57,9 +57,17 @@ internal sealed class MainViewComponent : BehaviorComponent
 
         _inputComponent.Enabled = false; // Transition component activates view.
 
-        const double menuStartY = 40;
+        const double menuStartY = 55;
         const double menuItemSpacing = 20;
         var menuItemsCount = 0;
+
+        var background = Entity.CreateChildEntity();
+        background.CreateComponent<Transform2DComponent>();
+        var backgroundRenderer = background.CreateComponent<RectangleRendererComponent>();
+        backgroundRenderer.SortingLayerName = GlobalSettings.SortingLayers.Menu;
+        backgroundRenderer.Color = Color.FromArgb(192, 0, 0, 0);
+        backgroundRenderer.Dimensions = new Vector2(200, 120);
+        backgroundRenderer.FillInterior = true;
 
         if (_gameStateService.IsContinueAvailable)
         {

@@ -95,6 +95,14 @@ internal sealed class MainMenuBehaviorFactory : ISceneBehaviorFactory
                 {
                     cameraEntity.GetComponent<Transform2DComponent>().Translation = entity.GetComponent<Transform2DComponent>().Translation;
                     entity.RemoveComponent(entity.GetComponent<PlayerComponent>());
+
+                    foreach (var child in entity.Children)
+                    {
+                        if (child.HasComponent<SpriteRendererComponent>())
+                        {
+                            child.GetComponent<SpriteRendererComponent>().Visible = false;
+                        }
+                    }
                 }
             }
 

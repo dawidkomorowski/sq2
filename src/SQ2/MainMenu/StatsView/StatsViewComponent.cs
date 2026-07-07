@@ -39,7 +39,8 @@ internal sealed class StatsViewComponent : BehaviorComponent
         var containerEntity = Entity.CreateChildEntity();
         containerEntity.CreateComponent<Transform2DComponent>();
         var containerRenderer = containerEntity.CreateComponent<RectangleRendererComponent>();
-        containerRenderer.Color = Color.FromArgb(255, 128, 128, 128);
+        containerRenderer.SortingLayerName = GlobalSettings.SortingLayers.Menu;
+        containerRenderer.Color = Color.FromArgb(192, 0, 0, 0);
         containerRenderer.Dimensions = new Vector2(220, 100);
         containerRenderer.FillInterior = true;
 
