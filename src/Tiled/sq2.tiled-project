@@ -515,7 +515,8 @@
                 "Decor",
                 "AnimatedDecor",
                 "VanishPlatform",
-                "Key"
+                "Key",
+                "DropPlatformNoLift"
             ],
             "valuesAsFlags": false
         },

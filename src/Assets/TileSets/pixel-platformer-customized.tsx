@@ -25,6 +25,12 @@
    <property name="TileType" propertytype="TileType" value="Geometry"/>
   </properties>
  </tile>
+ <tile id="4" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="f8ef5726-00cb-45d1-b2f6-e01100ab34fb"/>
+   <property name="TileType" propertytype="TileType" value="DropPlatformNoLift"/>
+  </properties>
+ </tile>
  <tile id="20" type="WorldTile">
   <properties>
    <property name="AssetId" value="67dc0dbb-9a16-4822-90a7-06520a42f651"/>

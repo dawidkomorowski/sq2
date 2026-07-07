@@ -178,7 +178,11 @@ internal sealed class MapLoader
                                 break;
                             case "DropPlatform":
                                 AssertNoFlippingFlags(tileLayer, tile, w, h);
-                                _entityFactory.CreateDropPlatform(scene, tx, ty, assetId);
+                                _entityFactory.CreateDropPlatform(scene, tx, ty, assetId, true);
+                                break;
+                            case "DropPlatformNoLift":
+                                AssertNoFlippingFlags(tileLayer, tile, w, h);
+                                _entityFactory.CreateDropPlatform(scene, tx, ty, assetId, false);
                                 break;
                             case "VanishPlatform":
                                 AssertNoFlippingFlags(tileLayer, tile, w, h);

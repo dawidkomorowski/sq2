@@ -21,6 +21,8 @@ internal sealed class DropPlatformComponent : BehaviorComponent, IRespawnable
     {
     }
 
+    public bool AllowLift { get; set; } = true;
+
     public override void OnStart()
     {
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
@@ -33,7 +35,7 @@ internal sealed class DropPlatformComponent : BehaviorComponent, IRespawnable
     public override void OnFixedUpdate()
     {
         const double dropSpeed = 50;
-        const double liftSpeed = 25;
+        double liftSpeed = AllowLift ? 25 : 0;
         var hasLoad = false;
 
         if (_rectangleColliderComponent.IsColliding)

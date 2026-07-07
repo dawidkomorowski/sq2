@@ -189,10 +189,11 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateDropPlatform(Scene scene, int tx, int ty, AssetId assetId)
+    public Entity CreateDropPlatform(Scene scene, int tx, int ty, AssetId assetId, bool allowLift)
     {
         var entity = scene.CreateEntity();
-        entity.CreateComponent<DropPlatformComponent>();
+        var dropPlatformComponent = entity.CreateComponent<DropPlatformComponent>();
+        dropPlatformComponent.AllowLift = allowLift;
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty) + new Vector2(0, GlobalSettings.TileSize.Height / 4);
         transform2DComponent.IsInterpolated = true;
