@@ -641,7 +641,7 @@
   </object>
   <object id="603" type="Diamond" gid="68" x="1368" y="504" width="18" height="18">
    <properties>
-    <property name="ID" value="f9491c64-518c-41f2-b380-ff4426da66e9"/>
+    <property name="ID" value="3542c956-cd3e-42ab-bad4-b3de466a166f"/>
    </properties>
   </object>
   <object id="604" name="1" type="DestructibleWall" gid="7" x="2394" y="702" width="18" height="18">
