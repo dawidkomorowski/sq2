@@ -696,25 +696,36 @@
  <objectgroup id="3" name="GamePlayObjects">
   <object id="6" type="YellowWalkingEnemy" gid="217" x="575.667" y="681.667" width="24" height="24">
    <properties>
+    <property name="ActivationGroupId" type="int" value="3"/>
     <property name="HorizontalLimit1" type="object" value="8"/>
     <property name="HorizontalLimit2" type="object" value="7"/>
     <property name="InitialMovementDirection" propertytype="MovementDirection" value="Right"/>
    </properties>
   </object>
   <object id="7" name="Limit-Left" type="Metadata" x="548.667" y="672.667">
+   <properties>
+    <property name="ActivationGroupId" type="int" value="3"/>
+   </properties>
    <point/>
   </object>
   <object id="8" name="Limit-Right" type="Metadata" x="620.667" y="672.667">
+   <properties>
+    <property name="ActivationGroupId" type="int" value="3"/>
+   </properties>
    <point/>
   </object>
   <object id="9" type="YellowWalkingEnemy" gid="217" x="683.333" y="682" width="24" height="24">
    <properties>
+    <property name="ActivationGroupId" type="int" value="3"/>
     <property name="HorizontalLimit1" type="object" value="11"/>
     <property name="HorizontalLimit2" type="object" value="10"/>
     <property name="InitialMovementDirection" propertytype="MovementDirection" value="Right"/>
    </properties>
   </object>
   <object id="10" name="Limit-Left" type="Metadata" x="656.333" y="673">
+   <properties>
+    <property name="ActivationGroupId" type="int" value="3"/>
+   </properties>
    <point/>
   </object>
   <object id="11" name="Limit-Right" type="Metadata" x="728.333" y="673">
@@ -848,6 +859,7 @@
   </object>
   <object id="101" type="GreenWalkingEnemy" gid="208" x="3006" y="558" width="24" height="24">
    <properties>
+    <property name="ActivationGroupId" type="int" value="4"/>
     <property name="HorizontalLimit1" type="object" value="100"/>
     <property name="HorizontalLimit2" type="object" value="99"/>
     <property name="InitialMovementDirection" propertytype="MovementDirection" value="Right"/>
@@ -861,6 +873,7 @@
   </object>
   <object id="104" type="GreenWalkingEnemy" gid="208" x="3042" y="558" width="24" height="24">
    <properties>
+    <property name="ActivationGroupId" type="int" value="4"/>
     <property name="HorizontalLimit1" type="object" value="103"/>
     <property name="HorizontalLimit2" type="object" value="102"/>
     <property name="InitialMovementDirection" propertytype="MovementDirection" value="Right"/>
@@ -913,6 +926,7 @@
   </object>
   <object id="137" type="GreenWalkingEnemy" gid="208" x="3654" y="594" width="24" height="24">
    <properties>
+    <property name="ActivationGroupId" type="int" value="5"/>
     <property name="HorizontalLimit1" type="object" value="136"/>
     <property name="HorizontalLimit2" type="object" value="135"/>
     <property name="InitialMovementDirection" propertytype="MovementDirection" value="Right"/>
@@ -926,6 +940,7 @@
   </object>
   <object id="140" type="GreenWalkingEnemy" gid="208" x="3690" y="594" width="24" height="24">
    <properties>
+    <property name="ActivationGroupId" type="int" value="5"/>
     <property name="HorizontalLimit1" type="object" value="139"/>
     <property name="HorizontalLimit2" type="object" value="138"/>
     <property name="InitialMovementDirection" propertytype="MovementDirection" value="Right"/>
@@ -965,6 +980,7 @@
   </object>
   <object id="153" type="GreenWalkingEnemy" gid="208" x="3636" y="486" width="24" height="24">
    <properties>
+    <property name="ActivationGroupId" type="int" value="5"/>
     <property name="HorizontalLimit1" type="object" value="152"/>
     <property name="HorizontalLimit2" type="object" value="151"/>
     <property name="InitialMovementDirection" propertytype="MovementDirection" value="Right"/>
@@ -978,6 +994,7 @@
   </object>
   <object id="156" type="GreenWalkingEnemy" gid="208" x="3690" y="486" width="24" height="24">
    <properties>
+    <property name="ActivationGroupId" type="int" value="5"/>
     <property name="HorizontalLimit1" type="object" value="155"/>
     <property name="HorizontalLimit2" type="object" value="154"/>
     <property name="InitialMovementDirection" propertytype="MovementDirection" value="Right"/>
@@ -985,6 +1002,7 @@
   </object>
   <object id="163" type="YellowWalkingEnemy" gid="217" x="3726" y="378" width="24" height="24">
    <properties>
+    <property name="ActivationGroupId" type="int" value="7"/>
     <property name="HorizontalLimit1" type="object" value="165"/>
     <property name="HorizontalLimit2" type="object" value="164"/>
     <property name="InitialMovementDirection" propertytype="MovementDirection" value="Right"/>
@@ -1004,6 +1022,7 @@
   </object>
   <object id="168" type="GreenWalkingEnemy" gid="208" x="3762" y="378" width="24" height="24">
    <properties>
+    <property name="ActivationGroupId" type="int" value="7"/>
     <property name="HorizontalLimit1" type="object" value="167"/>
     <property name="HorizontalLimit2" type="object" value="166"/>
     <property name="InitialMovementDirection" propertytype="MovementDirection" value="Right"/>
@@ -1011,6 +1030,7 @@
   </object>
   <object id="169" type="YellowWalkingEnemy" gid="217" x="3798" y="378" width="24" height="24">
    <properties>
+    <property name="ActivationGroupId" type="int" value="7"/>
     <property name="HorizontalLimit1" type="object" value="171"/>
     <property name="HorizontalLimit2" type="object" value="170"/>
     <property name="InitialMovementDirection" propertytype="MovementDirection" value="Right"/>
@@ -1030,6 +1050,7 @@
   </object>
   <object id="182" type="GreenWalkingEnemy" gid="208" x="3996" y="324" width="24" height="24">
    <properties>
+    <property name="ActivationGroupId" type="int" value="8"/>
     <property name="HorizontalLimit1" type="object" value="181"/>
     <property name="HorizontalLimit2" type="object" value="180"/>
     <property name="InitialMovementDirection" propertytype="MovementDirection" value="Right"/>
@@ -1043,6 +1064,7 @@
   </object>
   <object id="185" type="GreenWalkingEnemy" gid="208" x="4014" y="324" width="24" height="24">
    <properties>
+    <property name="ActivationGroupId" type="int" value="8"/>
     <property name="HorizontalLimit1" type="object" value="184"/>
     <property name="HorizontalLimit2" type="object" value="183"/>
     <property name="InitialMovementDirection" propertytype="MovementDirection" value="Right"/>
