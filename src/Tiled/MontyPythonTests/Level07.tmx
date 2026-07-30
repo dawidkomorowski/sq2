@@ -2739,24 +2739,28 @@
    <properties>
     <property name="Exit" type="object" value="15"/>
     <property name="Sprite" propertytype="DoorSprite" value="WithWindow"/>
+    <property name="UpdateCameraPosition" type="bool" value="true"/>
    </properties>
   </object>
   <object id="906" name="1" type="Door" gid="131" x="9018" y="1943" width="18" height="18">
    <properties>
     <property name="Exit" type="object" value="905"/>
     <property name="Sprite" propertytype="DoorSprite" value="WithWindow"/>
+    <property name="UpdateCameraPosition" type="bool" value="true"/>
    </properties>
   </object>
   <object id="907" name="2" type="Door" gid="131" x="9018" y="2016" width="18" height="18">
    <properties>
     <property name="Exit" type="object" value="15"/>
     <property name="Sprite" propertytype="DoorSprite" value="WithWindow"/>
+    <property name="UpdateCameraPosition" type="bool" value="true"/>
    </properties>
   </object>
   <object id="908" name="2" type="Door" gid="131" x="12006" y="2052" width="18" height="18">
    <properties>
     <property name="Exit" type="object" value="907"/>
     <property name="Sprite" propertytype="DoorSprite" value="WithWindow"/>
+    <property name="UpdateCameraPosition" type="bool" value="true"/>
    </properties>
   </object>
   <object id="919" type="FishEnemy" gid="194" x="9900" y="2236" width="24" height="24"/>
@@ -2836,11 +2840,6 @@
     <property name="JumpOffset" type="int" value="60"/>
    </properties>
   </object>
-  <object id="950" type="FishEnemy" gid="194" x="10620" y="2236" width="24" height="24">
-   <properties>
-    <property name="JumpOffset" type="int" value="60"/>
-   </properties>
-  </object>
   <object id="951" type="FishEnemy" gid="194" x="10638" y="2236" width="24" height="24">
    <properties>
     <property name="JumpOffset" type="int" value="60"/>
@@ -2848,15 +2847,10 @@
   </object>
   <object id="952" type="FishEnemy" gid="194" x="10656" y="2236" width="24" height="24">
    <properties>
-    <property name="JumpOffset" type="int" value="80"/>
+    <property name="JumpOffset" type="int" value="60"/>
    </properties>
   </object>
   <object id="953" type="FishEnemy" gid="194" x="10674" y="2236" width="24" height="24">
-   <properties>
-    <property name="JumpOffset" type="int" value="80"/>
-   </properties>
-  </object>
-  <object id="954" type="FishEnemy" gid="194" x="10692" y="2236" width="24" height="24">
    <properties>
     <property name="JumpOffset" type="int" value="60"/>
    </properties>
@@ -3476,11 +3470,13 @@
   <object id="1175" name="DoorIntroduction" type="Door" gid="151" x="9288" y="2196" width="18" height="18">
    <properties>
     <property name="Exit" type="object" value="1176"/>
+    <property name="UpdateCameraPosition" type="bool" value="true"/>
    </properties>
   </object>
   <object id="1176" name="DoorIntroduction" type="Door" gid="151" x="8244" y="2142" width="18" height="18">
    <properties>
     <property name="Exit" type="object" value="1175"/>
+    <property name="UpdateCameraPosition" type="bool" value="true"/>
    </properties>
   </object>
   <object id="1177" type="FishEnemy" gid="194" x="8172" y="2268" width="24" height="24">
