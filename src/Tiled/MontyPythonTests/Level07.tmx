@@ -2737,7 +2737,7 @@
   </object>
   <object id="905" name="1" type="Door" gid="131" x="9018" y="2196" width="18" height="18">
    <properties>
-    <property name="Exit" type="object" value="15"/>
+    <property name="Exit" type="object" value="0"/>
     <property name="Sprite" propertytype="DoorSprite" value="WithWindow"/>
     <property name="UpdateCameraPosition" type="bool" value="true"/>
    </properties>
@@ -2751,7 +2751,7 @@
   </object>
   <object id="907" name="2" type="Door" gid="131" x="9018" y="2016" width="18" height="18">
    <properties>
-    <property name="Exit" type="object" value="15"/>
+    <property name="Exit" type="object" value="0"/>
     <property name="Sprite" propertytype="DoorSprite" value="WithWindow"/>
     <property name="UpdateCameraPosition" type="bool" value="true"/>
    </properties>

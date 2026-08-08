@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="80" tilewidth="18" tileheight="18" infinite="0" nextlayerid="3" nextobjectid="20">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="80" tilewidth="18" tileheight="18" infinite="0" nextlayerid="3" nextobjectid="21">
  <tileset firstgid="1" source="../../Assets/TileSets/pixel-platformer.tsx"/>
  <tileset firstgid="181" source="../../Assets/TileSets/pixel-platformer-characters.tsx"/>
  <layer id="1" name="GamePlayTiles" width="40" height="80">
@@ -123,6 +123,12 @@
    <properties>
     <property name="Exit" type="object" value="18"/>
     <property name="Sprite" propertytype="DoorSprite" value="WithWindow"/>
+    <property name="UpdateCameraPosition" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="20" name="Door With No Exit" type="Door" gid="151" x="432" y="396" width="18" height="18">
+   <properties>
+    <property name="Exit" type="object" value="0"/>
     <property name="UpdateCameraPosition" type="bool" value="true"/>
    </properties>
   </object>

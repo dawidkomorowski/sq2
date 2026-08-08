@@ -50,6 +50,11 @@ internal sealed class DoorComponent : BehaviorComponent
 
     public void EnterDoor()
     {
+        if (ExitObjectId == 0)
+        {
+            return;
+        }
+
         _playerComponent.TeleportTo(_exitPosition, UpdateCameraPosition);
     }
 }
