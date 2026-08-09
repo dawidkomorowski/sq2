@@ -1,6 +1,16 @@
 {
     "automappingRulesFile": "",
     "commands": [
+        {
+            "arguments": "--map-file %mapfile",
+            "command": "C:/GitRepos/sq2/src/SQ2/bin/Debug/net6.0-windows/win-x64/SQ2.exe",
+            "enabled": true,
+            "name": "Run Debug",
+            "saveBeforeExecute": true,
+            "shortcut": "F5",
+            "showOutput": true,
+            "workingDirectory": "%executablepath"
+        }
     ],
     "compatibilityVersion": 1100,
     "extensionsPath": "extensions",
