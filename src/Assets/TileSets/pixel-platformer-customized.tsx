@@ -73,6 +73,18 @@
    <property name="TileType" propertytype="TileType" value="Geometry"/>
   </properties>
  </tile>
+ <tile id="42" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="a38c78f1-404d-45c6-bc13-838b347385e5"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
+ <tile id="43" type="WorldTile">
+  <properties>
+   <property name="AssetId" value="d3121e09-a453-453f-9981-addf0c740745"/>
+   <property name="TileType" propertytype="TileType" value="Geometry"/>
+  </properties>
+ </tile>
  <tile id="60" type="WorldTile">
   <properties>
    <property name="AssetId" value="1f1808b6-45d0-4cae-b73a-9b0e890c759f"/>
