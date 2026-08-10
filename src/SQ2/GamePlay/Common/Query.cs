@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics.Components;
@@ -10,6 +11,21 @@ namespace SQ2.GamePlay.Common;
 
 internal static class Query
 {
+    // TODO: Consider caching other queries as well.
+    private static Scene? _cachedScene;
+    private static Transform2DComponent? _cachedPlayerTransform2DComponent;
+
+    public static Transform2DComponent GetPlayerTransform2DComponentCached(Scene scene)
+    {
+        if (_cachedScene != scene)
+        {
+            _cachedScene = scene;
+            _cachedPlayerTransform2DComponent = GetPlayerTransform2DComponent(scene);
+        }
+
+        return _cachedPlayerTransform2DComponent ?? throw new InvalidOperationException("Player transform not found.");
+    }
+
     public static Transform2DComponent GetPlayerTransform2DComponent(Scene scene) =>
         scene.RootEntities.Single(e => e.HasComponent<PlayerComponent>()).GetComponent<Transform2DComponent>();
 

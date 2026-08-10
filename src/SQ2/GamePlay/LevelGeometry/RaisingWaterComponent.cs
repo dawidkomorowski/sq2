@@ -30,7 +30,7 @@ internal sealed class RaisingWaterComponent : BehaviorComponent, IRespawnable
     public override void OnStart()
     {
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
-        _playerTransform = Query.GetPlayerTransform2DComponent(Scene);
+        _playerTransform = Query.GetPlayerTransform2DComponentCached(Scene);
         _playerComponent = Query.GetPlayerComponent(Scene);
         _playerCollider = Query.GetPlayerRectangleColliderComponent(Scene);
 

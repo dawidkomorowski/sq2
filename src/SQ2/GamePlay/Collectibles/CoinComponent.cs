@@ -23,7 +23,7 @@ internal sealed class CoinComponent : BehaviorComponent, IRespawnable
     {
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
         _spriteRendererComponent = Entity.GetComponent<SpriteRendererComponent>();
-        _playerTransform = Query.GetPlayerTransform2DComponent(Scene);
+        _playerTransform = Query.GetPlayerTransform2DComponentCached(Scene);
     }
 
     public override void OnFixedUpdate()
