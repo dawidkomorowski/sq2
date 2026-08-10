@@ -30,7 +30,7 @@ internal sealed class JumpPadComponent : BehaviorComponent
     {
         _rectangleColliderComponent = Entity.GetComponent<RectangleColliderComponent>();
         _spriteRendererComponent = Entity.Children[0].GetComponent<SpriteRendererComponent>();
-        _playerKinematicComponent = Query.GetPlayerKinematicRigidBody2DComponent(Scene);
+        _playerKinematicComponent = Query.GetPlayerRigidBodyComponent(Scene);
 
         _spriteRendererComponent.Sprite = HighSprite;
         _launchTimer = 0;

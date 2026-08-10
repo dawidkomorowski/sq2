@@ -35,7 +35,7 @@ internal sealed class BatBossTriggerComponent : BehaviorComponent, IRespawnable
                 .Select(e => e.GetComponent<BatBossSpawnerComponent>())
         );
 
-        _playerRectangleColliderComponent = Query.GetPlayerRectangleColliderComponent(Scene);
+        _playerRectangleColliderComponent = Query.GetPlayerColliderComponent(Scene);
 
         if (TimerStartValue > 0)
         {

@@ -31,7 +31,7 @@ internal sealed class BlueBossProjectileComponent : BehaviorComponent, IRespawna
     public override void OnStart()
     {
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
-        _playerRectangleColliderComponent = Query.GetPlayerRectangleColliderComponent(Scene);
+        _playerRectangleColliderComponent = Query.GetPlayerColliderComponent(Scene);
         _playerComponent = Query.GetPlayerComponent(Scene);
     }
 

@@ -46,7 +46,7 @@ internal sealed class YellowEnemyComponent : BehaviorComponent, IRespawnable
         _kinematicRigidBody2DComponent = Entity.GetComponent<KinematicRigidBody2DComponent>();
         _rectangleColliderComponent = Entity.GetComponent<RectangleColliderComponent>();
         _spriteRendererComponent = Entity.GetComponent<SpriteRendererComponent>();
-        _playerRectangleColliderComponent = Query.GetPlayerRectangleColliderComponent(Scene);
+        _playerRectangleColliderComponent = Query.GetPlayerColliderComponent(Scene);
         _playerComponent = Query.GetPlayerComponent(Scene);
 
         _startPosition = _transform2DComponent.Translation;

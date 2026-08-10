@@ -24,7 +24,7 @@ internal sealed class CameraMovementComponent : BehaviorComponent
     public override void OnStart()
     {
         _cameraTransform = Entity.GetComponent<Transform2DComponent>();
-        _playerTransform = Query.GetPlayerTransform2DComponentCached(Scene);
+        _playerTransform = Query.GetPlayerTransformComponent(Scene);
 
         _cameraTransform.Translation = _playerTransform.InterpolatedTransform.Translation;
     }

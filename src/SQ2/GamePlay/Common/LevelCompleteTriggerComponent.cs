@@ -42,7 +42,7 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
     public override void OnStart()
     {
         _playerComponent = Query.GetPlayerComponent(Scene);
-        _playerRectangleColliderComponent = Query.GetPlayerRectangleColliderComponent(Scene);
+        _playerRectangleColliderComponent = Query.GetPlayerColliderComponent(Scene);
         _cameraMovementComponent = Query.GetCameraMovementComponent(Scene);
         _cinematicCameraComponent = Query.GetCinematicCameraComponent(Scene);
         _pauseMenuComponent = Query.GetPauseMenuComponent(Scene);

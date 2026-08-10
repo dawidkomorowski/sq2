@@ -55,7 +55,7 @@ internal sealed class Bat2EnemyComponent : BehaviorComponent, IRespawnable
         _rectangleColliderComponent = Entity.GetComponent<RectangleColliderComponent>();
         _kinematicRigidBody2DComponent = Entity.GetComponent<KinematicRigidBody2DComponent>();
         _spriteAnimationComponent = Entity.GetComponent<SpriteAnimationComponent>();
-        _playerTransform = Query.GetPlayerTransform2DComponentCached(Scene);
+        _playerTransform = Query.GetPlayerTransformComponent(Scene);
 
         _initialPosition = _transform2DComponent.Translation;
         _state = State.Idle;

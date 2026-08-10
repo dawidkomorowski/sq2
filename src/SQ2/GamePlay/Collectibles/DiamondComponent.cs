@@ -25,7 +25,7 @@ internal sealed class DiamondComponent : BehaviorComponent, IRespawnable
     {
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
         _spriteRendererComponent = Entity.GetComponent<SpriteRendererComponent>();
-        _playerTransform = Query.GetPlayerTransform2DComponentCached(Scene);
+        _playerTransform = Query.GetPlayerTransformComponent(Scene);
 
         if (_gameStateService.IsDiamondCollected(Id))
         {

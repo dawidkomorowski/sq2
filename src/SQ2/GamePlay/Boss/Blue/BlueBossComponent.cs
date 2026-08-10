@@ -80,7 +80,7 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
         _transform2DComponent = Entity.GetComponent<Transform2DComponent>();
         _spriteAnimationComponent = Entity.Children[0].GetComponent<SpriteAnimationComponent>();
 
-        _playerTransform = Query.GetPlayerTransform2DComponentCached(Scene);
+        _playerTransform = Query.GetPlayerTransformComponent(Scene);
         Query.GetCameraMovementComponent(Scene).PointOfInterest = _transform2DComponent;
 
         _startPosition = _transform2DComponent.Translation;

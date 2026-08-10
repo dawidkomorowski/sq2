@@ -12,31 +12,31 @@ namespace SQ2.GamePlay.Common;
 internal static class Query
 {
     // TODO: Consider caching other queries as well.
-    private static Scene? _cachedScene;
-    private static Transform2DComponent? _cachedPlayerTransform2DComponent;
+    private static readonly PlayerQueryCache PlayerQueryCacheInstance = new();
 
-    public static Transform2DComponent GetPlayerTransform2DComponentCached(Scene scene)
+    public static Transform2DComponent GetPlayerTransformComponent(Scene scene)
     {
-        if (_cachedScene != scene)
-        {
-            _cachedScene = scene;
-            _cachedPlayerTransform2DComponent = GetPlayerTransform2DComponent(scene);
-        }
-
-        return _cachedPlayerTransform2DComponent ?? throw new InvalidOperationException("Player transform not found.");
+        PlayerQueryCacheInstance.RefreshIfStale(scene);
+        return PlayerQueryCacheInstance.Transform;
     }
 
-    public static Transform2DComponent GetPlayerTransform2DComponent(Scene scene) =>
-        scene.RootEntities.Single(e => e.HasComponent<PlayerComponent>()).GetComponent<Transform2DComponent>();
+    public static RectangleColliderComponent GetPlayerColliderComponent(Scene scene)
+    {
+        PlayerQueryCacheInstance.RefreshIfStale(scene);
+        return PlayerQueryCacheInstance.Collider;
+    }
 
-    public static RectangleColliderComponent GetPlayerRectangleColliderComponent(Scene scene) =>
-        scene.RootEntities.Single(e => e.HasComponent<PlayerComponent>()).GetComponent<RectangleColliderComponent>();
+    public static KinematicRigidBody2DComponent GetPlayerRigidBodyComponent(Scene scene)
+    {
+        PlayerQueryCacheInstance.RefreshIfStale(scene);
+        return PlayerQueryCacheInstance.RigidBody;
+    }
 
-    public static KinematicRigidBody2DComponent GetPlayerKinematicRigidBody2DComponent(Scene scene) =>
-        scene.RootEntities.Single(e => e.HasComponent<PlayerComponent>()).GetComponent<KinematicRigidBody2DComponent>();
-
-    public static PlayerComponent GetPlayerComponent(Scene scene) =>
-        scene.RootEntities.Single(e => e.HasComponent<PlayerComponent>()).GetComponent<PlayerComponent>();
+    public static PlayerComponent GetPlayerComponent(Scene scene)
+    {
+        PlayerQueryCacheInstance.RefreshIfStale(scene);
+        return PlayerQueryCacheInstance.Player;
+    }
 
     public static CameraMovementComponent GetCameraMovementComponent(Scene scene) =>
         scene.RootEntities.Single(e => e.HasComponent<CameraMovementComponent>()).GetComponent<CameraMovementComponent>();
@@ -63,5 +63,33 @@ internal static class Query
         }
 
         return false;
+    }
+
+    private class PlayerQueryCache
+    {
+        private Scene? _cachedScene;
+        private Transform2DComponent? _cachedTransform;
+        private RectangleColliderComponent? _cachedCollider;
+        private KinematicRigidBody2DComponent? _cachedRigidBody;
+        private PlayerComponent? _cachedPlayer;
+
+        public Transform2DComponent Transform => _cachedTransform ?? throw new InvalidOperationException("Player transform not found.");
+        public RectangleColliderComponent Collider => _cachedCollider ?? throw new InvalidOperationException("Player collider not found.");
+        public KinematicRigidBody2DComponent RigidBody => _cachedRigidBody ?? throw new InvalidOperationException("Player rigid body not found.");
+        public PlayerComponent Player => _cachedPlayer ?? throw new InvalidOperationException("Player not found.");
+
+        public void RefreshIfStale(Scene scene)
+        {
+            if (_cachedScene == scene) return;
+
+            _cachedScene = scene;
+
+            var playerEntity = scene.RootEntities.Single(e => e.HasComponent<PlayerComponent>());
+
+            _cachedTransform = playerEntity.GetComponent<Transform2DComponent>();
+            _cachedCollider = playerEntity.GetComponent<RectangleColliderComponent>();
+            _cachedRigidBody = playerEntity.GetComponent<KinematicRigidBody2DComponent>();
+            _cachedPlayer = playerEntity.GetComponent<PlayerComponent>();
+        }
     }
 }

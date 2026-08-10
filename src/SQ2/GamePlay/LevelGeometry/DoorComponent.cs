@@ -26,7 +26,7 @@ internal sealed class DoorComponent : BehaviorComponent
     {
         var transform2DComponent = Entity.GetComponent<Transform2DComponent>();
 
-        _playerTransform2DComponent = Query.GetPlayerTransform2DComponentCached(Scene);
+        _playerTransform2DComponent = Query.GetPlayerTransformComponent(Scene);
         _playerComponent = Query.GetPlayerComponent(Scene);
 
         var exitEntity = Scene.RootEntities.FirstOrDefault(e => e.HasComponent<DoorComponent>() && ExitObjectId == e.GetComponent<DoorComponent>().ObjectId);
