@@ -18,14 +18,14 @@ internal sealed class LevelInfo
             new LevelInfo
             {
                 Name = "Level 1",
-                MapFileName = "level_01.tmx",
+                MapFileName = "Level01.tmx",
                 PreviewSpriteAssetId = AssetId.Parse("ffbca60b-d912-499c-b75b-774aea1b05fc"),
                 DiamondId = string.Empty
             },
             new LevelInfo
             {
                 Name = "Level 2",
-                MapFileName = "level_02.tmx",
+                MapFileName = "Level02.tmx",
                 PreviewSpriteAssetId = AssetId.Parse("2ad44ac3-026a-428c-bb60-29205bc4e697"),
                 DiamondId = "f9491c64-518c-41f2-b380-ff4426da66e9"
             }
