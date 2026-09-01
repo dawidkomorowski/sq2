@@ -80,4 +80,3 @@ jobs:
           name: Test Results
           path: src/SQ2.Tests/**/test-results.trx
           reporter: dotnet-trx
-          only-summary: true
