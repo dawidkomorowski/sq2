@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="230" height="78" tilewidth="18" tileheight="18" infinite="0" nextlayerid="14" nextobjectid="316">
- <tileset firstgid="1" source="../../Assets/TileSets/pixel-platformer.tsx"/>
- <tileset firstgid="181" source="../../Assets/TileSets/pixel-platformer-characters.tsx"/>
- <tileset firstgid="208" source="../../Assets/TileSets/pixel-platformer-customized.tsx"/>
- <tileset firstgid="388" source="../../Assets/TileSets/pixel-platformer-characters-customized.tsx"/>
- <tileset firstgid="415" source="../../Assets/TileSets/pixel-platformer-farm-expansion.tsx"/>
+ <tileset firstgid="1" source="../TileSets/pixel-platformer.tsx"/>
+ <tileset firstgid="181" source="../TileSets/pixel-platformer-characters.tsx"/>
+ <tileset firstgid="208" source="../TileSets/pixel-platformer-customized.tsx"/>
+ <tileset firstgid="388" source="../TileSets/pixel-platformer-characters-customized.tsx"/>
+ <tileset firstgid="415" source="../TileSets/pixel-platformer-farm-expansion.tsx"/>
  <layer id="9" name="CAVEBACKGROUND" width="230" height="78">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,122,123,123,123,123,123,123,123,123,123,123,123,55,123,123,123,123,123,123,123,123,123,123,123,

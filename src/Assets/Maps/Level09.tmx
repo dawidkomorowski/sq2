@@ -3,11 +3,11 @@
  <properties>
   <property name="Background" propertytype="Background" value="Forest"/>
  </properties>
- <tileset firstgid="1" source="../../Assets/TileSets/pixel-platformer.tsx"/>
- <tileset firstgid="181" source="../../Assets/TileSets/pixel-platformer-characters.tsx"/>
- <tileset firstgid="208" source="../../Assets/TileSets/pixel-platformer-characters-customized.tsx"/>
- <tileset firstgid="235" source="../../Assets/TileSets/pixel-platformer-customized.tsx"/>
- <tileset firstgid="415" source="../../Assets/TileSets/pixel-platformer-farm-expansion.tsx"/>
+ <tileset firstgid="1" source="../TileSets/pixel-platformer.tsx"/>
+ <tileset firstgid="181" source="../TileSets/pixel-platformer-characters.tsx"/>
+ <tileset firstgid="208" source="../TileSets/pixel-platformer-characters-customized.tsx"/>
+ <tileset firstgid="235" source="../TileSets/pixel-platformer-customized.tsx"/>
+ <tileset firstgid="415" source="../TileSets/pixel-platformer-farm-expansion.tsx"/>
  <layer id="5" name="DecorationsBackground" width="400" height="80">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

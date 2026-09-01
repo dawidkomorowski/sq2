@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="176" height="133" tilewidth="18" tileheight="18" infinite="0" nextlayerid="29" nextobjectid="1036">
- <tileset firstgid="1" source="../../Assets/TileSets/pixel-platformer.tsx"/>
- <tileset firstgid="181" source="../../Assets/TileSets/pixel-platformer-characters.tsx"/>
- <tileset firstgid="208" source="../../Assets/TileSets/pixel-platformer-customized.tsx"/>
- <tileset firstgid="388" source="../../Assets/TileSets/pixel-platformer-characters-customized.tsx"/>
+ <tileset firstgid="1" source="../TileSets/pixel-platformer.tsx"/>
+ <tileset firstgid="181" source="../TileSets/pixel-platformer-characters.tsx"/>
+ <tileset firstgid="208" source="../TileSets/pixel-platformer-customized.tsx"/>
+ <tileset firstgid="388" source="../TileSets/pixel-platformer-characters-customized.tsx"/>
  <layer id="25" name="CaveBackground" width="176" height="133">
   <data encoding="csv">
 211,211,211,1610612946,211,1610612946,211,211,211,211,211,211,211,211,211,211,211,211,211,211,1610612946,211,1610612946,211,211,211,211,211,211,211,211,211,211,211,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
