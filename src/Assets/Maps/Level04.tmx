@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="150" height="130" tilewidth="18" tileheight="18" infinite="0" nextlayerid="8" nextobjectid="906">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="150" height="130" tilewidth="18" tileheight="18" infinite="0" nextlayerid="8" nextobjectid="907">
  <properties>
   <property name="Background" propertytype="Background" value="Winter"/>
  </properties>
@@ -859,9 +859,10 @@
     <property name="InitialMovementDirection" propertytype="MovementDirection" value="Right"/>
    </properties>
   </object>
+  <object id="906" type="BossPumpkin" gid="420" x="666" y="2178" width="18" height="18"/>
  </objectgroup>
  <objectgroup id="2" name="GamePlayObjects">
-  <object id="1" name="Player Spawn Point" type="PlayerSpawnPoint" x="2083.5" y="1885.5">
+  <object id="1" name="Player Spawn Point" type="PlayerSpawnPoint" x="945.25" y="2082">
    <point/>
   </object>
   <object id="529" type="Diamond" gid="68" x="1590.65" y="1845.2" width="18" height="18">

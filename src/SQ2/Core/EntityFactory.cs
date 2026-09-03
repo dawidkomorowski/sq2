@@ -12,6 +12,7 @@ using Geisha.Engine.Rendering.Components;
 using SQ2.Development;
 using SQ2.GamePlay.Boss.Bat;
 using SQ2.GamePlay.Boss.Blue;
+using SQ2.GamePlay.Boss.Pumpkin;
 using SQ2.GamePlay.Collectibles;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Enemies;
@@ -844,6 +845,28 @@ internal sealed class EntityFactory
         spriteRendererComponent.OrderInLayer = 1;
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("56abfaa2-eb0a-45e1-8831-179ea209155c"));
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
+        return entity;
+    }
+
+    public Entity CreateBossPumpkin(Scene scene, Vector2 position)
+    {
+        var entity = scene.CreateEntity();
+        entity.CreateComponent<PumpkinBossComponent>();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = position;
+        transform2DComponent.IsInterpolated = true;
+        var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
+        rectangleColliderComponent.Dimensions = new Vector2(14, 14);
+        var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
+        kinematicRigidBody2DComponent.EnableCollisionResponse = false;
+
+        var spriteEntity = entity.CreateChildEntity();
+        var spriteTransform2DComponent = spriteEntity.CreateComponent<Transform2DComponent>();
+        spriteTransform2DComponent.Translation = PumpkinBossComponent.SpriteOffset;
+        var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("4e858563-a994-486f-a8ef-15f7b3bea9ae"));
+
         return entity;
     }
 

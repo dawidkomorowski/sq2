@@ -165,6 +165,19 @@
         {
             "color": "#ffa0a0a4",
             "drawFill": true,
+            "id": 31,
+            "members": [
+            ],
+            "name": "BossPumpkin",
+            "type": "class",
+            "useAs": [
+                "object",
+                "project"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
             "id": 9,
             "members": [
             ],

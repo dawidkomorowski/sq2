@@ -338,6 +338,12 @@ internal sealed class MapLoader
                     _entityFactory.CreateBatBossTrigger(scene, center, size, timerStartValue);
                     break;
                 }
+                case "BossPumpkin" when tiledObject is TiledObject.Tile:
+                {
+                    var position = objectPosition + new Vector2(9, 7);
+                    _entityFactory.CreateBossPumpkin(scene, position);
+                    break;
+                }
                 case "Button" when tiledObject is TiledObject.Tile:
                 {
                     var position = objectPosition + tileCenterOffset + new Vector2(0, -6);
