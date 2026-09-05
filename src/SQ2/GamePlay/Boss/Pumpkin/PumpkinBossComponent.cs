@@ -34,6 +34,7 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
     private bool _jumpRight;
     private int _jumpCount;
     private int _jumpCountAfterPassingPlayer;
+    private double _jumpHorizontalSpeed;
 
     public PumpkinBossComponent(Entity entity) : base(entity)
     {
@@ -55,7 +56,7 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
 
         _initialPosition = _transform2DComponent.Translation;
 
-        _spriteRendererComponent.Sprite = Back;
+        Respawn();
     }
 
     public override void OnFixedUpdate()
@@ -106,6 +107,9 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
             case State.LowJumping:
                 OnLowJumping(contacts);
                 break;
+            case State.HighJumping:
+                OnHighJumping(contacts);
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(_state), _state, $"Unexpected PumpkinBoss state: {_state}");
         }
@@ -132,9 +136,7 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
     {
         if (_stateTime > TimeSpan.FromSeconds(2))
         {
-            _jumpCount = 0;
-            _jumpCountAfterPassingPlayer = 0;
-            _jumpRight = PlayerIsToTheRight();
+            InitJumpState();
             _state = State.LowJumping;
         }
 
@@ -143,53 +145,54 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
 
     private void OnLowJumping(ReadOnlySpan<Contact2D> contacts)
     {
-        var playerIsToTheRight = PlayerIsToTheRight();
-
-        if (_jumpCountAfterPassingPlayer >= 2)
-        {
-            _jumpCountAfterPassingPlayer = 0;
-            _jumpRight = playerIsToTheRight;
-        }
-
-        var baseHorizontalSpeed = 0;
-
-        if (_jumpCount < 12)
-        {
-            baseHorizontalSpeed = 50;
-        }
-        else if (_jumpCount < 36)
-        {
-            baseHorizontalSpeed = 100;
-        }
-
         // Bounce from walls.
         foreach (var contact2D in contacts)
         {
             if (contact2D.CollisionNormal.X > 0)
             {
                 _jumpRight = true;
-                _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(baseHorizontalSpeed);
+                _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(-_jumpHorizontalSpeed);
             }
 
             if (contact2D.CollisionNormal.X < 0)
             {
                 _jumpRight = false;
-                _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(-baseHorizontalSpeed);
+                _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(-_jumpHorizontalSpeed);
             }
         }
 
         // Jump when on ground.
         if (_isOnGround)
         {
-            if (_jumpCount >= 36)
+            if (_jumpCount >= 24)
             {
                 _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
-                _state = State.Idle;
+                InitJumpState();
+                _state = State.HighJumping;
                 return;
             }
 
-            var horizontalSpeed = _jumpRight ? baseHorizontalSpeed : -baseHorizontalSpeed;
-            _kinematicRigidBody2DComponent.LinearVelocity = new Vector2(horizontalSpeed, 100);
+            var playerIsToTheRight = PlayerIsToTheRight();
+
+            if (_jumpCountAfterPassingPlayer >= 2)
+            {
+                _jumpCountAfterPassingPlayer = 0;
+                _jumpRight = playerIsToTheRight;
+            }
+
+            var baseHorizontalSpeed = 0;
+
+            if (_jumpCount < 12)
+            {
+                baseHorizontalSpeed = 50;
+            }
+            else if (_jumpCount < 24)
+            {
+                baseHorizontalSpeed = 100;
+            }
+
+            _jumpHorizontalSpeed = _jumpRight ? baseHorizontalSpeed : -baseHorizontalSpeed;
+            _kinematicRigidBody2DComponent.LinearVelocity = new Vector2(_jumpHorizontalSpeed, 100);
             _jumpCount++;
 
             if (_jumpRight != playerIsToTheRight)
@@ -201,6 +204,65 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
         AnimateByHeight(18);
     }
 
+    private void OnHighJumping(ReadOnlySpan<Contact2D> contacts)
+    {
+        // Bounce from walls.
+        foreach (var contact2D in contacts)
+        {
+            if (contact2D.CollisionNormal.X > 0)
+            {
+                _jumpRight = true;
+                _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(-_jumpHorizontalSpeed);
+            }
+
+            if (contact2D.CollisionNormal.X < 0)
+            {
+                _jumpRight = false;
+                _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(-_jumpHorizontalSpeed);
+            }
+        }
+
+        // Jump when on ground.
+        if (_isOnGround)
+        {
+            if (_jumpCount >= 12)
+            {
+                _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
+                InitJumpState();
+                _state = State.Idle;
+                return;
+            }
+
+            var horizontalDiff = _playerTransform.Translation.X - _transform2DComponent.Translation.X;
+            var horizontalDistance = Math.Abs(horizontalDiff);
+
+            // High jump.
+            _jumpHorizontalSpeed = horizontalDiff + ((_jumpCount % 3) - 1) * 40;
+            var verticalSpeed = 200 + Math.Abs(horizontalDistance);
+            verticalSpeed = Math.Min(verticalSpeed, 300);
+
+            // Low jump if player too close.
+            if (horizontalDistance < 50)
+            {
+                _jumpHorizontalSpeed = Math.Sign(horizontalDiff) * 200;
+                verticalSpeed = 100;
+            }
+
+            _kinematicRigidBody2DComponent.LinearVelocity = new Vector2(_jumpHorizontalSpeed, verticalSpeed);
+            _jumpCount++;
+        }
+
+        AnimateByHeight(18 * 3);
+    }
+
+    private void InitJumpState()
+    {
+        _jumpCount = 0;
+        _jumpCountAfterPassingPlayer = 0;
+        _jumpRight = PlayerIsToTheRight();
+        _jumpHorizontalSpeed = 0;
+    }
+
     private bool PlayerIsToTheRight() => _transform2DComponent.Translation.X < _playerTransform.Translation.X;
 
     public void Respawn()
@@ -210,6 +272,7 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
         _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with { Translation = _initialPosition });
         _spriteRendererComponent.Sprite = Back;
         ResetAnimation();
+        InitJumpState();
     }
 
     #region Animation
@@ -250,7 +313,8 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
     {
         WaitingForPlayer,
         Idle,
-        LowJumping
+        LowJumping,
+        HighJumping
     }
 }
 
