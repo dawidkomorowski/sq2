@@ -516,7 +516,7 @@ internal sealed class EntityFactory
         };
 
         var entity = scene.CreateEntity();
-        entity.CreateComponent<WalkingEnemyDeathAnimationComponent>();
+        entity.CreateComponent<SquashDeathAnimationComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = position;
         transform2DComponent.Scale = scale;
@@ -821,7 +821,7 @@ internal sealed class EntityFactory
     public Entity CreateBlueBossDeathAnimation(Scene scene, Vector2 position, Vector2 scale)
     {
         var entity = scene.CreateEntity();
-        entity.CreateComponent<WalkingEnemyDeathAnimationComponent>();
+        entity.CreateComponent<SquashDeathAnimationComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = position;
         transform2DComponent.Scale = scale;
@@ -869,6 +869,18 @@ internal sealed class EntityFactory
         var spriteRendererComponent = spriteEntity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
 
+        return entity;
+    }
+
+    public Entity CreatePumpkinBossDeathAnimation(Scene scene, Vector2 position)
+    {
+        var entity = scene.CreateEntity();
+        entity.CreateComponent<SquashDeathAnimationComponent>();
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = position;
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("47818f05-996b-4551-ac5a-18b34c0e91c7"));
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         return entity;
     }
 

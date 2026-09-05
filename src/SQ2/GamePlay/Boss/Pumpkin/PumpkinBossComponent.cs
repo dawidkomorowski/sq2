@@ -179,7 +179,7 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
         if (_stateTime > TimeSpan.FromSeconds(2))
         {
             InitJumpState();
-            _state = State.Stomp;
+            _state = State.LowJumping;
         }
 
         AnimateByTime();
@@ -373,8 +373,8 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
         if (_health <= 0)
         {
             Entity.RemoveAfterFixedTimeStep();
-
             _respawnService.AddOneTimeRespawnAction(() => { _entityFactory.CreatePumpkinBoss(Scene, _initialPosition); });
+            _entityFactory.CreatePumpkinBossDeathAnimation(Scene, _transform2DComponent.Translation + SpriteOffset);
         }
     }
 
