@@ -30,8 +30,10 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
     private double _animationTimer;
     private State _state = State.WaitingForPlayer;
     private TimeSpan _stateTime;
-    private bool _isOnGround = false;
-    private bool _playerIsToTheRight = false;
+    private bool _isOnGround;
+    private bool _jumpRight;
+    private int _jumpCount;
+    private int _jumpCountAfterPassingPlayer;
 
     public PumpkinBossComponent(Entity entity) : base(entity)
     {
@@ -69,6 +71,20 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
                 _isOnGround = true;
             }
 
+            if (contact2D.CollisionNormal.X > 0)
+            {
+                _kinematicRigidBody2DComponent.LinearVelocity =
+                    _kinematicRigidBody2DComponent.LinearVelocity.WithX(-_kinematicRigidBody2DComponent.LinearVelocity.X);
+                _jumpRight = true;
+            }
+
+            if (contact2D.CollisionNormal.X < 0)
+            {
+                _kinematicRigidBody2DComponent.LinearVelocity =
+                    _kinematicRigidBody2DComponent.LinearVelocity.WithX(-_kinematicRigidBody2DComponent.LinearVelocity.X);
+                _jumpRight = false;
+            }
+
             if (contact2D.OtherCollider.Entity.HasComponent<PlayerComponent>())
             {
                 var playerComponent = contact2D.OtherCollider.Entity.GetComponent<PlayerComponent>();
@@ -88,7 +104,7 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
                 OnIdle();
                 break;
             case State.LowJumping:
-                OnLowJumping();
+                OnLowJumping(contacts);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(_state), _state, $"Unexpected PumpkinBoss state: {_state}");
@@ -116,30 +132,76 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
     {
         if (_stateTime > TimeSpan.FromSeconds(2))
         {
+            _jumpCount = 0;
+            _jumpCountAfterPassingPlayer = 0;
+            _jumpRight = PlayerIsToTheRight();
             _state = State.LowJumping;
         }
 
         AnimateByTime();
     }
 
-    private void OnLowJumping()
+    private void OnLowJumping(ReadOnlySpan<Contact2D> contacts)
     {
-        FindDirectionToPlayer();
-        var baseHorizontalSpeed = 50;
-        var horizontalSpeed = _playerIsToTheRight ? baseHorizontalSpeed : -baseHorizontalSpeed;
+        var playerIsToTheRight = PlayerIsToTheRight();
 
+        if (_jumpCountAfterPassingPlayer >= 2)
+        {
+            _jumpCountAfterPassingPlayer = 0;
+            _jumpRight = playerIsToTheRight;
+        }
+
+        var baseHorizontalSpeed = 0;
+
+        if (_jumpCount < 12)
+        {
+            baseHorizontalSpeed = 50;
+        }
+        else if (_jumpCount < 36)
+        {
+            baseHorizontalSpeed = 100;
+        }
+
+        // Bounce from walls.
+        foreach (var contact2D in contacts)
+        {
+            if (contact2D.CollisionNormal.X > 0)
+            {
+                _jumpRight = true;
+                _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(baseHorizontalSpeed);
+            }
+
+            if (contact2D.CollisionNormal.X < 0)
+            {
+                _jumpRight = false;
+                _kinematicRigidBody2DComponent.LinearVelocity = _kinematicRigidBody2DComponent.LinearVelocity.WithX(-baseHorizontalSpeed);
+            }
+        }
+
+        // Jump when on ground.
         if (_isOnGround)
         {
+            if (_jumpCount >= 36)
+            {
+                _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
+                _state = State.Idle;
+                return;
+            }
+
+            var horizontalSpeed = _jumpRight ? baseHorizontalSpeed : -baseHorizontalSpeed;
             _kinematicRigidBody2DComponent.LinearVelocity = new Vector2(horizontalSpeed, 100);
+            _jumpCount++;
+
+            if (_jumpRight != playerIsToTheRight)
+            {
+                _jumpCountAfterPassingPlayer++;
+            }
         }
 
         AnimateByHeight(18);
     }
 
-    private void FindDirectionToPlayer()
-    {
-        _playerIsToTheRight = _transform2DComponent.Translation.X < _playerTransform.Translation.X;
-    }
+    private bool PlayerIsToTheRight() => _transform2DComponent.Translation.X < _playerTransform.Translation.X;
 
     public void Respawn()
     {
