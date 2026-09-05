@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Geisha.Engine.Core;
+﻿using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
@@ -8,14 +6,19 @@ using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
 using Geisha.Engine.Rendering;
 using Geisha.Engine.Rendering.Components;
+using SQ2.Core;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
+using System;
+using System.Collections.Generic;
 
 namespace SQ2.GamePlay.Boss.Pumpkin;
 
 internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
 {
     internal static readonly Vector2 SpriteOffset = new(0, 2);
+
+    private readonly EntityFactory _entityFactory;
 
     private Transform2DComponent _transform2DComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;
@@ -24,6 +27,7 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
     private SpriteRendererComponent _spriteRendererComponent = null!;
 
     private Transform2DComponent _playerTransform = null!;
+    private CameraMovementComponent _cameraMovementComponent = null!;
 
     private Vector2 _initialPosition;
     private readonly List<Contact2D> _contacts = new();
@@ -36,8 +40,9 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
     private int _jumpCountAfterPassingPlayer;
     private double _jumpHorizontalSpeed;
 
-    public PumpkinBossComponent(Entity entity) : base(entity)
+    public PumpkinBossComponent(Entity entity, EntityFactory entityFactory) : base(entity)
     {
+        _entityFactory = entityFactory;
     }
 
     public Sprite? Back { get; set; }
@@ -52,7 +57,8 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
         _spriteRendererComponent = Entity.Children[0].GetComponent<SpriteRendererComponent>();
 
         _playerTransform = Query.GetPlayerTransformComponent(Scene);
-        Query.GetCameraMovementComponent(Scene).PointOfInterest = _transform2DComponent;
+        _cameraMovementComponent = Query.GetCameraMovementComponent(Scene);
+        _cameraMovementComponent.PointOfInterest = _transform2DComponent;
 
         _initialPosition = _transform2DComponent.Translation;
 
@@ -89,8 +95,25 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
             if (contact2D.OtherCollider.Entity.HasComponent<PlayerComponent>())
             {
                 var playerComponent = contact2D.OtherCollider.Entity.GetComponent<PlayerComponent>();
-                playerComponent.KillPlayer();
-                break;
+
+                if (_state is State.Vulnerable)
+                {
+                    if (contact2D.CollisionNormal.Y < 0)
+                    {
+                        var playerKinematicComponent = playerComponent.Entity.GetComponent<KinematicRigidBody2DComponent>();
+                        playerKinematicComponent.LinearVelocity = playerKinematicComponent.LinearVelocity.WithY(200);
+
+                        OnDamage();
+                    }
+                    else
+                    {
+                        playerComponent.KillPlayer();
+                    }
+                }
+                else
+                {
+                    playerComponent.KillPlayer();
+                }
             }
         }
 
@@ -112,6 +135,12 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
                 break;
             case State.HighJumping:
                 OnHighJumping(contacts);
+                break;
+            case State.Stomp:
+                OnStomp();
+                break;
+            case State.Vulnerable:
+                OnVulnerable();
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(_state), _state, $"Unexpected PumpkinBoss state: {_state}");
@@ -183,18 +212,9 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
                 _jumpRight = playerIsToTheRight;
             }
 
-            var baseHorizontalSpeed = 0;
-
-            if (_jumpCount < 12)
-            {
-                baseHorizontalSpeed = 50;
-            }
-            else if (_jumpCount < 24)
-            {
-                baseHorizontalSpeed = 100;
-            }
-
+            var baseHorizontalSpeed = _jumpCount < 12 ? 50 : 100;
             _jumpHorizontalSpeed = _jumpRight ? baseHorizontalSpeed : -baseHorizontalSpeed;
+
             _kinematicRigidBody2DComponent.LinearVelocity = new Vector2(_jumpHorizontalSpeed, 100);
             _jumpCount++;
 
@@ -243,7 +263,7 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
             {
                 _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
                 InitJumpState();
-                _state = State.Idle;
+                _state = State.Stomp;
                 return;
             }
 
@@ -269,6 +289,43 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
         AnimateByHeight(18 * 3);
     }
 
+    private void OnStomp()
+    {
+        if (_jumpCount == 0)
+        {
+            _kinematicRigidBody2DComponent.LinearVelocity = new Vector2(0, 300);
+            _jumpCount++;
+            return;
+        }
+
+        if (_kinematicRigidBody2DComponent.LinearVelocity.Y < 0)
+        {
+            _kinematicRigidBody2DComponent.LinearVelocity = new Vector2(0, -300);
+        }
+
+        if (_isOnGround)
+        {
+            _cameraMovementComponent.ShakeCamera();
+            _entityFactory.CreateSmokePuffAnimation(Scene, _transform2DComponent.Translation);
+            _state = State.Vulnerable;
+        }
+
+        AnimateByHeight(18 * 3);
+    }
+
+    private void OnVulnerable()
+    {
+        if (_stateTime > TimeSpan.FromSeconds(4))
+        {
+            _spriteRendererComponent.Sprite = Front;
+            _state = State.Idle;
+            return;
+        }
+
+        _spriteRendererComponent.Sprite = Back;
+        ResetAnimation();
+    }
+
     private void InitJumpState()
     {
         _jumpCount = 0;
@@ -278,6 +335,10 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
     }
 
     private bool PlayerIsToTheRight() => _transform2DComponent.Translation.X < _playerTransform.Translation.X;
+
+    private void OnDamage()
+    {
+    }
 
     public void Respawn()
     {
@@ -329,12 +390,21 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
         Idle,
         LowJumping,
         PrepareHighJump,
-        HighJumping
+        HighJumping,
+        Stomp,
+        Vulnerable
     }
 }
 
 // ReSharper disable once ClassNeverInstantiated.Global
 internal sealed class PumpkinBossComponentFactory : ComponentFactory<PumpkinBossComponent>
 {
-    protected override PumpkinBossComponent CreateComponent(Entity entity) => new(entity);
+    private readonly EntityFactory _entityFactory;
+
+    public PumpkinBossComponentFactory(EntityFactory entityFactory)
+    {
+        _entityFactory = entityFactory;
+    }
+
+    protected override PumpkinBossComponent CreateComponent(Entity entity) => new(entity, _entityFactory);
 }
