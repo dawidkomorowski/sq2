@@ -107,6 +107,9 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
             case State.LowJumping:
                 OnLowJumping(contacts);
                 break;
+            case State.PrepareHighJump:
+                OnPrepareHighJump();
+                break;
             case State.HighJumping:
                 OnHighJumping(contacts);
                 break;
@@ -168,7 +171,7 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
             {
                 _kinematicRigidBody2DComponent.LinearVelocity = Vector2.Zero;
                 InitJumpState();
-                _state = State.HighJumping;
+                _state = State.PrepareHighJump;
                 return;
             }
 
@@ -202,6 +205,17 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
         }
 
         AnimateByHeight(18);
+    }
+
+    private void OnPrepareHighJump()
+    {
+        if (_stateTime > TimeSpan.FromSeconds(1))
+        {
+            InitJumpState();
+            _state = State.HighJumping;
+        }
+
+        AnimateByHeight(18 * 3);
     }
 
     private void OnHighJumping(ReadOnlySpan<Contact2D> contacts)
@@ -314,6 +328,7 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
         WaitingForPlayer,
         Idle,
         LowJumping,
+        PrepareHighJump,
         HighJumping
     }
 }
