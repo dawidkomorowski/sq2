@@ -19,6 +19,7 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
     internal static readonly Vector2 SpriteOffset = new(0, 2);
 
     private readonly EntityFactory _entityFactory;
+    private readonly RespawnService _respawnService;
 
     private Transform2DComponent _transform2DComponent = null!;
     private RectangleColliderComponent _rectangleColliderComponent = null!;
@@ -39,14 +40,18 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
     private int _jumpCount;
     private int _jumpCountAfterPassingPlayer;
     private double _jumpHorizontalSpeed;
+    private bool _damagedThisFrame;
+    private int _health = 3;
 
-    public PumpkinBossComponent(Entity entity, EntityFactory entityFactory) : base(entity)
+    public PumpkinBossComponent(Entity entity, EntityFactory entityFactory, RespawnService respawnService) : base(entity)
     {
         _entityFactory = entityFactory;
+        _respawnService = respawnService;
     }
 
     public Sprite? Back { get; set; }
     public Sprite? Front { get; set; }
+    public Sprite? Damage { get; set; }
 
     public override void OnStart()
     {
@@ -103,7 +108,7 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
                         var playerKinematicComponent = playerComponent.Entity.GetComponent<KinematicRigidBody2DComponent>();
                         playerKinematicComponent.LinearVelocity = playerKinematicComponent.LinearVelocity.WithY(200);
 
-                        OnDamage();
+                        TakeDamage();
                     }
                     else
                     {
@@ -142,6 +147,9 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
             case State.Vulnerable:
                 OnVulnerable();
                 break;
+            case State.Damaged:
+                OnDamaged();
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(_state), _state, $"Unexpected PumpkinBoss state: {_state}");
         }
@@ -166,10 +174,12 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
 
     private void OnIdle()
     {
+        _spriteRendererComponent.Sprite = Front;
+
         if (_stateTime > TimeSpan.FromSeconds(2))
         {
             InitJumpState();
-            _state = State.LowJumping;
+            _state = State.Stomp;
         }
 
         AnimateByTime();
@@ -315,6 +325,13 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
 
     private void OnVulnerable()
     {
+        if (_damagedThisFrame)
+        {
+            _damagedThisFrame = false;
+            _state = State.Damaged;
+            return;
+        }
+
         if (_stateTime > TimeSpan.FromSeconds(4))
         {
             _spriteRendererComponent.Sprite = Front;
@@ -324,6 +341,18 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
 
         _spriteRendererComponent.Sprite = Back;
         ResetAnimation();
+    }
+
+    private void OnDamaged()
+    {
+        _spriteRendererComponent.Sprite = Damage;
+        ResetAnimation();
+
+        if (_stateTime > TimeSpan.FromMilliseconds(50))
+        {
+            _spriteRendererComponent.Sprite = Front;
+            _state = State.Idle;
+        }
     }
 
     private void InitJumpState()
@@ -336,8 +365,17 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
 
     private bool PlayerIsToTheRight() => _transform2DComponent.Translation.X < _playerTransform.Translation.X;
 
-    private void OnDamage()
+    private void TakeDamage()
     {
+        _damagedThisFrame = true;
+        _health--;
+
+        if (_health <= 0)
+        {
+            Entity.RemoveAfterFixedTimeStep();
+
+            _respawnService.AddOneTimeRespawnAction(() => { _entityFactory.CreatePumpkinBoss(Scene, _initialPosition); });
+        }
     }
 
     public void Respawn()
@@ -348,6 +386,8 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
         _spriteRendererComponent.Sprite = Back;
         ResetAnimation();
         InitJumpState();
+        _damagedThisFrame = false;
+        _health = 3;
     }
 
     #region Animation
@@ -392,7 +432,8 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
         PrepareHighJump,
         HighJumping,
         Stomp,
-        Vulnerable
+        Vulnerable,
+        Damaged
     }
 }
 
@@ -400,11 +441,13 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
 internal sealed class PumpkinBossComponentFactory : ComponentFactory<PumpkinBossComponent>
 {
     private readonly EntityFactory _entityFactory;
+    private readonly RespawnService _respawnService;
 
-    public PumpkinBossComponentFactory(EntityFactory entityFactory)
+    public PumpkinBossComponentFactory(EntityFactory entityFactory, RespawnService respawnService)
     {
         _entityFactory = entityFactory;
+        _respawnService = respawnService;
     }
 
-    protected override PumpkinBossComponent CreateComponent(Entity entity) => new(entity, _entityFactory);
+    protected override PumpkinBossComponent CreateComponent(Entity entity) => new(entity, _entityFactory, _respawnService);
 }

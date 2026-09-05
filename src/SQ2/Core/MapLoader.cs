@@ -341,7 +341,7 @@ internal sealed class MapLoader
                 case "BossPumpkin" when tiledObject is TiledObject.Tile:
                 {
                     var position = objectPosition + new Vector2(9, 7);
-                    _entityFactory.CreateBossPumpkin(scene, position);
+                    _entityFactory.CreatePumpkinBoss(scene, position);
                     break;
                 }
                 case "Button" when tiledObject is TiledObject.Tile:

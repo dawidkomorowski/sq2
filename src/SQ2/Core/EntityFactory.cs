@@ -848,12 +848,13 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateBossPumpkin(Scene scene, Vector2 position)
+    public Entity CreatePumpkinBoss(Scene scene, Vector2 position)
     {
         var entity = scene.CreateEntity();
         var pumpkinBossComponent = entity.CreateComponent<PumpkinBossComponent>();
         pumpkinBossComponent.Back = _assetStore.GetAsset<Sprite>(AssetId.Parse("47818f05-996b-4551-ac5a-18b34c0e91c7"));
         pumpkinBossComponent.Front = _assetStore.GetAsset<Sprite>(AssetId.Parse("4e858563-a994-486f-a8ef-15f7b3bea9ae"));
+        pumpkinBossComponent.Damage = _assetStore.GetAsset<Sprite>(AssetId.Parse("e0fd93b8-3856-444c-b16b-55df3dbd57ef"));
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
         transform2DComponent.Translation = position;
         transform2DComponent.IsInterpolated = true;
