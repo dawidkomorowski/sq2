@@ -136,7 +136,7 @@ internal sealed class SelectLevelViewComponent : BehaviorComponent
 
         _inputComponent.Enabled = false;
 
-        var entity = Scene.CreateEntity();
+        var entity = Entity.CreateChildEntity();
         var fadeOutComponent = entity.CreateComponent<FadeOutComponent>();
         fadeOutComponent.Duration = TimeSpan.FromMilliseconds(300);
         fadeOutComponent.CompleteDelay = TimeSpan.FromMilliseconds(300);
