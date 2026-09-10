@@ -977,6 +977,8 @@ internal sealed class EntityFactory
                 backgroundComponent.MiddleRightSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("15a813ab-d61d-477a-b967-3fe1b8ca31bc"));
                 backgroundComponent.LowerLeftSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("5fde8aa8-0c97-4f23-8c2b-353e58a32bb0"));
                 backgroundComponent.LowerRightSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("823769f9-e3b3-45e2-a2fd-f2a9d4a24111"));
+
+                CreateSnowAtmospherics(scene);
                 break;
             case Background.Desert:
                 backgroundComponent.UpperLeftSprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("e7578873-4ce9-4587-a30e-11b8b32debec"));
@@ -997,6 +999,19 @@ internal sealed class EntityFactory
             default:
                 throw new ArgumentOutOfRangeException(nameof(background), background, null);
         }
+
+        return entity;
+    }
+
+    private Entity CreateSnowAtmospherics(Scene scene)
+    {
+        var assetId = AssetId.Parse("40f16725-e3de-4df4-bf14-010c0981ce44");
+        var snowAnimation = _assetStore.GetAsset<SpriteAnimation>(assetId);
+
+        var entity = scene.CreateEntity();
+        entity.CreateComponent<Transform2DComponent>();
+        var snowAtmosphericsComponent = entity.CreateComponent<SnowAtmosphericsComponent>();
+        snowAtmosphericsComponent.Animation = snowAnimation;
 
         return entity;
     }
