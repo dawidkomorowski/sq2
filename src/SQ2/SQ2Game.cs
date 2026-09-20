@@ -70,7 +70,9 @@ internal class SQ2Game : Game
             },
             Windowing = configuration.Windowing with
             {
-                WindowClientSize = DevConfig.WindowSize ?? GlobalSettings.WindowSize
+                WindowClientSize = DevConfig.WindowSize ?? GlobalSettings.WindowSize,
+                AllowWindowResizing = true,
+                CursorVisible = false
             }
         };
 

@@ -1022,6 +1022,7 @@ internal sealed class EntityFactory
         entity.CreateComponent<Transform2DComponent>();
         var cameraComponent = entity.CreateComponent<CameraComponent>();
         cameraComponent.ViewRectangle = GlobalSettings.ViewSize;
+        cameraComponent.AspectRatioBehavior = AspectRatioBehavior.Underscan;
         entity.CreateComponent<CameraMovementComponent>();
         entity.CreateComponent<CinematicCameraComponent>();
         return entity;

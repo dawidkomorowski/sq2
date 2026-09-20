@@ -53,6 +53,7 @@ internal sealed class MainMenuBehaviorFactory : ISceneBehaviorFactory
             cameraEntity.CreateComponent<Transform2DComponent>();
             var cameraComponent = cameraEntity.CreateComponent<CameraComponent>();
             cameraComponent.ViewRectangle = GlobalSettings.ViewSize;
+            cameraComponent.AspectRatioBehavior = AspectRatioBehavior.Underscan;
 
             CreateAnimatedBackground(cameraEntity);
 
