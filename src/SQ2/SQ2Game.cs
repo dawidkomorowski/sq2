@@ -49,7 +49,6 @@ internal class SQ2Game : Game
             },
             Rendering = configuration.Rendering with
             {
-                ScreenSize = DevConfig.WindowSize ?? GlobalSettings.WindowSize,
                 SortingLayersOrder = new[]
                 {
                     GlobalSettings.SortingLayers.Background,
@@ -68,6 +67,10 @@ internal class SQ2Game : Game
             {
                 TileSize = GlobalSettings.TileSize,
                 EnableDebugRendering = false
+            },
+            Windowing = configuration.Windowing with
+            {
+                WindowClientSize = DevConfig.WindowSize ?? GlobalSettings.WindowSize
             }
         };
 
