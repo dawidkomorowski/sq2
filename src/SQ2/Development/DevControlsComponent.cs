@@ -59,6 +59,8 @@ internal sealed class DevControlsComponent : BehaviorComponent
             DisplayMode.Fullscreen => DisplayMode.Windowed,
             _ => throw new InvalidOperationException("Invalid display mode.")
         };
+
+        _windowingSystem.CursorVisible = _windowingSystem.DisplayMode is DisplayMode.Windowed;
     }
 }
 

@@ -72,7 +72,7 @@ internal class SQ2Game : Game
             {
                 WindowClientSize = DevConfig.WindowSize ?? GlobalSettings.WindowSize,
                 AllowWindowResizing = true,
-                CursorVisible = false
+                CursorVisible = true
             }
         };
 
