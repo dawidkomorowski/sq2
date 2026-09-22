@@ -53,14 +53,7 @@ internal sealed class DevControlsComponent : BehaviorComponent
 
     private void ToggleFullscreen()
     {
-        _windowingSystem.DisplayMode = _windowingSystem.DisplayMode switch
-        {
-            DisplayMode.Windowed => DisplayMode.Fullscreen,
-            DisplayMode.Fullscreen => DisplayMode.Windowed,
-            _ => throw new InvalidOperationException("Invalid display mode.")
-        };
-
-        _windowingSystem.CursorVisible = _windowingSystem.DisplayMode is DisplayMode.Windowed;
+        Settings.ToggleDisplayMode(_windowingSystem);
     }
 }
 

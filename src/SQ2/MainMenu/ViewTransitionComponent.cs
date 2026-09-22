@@ -7,6 +7,7 @@ using Geisha.Engine.Core.SceneModel;
 using SQ2.Core;
 using SQ2.MainMenu.MainView;
 using SQ2.MainMenu.SelectLevelView;
+using SQ2.MainMenu.SettingsView;
 using SQ2.MainMenu.StatsView;
 
 namespace SQ2.MainMenu;
@@ -17,7 +18,8 @@ internal sealed class ViewTransitionComponent : BehaviorComponent
     {
         MainView,
         SelectLevelView,
-        StatsView
+        StatsView,
+        SettingsView
     }
 
     private readonly Vector2 _viewCenter = Vector2.Zero;
@@ -38,6 +40,7 @@ internal sealed class ViewTransitionComponent : BehaviorComponent
     public MainViewComponent? MainViewComponent { get; set; }
     public SelectLevelViewComponent? SelectLevelViewComponent { get; set; }
     public StatsViewComponent? StatsViewComponent { get; set; }
+    public SettingsViewComponent? SettingsViewComponent { get; set; }
 
     public void ChangeView(View view)
     {
@@ -62,6 +65,7 @@ internal sealed class ViewTransitionComponent : BehaviorComponent
         Debug.Assert(MainViewComponent != null, nameof(MainViewComponent) + " is null");
         Debug.Assert(SelectLevelViewComponent != null, nameof(SelectLevelViewComponent) + " is null");
         Debug.Assert(StatsViewComponent != null, nameof(StatsViewComponent) + " != null");
+        Debug.Assert(SettingsViewComponent != null, nameof(SettingsViewComponent) + " != null");
 
         if (_transitionCompleted) return;
 
@@ -77,11 +81,13 @@ internal sealed class ViewTransitionComponent : BehaviorComponent
         var mainViewTransform = MainViewComponent.Entity.GetComponent<Transform2DComponent>();
         var selectLevelViewTransform = SelectLevelViewComponent.Entity.GetComponent<Transform2DComponent>();
         var statsViewTransform = StatsViewComponent.Entity.GetComponent<Transform2DComponent>();
+        var settingsViewTransform = SettingsViewComponent.Entity.GetComponent<Transform2DComponent>();
 
         // Initial layout.
         mainViewTransform.Translation = _viewCenter;
         selectLevelViewTransform.Translation = _otherViewOutside;
         statsViewTransform.Translation = _otherViewOutside;
+        settingsViewTransform.Translation = _otherViewOutside;
 
         Transform2DComponent otherViewTransform;
 
@@ -92,6 +98,7 @@ internal sealed class ViewTransitionComponent : BehaviorComponent
                 View.SelectLevelView => selectLevelViewTransform,
                 View.StatsView => statsViewTransform,
                 View.MainView => mainViewTransform,
+                View.SettingsView => settingsViewTransform,
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
@@ -102,6 +109,7 @@ internal sealed class ViewTransitionComponent : BehaviorComponent
                 View.SelectLevelView => selectLevelViewTransform,
                 View.StatsView => statsViewTransform,
                 View.MainView => mainViewTransform,
+                View.SettingsView => settingsViewTransform,
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
@@ -129,6 +137,9 @@ internal sealed class ViewTransitionComponent : BehaviorComponent
                     break;
                 case View.StatsView:
                     StatsViewComponent.OnView_Activated();
+                    break;
+                case View.SettingsView:
+                    SettingsViewComponent.OnView_Activated();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

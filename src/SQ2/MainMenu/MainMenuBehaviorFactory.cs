@@ -7,6 +7,7 @@ using SQ2.Core;
 using SQ2.GamePlay.Player;
 using SQ2.MainMenu.MainView;
 using SQ2.MainMenu.SelectLevelView;
+using SQ2.MainMenu.SettingsView;
 using SQ2.MainMenu.StatsView;
 
 namespace SQ2.MainMenu;
@@ -72,15 +73,22 @@ internal sealed class MainMenuBehaviorFactory : ISceneBehaviorFactory
             statsViewEntity.CreateComponent<Transform2DComponent>();
             var statsViewComponent = statsViewEntity.CreateComponent<StatsViewComponent>();
 
+            var settingsViewEntity = Scene.CreateEntity();
+            settingsViewEntity.Parent = cameraEntity;
+            settingsViewEntity.CreateComponent<Transform2DComponent>();
+            var settingsViewComponent = settingsViewEntity.CreateComponent<SettingsViewComponent>();
+
             var viewTransitionEntity = Scene.CreateEntity();
             var viewTransitionComponent = viewTransitionEntity.CreateComponent<ViewTransitionComponent>();
             viewTransitionComponent.MainViewComponent = mainViewComponent;
             viewTransitionComponent.SelectLevelViewComponent = selectLevelViewComponent;
             viewTransitionComponent.StatsViewComponent = statsViewComponent;
+            viewTransitionComponent.SettingsViewComponent = settingsViewComponent;
 
             mainViewComponent.ViewTransitionComponent = viewTransitionComponent;
             selectLevelViewComponent.ViewTransitionComponent = viewTransitionComponent;
             statsViewComponent.ViewTransitionComponent = viewTransitionComponent;
+            settingsViewComponent.ViewTransitionComponent = viewTransitionComponent;
         }
 
         private void CreateAnimatedBackground(Entity cameraEntity)

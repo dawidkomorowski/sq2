@@ -25,6 +25,7 @@ internal sealed class MainViewComponent : BehaviorComponent
     private const string MenuItemContinueId = "Continue";
     private const string MenuItemSelectLevelId = "SelectLevel";
     private const string MenuItemGameStatsId = "GameStats";
+    private const string MenuItemSettingsId = "Settings";
     private const string MenuItemExitId = "Exit";
     private readonly List<Entity> _menuItems = new();
     private Entity _selectedMenuItem = null!;
@@ -57,26 +58,28 @@ internal sealed class MainViewComponent : BehaviorComponent
 
         _inputComponent.Enabled = false; // Transition component activates view.
 
-        const double menuStartY = 55;
-        const double menuItemSpacing = 20;
-        var menuItemsCount = 0;
-
         var background = Entity.CreateChildEntity();
         background.CreateComponent<Transform2DComponent>();
         var backgroundRenderer = background.CreateComponent<RectangleRendererComponent>();
         backgroundRenderer.SortingLayerName = GlobalSettings.SortingLayers.Menu;
         backgroundRenderer.Color = Color.FromArgb(192, 0, 0, 0);
-        backgroundRenderer.Dimensions = new Vector2(200, 120);
+        backgroundRenderer.Dimensions = new Vector2(200, 140);
         backgroundRenderer.FillInterior = true;
+
+        double menuStartY = 55;
+        const double menuItemSpacing = 20;
+        var menuItemsCount = 0;
 
         if (_gameStateService.IsContinueAvailable)
         {
+            menuStartY = 65;
             _menuItems.Add(CreateMenuItem(MenuItemContinueId, "Continue", new Vector2(0, menuStartY - menuItemSpacing * menuItemsCount++)));
         }
 
         _menuItems.Add(CreateMenuItem(MenuItemNewGameId, "New Game", new Vector2(0, menuStartY - menuItemSpacing * menuItemsCount++)));
         _menuItems.Add(CreateMenuItem(MenuItemSelectLevelId, "Select Level", new Vector2(0, menuStartY - menuItemSpacing * menuItemsCount++)));
         _menuItems.Add(CreateMenuItem(MenuItemGameStatsId, "Game Stats", new Vector2(0, menuStartY - menuItemSpacing * menuItemsCount++)));
+        _menuItems.Add(CreateMenuItem(MenuItemSettingsId, "Settings", new Vector2(0, menuStartY - menuItemSpacing * menuItemsCount++)));
         _menuItems.Add(CreateMenuItem(MenuItemExitId, "Exit", new Vector2(0, menuStartY - menuItemSpacing * menuItemsCount)));
 
         _selectedMenuItem = _menuItems[0];
@@ -152,6 +155,13 @@ internal sealed class MainViewComponent : BehaviorComponent
             {
                 _inputComponent.Enabled = false;
                 ViewTransitionComponent?.ChangeView(ViewTransitionComponent.View.StatsView);
+
+                break;
+            }
+            case MenuItemSettingsId:
+            {
+                _inputComponent.Enabled = false;
+                ViewTransitionComponent?.ChangeView(ViewTransitionComponent.View.SettingsView);
 
                 break;
             }
