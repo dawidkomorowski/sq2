@@ -30,8 +30,11 @@ internal class SQ2Game : Game
     private static string GameInformation => $"SQ2 {Assembly.GetAssembly(typeof(SQ2Game))?.GetName().Version?.ToString(3)}";
     public override string WindowTitle => $"{GameInformation} - {EngineInformation}";
 
-    public override Configuration Configure(Configuration configuration) =>
-        configuration with
+    public override Configuration Configure(Configuration configuration)
+    {
+        var settings = SettingsService.LoadSettings();
+
+        return configuration with
         {
             Core = configuration.Core with
             {
@@ -74,9 +77,11 @@ internal class SQ2Game : Game
             {
                 WindowClientSize = DevConfig.WindowSize ?? GlobalSettings.WindowSize,
                 AllowWindowResizing = true,
-                CursorVisible = true
+                CursorVisible = settings.CursorVisible,
+                DisplayMode = settings.DisplayMode
             }
         };
+    }
 
     public override void RegisterComponents(IComponentsRegistry componentsRegistry)
     {

@@ -65,8 +65,18 @@ internal sealed class SettingsViewComponent : BehaviorComponent
 
     private void OnAction_ToggleOption()
     {
-        Settings.ToggleDisplayMode(_windowingSystem);
+        SettingsService.ToggleDisplayMode(_windowingSystem);
+        SaveSettings();
         RefreshOptions();
+    }
+
+    private void SaveSettings()
+    {
+        var settings = new Settings
+        {
+            DisplayMode = _windowingSystem.DisplayMode
+        };
+        SettingsService.SaveSettings(settings);
     }
 
     private void RefreshOptions()

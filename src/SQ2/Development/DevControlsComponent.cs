@@ -53,7 +53,7 @@ internal sealed class DevControlsComponent : BehaviorComponent
 
     private void ToggleFullscreen()
     {
-        Settings.ToggleDisplayMode(_windowingSystem);
+        SettingsService.ToggleDisplayMode(_windowingSystem);
     }
 }
 

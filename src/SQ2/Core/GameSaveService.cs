@@ -36,7 +36,11 @@ internal sealed class GameSaveService
 
     public void SaveGame()
     {
-        var json = JsonSerializer.Serialize(GameSave);
+        var options = new JsonSerializerOptions
+        {
+            WriteIndented = true
+        };
+        var json = JsonSerializer.Serialize(GameSave, options);
         Directory.CreateDirectory(Path.GetDirectoryName(_saveFilePath) ?? string.Empty);
         File.WriteAllText(_saveFilePath, json);
     }
