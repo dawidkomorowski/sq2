@@ -66,8 +66,8 @@ internal class SQ2Game : Game
                     GlobalSettings.SortingLayers.MenuForeground,
                     GlobalSettings.SortingLayers.CameraEffects
                 },
-                EnableVSync = true,
-                BufferingMode = BufferingMode.TripleBuffering
+                EnableVSync = settings.VSyncEnabled,
+                BufferingMode = settings.BufferingMode
             },
             Physics = configuration.Physics with
             {

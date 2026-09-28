@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Geisha.Engine.Rendering;
 using Geisha.Engine.Windowing;
 
 namespace SQ2.Core;
@@ -10,6 +11,11 @@ internal record Settings
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public DisplayMode DisplayMode { get; init; } = DisplayMode.Fullscreen;
+
+    public bool VSyncEnabled { get; init; } = true;
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public BufferingMode BufferingMode { get; init; } = BufferingMode.TripleBuffering;
 
     [JsonIgnore] public bool CursorVisible => DisplayMode is DisplayMode.Windowed;
 }

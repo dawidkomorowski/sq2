@@ -1,4 +1,5 @@
-﻿using Geisha.Engine.Core.Components;
+﻿using System;
+using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Input;
@@ -6,6 +7,7 @@ using Geisha.Engine.Input.Components;
 using Geisha.Engine.Input.Mapping;
 using Geisha.Engine.Rendering;
 using Geisha.Engine.Rendering.Components;
+using Geisha.Engine.Rendering.Systems;
 using Geisha.Engine.Windowing;
 using SQ2.Core;
 
@@ -15,14 +17,27 @@ internal sealed class SettingsViewComponent : BehaviorComponent
 {
     private const string ActionBackToMainView = "BackToMainView";
     private const string ActionToggleOption = "ToggleOption";
+    private const string ActionNavigateUp = "NavigateUp";
+    private const string ActionNavigateDown = "NavigateDown";
+
     private readonly IWindowingSystem _windowingSystem;
+    private readonly IRenderingSystem _renderingSystem;
+
     private InputComponent _inputComponent = null!;
 
     private TextRendererComponent _displayModeText = null!;
+    private TextRendererComponent _vsyncText = null!;
+    private TextRendererComponent _tripleBufferingText = null!;
 
-    public SettingsViewComponent(Entity entity, IWindowingSystem windowingSystem) : base(entity)
+    private readonly Color _activeColor = Color.White;
+    private readonly Color _inactiveColor = Color.Gray;
+
+    private int _selectedOption = 0;
+
+    public SettingsViewComponent(Entity entity, IWindowingSystem windowingSystem, IRenderingSystem renderingSystem) : base(entity)
     {
         _windowingSystem = windowingSystem;
+        _renderingSystem = renderingSystem;
     }
 
     public ViewTransitionComponent? ViewTransitionComponent { get; set; }
@@ -33,10 +48,14 @@ internal sealed class SettingsViewComponent : BehaviorComponent
         _inputComponent.InputMapping = InputMapping.CreateBuilder()
             .MapAction(ActionBackToMainView, Key.Escape)
             .MapAction(ActionToggleOption, Key.Enter)
+            .MapAction(ActionNavigateUp, Key.Up)
+            .MapAction(ActionNavigateDown, Key.Down)
             .Build();
 
         _inputComponent.BindAction(ActionBackToMainView, OnAction_NavigateBackToMainView);
         _inputComponent.BindAction(ActionToggleOption, OnAction_ToggleOption);
+        _inputComponent.BindAction(ActionNavigateUp, OnAction_NavigateUp);
+        _inputComponent.BindAction(ActionNavigateDown, OnAction_NavigateDown);
 
         _inputComponent.Enabled = false; // Transition component activates view.
 
@@ -49,6 +68,8 @@ internal sealed class SettingsViewComponent : BehaviorComponent
         containerRenderer.FillInterior = true;
 
         _displayModeText = CreateOptionLabel(containerEntity, new Vector2(0, 40));
+        _vsyncText = CreateOptionLabel(containerEntity, new Vector2(0, 20));
+        _tripleBufferingText = CreateOptionLabel(containerEntity, new Vector2(0, 0));
         RefreshOptions();
     }
 
@@ -65,8 +86,39 @@ internal sealed class SettingsViewComponent : BehaviorComponent
 
     private void OnAction_ToggleOption()
     {
-        SettingsService.ToggleDisplayMode(_windowingSystem);
+        switch (_selectedOption)
+        {
+            case 0:
+                SettingsService.ToggleDisplayMode(_windowingSystem);
+                break;
+            case 1:
+                _renderingSystem.VSyncEnabled = !_renderingSystem.VSyncEnabled;
+                break;
+            case 2:
+                _renderingSystem.BufferingMode = _renderingSystem.BufferingMode switch
+                {
+                    BufferingMode.DoubleBuffering => BufferingMode.TripleBuffering,
+                    BufferingMode.TripleBuffering => BufferingMode.DoubleBuffering,
+                    _ => throw new InvalidOperationException("Unsupported buffering mode.")
+                };
+                break;
+            default:
+                throw new InvalidOperationException("Unhandled option.");
+        }
+
         SaveSettings();
+        RefreshOptions();
+    }
+
+    private void OnAction_NavigateUp()
+    {
+        _selectedOption = (_selectedOption - 1 + 3) % 3;
+        RefreshOptions();
+    }
+
+    private void OnAction_NavigateDown()
+    {
+        _selectedOption = (_selectedOption + 1) % 3;
         RefreshOptions();
     }
 
@@ -74,14 +126,45 @@ internal sealed class SettingsViewComponent : BehaviorComponent
     {
         var settings = new Settings
         {
-            DisplayMode = _windowingSystem.DisplayMode
+            DisplayMode = _windowingSystem.DisplayMode,
+            VSyncEnabled = _renderingSystem.VSyncEnabled,
+            BufferingMode = _renderingSystem.BufferingMode
         };
         SettingsService.SaveSettings(settings);
     }
 
     private void RefreshOptions()
     {
-        _displayModeText.Text = $"Display Mode: {_windowingSystem.DisplayMode}";
+        var vsyncOnOff = _renderingSystem.VSyncEnabled ? "ON" : "OFF";
+        var tripleBufferingOnOff = _renderingSystem.BufferingMode is BufferingMode.TripleBuffering ? "ON" : "OFF";
+
+        _displayModeText.Text =
+            $"Display Mode:       {_windowingSystem.DisplayMode}";
+        _vsyncText.Text =
+            $"VSync:              {vsyncOnOff}";
+        _tripleBufferingText.Text =
+            $"Triple Buffering:   {tripleBufferingOnOff}";
+
+        switch (_selectedOption)
+        {
+            case 0:
+                _displayModeText.Color = _activeColor;
+                _vsyncText.Color = _inactiveColor;
+                _tripleBufferingText.Color = _inactiveColor;
+                break;
+            case 1:
+                _displayModeText.Color = _inactiveColor;
+                _vsyncText.Color = _activeColor;
+                _tripleBufferingText.Color = _inactiveColor;
+                break;
+            case 2:
+                _displayModeText.Color = _inactiveColor;
+                _vsyncText.Color = _inactiveColor;
+                _tripleBufferingText.Color = _activeColor;
+                break;
+            default:
+                throw new InvalidOperationException("Unhandled option.");
+        }
     }
 
     private static TextRendererComponent CreateOptionLabel(Entity parent, Vector2 position)
@@ -104,11 +187,13 @@ internal sealed class SettingsViewComponent : BehaviorComponent
 internal sealed class SettingsViewComponentFactory : ComponentFactory<SettingsViewComponent>
 {
     private readonly IWindowingSystem _windowingSystem;
+    private readonly IRenderingSystem _renderingSystem;
 
-    public SettingsViewComponentFactory(IWindowingSystem windowingSystem)
+    public SettingsViewComponentFactory(IWindowingSystem windowingSystem, IRenderingSystem renderingSystem)
     {
         _windowingSystem = windowingSystem;
+        _renderingSystem = renderingSystem;
     }
 
-    protected override SettingsViewComponent CreateComponent(Entity entity) => new(entity, _windowingSystem);
+    protected override SettingsViewComponent CreateComponent(Entity entity) => new(entity, _windowingSystem, _renderingSystem);
 }
