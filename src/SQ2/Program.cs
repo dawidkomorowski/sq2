@@ -13,6 +13,15 @@ internal static class Program
     private static void Main(string[] args)
     {
         DevConfig.InitializeFromArgs(args);
-        WindowsApplication.Run(new SQ2Game());
+
+        var options = new WindowsApplicationOptions
+        {
+            DirectX = new DirectXOptions
+            {
+                ResizeBuffersAfterVSyncChange = true
+            }
+        };
+
+        WindowsApplication.Run(new SQ2Game(), options);
     }
 }
