@@ -4,6 +4,7 @@ using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
 using Geisha.Engine.Rendering.Components;
+using SQ2.Core;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
 
@@ -11,12 +12,15 @@ namespace SQ2.GamePlay.LevelGeometry;
 
 internal sealed class VanishPlatformComponent : BehaviorComponent, IRespawnable
 {
+    private readonly EntityFactory _entityFactory;
+
     private TileColliderComponent _tileColliderComponent = null!;
     private readonly List<Contact2D> _contacts = new();
     private bool _isReadyForVanish;
 
-    public VanishPlatformComponent(Entity entity) : base(entity)
+    public VanishPlatformComponent(Entity entity, EntityFactory entityFactory) : base(entity)
     {
+        _entityFactory = entityFactory;
     }
 
     public override void OnStart()
@@ -55,6 +59,9 @@ internal sealed class VanishPlatformComponent : BehaviorComponent, IRespawnable
     {
         _tileColliderComponent.Enabled = false;
         Entity.GetComponent<SpriteRendererComponent>().Visible = false;
+
+        var transform2DComponent = Entity.GetComponent<Transform2DComponent>();
+        _entityFactory.CreateSmokePuffAnimation(Scene, transform2DComponent.Translation);
     }
 
     public void Respawn()
@@ -68,5 +75,12 @@ internal sealed class VanishPlatformComponent : BehaviorComponent, IRespawnable
 // ReSharper disable once ClassNeverInstantiated.Global
 internal sealed class VanishPlatformComponentFactory : ComponentFactory<VanishPlatformComponent>
 {
-    protected override VanishPlatformComponent CreateComponent(Entity entity) => new(entity);
+    private readonly EntityFactory _entityFactory;
+
+    public VanishPlatformComponentFactory(EntityFactory entityFactory)
+    {
+        _entityFactory = entityFactory;
+    }
+
+    protected override VanishPlatformComponent CreateComponent(Entity entity) => new(entity, _entityFactory);
 }
