@@ -12,6 +12,7 @@ using Geisha.Engine.Input.Components;
 using Geisha.Engine.Input.Mapping;
 using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
+using Geisha.Engine.Rendering.Components;
 using SQ2.Core;
 using SQ2.Development;
 using SQ2.GamePlay.Boss.Blue;
@@ -81,11 +82,20 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
     public int CoinsCollected { get; set; }
     public int CoinsCollectedSavedByCheckPoint { get; set; }
 
-    public PlayerComponent(Entity entity, IDebugRenderer debugRenderer, RespawnService respawnService, GameStateService gameStateService) : base(entity)
+    // Death
+    private bool _isAlive = true;
+    private readonly ITimeSystem _timeSystem;
+    private readonly EntityFactory _entityFactory;
+    private SpriteRendererComponent _spriteRendererComponent;
+
+    public PlayerComponent(Entity entity, IDebugRenderer debugRenderer, RespawnService respawnService, GameStateService gameStateService,
+        ITimeSystem timeSystem, EntityFactory entityFactory) : base(entity)
     {
         _debugRenderer = debugRenderer;
         _respawnService = respawnService;
         _gameStateService = gameStateService;
+        _timeSystem = timeSystem;
+        _entityFactory = entityFactory;
     }
 
     public override void OnStart()
@@ -96,6 +106,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
         _inputComponent = Entity.GetComponent<InputComponent>();
         _spriteAnimationComponent = Entity.Children[0].GetComponent<SpriteAnimationComponent>();
         _spriteTransformComponent = Entity.Children[0].GetComponent<Transform2DComponent>();
+        _spriteRendererComponent = Entity.Children[0].GetComponent<SpriteRendererComponent>();
         _spriteDefaultTransform = _spriteTransformComponent.Transform;
 
         _inputComponent.InputMapping = InputMapping.CreateBuilder()
@@ -126,6 +137,12 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
     public override void OnFixedUpdate()
     {
+        if (!_isAlive)
+        {
+            _kinematicBodyComponent.LinearVelocity = Vector2.Zero;
+            return;
+        }
+
         var contacts = _rectangleColliderComponent.GetContactsAsSpan(_contacts);
 
         if (CheckForCollisionsWithOtherEntities(contacts))
@@ -475,12 +492,34 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
     public void KillPlayer()
     {
+        if (!_isAlive)
+        {
+            return;
+        }
+
+        _isAlive = false;
         _gameStateService.RegisterPlayerDeath();
+        // TODO: Using timescale needs adjusting pause menu logic.
+        //       But it will keep gameplay logic consistent as it will stop and not do weird stuff when
+        //       level should be respawned.
+        // TODO: When player is dead and waiting for death animation the pause menu should not be available.
+        //       This may make the pause menu timescale logic irrelevant.
+        // TODO: As timescale will be 0 any animation work needs to be done with unscaled time.
+        // TODO: The respawn system uses fixed timestep so it will not run with timescale = 0.
+        //       Probably at the end of death animation timescale needs to be set to 1 and then respawn requested.
+        //_timeSystem.TimeScale = 0;
+        // TODO: Test camera effect on death.
+        _entityFactory.CreateSmokePuffAnimation(Scene, _transform2DComponent.Translation);
+        _spriteRendererComponent.Visible = false;
+        // TODO: Test ghost animation on death.
+        // TODO: Move respawn request after the death animation flow.
         _respawnService.RequestRespawn();
     }
 
     public void Respawn()
     {
+        _isAlive = true;
+        _spriteRendererComponent.Visible = true;
         _kinematicBodyComponent.LinearVelocity = Vector2.Zero;
 
         var spawnPosition = ActiveCheckPoint is null
@@ -526,13 +565,19 @@ internal sealed class PlayerComponentFactory : ComponentFactory<PlayerComponent>
     private readonly IDebugRenderer _debugRenderer;
     private readonly RespawnService _respawnService;
     private readonly GameStateService _gameStateService;
+    private readonly ITimeSystem _timeSystem;
+    private readonly EntityFactory _entityFactory;
 
-    public PlayerComponentFactory(IDebugRenderer debugRenderer, RespawnService respawnService, GameStateService gameStateService)
+    public PlayerComponentFactory(IDebugRenderer debugRenderer, RespawnService respawnService, GameStateService gameStateService, ITimeSystem timeSystem,
+        EntityFactory entityFactory)
     {
         _debugRenderer = debugRenderer;
         _respawnService = respawnService;
         _gameStateService = gameStateService;
+        _timeSystem = timeSystem;
+        _entityFactory = entityFactory;
     }
 
-    protected override PlayerComponent CreateComponent(Entity entity) => new(entity, _debugRenderer, _respawnService, _gameStateService);
+    protected override PlayerComponent CreateComponent(Entity entity)
+        => new(entity, _debugRenderer, _respawnService, _gameStateService, _timeSystem, _entityFactory);
 }
