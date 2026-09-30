@@ -20,6 +20,7 @@ using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Enemies;
 using SQ2.GamePlay.LevelGeometry;
 using SQ2.UI;
+using SQ2.VFX;
 
 namespace SQ2.GamePlay.Player;
 
@@ -504,16 +505,21 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
         //       level should be respawned.
         // TODO: When player is dead and waiting for death animation the pause menu should not be available.
         //       This may make the pause menu timescale logic irrelevant.
-        // TODO: As timescale will be 0 any animation work needs to be done with unscaled time.
-        // TODO: The respawn system uses fixed timestep so it will not run with timescale = 0.
-        //       Probably at the end of death animation timescale needs to be set to 1 and then respawn requested.
-        //_timeSystem.TimeScale = 0;
-        // TODO: Test camera effect on death.
-        _entityFactory.CreateSmokePuffAnimation(Scene, _transform2DComponent.Translation);
+        _timeSystem.TimeScale = 0;
         _spriteRendererComponent.Visible = false;
+
+        var smokePuffEntity = _entityFactory.CreateSmokePuffAnimation(Scene, _transform2DComponent.Translation);
+        smokePuffEntity.GetComponent<SpriteAnimationComponent>().IgnoreTimeScale = true;
         // TODO: Test ghost animation on death.
-        // TODO: Move respawn request after the death animation flow.
-        _respawnService.RequestRespawn();
+
+        var cameraEffectEntity = _cameraMovementComponent.Entity.CreateChildEntity();
+        var lensShutterComponent = cameraEffectEntity.CreateComponent<LensShutterComponent>();
+        lensShutterComponent.OnComplete = () =>
+        {
+            cameraEffectEntity.RemoveAfterFullFrame();
+            _respawnService.RequestRespawn();
+            _timeSystem.TimeScale = 1;
+        };
     }
 
     public void Respawn()

@@ -170,6 +170,7 @@ internal class SQ2Game : Game
         // VFX
         componentsRegistry.RegisterComponentFactory<BackgroundComponentFactory>();
         componentsRegistry.RegisterComponentFactory<FadeOutComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<LensShutterComponentFactory>();
         componentsRegistry.RegisterComponentFactory<SnowAtmosphericsComponentFactory>();
         componentsRegistry.RegisterComponentFactory<WallParticleComponentFactory>();
     }
