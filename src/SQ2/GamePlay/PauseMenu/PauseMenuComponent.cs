@@ -86,6 +86,11 @@ internal sealed class PauseMenuComponent : BehaviorComponent
         }
     }
 
+    public void Enable()
+    {
+        _inputComponent.Enabled = true;
+    }
+
     public void Disable()
     {
         _inputComponent.Enabled = false;

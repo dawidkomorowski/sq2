@@ -19,6 +19,7 @@ using SQ2.GamePlay.Boss.Blue;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Enemies;
 using SQ2.GamePlay.LevelGeometry;
+using SQ2.GamePlay.PauseMenu;
 using SQ2.UI;
 using SQ2.VFX;
 
@@ -87,7 +88,8 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
     private bool _isAlive = true;
     private readonly ITimeSystem _timeSystem;
     private readonly EntityFactory _entityFactory;
-    private SpriteRendererComponent _spriteRendererComponent;
+    private SpriteRendererComponent _spriteRendererComponent = null!;
+    private PauseMenuComponent _pauseMenuComponent = null!;
 
     public PlayerComponent(Entity entity, IDebugRenderer debugRenderer, RespawnService respawnService, GameStateService gameStateService,
         ITimeSystem timeSystem, EntityFactory entityFactory) : base(entity)
@@ -134,6 +136,8 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
             .Single(e => e.Name == GlobalSettings.HudElements.CoinCounter).Children
             .Single(e => e.HasComponent<NumberRendererComponent>())
             .GetComponent<NumberRendererComponent>();
+
+        _pauseMenuComponent = Query.GetPauseMenuComponent(Scene);
     }
 
     public override void OnFixedUpdate()
@@ -500,11 +504,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
         _isAlive = false;
         _gameStateService.RegisterPlayerDeath();
-        // TODO: Using timescale needs adjusting pause menu logic.
-        //       But it will keep gameplay logic consistent as it will stop and not do weird stuff when
-        //       level should be respawned.
-        // TODO: When player is dead and waiting for death animation the pause menu should not be available.
-        //       This may make the pause menu timescale logic irrelevant.
+        _pauseMenuComponent.Disable();
         _timeSystem.TimeScale = 0;
         _spriteRendererComponent.Visible = false;
 
@@ -521,6 +521,7 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
             _timeSystem.TimeScale = 1;
             lensShutterComponent.Open();
             lensShutterComponent.OnComplete = cameraEffectEntity.RemoveAfterFullFrame;
+            _pauseMenuComponent.Enable();
         };
     }
 
