@@ -514,11 +514,13 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
         var cameraEffectEntity = _cameraMovementComponent.Entity.CreateChildEntity();
         var lensShutterComponent = cameraEffectEntity.CreateComponent<LensShutterComponent>();
+        lensShutterComponent.Close();
         lensShutterComponent.OnComplete = () =>
         {
-            cameraEffectEntity.RemoveAfterFullFrame();
             _respawnService.RequestRespawn();
             _timeSystem.TimeScale = 1;
+            lensShutterComponent.Open();
+            lensShutterComponent.OnComplete = cameraEffectEntity.RemoveAfterFullFrame;
         };
     }
 

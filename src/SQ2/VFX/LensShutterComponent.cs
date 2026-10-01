@@ -14,8 +14,9 @@ internal sealed class LensShutterComponent : BehaviorComponent
     private Transform2DComponent _transform = null!;
     private readonly List<Blade> _blades = new();
     private TimeSpan _timer;
-    private readonly TimeSpan _duration = TimeSpan.FromSeconds(3);
+    private readonly TimeSpan _duration = TimeSpan.FromSeconds(2);
     private bool _completed;
+    private bool _isOpening;
 
     public LensShutterComponent(Entity entity) : base(entity)
     {
@@ -49,6 +50,7 @@ internal sealed class LensShutterComponent : BehaviorComponent
         }
 
         var alpha = _timer / _duration;
+        alpha = _isOpening ? 1 - alpha : alpha;
         alpha = Ease.InSine(alpha);
 
         foreach (var blade in _blades)
@@ -66,10 +68,16 @@ internal sealed class LensShutterComponent : BehaviorComponent
 
     public void Open()
     {
+        _isOpening = true;
+        _completed = false;
+        _timer = TimeSpan.Zero;
     }
 
     public void Close()
     {
+        _isOpening = false;
+        _completed = false;
+        _timer = TimeSpan.Zero;
     }
 
     private void CreateBlade(Vector2 position)
@@ -88,7 +96,7 @@ internal sealed class LensShutterComponent : BehaviorComponent
         var blade = new Blade
         {
             InitialPosition = position,
-            TargetPosition = Vector2.Zero,
+            TargetPosition = position * 0.4,
             Transform2DComponent = transform,
             RectangleRendererComponent = renderer
         };

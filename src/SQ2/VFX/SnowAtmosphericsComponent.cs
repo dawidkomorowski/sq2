@@ -1,14 +1,13 @@
-﻿using Geisha.Engine.Animation;
+﻿using System;
+using System.Linq;
+using Geisha.Engine.Animation;
 using Geisha.Engine.Animation.Components;
 using Geisha.Engine.Core;
-using Geisha.Engine.Core.Assets;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
-using Geisha.Engine.Rendering.Components;
-using System;
-using System.Linq;
 using Geisha.Engine.Rendering;
+using Geisha.Engine.Rendering.Components;
 
 namespace SQ2.VFX;
 
