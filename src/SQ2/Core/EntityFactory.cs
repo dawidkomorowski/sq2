@@ -676,9 +676,12 @@ internal sealed class EntityFactory
     }
 
     public Entity CreateSmokePuffAnimation(Scene scene, Vector2 position) =>
-        CreateOneTimeAnimation(scene, position, AssetId.Parse("dc2cfaed-d0a0-4c4f-a768-eca074289370"));
+        CreateOneTimeAnimation(scene, position, true, AssetId.Parse("dc2cfaed-d0a0-4c4f-a768-eca074289370"));
 
-    private Entity CreateOneTimeAnimation(Scene scene, Vector2 position, AssetId animationId)
+    public Entity CreateGhostAnimation(Scene scene, Vector2 position) =>
+        CreateOneTimeAnimation(scene, position, false, AssetId.Parse("845b05f9-59b1-420c-9ccf-050c7fb03a67"));
+
+    private Entity CreateOneTimeAnimation(Scene scene, Vector2 position, bool autoRemove, AssetId animationId)
     {
         var entity = scene.CreateEntity();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
@@ -687,7 +690,13 @@ internal sealed class EntityFactory
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         var spriteAnimationComponent = entity.CreateComponent<SpriteAnimationComponent>();
         spriteAnimationComponent.AddAnimation("Animation", _assetStore.GetAsset<SpriteAnimation>(animationId));
-        spriteAnimationComponent.AnimationCompleted += (s, e) => entity.RemoveAfterFullFrame();
+        spriteAnimationComponent.PlayInLoop = !autoRemove;
+
+        if (autoRemove)
+        {
+            spriteAnimationComponent.AnimationCompleted += (s, e) => entity.RemoveAfterFullFrame();
+        }
+
         spriteAnimationComponent.PlayAnimation("Animation");
         return entity;
     }

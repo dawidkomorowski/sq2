@@ -510,13 +510,18 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
         var smokePuffEntity = _entityFactory.CreateSmokePuffAnimation(Scene, _transform2DComponent.Translation);
         smokePuffEntity.GetComponent<SpriteAnimationComponent>().IgnoreTimeScale = true;
-        // TODO: Test ghost animation on death.
+        smokePuffEntity.GetComponent<SpriteRendererComponent>().OrderInLayer = 1;
+
+        var ghostEntity = _entityFactory.CreateGhostAnimation(Scene, _transform2DComponent.Translation);
+        ghostEntity.GetComponent<SpriteAnimationComponent>().IgnoreTimeScale = true;
+        ghostEntity.CreateComponent<MoveUpComponent>();
 
         var cameraEffectEntity = _cameraMovementComponent.Entity.CreateChildEntity();
         var lensShutterComponent = cameraEffectEntity.CreateComponent<LensShutterComponent>();
         lensShutterComponent.Close();
         lensShutterComponent.OnComplete = () =>
         {
+            ghostEntity.RemoveAfterFullFrame();
             _respawnService.RequestRespawn();
             _timeSystem.TimeScale = 1;
             lensShutterComponent.Open();

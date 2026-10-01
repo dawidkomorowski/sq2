@@ -123,6 +123,7 @@ internal class SQ2Game : Game
         // Common
         componentsRegistry.RegisterComponentFactory<CinematicCameraComponentFactory>();
         componentsRegistry.RegisterComponentFactory<LevelCompleteTriggerComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<MoveUpComponentFactory>();
         componentsRegistry.RegisterComponentFactory<SquashDeathAnimationComponentFactory>();
         // Enemies
         componentsRegistry.RegisterComponentFactory<WalkingEnemyComponentFactory>();
