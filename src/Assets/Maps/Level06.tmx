@@ -723,7 +723,7 @@
   <object id="77" name="1E" type="Metadata" x="3951" y="1026">
    <point/>
   </object>
-  <object id="78" name="1S" type="Metadata" x="3951.18" y="1115.82">
+  <object id="78" name="1S" type="Metadata" x="3951" y="1098">
    <point/>
   </object>
   <object id="79" type="BlueEnemy" gid="199" x="3852" y="1134" width="24" height="24">
