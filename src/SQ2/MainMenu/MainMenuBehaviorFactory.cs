@@ -95,7 +95,7 @@ internal sealed class MainMenuBehaviorFactory : ISceneBehaviorFactory
         {
             cameraEntity.CreateComponent<AnimatedBackgroundComponent>();
 
-            var menuBackground = Path.Combine("Assets", "Maps", "menu.tmx");
+            var menuBackground = Path.Combine("Assets", "Maps", "Menu.tmx");
             _mapLoader.LoadMap(Scene, menuBackground);
 
             foreach (var entity in Scene.AllEntities)
