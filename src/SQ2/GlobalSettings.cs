@@ -20,6 +20,7 @@ internal static class GlobalSettings
         // Main menu layers
         public const string Menu = "Menu";
         public const string MenuForeground = "MenuForeground";
+        public const string MenuAnimatedBackground = "MenuAnimatedBackground";
 
         // Common layers
         public const string CameraEffects = "CameraEffects";

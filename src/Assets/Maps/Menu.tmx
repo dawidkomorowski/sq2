@@ -277,7 +277,7 @@
   <object id="77" name="Menu Camera Start" type="MenuCameraStart" x="324" y="594">
    <point/>
   </object>
-  <object id="78" name="Menu Camera End" type="MenuCameraEnd" x="972" y="594">
+  <object id="78" name="Menu Camera End" type="MenuCameraEnd" x="432" y="594">
    <point/>
   </object>
  </objectgroup>

@@ -20,12 +20,13 @@ internal sealed class FadeOutComponent : BehaviorComponent
     public TimeSpan Duration { get; set; } = TimeSpan.FromSeconds(1);
     public TimeSpan CompleteDelay { get; set; } = TimeSpan.Zero;
     public Action? OnComplete { get; set; }
+    public string SortingLayerName { get; set; } = GlobalSettings.SortingLayers.CameraEffects;
 
     public override void OnStart()
     {
         Entity.CreateComponent<Transform2DComponent>();
         _rectangleRendererComponent = Entity.CreateComponent<RectangleRendererComponent>();
-        _rectangleRendererComponent.SortingLayerName = GlobalSettings.SortingLayers.CameraEffects;
+        _rectangleRendererComponent.SortingLayerName = SortingLayerName;
         _rectangleRendererComponent.Color = Color.FromArgb(0, 0, 0, 0);
         _rectangleRendererComponent.Dimensions = GlobalSettings.ViewSize * 2;
         _rectangleRendererComponent.FillInterior = true;

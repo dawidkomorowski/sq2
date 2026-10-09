@@ -3,6 +3,7 @@ using System.Linq;
 using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.SceneModel;
+using SQ2.VFX;
 
 namespace SQ2.MainMenu;
 
@@ -11,6 +12,7 @@ internal sealed class AnimatedBackgroundComponent : BehaviorComponent
     private Transform2DComponent _startTransform = null!;
     private Transform2DComponent _endTransform = null!;
     private Transform2DComponent _transform = null!;
+    private bool _waitingForTransitionToComplete;
 
     public AnimatedBackgroundComponent(Entity entity) : base(entity)
     {
@@ -58,7 +60,21 @@ internal sealed class AnimatedBackgroundComponent : BehaviorComponent
 
         if (_transform.Translation.Distance(_startTransform.Translation) > startEndTranslation.Length)
         {
-            _transform.Translation = _startTransform.Translation;
+            if (!_waitingForTransitionToComplete)
+            {
+                _waitingForTransitionToComplete = true;
+
+                var transitionEntity = Entity.CreateChildEntity();
+                var fadeOutComponent = transitionEntity.CreateComponent<FadeOutComponent>();
+                fadeOutComponent.SortingLayerName = GlobalSettings.SortingLayers.MenuAnimatedBackground;
+
+                fadeOutComponent.OnComplete = () =>
+                {
+                    _transform.Translation = _startTransform.Translation;
+                    transitionEntity.RemoveAfterFullFrame();
+                    _waitingForTransitionToComplete = false;
+                };
+            }
         }
     }
 }
