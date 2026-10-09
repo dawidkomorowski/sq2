@@ -64,15 +64,21 @@ internal sealed class AnimatedBackgroundComponent : BehaviorComponent
             {
                 _waitingForTransitionToComplete = true;
 
-                var transitionEntity = Entity.CreateChildEntity();
-                var fadeOutComponent = transitionEntity.CreateComponent<FadeInOutComponent>();
+                var fadeOutEntity = Entity.CreateChildEntity();
+                var fadeOutComponent = fadeOutEntity.CreateComponent<FadeInOutComponent>();
                 fadeOutComponent.SortingLayerName = GlobalSettings.SortingLayers.MenuAnimatedBackground;
 
                 fadeOutComponent.OnComplete = () =>
                 {
                     _transform.Translation = _startTransform.Translation;
-                    transitionEntity.RemoveAfterFullFrame();
+                    fadeOutEntity.RemoveAfterFullFrame();
                     _waitingForTransitionToComplete = false;
+
+                    var fadeInEntity = Entity.CreateChildEntity();
+                    var fadeInComponent = fadeInEntity.CreateComponent<FadeInOutComponent>();
+                    fadeInComponent.Mode = FadeInOutComponent.FadeMode.In;
+                    fadeInComponent.SortingLayerName = GlobalSettings.SortingLayers.MenuAnimatedBackground;
+                    fadeInComponent.OnComplete = fadeInEntity.RemoveAfterFullFrame;
                 };
             }
         }
