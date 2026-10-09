@@ -15,9 +15,10 @@ internal record Settings
     public bool VSyncEnabled { get; init; } = true;
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public BufferingMode BufferingMode { get; init; } = BufferingMode.TripleBuffering;
+    public BufferingMode BufferingMode { get; init; } = BufferingMode.DoubleBuffering;
 
-    [JsonIgnore] public bool CursorVisible => DisplayMode is DisplayMode.Windowed;
+    [JsonIgnore]
+    public bool CursorVisible => DisplayMode is DisplayMode.Windowed;
 }
 
 internal static class SettingsService
