@@ -441,6 +441,16 @@ internal sealed class MapLoader
                     _entityFactory.CreateLevelCompleteTrigger(scene, center, size, levelCompleteDirection);
                     break;
                 }
+                case "MenuCameraStart":
+                {
+                    _entityFactory.CreateCameraPoint(scene, objectPosition, true);
+                    break;
+                }
+                case "MenuCameraEnd":
+                {
+                    _entityFactory.CreateCameraPoint(scene, objectPosition, false);
+                    break;
+                }
                 case "Metadata":
                 {
                     // Ignore metadata objects

@@ -102,7 +102,6 @@ internal sealed class MainMenuBehaviorFactory : ISceneBehaviorFactory
             {
                 if (entity.HasComponent<PlayerComponent>())
                 {
-                    cameraEntity.GetComponent<Transform2DComponent>().Translation = entity.GetComponent<Transform2DComponent>().Translation;
                     entity.RemoveComponent(entity.GetComponent<PlayerComponent>());
 
                     foreach (var child in entity.Children)

@@ -18,6 +18,7 @@ using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Enemies;
 using SQ2.GamePlay.LevelGeometry;
 using SQ2.GamePlay.Player;
+using SQ2.MainMenu;
 using SQ2.UI;
 using SQ2.VFX;
 
@@ -1043,6 +1044,16 @@ internal sealed class EntityFactory
         cameraComponent.AspectRatioBehavior = AspectRatioBehavior.Underscan;
         entity.CreateComponent<CameraMovementComponent>();
         entity.CreateComponent<CinematicCameraComponent>();
+        return entity;
+    }
+
+    public Entity CreateCameraPoint(Scene scene, Vector2 position, bool isStart)
+    {
+        var entity = scene.CreateEntity();
+        var menuCameraPointComponent = entity.CreateComponent<MenuCameraPointComponent>();
+        menuCameraPointComponent.IsStart = isStart;
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = position;
         return entity;
     }
 

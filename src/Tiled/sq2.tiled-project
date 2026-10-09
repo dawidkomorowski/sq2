@@ -411,6 +411,32 @@
             ]
         },
         {
+            "color": "#ffffff00",
+            "drawFill": true,
+            "id": 34,
+            "members": [
+            ],
+            "name": "MenuCameraEnd",
+            "type": "class",
+            "useAs": [
+                "object",
+                "project"
+            ]
+        },
+        {
+            "color": "#ffffff00",
+            "drawFill": true,
+            "id": 32,
+            "members": [
+            ],
+            "name": "MenuCameraStart",
+            "type": "class",
+            "useAs": [
+                "object",
+                "project"
+            ]
+        },
+        {
             "color": "#ff5555ff",
             "drawFill": true,
             "id": 10,

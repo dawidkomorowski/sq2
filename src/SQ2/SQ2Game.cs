@@ -158,6 +158,7 @@ internal class SQ2Game : Game
 
         // Main menu
         componentsRegistry.RegisterComponentFactory<AnimatedBackgroundComponentFactory>();
+        componentsRegistry.RegisterComponentFactory<MenuCameraPointComponentFactory>();
         componentsRegistry.RegisterComponentFactory<ViewTransitionComponentFactory>();
         componentsRegistry.RegisterComponentFactory<MainViewComponentFactory>();
         componentsRegistry.RegisterComponentFactory<SelectLevelViewComponentFactory>();
