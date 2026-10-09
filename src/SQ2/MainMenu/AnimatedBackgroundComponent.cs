@@ -65,7 +65,7 @@ internal sealed class AnimatedBackgroundComponent : BehaviorComponent
                 _waitingForTransitionToComplete = true;
 
                 var transitionEntity = Entity.CreateChildEntity();
-                var fadeOutComponent = transitionEntity.CreateComponent<FadeOutComponent>();
+                var fadeOutComponent = transitionEntity.CreateComponent<FadeInOutComponent>();
                 fadeOutComponent.SortingLayerName = GlobalSettings.SortingLayers.MenuAnimatedBackground;
 
                 fadeOutComponent.OnComplete = () =>

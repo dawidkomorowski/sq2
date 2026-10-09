@@ -137,7 +137,7 @@ internal sealed class SelectLevelViewComponent : BehaviorComponent
         _inputComponent.Enabled = false;
 
         var entity = Entity.CreateChildEntity();
-        var fadeOutComponent = entity.CreateComponent<FadeOutComponent>();
+        var fadeOutComponent = entity.CreateComponent<FadeInOutComponent>();
         fadeOutComponent.Duration = TimeSpan.FromMilliseconds(300);
         fadeOutComponent.CompleteDelay = TimeSpan.FromMilliseconds(300);
         fadeOutComponent.OnComplete = () =>

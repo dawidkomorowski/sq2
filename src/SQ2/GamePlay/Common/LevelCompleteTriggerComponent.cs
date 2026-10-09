@@ -64,7 +64,7 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
             if (_timer >= TimeSpan.FromSeconds(3) && _fadeOutEntity is null)
             {
                 _fadeOutEntity = _cinematicCameraComponent.Entity.CreateChildEntity();
-                _fadeOutEntity.CreateComponent<FadeOutComponent>();
+                _fadeOutEntity.CreateComponent<FadeInOutComponent>();
             }
 
             if (_timer >= TimeSpan.FromSeconds(4.5))
