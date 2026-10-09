@@ -90,7 +90,7 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateGeometry(Scene scene, int tx, int ty, AssetId assetId, Orientation orientation)
+    public Entity CreateStaticGeometry(Scene scene, int tx, int ty, AssetId assetId, Orientation orientation)
     {
         var entity = scene.CreateEntity();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
@@ -106,10 +106,12 @@ internal sealed class EntityFactory
         spriteTransform2DComponent.Rotation = orientation.GetRotation();
         spriteTransform2DComponent.Scale = orientation.GetScale() * 1.01;
 
+        spriteRendererComponent.IsStatic = true;
+
         return entity;
     }
 
-    public Entity CreateDecor(Scene scene, int tx, int ty, AssetId assetId, Orientation orientation, string sortingLayerName, int layerIndex)
+    public Entity CreateStaticDecor(Scene scene, int tx, int ty, AssetId assetId, Orientation orientation, string sortingLayerName, int layerIndex)
     {
         var entity = scene.CreateEntity();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
@@ -122,6 +124,8 @@ internal sealed class EntityFactory
 
         transform2DComponent.Rotation = orientation.GetRotation();
         transform2DComponent.Scale = orientation.GetScale() * 1.01;
+
+        spriteRendererComponent.IsStatic = true;
 
         return entity;
     }
@@ -143,6 +147,8 @@ internal sealed class EntityFactory
         transform2DComponent.Rotation = orientation.GetRotation();
         transform2DComponent.Scale = orientation.GetScale() * 1.01;
 
+        spriteRendererComponent.IsStatic = true;
+
         return entity;
     }
 
@@ -161,6 +167,9 @@ internal sealed class EntityFactory
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         spriteRendererComponent.OrderInLayer = 1;
+
+        spriteRendererComponent.IsStatic = true;
+
         return entity;
     }
 

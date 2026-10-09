@@ -112,7 +112,7 @@ internal sealed class MapLoader
                             case "WaterDeep":
                             case "Ladder":
                             case "Decor":
-                                _entityFactory.CreateDecor(scene, tx, ty, assetId, orientation, sortingLayerName, layerIndex);
+                                _entityFactory.CreateStaticDecor(scene, tx, ty, assetId, orientation, sortingLayerName, layerIndex);
                                 break;
                             case "AnimatedDecor":
                                 _entityFactory.CreateAnimatedDecor(scene, tx, ty, assetId, orientation, sortingLayerName, layerIndex);
@@ -159,7 +159,7 @@ internal sealed class MapLoader
                             case "Geometry":
                             {
                                 var orientation = GetOrientationFromGlobalTileId(tile.GlobalTileId);
-                                _entityFactory.CreateGeometry(scene, tx, ty, assetId, orientation);
+                                _entityFactory.CreateStaticGeometry(scene, tx, ty, assetId, orientation);
                                 break;
                             }
                             case "WaterDeep":
@@ -201,7 +201,7 @@ internal sealed class MapLoader
                             case "Decor":
                             {
                                 var orientation = GetOrientationFromGlobalTileId(tile.GlobalTileId);
-                                _entityFactory.CreateDecor(scene, tx, ty, assetId, orientation, RenderingConfiguration.DefaultSortingLayerName, 0);
+                                _entityFactory.CreateStaticDecor(scene, tx, ty, assetId, orientation, RenderingConfiguration.DefaultSortingLayerName, 0);
                                 break;
                             }
                             case "AnimatedDecor":
