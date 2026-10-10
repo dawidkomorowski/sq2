@@ -917,6 +917,31 @@ internal sealed class EntityFactory
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("cbede5f2-ef56-421e-b655-86cff6f9db13"));
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
+        spriteRendererComponent.OrderInLayer = 100;
+
+        for (var i = 0; i < 5; i++)
+        {
+            var orderInLayer = spriteRendererComponent.OrderInLayer - 1 - i;
+            var rotated = i % 2 == 0;
+            var tailSegment = CreateWormBossTailSegment(scene, position, orderInLayer, rotated);
+        }
+
+        return entity;
+    }
+
+    private Entity CreateWormBossTailSegment(Scene scene, Vector2 position, int orderInLayer, bool rotated)
+    {
+        var entity = scene.CreateEntity();
+
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = position;
+        transform2DComponent.IsInterpolated = true;
+        transform2DComponent.Rotation = rotated ? Angle.DegreesToRadians(45) : 0;
+
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("e4ebbf01-aaad-46b3-a597-f98887ad5093"));
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
+        spriteRendererComponent.OrderInLayer = orderInLayer;
 
         return entity;
     }
