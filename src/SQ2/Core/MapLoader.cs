@@ -344,6 +344,12 @@ internal sealed class MapLoader
                     _entityFactory.CreatePumpkinBoss(scene, position);
                     break;
                 }
+                case "BossWorm" when tiledObject is TiledObject.Tile:
+                {
+                    var position = objectPosition + new Vector2(9, 12);
+                    _entityFactory.CreateWormBoss(scene, position);
+                    break;
+                }
                 case "Button" when tiledObject is TiledObject.Tile:
                 {
                     var position = objectPosition + tileCenterOffset + new Vector2(0, -6);

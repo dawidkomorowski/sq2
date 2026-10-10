@@ -178,6 +178,19 @@
         {
             "color": "#ffa0a0a4",
             "drawFill": true,
+            "id": 35,
+            "members": [
+            ],
+            "name": "BossWorm",
+            "type": "class",
+            "useAs": [
+                "object",
+                "project"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
             "id": 9,
             "members": [
             ],

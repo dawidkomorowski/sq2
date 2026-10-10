@@ -7,6 +7,7 @@ using SQ2.GamePlay;
 using SQ2.GamePlay.Boss.Bat;
 using SQ2.GamePlay.Boss.Blue;
 using SQ2.GamePlay.Boss.Pumpkin;
+using SQ2.GamePlay.Boss.Worm;
 using SQ2.GamePlay.Collectibles;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Enemies;
@@ -118,6 +119,8 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<BlueBossProjectileComponentFactory>();
         // Boss: pumpkin
         componentsRegistry.RegisterComponentFactory<PumpkinBossComponentFactory>();
+        // Boss: worm
+        componentsRegistry.RegisterComponentFactory<WormBossComponentFactory>();
         // Collectibles
         componentsRegistry.RegisterComponentFactory<CoinComponentFactory>();
         componentsRegistry.RegisterComponentFactory<DiamondComponentFactory>();

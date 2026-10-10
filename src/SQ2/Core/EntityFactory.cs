@@ -13,6 +13,7 @@ using SQ2.Development;
 using SQ2.GamePlay.Boss.Bat;
 using SQ2.GamePlay.Boss.Blue;
 using SQ2.GamePlay.Boss.Pumpkin;
+using SQ2.GamePlay.Boss.Worm;
 using SQ2.GamePlay.Collectibles;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Enemies;
@@ -900,6 +901,23 @@ internal sealed class EntityFactory
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("47818f05-996b-4551-ac5a-18b34c0e91c7"));
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
+        return entity;
+    }
+
+    public Entity CreateWormBoss(Scene scene, Vector2 position)
+    {
+        var entity = scene.CreateEntity();
+
+        var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
+        transform2DComponent.Translation = position;
+        transform2DComponent.IsInterpolated = true;
+
+        entity.CreateComponent<WormBossComponent>();
+
+        var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("cbede5f2-ef56-421e-b655-86cff6f9db13"));
+        spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
+
         return entity;
     }
 
