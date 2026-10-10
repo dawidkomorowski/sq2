@@ -13,8 +13,8 @@ internal sealed class WormBossComponent : BehaviorComponent
 
     private Vector2 _moveToPosition;
 
-    private bool _decided;
-    private TimeSpan _timer;
+    private AIState _aiState = AIState.Waiting;
+    private TimeSpan _stateTimer;
 
     public WormBossComponent(Entity entity) : base(entity)
     {
@@ -35,20 +35,51 @@ internal sealed class WormBossComponent : BehaviorComponent
         ProcessTailMovement();
     }
 
+    private enum AIState
+    {
+        Waiting,
+        Raising,
+        Waving
+    }
+
     private void ProcessAI()
     {
-        if (_decided)
+        _stateTimer += TimeStep.FixedDeltaTime;
+
+        if (_aiState is AIState.Waiting)
         {
+            if (_stateTimer > TimeSpan.FromSeconds(1))
+            {
+                MoveTo(_headTransform.Translation + new Vector2(0, 80));
+                _aiState = AIState.Raising;
+                _stateTimer = TimeSpan.Zero;
+            }
+
             return;
         }
 
-        _timer += TimeStep.FixedDeltaTime;
-
-        if (_timer > TimeSpan.FromSeconds(1))
+        if (_aiState is AIState.Raising)
         {
-            MoveTo(_headTransform.Translation + new Vector2(0, 100));
-            _decided = true;
+            if (HasReachedPosition())
+            {
+                _moveToPosition = _headTransform.Translation - new Vector2(0, 10);
+                _aiState = AIState.Waving;
+                _stateTimer = TimeSpan.Zero;
+            }
         }
+
+        if (_aiState is AIState.Waving)
+        {
+            const double speed = 2;
+            var xPos = Math.Sin(_stateTimer.TotalSeconds * 0.5 * speed) * 30;
+            var yPos = Math.Cos(_stateTimer.TotalSeconds * speed) * 10;
+            _headTransform.Translation = _moveToPosition + new Vector2(xPos, yPos);
+        }
+    }
+
+    private bool HasReachedPosition()
+    {
+        return _headTransform.Translation.Distance(_moveToPosition) < 10;
     }
 
     private void MoveTo(Vector2 position)
@@ -61,7 +92,7 @@ internal sealed class WormBossComponent : BehaviorComponent
         var distance = _headTransform.Translation.Distance(_moveToPosition);
         if (distance > 10)
         {
-            const double velocity = 10;
+            const double velocity = 30;
             var direction = (_moveToPosition - _headTransform.Translation).Unit;
             _headTransform.Translation += direction * velocity * TimeStep.FixedDeltaTimeSeconds;
         }
@@ -69,6 +100,7 @@ internal sealed class WormBossComponent : BehaviorComponent
 
     private void ProcessTailMovement()
     {
+        const double minDistance = 8;
         const double maxDistance = 10;
 
         var segment1 = Entity;
@@ -86,6 +118,15 @@ internal sealed class WormBossComponent : BehaviorComponent
                 var translationFrom1To2 = transform2.Translation - transform1.Translation;
                 transform2.Translation = transform1.Translation + translationFrom1To2.OfLength(maxDistance);
             }
+
+            if (distance < minDistance && i + 1 < Tail.Count)
+            {
+                var segment3 = Tail[i + 1];
+                var transform3 = segment3.GetComponent<Transform2DComponent>();
+                var translationFrom2To3 = transform3.Translation - transform2.Translation;
+                transform2.Translation += translationFrom2To3.OfLength(Math.Abs(minDistance - distance));
+            }
+
 
             // Chain segment pairs.
             segment1 = segment2;
