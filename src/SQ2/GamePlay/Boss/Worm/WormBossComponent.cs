@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
@@ -19,6 +20,8 @@ internal sealed class WormBossComponent : BehaviorComponent
     {
     }
 
+    public List<Entity> Tail { get; } = new();
+
     public override void OnStart()
     {
         _headTransform = Entity.GetComponent<Transform2DComponent>();
@@ -27,11 +30,12 @@ internal sealed class WormBossComponent : BehaviorComponent
 
     public override void OnFixedUpdate()
     {
-        ProcessDecision();
-        ProcessMovement();
+        ProcessAI();
+        ProcessHeadMovement();
+        ProcessTailMovement();
     }
 
-    private void ProcessDecision()
+    private void ProcessAI()
     {
         if (_decided)
         {
@@ -52,7 +56,7 @@ internal sealed class WormBossComponent : BehaviorComponent
         _moveToPosition = position;
     }
 
-    private void ProcessMovement()
+    private void ProcessHeadMovement()
     {
         var distance = _headTransform.Translation.Distance(_moveToPosition);
         if (distance > 10)
@@ -60,6 +64,31 @@ internal sealed class WormBossComponent : BehaviorComponent
             const double velocity = 10;
             var direction = (_moveToPosition - _headTransform.Translation).Unit;
             _headTransform.Translation += direction * velocity * TimeStep.FixedDeltaTimeSeconds;
+        }
+    }
+
+    private void ProcessTailMovement()
+    {
+        const double maxDistance = 10;
+
+        var segment1 = Entity;
+
+        for (var i = 0; i < Tail.Count; i++)
+        {
+            var segment2 = Tail[i];
+
+            var transform1 = segment1.GetComponent<Transform2DComponent>();
+            var transform2 = segment2.GetComponent<Transform2DComponent>();
+
+            var distance = transform1.Translation.Distance(transform2.Translation);
+            if (distance > maxDistance)
+            {
+                var translationFrom1To2 = transform2.Translation - transform1.Translation;
+                transform2.Translation = transform1.Translation + translationFrom1To2.OfLength(maxDistance);
+            }
+
+            // Chain segment pairs.
+            segment1 = segment2;
         }
     }
 }

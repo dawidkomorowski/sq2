@@ -912,18 +912,20 @@ internal sealed class EntityFactory
         transform2DComponent.Translation = position;
         transform2DComponent.IsInterpolated = true;
 
-        entity.CreateComponent<WormBossComponent>();
+        var wormBossComponent = entity.CreateComponent<WormBossComponent>();
 
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("cbede5f2-ef56-421e-b655-86cff6f9db13"));
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         spriteRendererComponent.OrderInLayer = 100;
 
-        for (var i = 0; i < 5; i++)
+        for (var i = 0; i < 10; i++)
         {
             var orderInLayer = spriteRendererComponent.OrderInLayer - 1 - i;
             var rotated = i % 2 == 0;
             var tailSegment = CreateWormBossTailSegment(scene, position, orderInLayer, rotated);
+
+            wormBossComponent.Tail.Add(tailSegment);
         }
 
         return entity;
