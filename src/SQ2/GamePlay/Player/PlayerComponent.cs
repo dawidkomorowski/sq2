@@ -510,10 +510,11 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
 
         var smokePuffEntity = _entityFactory.CreateSmokePuffAnimation(Scene, _transform2DComponent.Translation);
         smokePuffEntity.GetComponent<SpriteAnimationComponent>().IgnoreTimeScale = true;
-        smokePuffEntity.GetComponent<SpriteRendererComponent>().OrderInLayer = 1;
+        smokePuffEntity.GetComponent<SpriteRendererComponent>().OrderInLayer = 200;
 
         var ghostEntity = _entityFactory.CreateGhostAnimation(Scene, _transform2DComponent.Translation);
         ghostEntity.GetComponent<SpriteAnimationComponent>().IgnoreTimeScale = true;
+        ghostEntity.GetComponent<SpriteRendererComponent>().OrderInLayer = 199;
         ghostEntity.CreateComponent<MoveUpComponent>();
 
         var cameraEffectEntity = _cameraMovementComponent.Entity.CreateChildEntity();
