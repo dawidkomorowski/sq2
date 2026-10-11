@@ -6,11 +6,11 @@ namespace SQ2.GamePlay.Boss.Worm;
 
 internal sealed class DemoWormBossAI : IWormBossAI
 {
+    private IWormBossController _controller = null!;
+
     private AIState _aiState = AIState.Waiting;
     private TimeSpan _stateTimer;
     private Vector2 _position;
-
-    private IWormBossController _controller = null!;
 
     private enum AIState
     {

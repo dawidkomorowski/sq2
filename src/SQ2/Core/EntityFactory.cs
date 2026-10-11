@@ -929,7 +929,7 @@ internal sealed class EntityFactory
         spriteRendererComponent.OrderInLayer = 100;
 
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
-        kinematicRigidBody2DComponent.EnableCollisionResponse = true;
+        kinematicRigidBody2DComponent.EnableCollisionResponse = false;
 
         var circleColliderComponent = entity.CreateComponent<CircleColliderComponent>();
         circleColliderComponent.Radius = 10;
