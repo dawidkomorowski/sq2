@@ -6,14 +6,18 @@ using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
+using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
 
 namespace SQ2.GamePlay.Boss.Worm;
 
-internal sealed class WormBossComponent : BehaviorComponent
+internal sealed class WormBossComponent : BehaviorComponent, IRespawnable
 {
     private Transform2DComponent _headTransform = null!;
     private CircleColliderComponent _headCollider = null!;
+    private KinematicRigidBody2DComponent _headKinematicBody = null!;
+
+    private Vector2 _initialPosition;
 
     private readonly List<Contact2D> _contacts = new();
 
@@ -32,6 +36,9 @@ internal sealed class WormBossComponent : BehaviorComponent
     {
         _headTransform = Entity.GetComponent<Transform2DComponent>();
         _headCollider = Entity.GetComponent<CircleColliderComponent>();
+        _headKinematicBody = Entity.GetComponent<KinematicRigidBody2DComponent>();
+
+        _initialPosition = _headTransform.Translation;
         _moveToPosition = _headTransform.Translation;
     }
 
@@ -163,6 +170,21 @@ internal sealed class WormBossComponent : BehaviorComponent
 
             // Chain segment pairs.
             segment1 = segment2;
+        }
+    }
+
+    public void Respawn()
+    {
+        _moveToPosition = _initialPosition;
+        _aiState = AIState.Waiting;
+        _stateTimer = TimeSpan.Zero;
+
+        _headTransform.Translation = _initialPosition;
+        _headKinematicBody.LinearVelocity = Vector2.Zero;
+        foreach (var entity in Tail)
+        {
+            var transform = entity.GetComponent<Transform2DComponent>();
+            transform.Translation = _initialPosition;
         }
     }
 }
