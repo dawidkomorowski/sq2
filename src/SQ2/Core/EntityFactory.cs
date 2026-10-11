@@ -905,7 +905,13 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateWormBoss(Scene scene, Vector2 position, WormAI wormAI)
+    public readonly struct WormBossProps
+    {
+        public WormAI WormAI { get; init; }
+        public double PlayerChaseSpeed { get; init; }
+    }
+
+    public Entity CreateWormBoss(Scene scene, Vector2 position, WormBossProps props)
     {
         var entity = scene.CreateEntity();
 
@@ -915,12 +921,12 @@ internal sealed class EntityFactory
 
         var wormBossComponent = entity.CreateComponent<WormBossComponent>();
 
-        wormBossComponent.WormBossAI = wormAI switch
+        wormBossComponent.WormBossAI = props.WormAI switch
         {
             WormAI.Nop => new NopWormBossAI(),
             WormAI.Demo => new DemoWormBossAI(),
-            WormAI.PlayerChase => new PlayerChaseWormBossAI(),
-            _ => throw new ArgumentOutOfRangeException(nameof(wormAI), wormAI, null)
+            WormAI.PlayerChase => new PlayerChaseWormBossAI(props.PlayerChaseSpeed),
+            _ => throw new InvalidOperationException($"Unsupported worm AI: {props.WormAI}.")
         };
 
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();

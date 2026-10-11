@@ -21,6 +21,7 @@ internal sealed class WormBossComponent : BehaviorComponent, IWormBossController
 
     private readonly List<Contact2D> _contacts = new();
 
+    private double _speed = 30;
     private Vector2 _moveToPosition;
 
     public WormBossComponent(Entity entity) : base(entity)
@@ -71,6 +72,11 @@ internal sealed class WormBossComponent : BehaviorComponent, IWormBossController
         _headTransform.Translation = position;
     }
 
+    public void SetSpeed(double speed)
+    {
+        _speed = speed;
+    }
+
     private bool ProcessPlayerCollision()
     {
         var contacts = _headCollider.GetContactsAsSpan(_contacts);
@@ -117,9 +123,8 @@ internal sealed class WormBossComponent : BehaviorComponent, IWormBossController
         var distance = _headTransform.Translation.Distance(_moveToPosition);
         if (distance > 10)
         {
-            const double velocity = 30;
             var direction = (_moveToPosition - _headTransform.Translation).Unit;
-            _headTransform.Translation += direction * velocity * TimeStep.FixedDeltaTimeSeconds;
+            _headTransform.Translation += direction * _speed * TimeStep.FixedDeltaTimeSeconds;
         }
     }
 

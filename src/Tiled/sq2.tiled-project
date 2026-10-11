@@ -181,6 +181,11 @@
             "id": 35,
             "members": [
                 {
+                    "name": "PlayerChase_Speed",
+                    "type": "float",
+                    "value": 30
+                },
+                {
                     "name": "WormAI",
                     "propertyType": "WormAI",
                     "type": "string",

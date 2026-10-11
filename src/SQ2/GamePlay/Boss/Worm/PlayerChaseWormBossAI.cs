@@ -7,13 +7,21 @@ namespace SQ2.GamePlay.Boss.Worm;
 
 internal sealed class PlayerChaseWormBossAI : IWormBossAI
 {
+    private readonly double _chaseSpeed;
     private IWormBossController _controller = null!;
     private Transform2DComponent _playerTransform = null!;
+
+    public PlayerChaseWormBossAI(double chaseSpeed)
+    {
+        _chaseSpeed = chaseSpeed;
+    }
 
     public void Init(Entity entity, IWormBossController controller)
     {
         _controller = controller;
         _playerTransform = Query.GetPlayerTransformComponent(entity.Scene);
+
+        _controller.SetSpeed(_chaseSpeed);
     }
 
     public void Reset()

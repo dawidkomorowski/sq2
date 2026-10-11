@@ -355,7 +355,15 @@ internal sealed class MapLoader
                         wormAI = Enum.Parse<WormAI>(wormAIProperty.StringValue);
                     }
 
-                    _entityFactory.CreateWormBoss(scene, position, wormAI);
+                    var playerChaseSpeed = tiledObject.Properties.GetPropertyOrNull("PlayerChase_Speed")?.FloatValue ?? 30d;
+
+                    var props = new EntityFactory.WormBossProps
+                    {
+                        WormAI = wormAI,
+                        PlayerChaseSpeed = playerChaseSpeed
+                    };
+
+                    _entityFactory.CreateWormBoss(scene, position, props);
                     break;
                 }
                 case "Button" when tiledObject is TiledObject.Tile:

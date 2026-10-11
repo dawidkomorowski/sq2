@@ -17,4 +17,5 @@ internal interface IWormBossController
     bool HasReachedDestination();
     Vector2 GetHeadPosition();
     void SetHeadPosition(Vector2 position);
+    void SetSpeed(double speed);
 }

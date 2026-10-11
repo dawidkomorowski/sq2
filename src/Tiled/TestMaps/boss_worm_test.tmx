@@ -72,6 +72,7 @@
   </object>
   <object id="11" type="BossWorm" gid="189" x="900" y="432" width="24" height="24">
    <properties>
+    <property name="PlayerChase_Speed" type="float" value="30"/>
     <property name="WormAI" propertytype="WormAI" value="PlayerChase"/>
    </properties>
   </object>
