@@ -75,6 +75,12 @@ internal sealed class CinematicCameraComponent : BehaviorComponent
         _bottomBarTargetPosition = _bottomBarInViewPosition;
     }
 
+    public void Hide()
+    {
+        _topBarTargetPosition = _topBarOutOfViewPosition;
+        _bottomBarTargetPosition = _bottomBarOutOfViewPosition;
+    }
+
     private static Vector2 MoveTowards(Vector2 current, Vector2 target, double maxDistanceDelta)
     {
         var toVector = target - current;

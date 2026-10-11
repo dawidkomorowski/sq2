@@ -3,6 +3,7 @@ using System;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using SQ2.GamePlay.Common;
+using SQ2.GamePlay.Player;
 
 namespace SQ2.GamePlay.Boss.Worm;
 
@@ -14,6 +15,8 @@ internal sealed class PlayerChaseWormBossAI : IWormBossAI
 
     private IWormBossController _controller = null!;
     private Transform2DComponent _playerTransform = null!;
+    private PlayerComponent _playerComponent = null!;
+    private CinematicCameraComponent _cinematicCamera = null!;
 
     private State _state = State.WaitingForTrigger;
 
@@ -40,6 +43,8 @@ internal sealed class PlayerChaseWormBossAI : IWormBossAI
     {
         _controller = controller;
         _playerTransform = Query.GetPlayerTransformComponent(entity.Scene);
+        _playerComponent = Query.GetPlayerComponent(entity.Scene);
+        _cinematicCamera = Query.GetCinematicCameraComponent(entity.Scene);
 
         _state = State.WaitingForTrigger;
     }
@@ -47,6 +52,8 @@ internal sealed class PlayerChaseWormBossAI : IWormBossAI
     public void Reset()
     {
         _state = State.WaitingForTrigger;
+        _playerComponent.EnableInput();
+        _cinematicCamera.Hide();
     }
 
     public void Update(TimeSpan dt)
@@ -55,8 +62,10 @@ internal sealed class PlayerChaseWormBossAI : IWormBossAI
         {
             if (_trigger.Contains(_playerTransform.Translation))
             {
+                _playerComponent.DisableInput();
+                _cinematicCamera.Show();
                 _controller.SetSpeed(100);
-                _controller.SetHeadPosition(_raisePoint + new Vector2(0, -150));
+                _controller.SetHeadPosition(_raisePoint + new Vector2(0, -250));
                 _state = State.Raising;
             }
 
@@ -68,6 +77,8 @@ internal sealed class PlayerChaseWormBossAI : IWormBossAI
             _controller.MoveTo(_raisePoint);
             if (_controller.HasReachedDestination())
             {
+                _playerComponent.EnableInput();
+                _cinematicCamera.Hide();
                 _controller.SetSpeed(_chaseSpeed);
                 _state = State.Chasing;
             }

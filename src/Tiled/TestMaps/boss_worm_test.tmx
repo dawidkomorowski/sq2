@@ -60,12 +60,10 @@
 </data>
  </layer>
  <objectgroup id="2" name="GamePlayObjects">
-  <object id="1" name="Player Spawn Point" type="PlayerSpawnPoint" x="1009.04" y="420.988">
+  <object id="1" name="Player Spawn Point" type="PlayerSpawnPoint" x="846" y="423">
    <point/>
   </object>
-  <object id="7" type="BossWorm" gid="189" x="4086" y="522" width="24" height="24"/>
-  <object id="9" type="BossWorm" gid="189" x="828" y="432" width="24" height="24"/>
-  <object id="10" type="BossWorm" gid="189" x="864" y="432" width="24" height="24">
+  <object id="7" type="BossWorm" gid="189" x="4086" y="522" width="24" height="24">
    <properties>
     <property name="WormAI" propertytype="WormAI" value="Demo"/>
    </properties>
@@ -78,7 +76,7 @@
     <property name="WormAI" propertytype="WormAI" value="PlayerChase"/>
    </properties>
   </object>
-  <object id="12" name="Worm Chase Trigger" x="1206" y="324" width="108" height="108"/>
+  <object id="12" name="Worm Chase Trigger" x="1224" y="324" width="108" height="108"/>
   <object id="13" name="Worm Raise Point" x="1170" y="360">
    <point/>
   </object>
