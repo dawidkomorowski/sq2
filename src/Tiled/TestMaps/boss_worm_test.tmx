@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="250" height="50" tilewidth="18" tileheight="18" infinite="0" nextlayerid="3" nextobjectid="14">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="250" height="50" tilewidth="18" tileheight="18" infinite="0" nextlayerid="3" nextobjectid="16">
  <properties>
   <property name="Background" propertytype="Background" value="Desert"/>
  </properties>
@@ -68,17 +68,23 @@
     <property name="WormAI" propertytype="WormAI" value="Demo"/>
    </properties>
   </object>
-  <object id="11" type="BossWorm" gid="189" x="1161" y="733.5" width="24" height="24">
+  <object id="11" name="Player Chase 1" type="BossWorm" gid="189" x="1161" y="733.5" width="24" height="24">
    <properties>
+    <property name="PlayerChase_EndTrigger" type="object" value="15"/>
+    <property name="PlayerChase_HidePoint" type="object" value="14"/>
     <property name="PlayerChase_RaisePoint" type="object" value="13"/>
     <property name="PlayerChase_Speed" type="float" value="30"/>
     <property name="PlayerChase_Trigger" type="object" value="12"/>
     <property name="WormAI" propertytype="WormAI" value="PlayerChase"/>
    </properties>
   </object>
-  <object id="12" name="Worm Chase Trigger" x="1224" y="324" width="108" height="108"/>
-  <object id="13" name="Worm Raise Point" x="1170" y="360">
+  <object id="12" name="Worm Chase Trigger" type="Metadata" x="1224" y="324" width="108" height="108"/>
+  <object id="13" name="Worm Raise Point" type="Metadata" x="1170" y="360">
    <point/>
   </object>
+  <object id="14" name="Worm Hide Point" type="Metadata" x="1782" y="882">
+   <point/>
+  </object>
+  <object id="15" name="Worm End Chase Trigger" type="Metadata" x="1782" y="126" width="36" height="468"/>
  </objectgroup>
 </map>

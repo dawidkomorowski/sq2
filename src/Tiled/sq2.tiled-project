@@ -181,6 +181,16 @@
             "id": 35,
             "members": [
                 {
+                    "name": "PlayerChase_EndTrigger",
+                    "type": "object",
+                    "value": 0
+                },
+                {
+                    "name": "PlayerChase_HidePoint",
+                    "type": "object",
+                    "value": 0
+                },
+                {
                     "name": "PlayerChase_RaisePoint",
                     "type": "object",
                     "value": 0

@@ -373,13 +373,39 @@ internal sealed class MapLoader
                         }
                     }
 
+                    var playerChaseEndTrigger = default(AABB2D);
+                    if (tiledObject.Properties.TryGetProperty("PlayerChase_EndTrigger", out var endTriggerProperty))
+                    {
+                        if (endTriggerProperty.ObjectValue != 0)
+                        {
+                            var trigger = objectLayer.Objects.Single(o => o.Id == endTriggerProperty.ObjectValue);
+                            if (trigger is TiledObject.Rectangle triggerRectangle)
+                            {
+                                var center = GetWorldCoordinates(triggerRectangle) + new Vector2(triggerRectangle.Width / 2d, -triggerRectangle.Height / 2d);
+                                var size = new SizeD(triggerRectangle.Width, triggerRectangle.Height);
+
+                                playerChaseEndTrigger = AABB2D.FromCenterAndSize(center, size);
+                            }
+                        }
+                    }
+
                     var playerChaseRaisePoint = Vector2.Zero;
                     if (tiledObject.Properties.TryGetProperty("PlayerChase_RaisePoint", out var raisePointProperty))
                     {
                         if (raisePointProperty.ObjectValue != 0)
                         {
-                            var raisePointObject = objectLayer.Objects.Single(o => o.Id == raisePointProperty.ObjectValue);
-                            playerChaseRaisePoint = GetWorldCoordinates(raisePointObject);
+                            var pointObject = objectLayer.Objects.Single(o => o.Id == raisePointProperty.ObjectValue);
+                            playerChaseRaisePoint = GetWorldCoordinates(pointObject);
+                        }
+                    }
+
+                    var playerChaseHidePoint = Vector2.Zero;
+                    if (tiledObject.Properties.TryGetProperty("PlayerChase_HidePoint", out var hidePointProperty))
+                    {
+                        if (hidePointProperty.ObjectValue != 0)
+                        {
+                            var pointObject = objectLayer.Objects.Single(o => o.Id == hidePointProperty.ObjectValue);
+                            playerChaseHidePoint = GetWorldCoordinates(pointObject);
                         }
                     }
 
@@ -388,7 +414,9 @@ internal sealed class MapLoader
                         WormAI = wormAI,
                         PlayerChaseSpeed = playerChaseSpeed,
                         PlayerChaseTrigger = playerChaseTrigger,
-                        PlayerChaseRaisePoint = playerChaseRaisePoint
+                        PlayerChaseEndTrigger = playerChaseEndTrigger,
+                        PlayerChaseRaisePoint = playerChaseRaisePoint,
+                        PlayerChaseHidePoint = playerChaseHidePoint
                     };
 
                     _entityFactory.CreateWormBoss(scene, position, props);
