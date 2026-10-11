@@ -7,6 +7,7 @@ using Geisha.Engine.Rendering;
 using Geisha.Extensions.Tiled;
 using NLog;
 using SQ2.GamePlay.Boss.Bat;
+using SQ2.GamePlay.Boss.Worm;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
 
@@ -347,7 +348,14 @@ internal sealed class MapLoader
                 case "BossWorm" when tiledObject is TiledObject.Tile:
                 {
                     var position = objectPosition + new Vector2(9, 12);
-                    _entityFactory.CreateWormBoss(scene, position);
+
+                    var wormAI = WormAI.Nop;
+                    if (tiledObject.Properties.TryGetProperty("WormAI", out var wormAIProperty))
+                    {
+                        wormAI = Enum.Parse<WormAI>(wormAIProperty.StringValue);
+                    }
+
+                    _entityFactory.CreateWormBoss(scene, position, wormAI);
                     break;
                 }
                 case "Button" when tiledObject is TiledObject.Tile:

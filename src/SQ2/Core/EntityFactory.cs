@@ -905,7 +905,7 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateWormBoss(Scene scene, Vector2 position)
+    public Entity CreateWormBoss(Scene scene, Vector2 position, WormAI wormAI)
     {
         var entity = scene.CreateEntity();
 
@@ -914,7 +914,14 @@ internal sealed class EntityFactory
         transform2DComponent.IsInterpolated = true;
 
         var wormBossComponent = entity.CreateComponent<WormBossComponent>();
-        wormBossComponent.WormBossAI = new DemoWormBossAI();
+
+        wormBossComponent.WormBossAI = wormAI switch
+        {
+            WormAI.Nop => new NopWormBossAI(),
+            WormAI.Demo => new DemoWormBossAI(),
+            WormAI.PlayerChase => new PlayerChaseWormBossAI(),
+            _ => throw new ArgumentOutOfRangeException(nameof(wormAI), wormAI, null)
+        };
 
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("cbede5f2-ef56-421e-b655-86cff6f9db13"));

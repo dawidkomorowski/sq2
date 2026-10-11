@@ -180,6 +180,12 @@
             "drawFill": true,
             "id": 35,
             "members": [
+                {
+                    "name": "WormAI",
+                    "propertyType": "WormAI",
+                    "type": "string",
+                    "value": "Nop"
+                }
             ],
             "name": "BossWorm",
             "type": "class",
@@ -605,6 +611,18 @@
                 "tile",
                 "project"
             ]
+        },
+        {
+            "id": 36,
+            "name": "WormAI",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "Nop",
+                "Demo",
+                "PlayerChase"
+            ],
+            "valuesAsFlags": false
         },
         {
             "color": "#ffa0a0a4",
