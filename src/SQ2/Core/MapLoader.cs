@@ -357,10 +357,38 @@ internal sealed class MapLoader
 
                     var playerChaseSpeed = tiledObject.Properties.GetPropertyOrNull("PlayerChase_Speed")?.FloatValue ?? 30d;
 
+                    var playerChaseTrigger = default(AABB2D);
+                    if (tiledObject.Properties.TryGetProperty("PlayerChase_Trigger", out var triggerProperty))
+                    {
+                        if (triggerProperty.ObjectValue != 0)
+                        {
+                            var trigger = objectLayer.Objects.Single(o => o.Id == triggerProperty.ObjectValue);
+                            if (trigger is TiledObject.Rectangle triggerRectangle)
+                            {
+                                var center = GetWorldCoordinates(triggerRectangle) + new Vector2(triggerRectangle.Width / 2d, -triggerRectangle.Height / 2d);
+                                var size = new SizeD(triggerRectangle.Width, triggerRectangle.Height);
+
+                                playerChaseTrigger = AABB2D.FromCenterAndSize(center, size);
+                            }
+                        }
+                    }
+
+                    var playerChaseRaisePoint = Vector2.Zero;
+                    if (tiledObject.Properties.TryGetProperty("PlayerChase_RaisePoint", out var raisePointProperty))
+                    {
+                        if (raisePointProperty.ObjectValue != 0)
+                        {
+                            var raisePointObject = objectLayer.Objects.Single(o => o.Id == raisePointProperty.ObjectValue);
+                            playerChaseRaisePoint = GetWorldCoordinates(raisePointObject);
+                        }
+                    }
+
                     var props = new EntityFactory.WormBossProps
                     {
                         WormAI = wormAI,
-                        PlayerChaseSpeed = playerChaseSpeed
+                        PlayerChaseSpeed = playerChaseSpeed,
+                        PlayerChaseTrigger = playerChaseTrigger,
+                        PlayerChaseRaisePoint = playerChaseRaisePoint
                     };
 
                     _entityFactory.CreateWormBoss(scene, position, props);

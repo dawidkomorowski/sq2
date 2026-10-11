@@ -909,6 +909,8 @@ internal sealed class EntityFactory
     {
         public WormAI WormAI { get; init; }
         public double PlayerChaseSpeed { get; init; }
+        public AABB2D PlayerChaseTrigger { get; init; }
+        public Vector2 PlayerChaseRaisePoint { get; init; }
     }
 
     public Entity CreateWormBoss(Scene scene, Vector2 position, WormBossProps props)
@@ -925,7 +927,7 @@ internal sealed class EntityFactory
         {
             WormAI.Nop => new NopWormBossAI(),
             WormAI.Demo => new DemoWormBossAI(),
-            WormAI.PlayerChase => new PlayerChaseWormBossAI(props.PlayerChaseSpeed),
+            WormAI.PlayerChase => new PlayerChaseWormBossAI(props.PlayerChaseSpeed, props.PlayerChaseTrigger, props.PlayerChaseRaisePoint),
             _ => throw new InvalidOperationException($"Unsupported worm AI: {props.WormAI}.")
         };
 
