@@ -26,6 +26,12 @@ internal static class GlobalSettings
         public const string CameraEffects = "CameraEffects";
     }
 
+    public static class CollisionLayers
+    {
+        public static readonly int WormBossHead = 0;
+        public static readonly int WormBossTail = 1;
+    }
+
     public static class HudElements
     {
         public const string CoinCounter = "UI_CoinCounter";

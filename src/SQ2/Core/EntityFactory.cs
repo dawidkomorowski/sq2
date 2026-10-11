@@ -6,6 +6,7 @@ using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Input.Components;
+using Geisha.Engine.Physics;
 using Geisha.Engine.Physics.Components;
 using Geisha.Engine.Rendering;
 using Geisha.Engine.Rendering.Components;
@@ -919,6 +920,14 @@ internal sealed class EntityFactory
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         spriteRendererComponent.OrderInLayer = 100;
 
+        var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
+        kinematicRigidBody2DComponent.EnableCollisionResponse = true;
+
+        var circleColliderComponent = entity.CreateComponent<CircleColliderComponent>();
+        circleColliderComponent.Radius = 10;
+        circleColliderComponent.CollisionLayer = CollisionBitmask.FromBit(GlobalSettings.CollisionLayers.WormBossHead);
+        circleColliderComponent.CollisionMask = CollisionBitmask.All.WithoutBit(GlobalSettings.CollisionLayers.WormBossTail);
+
         for (var i = 0; i < 10; i++)
         {
             var orderInLayer = spriteRendererComponent.OrderInLayer - 1 - i;
@@ -944,6 +953,14 @@ internal sealed class EntityFactory
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("e4ebbf01-aaad-46b3-a597-f98887ad5093"));
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         spriteRendererComponent.OrderInLayer = orderInLayer;
+
+        var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
+        kinematicRigidBody2DComponent.EnableCollisionResponse = false;
+
+        var circleColliderComponent = entity.CreateComponent<CircleColliderComponent>();
+        circleColliderComponent.Radius = 10;
+        circleColliderComponent.CollisionLayer = CollisionBitmask.FromBit(GlobalSettings.CollisionLayers.WormBossTail);
+        circleColliderComponent.CollisionMask = CollisionBitmask.All.WithoutBit(GlobalSettings.CollisionLayers.WormBossTail);
 
         return entity;
     }
