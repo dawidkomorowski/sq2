@@ -11,7 +11,7 @@ using SQ2.GamePlay.Player;
 
 namespace SQ2.GamePlay.Boss.Worm;
 
-internal sealed class WormBossComponent : BehaviorComponent, IRespawnable
+internal sealed class WormBossComponent : BehaviorComponent, IWormBossController, IRespawnable
 {
     private Transform2DComponent _headTransform = null!;
     private CircleColliderComponent _headCollider = null!;
@@ -23,14 +23,12 @@ internal sealed class WormBossComponent : BehaviorComponent, IRespawnable
 
     private Vector2 _moveToPosition;
 
-    private AIState _aiState = AIState.Waiting;
-    private TimeSpan _stateTimer;
-
     public WormBossComponent(Entity entity) : base(entity)
     {
     }
 
     public List<Entity> Tail { get; } = new();
+    public IWormBossAI WormBossAI { get; set; } = new NopWormBossAI();
 
     public override void OnStart()
     {
@@ -40,30 +38,61 @@ internal sealed class WormBossComponent : BehaviorComponent, IRespawnable
 
         _initialPosition = _headTransform.Translation;
         _moveToPosition = _headTransform.Translation;
+
+        WormBossAI.Init(Entity, this);
     }
 
     public override void OnFixedUpdate()
     {
-        ProcessPlayerCollision();
+        if (ProcessPlayerCollision())
+        {
+            return;
+        }
+
         ProcessAI();
         ProcessHeadMovement();
         ProcessTailMovement();
     }
 
-    private void ProcessPlayerCollision()
+    public void MoveTo(Vector2 position)
+    {
+        _moveToPosition = position;
+    }
+
+    public bool HasReachedDestination()
+    {
+        return _headTransform.Translation.Distance(_moveToPosition) < 10;
+    }
+
+    public Vector2 GetHeadPosition() => _headTransform.Translation;
+
+    public void SetHeadPosition(Vector2 position)
+    {
+        _headTransform.Translation = position;
+    }
+
+    private bool ProcessPlayerCollision()
     {
         var contacts = _headCollider.GetContactsAsSpan(_contacts);
-        KillPlayerOnContact(contacts);
+        if (KillPlayerOnContact(contacts))
+        {
+            return true;
+        }
 
         foreach (var entity in Tail)
         {
             var collider = entity.GetComponent<CircleColliderComponent>();
             contacts = collider.GetContactsAsSpan(_contacts);
-            KillPlayerOnContact(contacts);
+            if (KillPlayerOnContact(contacts))
+            {
+                return true;
+            }
         }
+
+        return false;
     }
 
-    private void KillPlayerOnContact(ReadOnlySpan<Contact2D> contacts)
+    private static bool KillPlayerOnContact(ReadOnlySpan<Contact2D> contacts)
     {
         foreach (var contact in contacts)
         {
@@ -71,60 +100,16 @@ internal sealed class WormBossComponent : BehaviorComponent, IRespawnable
             {
                 var playerComponent = contact.OtherCollider.Entity.GetComponent<PlayerComponent>();
                 playerComponent.KillPlayer();
+                return true;
             }
         }
-    }
 
-    private enum AIState
-    {
-        Waiting,
-        Raising,
-        Waving
+        return false;
     }
 
     private void ProcessAI()
     {
-        _stateTimer += TimeStep.FixedDeltaTime;
-
-        if (_aiState is AIState.Waiting)
-        {
-            if (_stateTimer > TimeSpan.FromSeconds(1))
-            {
-                MoveTo(_headTransform.Translation + new Vector2(0, 80));
-                _aiState = AIState.Raising;
-                _stateTimer = TimeSpan.Zero;
-            }
-
-            return;
-        }
-
-        if (_aiState is AIState.Raising)
-        {
-            if (HasReachedPosition())
-            {
-                _moveToPosition = _headTransform.Translation - new Vector2(0, 10);
-                _aiState = AIState.Waving;
-                _stateTimer = TimeSpan.Zero;
-            }
-        }
-
-        if (_aiState is AIState.Waving)
-        {
-            const double speed = 2;
-            var xPos = Math.Sin(_stateTimer.TotalSeconds * 0.5 * speed) * 30;
-            var yPos = Math.Cos(_stateTimer.TotalSeconds * speed) * 10;
-            _headTransform.Translation = _moveToPosition + new Vector2(xPos, yPos);
-        }
-    }
-
-    private bool HasReachedPosition()
-    {
-        return _headTransform.Translation.Distance(_moveToPosition) < 10;
-    }
-
-    private void MoveTo(Vector2 position)
-    {
-        _moveToPosition = position;
+        WormBossAI.Update(TimeStep.FixedDeltaTime);
     }
 
     private void ProcessHeadMovement()
@@ -176,8 +161,6 @@ internal sealed class WormBossComponent : BehaviorComponent, IRespawnable
     public void Respawn()
     {
         _moveToPosition = _initialPosition;
-        _aiState = AIState.Waiting;
-        _stateTimer = TimeSpan.Zero;
 
         _headTransform.Translation = _initialPosition;
         _headKinematicBody.LinearVelocity = Vector2.Zero;
@@ -186,6 +169,8 @@ internal sealed class WormBossComponent : BehaviorComponent, IRespawnable
             var transform = entity.GetComponent<Transform2DComponent>();
             transform.Translation = _initialPosition;
         }
+
+        WormBossAI.Reset();
     }
 }
 

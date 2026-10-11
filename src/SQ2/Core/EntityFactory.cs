@@ -914,6 +914,7 @@ internal sealed class EntityFactory
         transform2DComponent.IsInterpolated = true;
 
         var wormBossComponent = entity.CreateComponent<WormBossComponent>();
+        wormBossComponent.WormBossAI = new DemoWormBossAI();
 
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("cbede5f2-ef56-421e-b655-86cff6f9db13"));
