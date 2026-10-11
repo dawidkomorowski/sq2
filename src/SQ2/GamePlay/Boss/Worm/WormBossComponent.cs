@@ -4,12 +4,18 @@ using Geisha.Engine.Core;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
+using Geisha.Engine.Physics;
+using Geisha.Engine.Physics.Components;
+using SQ2.GamePlay.Player;
 
 namespace SQ2.GamePlay.Boss.Worm;
 
 internal sealed class WormBossComponent : BehaviorComponent
 {
     private Transform2DComponent _headTransform = null!;
+    private CircleColliderComponent _headCollider = null!;
+
+    private readonly List<Contact2D> _contacts = new();
 
     private Vector2 _moveToPosition;
 
@@ -25,14 +31,41 @@ internal sealed class WormBossComponent : BehaviorComponent
     public override void OnStart()
     {
         _headTransform = Entity.GetComponent<Transform2DComponent>();
+        _headCollider = Entity.GetComponent<CircleColliderComponent>();
         _moveToPosition = _headTransform.Translation;
     }
 
     public override void OnFixedUpdate()
     {
+        ProcessPlayerCollision();
         ProcessAI();
         ProcessHeadMovement();
         ProcessTailMovement();
+    }
+
+    private void ProcessPlayerCollision()
+    {
+        var contacts = _headCollider.GetContactsAsSpan(_contacts);
+        KillPlayerOnContact(contacts);
+
+        foreach (var entity in Tail)
+        {
+            var collider = entity.GetComponent<CircleColliderComponent>();
+            contacts = collider.GetContactsAsSpan(_contacts);
+            KillPlayerOnContact(contacts);
+        }
+    }
+
+    private void KillPlayerOnContact(ReadOnlySpan<Contact2D> contacts)
+    {
+        foreach (var contact in contacts)
+        {
+            if (contact.OtherCollider.Entity.HasComponent<PlayerComponent>())
+            {
+                var playerComponent = contact.OtherCollider.Entity.GetComponent<PlayerComponent>();
+                playerComponent.KillPlayer();
+            }
+        }
     }
 
     private enum AIState
