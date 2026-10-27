@@ -25,9 +25,12 @@ internal sealed class SettingsViewComponent : BehaviorComponent
 
     private InputComponent _inputComponent = null!;
 
-    private TextRendererComponent _displayModeText = null!;
-    private TextRendererComponent _vsyncText = null!;
-    private TextRendererComponent _tripleBufferingText = null!;
+    private TextRendererComponent _displayModeTextLabel = null!;
+    private TextRendererComponent _displayModeTextValue = null!;
+    private TextRendererComponent _vsyncTextLabel = null!;
+    private TextRendererComponent _vsyncTextValue = null!;
+    private TextRendererComponent _tripleBufferingTextLabel = null!;
+    private TextRendererComponent _tripleBufferingTextValue = null!;
 
     private readonly Color _activeColor = Color.White;
     private readonly Color _inactiveColor = Color.Gray;
@@ -67,9 +70,18 @@ internal sealed class SettingsViewComponent : BehaviorComponent
         containerRenderer.Dimensions = new Vector2(220, 100);
         containerRenderer.FillInterior = true;
 
-        _displayModeText = CreateOptionLabel(containerEntity, new Vector2(0, 40));
-        _vsyncText = CreateOptionLabel(containerEntity, new Vector2(0, 20));
-        _tripleBufferingText = CreateOptionLabel(containerEntity, new Vector2(0, 0));
+        _displayModeTextLabel = CreateTextLabel(containerEntity, new Vector2(0, 40));
+        _displayModeTextLabel.Text = "Display Mode:";
+        _displayModeTextValue = CreateTextLabel(containerEntity, new Vector2(125, 40));
+
+        _vsyncTextLabel = CreateTextLabel(containerEntity, new Vector2(0, 20));
+        _vsyncTextLabel.Text = "VSync:";
+        _vsyncTextValue = CreateTextLabel(containerEntity, new Vector2(125, 20));
+
+        _tripleBufferingTextLabel = CreateTextLabel(containerEntity, new Vector2(0, 0));
+        _tripleBufferingTextLabel.Text = "Triple Buffering:";
+        _tripleBufferingTextValue = CreateTextLabel(containerEntity, new Vector2(125, 0));
+
         RefreshOptions();
     }
 
@@ -135,39 +147,48 @@ internal sealed class SettingsViewComponent : BehaviorComponent
 
     private void RefreshOptions()
     {
-        var vsyncOnOff = _renderingSystem.VSyncEnabled ? "ON" : "OFF";
-        var tripleBufferingOnOff = _renderingSystem.BufferingMode is BufferingMode.TripleBuffering ? "ON" : "OFF";
-
-        _displayModeText.Text =
-            $"Display Mode:       {_windowingSystem.DisplayMode}";
-        _vsyncText.Text =
-            $"VSync:              {vsyncOnOff}";
-        _tripleBufferingText.Text =
-            $"Triple Buffering:   {tripleBufferingOnOff}";
+        _displayModeTextValue.Text = _windowingSystem.DisplayMode.ToString();
+        _vsyncTextValue.Text = _renderingSystem.VSyncEnabled ? "ON" : "OFF";
+        _tripleBufferingTextValue.Text = _renderingSystem.BufferingMode is BufferingMode.TripleBuffering ? "ON" : "OFF";
 
         switch (_selectedOption)
         {
             case 0:
-                _displayModeText.Color = _activeColor;
-                _vsyncText.Color = _inactiveColor;
-                _tripleBufferingText.Color = _inactiveColor;
+                _displayModeTextLabel.Color = _activeColor;
+                _displayModeTextValue.Color = _activeColor;
+
+                _vsyncTextLabel.Color = _inactiveColor;
+                _vsyncTextValue.Color = _inactiveColor;
+
+                _tripleBufferingTextLabel.Color = _inactiveColor;
+                _tripleBufferingTextValue.Color = _inactiveColor;
                 break;
             case 1:
-                _displayModeText.Color = _inactiveColor;
-                _vsyncText.Color = _activeColor;
-                _tripleBufferingText.Color = _inactiveColor;
+                _displayModeTextLabel.Color = _inactiveColor;
+                _displayModeTextValue.Color = _inactiveColor;
+
+                _vsyncTextLabel.Color = _activeColor;
+                _vsyncTextValue.Color = _activeColor;
+
+                _tripleBufferingTextLabel.Color = _inactiveColor;
+                _tripleBufferingTextValue.Color = _inactiveColor;
                 break;
             case 2:
-                _displayModeText.Color = _inactiveColor;
-                _vsyncText.Color = _inactiveColor;
-                _tripleBufferingText.Color = _activeColor;
+                _displayModeTextLabel.Color = _inactiveColor;
+                _displayModeTextValue.Color = _inactiveColor;
+
+                _vsyncTextLabel.Color = _inactiveColor;
+                _vsyncTextValue.Color = _inactiveColor;
+
+                _tripleBufferingTextLabel.Color = _activeColor;
+                _tripleBufferingTextValue.Color = _activeColor;
                 break;
             default:
                 throw new InvalidOperationException("Unhandled option.");
         }
     }
 
-    private static TextRendererComponent CreateOptionLabel(Entity parent, Vector2 position)
+    private static TextRendererComponent CreateTextLabel(Entity parent, Vector2 position)
     {
         var entity = parent.CreateChildEntity();
         var transform = entity.CreateComponent<Transform2DComponent>();
@@ -177,8 +198,9 @@ internal sealed class SettingsViewComponent : BehaviorComponent
         textRenderer.TextAlignment = TextAlignment.Leading;
         textRenderer.MaxWidth = 200;
         textRenderer.Pivot = new Vector2(100, 0);
-        textRenderer.FontSize = FontSize.FromDips(12);
+        textRenderer.FontSize = FontSize.FromDips(22);
         textRenderer.SortingLayerName = GlobalSettings.SortingLayers.MenuForeground;
+        textRenderer.FontFamilyName = GlobalSettings.Font;
 
         return textRenderer;
     }

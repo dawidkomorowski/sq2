@@ -29,12 +29,13 @@ internal sealed class CheckPointReachedFlyOutComponent : BehaviorComponent
 
         _textRenderer = Entity.CreateComponent<TextRendererComponent>();
         _textRenderer.SortingLayerName = GlobalSettings.SortingLayers.Hud;
-        _textRenderer.Text = "Checkpoint Reached!";
+        _textRenderer.Text = "Checkpoint\nReached!";
         _textRenderer.TextAlignment = TextAlignment.Center;
         _textRenderer.MaxWidth = 100;
         _textRenderer.Pivot = new Vector2(50, 0);
         _textRenderer.FontSize = FontSize.FromDips(10);
         _textRenderer.Color = Color.White;
+        _textRenderer.FontFamilyName = GlobalSettings.Font;
     }
 
     public override void OnUpdate(in TimeStep timeStep)

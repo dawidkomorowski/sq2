@@ -35,6 +35,7 @@ internal sealed class LevelPreviewComponent : BehaviorComponent
         levelNameTextRenderer.Pivot = new Vector2(150, 0);
         levelNameTextRenderer.FontSize = FontSize.FromDips(24);
         levelNameTextRenderer.SortingLayerName = GlobalSettings.SortingLayers.MenuForeground;
+        levelNameTextRenderer.FontFamilyName = GlobalSettings.Font;
 
         var levelImageEntity = Entity.CreateChildEntity();
         levelImageEntity.CreateComponent<Transform2DComponent>();

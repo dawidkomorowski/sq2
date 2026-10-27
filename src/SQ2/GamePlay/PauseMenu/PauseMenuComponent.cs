@@ -197,7 +197,8 @@ internal sealed class PauseMenuComponent : BehaviorComponent
             textRenderer.Text = menuItem.Text;
             textRenderer.MaxWidth = pauseMenuSize.X;
             textRenderer.TextAlignment = TextAlignment.Center;
-            textRenderer.FontSize = FontSize.FromDips(16);
+            textRenderer.FontSize = FontSize.FromDips(24);
+            textRenderer.FontFamilyName = GlobalSettings.Font;
             _uiElements.Add(textRenderer);
             menuItem.TextRendererComponent = textRenderer;
 

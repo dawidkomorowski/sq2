@@ -44,8 +44,10 @@ internal sealed class StatsViewComponent : BehaviorComponent
         containerRenderer.Dimensions = new Vector2(220, 100);
         containerRenderer.FillInterior = true;
 
-        CreateStatLabel(containerEntity, new Vector2(0, 40), $"Total Playtime: {FormatPlaytime(_gameStateService.TotalPlaytime)}");
-        CreateStatLabel(containerEntity, new Vector2(0, 20), $"Total Deaths:   {_gameStateService.TotalDeaths}");
+        CreateTextLabel(containerEntity, new Vector2(0, 40), "Total Playtime:");
+        CreateTextLabel(containerEntity, new Vector2(125, 40), FormatPlaytime(_gameStateService.TotalPlaytime));
+        CreateTextLabel(containerEntity, new Vector2(0, 20), "Total Deaths:");
+        CreateTextLabel(containerEntity, new Vector2(125, 20), _gameStateService.TotalDeaths.ToString());
     }
 
     public void OnView_Activated()
@@ -59,7 +61,7 @@ internal sealed class StatsViewComponent : BehaviorComponent
         ViewTransitionComponent?.ChangeView(ViewTransitionComponent.View.MainView);
     }
 
-    private static void CreateStatLabel(Entity parent, Vector2 position, string text)
+    private static void CreateTextLabel(Entity parent, Vector2 position, string text)
     {
         var entity = parent.CreateChildEntity();
         var transform = entity.CreateComponent<Transform2DComponent>();
@@ -70,11 +72,12 @@ internal sealed class StatsViewComponent : BehaviorComponent
         textRenderer.TextAlignment = TextAlignment.Leading;
         textRenderer.MaxWidth = 200;
         textRenderer.Pivot = new Vector2(100, 0);
-        textRenderer.FontSize = FontSize.FromDips(12);
+        textRenderer.FontSize = FontSize.FromDips(22);
         textRenderer.SortingLayerName = GlobalSettings.SortingLayers.MenuForeground;
+        textRenderer.FontFamilyName = GlobalSettings.Font;
     }
 
-    private static string FormatPlaytime(TimeSpan playtime) => $"{(int)playtime.TotalHours}h {playtime.Minutes}min";
+    private static string FormatPlaytime(TimeSpan playtime) => $"{(int)playtime.TotalHours} h   {playtime.Minutes} min";
 }
 
 // ReSharper disable once ClassNeverInstantiated.Global
