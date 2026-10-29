@@ -105,7 +105,7 @@ internal sealed class PauseMenuComponent : BehaviorComponent
     private void CreateMenuItems()
     {
         _menuItems.Add(new MenuItem("Resume", false, () => { }));
-        _menuItems.Add(new MenuItem("Last Checkpoint", false, _respawnService.RequestRespawn));
+        _menuItems.Add(new MenuItem("Last Checkpoint", true, OnAction_LastCheckpoint));
         _menuItems.Add(new MenuItem("Restart Level", true, OnAction_RestartLevel));
         _menuItems.Add(new MenuItem("Main Menu", true, OnAction_MainMenu));
         _menuItems.Add(new MenuItem("Exit Game", false, _engineManager.ScheduleEngineShutdown));
@@ -113,13 +113,31 @@ internal sealed class PauseMenuComponent : BehaviorComponent
         _selectedMenuItem = _menuItems[0];
     }
 
+    private void OnAction_LastCheckpoint()
+    {
+        _inputComponent.Enabled = false;
+        var cameraEffectEntity = Entity.CreateChildEntity();
+        var lensShutterComponent = cameraEffectEntity.CreateComponent<LensShutterComponent>();
+        lensShutterComponent.Close(TimeSpan.FromMilliseconds(750));
+        lensShutterComponent.OnComplete = () =>
+        {
+            _inputComponent.Enabled = true;
+            _respawnService.RequestRespawn();
+            _timeSystem.TimeScale = 1;
+            lensShutterComponent.Open();
+            lensShutterComponent.OnComplete = cameraEffectEntity.RemoveAfterFullFrame;
+        };
+    }
+
     private void OnAction_RestartLevel()
     {
+        _inputComponent.Enabled = false;
         var fadeOutEntity = Entity.CreateChildEntity();
         var fadeInOutComponent = fadeOutEntity.CreateComponent<FadeInOutComponent>();
         fadeInOutComponent.Duration = TimeSpan.FromMilliseconds(300);
         fadeInOutComponent.OnComplete = () =>
         {
+            _inputComponent.Enabled = true;
             _timeSystem.TimeScale = 1;
             _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld);
         };
@@ -127,11 +145,13 @@ internal sealed class PauseMenuComponent : BehaviorComponent
 
     private void OnAction_MainMenu()
     {
+        _inputComponent.Enabled = false;
         var fadeOutEntity = Entity.CreateChildEntity();
         var fadeInOutComponent = fadeOutEntity.CreateComponent<FadeInOutComponent>();
         fadeInOutComponent.Duration = TimeSpan.FromMilliseconds(300);
         fadeInOutComponent.OnComplete = () =>
         {
+            _inputComponent.Enabled = true;
             _timeSystem.TimeScale = 1;
             _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.MainMenu);
         };

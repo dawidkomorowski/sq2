@@ -66,18 +66,22 @@ internal sealed class LensShutterComponent : BehaviorComponent
         }
     }
 
-    public void Open()
+    public void Open() => Open(TimeSpan.Zero);
+
+    public void Open(TimeSpan timeOffset)
     {
         _isOpening = true;
         _completed = false;
-        _timer = TimeSpan.Zero;
+        _timer = timeOffset;
     }
 
-    public void Close()
+    public void Close() => Close(TimeSpan.Zero);
+
+    public void Close(TimeSpan timeOffset)
     {
         _isOpening = false;
         _completed = false;
-        _timer = TimeSpan.Zero;
+        _timer = timeOffset;
     }
 
     private void CreateBlade(Vector2 position)
