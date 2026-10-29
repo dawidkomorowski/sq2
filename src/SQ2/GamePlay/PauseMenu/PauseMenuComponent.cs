@@ -106,11 +106,23 @@ internal sealed class PauseMenuComponent : BehaviorComponent
     {
         _menuItems.Add(new MenuItem("Resume", false, () => { }));
         _menuItems.Add(new MenuItem("Last Checkpoint", false, _respawnService.RequestRespawn));
-        _menuItems.Add(new MenuItem("Restart Level", false, () => { _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld); }));
+        _menuItems.Add(new MenuItem("Restart Level", true, OnAction_RestartLevel));
         _menuItems.Add(new MenuItem("Main Menu", true, OnAction_MainMenu));
         _menuItems.Add(new MenuItem("Exit Game", false, _engineManager.ScheduleEngineShutdown));
 
         _selectedMenuItem = _menuItems[0];
+    }
+
+    private void OnAction_RestartLevel()
+    {
+        var fadeOutEntity = Entity.CreateChildEntity();
+        var fadeInOutComponent = fadeOutEntity.CreateComponent<FadeInOutComponent>();
+        fadeInOutComponent.Duration = TimeSpan.FromMilliseconds(300);
+        fadeInOutComponent.OnComplete = () =>
+        {
+            _timeSystem.TimeScale = 1;
+            _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld);
+        };
     }
 
     private void OnAction_MainMenu()
