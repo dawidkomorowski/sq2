@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Physics.Systems;
@@ -9,6 +10,7 @@ using SQ2.MainMenu.MainView;
 using SQ2.MainMenu.SelectLevelView;
 using SQ2.MainMenu.SettingsView;
 using SQ2.MainMenu.StatsView;
+using SQ2.VFX;
 
 namespace SQ2.MainMenu;
 
@@ -89,6 +91,12 @@ internal sealed class MainMenuBehaviorFactory : ISceneBehaviorFactory
             selectLevelViewComponent.ViewTransitionComponent = viewTransitionComponent;
             statsViewComponent.ViewTransitionComponent = viewTransitionComponent;
             settingsViewComponent.ViewTransitionComponent = viewTransitionComponent;
+
+            var fadeInEntity = cameraEntity.CreateChildEntity();
+            var fadeInOutComponent = fadeInEntity.CreateComponent<FadeInOutComponent>();
+            fadeInOutComponent.Mode = FadeInOutComponent.FadeMode.In;
+            fadeInOutComponent.Duration = TimeSpan.FromMilliseconds(300);
+            fadeInOutComponent.OnComplete = fadeInEntity.RemoveAfterFullFrame;
         }
 
         private void CreateAnimatedBackground(Entity cameraEntity)

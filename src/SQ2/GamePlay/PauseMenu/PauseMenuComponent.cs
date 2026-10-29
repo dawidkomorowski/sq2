@@ -117,6 +117,7 @@ internal sealed class PauseMenuComponent : BehaviorComponent
     {
         var fadeOutEntity = Entity.CreateChildEntity();
         var fadeInOutComponent = fadeOutEntity.CreateComponent<FadeInOutComponent>();
+        fadeInOutComponent.Duration = TimeSpan.FromMilliseconds(300);
         fadeInOutComponent.OnComplete = () =>
         {
             _timeSystem.TimeScale = 1;
