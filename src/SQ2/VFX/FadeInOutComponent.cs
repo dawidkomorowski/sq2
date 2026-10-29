@@ -42,7 +42,16 @@ internal sealed class FadeInOutComponent : BehaviorComponent
             return;
         }
 
-        _elapsed += timeStep.DeltaTime;
+        // Clamp at 30ms for initial update after level load that makes first timestep to be big.
+        var _30ms = TimeSpan.FromMilliseconds(30);
+        if (timeStep.DeltaTime > _30ms)
+        {
+            _elapsed += _30ms;
+        }
+        else
+        {
+            _elapsed += timeStep.DeltaTime;
+        }
 
         var ratio = Duration.TotalSeconds > 0
             ? _elapsed.TotalSeconds / Duration.TotalSeconds

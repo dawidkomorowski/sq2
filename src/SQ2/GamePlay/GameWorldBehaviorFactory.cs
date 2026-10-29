@@ -5,6 +5,7 @@ using SQ2.Development;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.PauseMenu;
 using SQ2.GamePlay.Player;
+using SQ2.VFX;
 
 namespace SQ2.GamePlay;
 
@@ -98,6 +99,11 @@ internal sealed class GameWorldBehaviorFactory : ISceneBehaviorFactory
             _mapLoader.LoadMap(Scene, tmxPath);
 
             _physicsSystem.SynchronizePhysicsState();
+
+            var fadeInEntity = camera.CreateChildEntity();
+            var fadeInOutComponent = fadeInEntity.CreateComponent<FadeInOutComponent>();
+            fadeInOutComponent.Mode = FadeInOutComponent.FadeMode.In;
+            fadeInOutComponent.OnComplete = fadeInEntity.RemoveAfterFullFrame;
         }
     }
 }
