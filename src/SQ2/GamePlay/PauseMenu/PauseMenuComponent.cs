@@ -11,6 +11,7 @@ using Geisha.Engine.Input.Mapping;
 using Geisha.Engine.Rendering;
 using Geisha.Engine.Rendering.Components;
 using SQ2.GamePlay.Common;
+using SQ2.VFX;
 
 namespace SQ2.GamePlay.PauseMenu;
 
@@ -33,7 +34,7 @@ internal sealed class PauseMenuComponent : BehaviorComponent
     private readonly RespawnService _respawnService;
 
     // Menu
-    private sealed record MenuItem(string Text, Action Action)
+    private sealed record MenuItem(string Text, bool StayPaused, Action Action)
     {
         public TextRendererComponent? TextRendererComponent { get; set; }
     }
@@ -103,14 +104,26 @@ internal sealed class PauseMenuComponent : BehaviorComponent
 
     private void CreateMenuItems()
     {
-        _menuItems.Add(new MenuItem("Resume", () => { }));
-        _menuItems.Add(new MenuItem("Last Checkpoint", _respawnService.RequestRespawn));
-        _menuItems.Add(new MenuItem("Restart Level", () => { _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld); }));
-        _menuItems.Add(new MenuItem("Main Menu", () => { _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.MainMenu); }));
-        _menuItems.Add(new MenuItem("Exit Game", _engineManager.ScheduleEngineShutdown));
+        _menuItems.Add(new MenuItem("Resume", false, () => { }));
+        _menuItems.Add(new MenuItem("Last Checkpoint", false, _respawnService.RequestRespawn));
+        _menuItems.Add(new MenuItem("Restart Level", false, () => { _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld); }));
+        _menuItems.Add(new MenuItem("Main Menu", true, OnAction_MainMenu));
+        _menuItems.Add(new MenuItem("Exit Game", false, _engineManager.ScheduleEngineShutdown));
 
         _selectedMenuItem = _menuItems[0];
     }
+
+    private void OnAction_MainMenu()
+    {
+        var fadeOutEntity = Entity.CreateChildEntity();
+        var fadeInOutComponent = fadeOutEntity.CreateComponent<FadeInOutComponent>();
+        fadeInOutComponent.OnComplete = () =>
+        {
+            _timeSystem.TimeScale = 1;
+            _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.MainMenu);
+        };
+    }
+
 
     private void OnActionPause()
     {
@@ -137,7 +150,11 @@ internal sealed class PauseMenuComponent : BehaviorComponent
         if (_isPaused)
         {
             _selectedMenuItem.Action.Invoke();
+            var stayPaused = _selectedMenuItem.StayPaused;
+
             OnActionPause();
+
+            _timeSystem.TimeScale = stayPaused ? 0 : 1;
         }
     }
 
