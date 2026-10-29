@@ -139,7 +139,7 @@ internal sealed class PauseMenuComponent : BehaviorComponent
         {
             _inputComponent.Enabled = true;
             _timeSystem.TimeScale = 1;
-            _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld);
+            _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.LoadingScreen);
         };
     }
 

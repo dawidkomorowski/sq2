@@ -14,6 +14,7 @@ using SQ2.GamePlay.Enemies;
 using SQ2.GamePlay.LevelGeometry;
 using SQ2.GamePlay.PauseMenu;
 using SQ2.GamePlay.Player;
+using SQ2.LoadingScreen;
 using SQ2.MainMenu;
 using SQ2.MainMenu.MainView;
 using SQ2.MainMenu.SelectLevelView;
@@ -97,6 +98,7 @@ internal class SQ2Game : Game
         // Scene behaviors
         componentsRegistry.RegisterSceneBehaviorFactory<MainMenuBehaviorFactory>();
         componentsRegistry.RegisterSceneBehaviorFactory<GameWorldBehaviorFactory>();
+        componentsRegistry.RegisterSceneBehaviorFactory<LoadingScreenBehaviorFactory>();
 
         // Development components
         componentsRegistry.RegisterComponentFactory<DevControlsComponentFactory>();
@@ -159,6 +161,9 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<CheckPointComponentFactory>();
         componentsRegistry.RegisterComponentFactory<CheckPointReachedFlyOutComponentFactory>();
         componentsRegistry.RegisterComponentFactory<PlaytimeTrackingComponentFactory>();
+
+        // Loading screen
+        componentsRegistry.RegisterComponentFactory<LoadGameComponentFactory>();
 
         // Main menu
         componentsRegistry.RegisterComponentFactory<AnimatedBackgroundComponentFactory>();

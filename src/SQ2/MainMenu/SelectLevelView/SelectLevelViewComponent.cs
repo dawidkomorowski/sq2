@@ -139,11 +139,10 @@ internal sealed class SelectLevelViewComponent : BehaviorComponent
         var entity = Entity.CreateChildEntity();
         var fadeOutComponent = entity.CreateComponent<FadeInOutComponent>();
         fadeOutComponent.Duration = TimeSpan.FromMilliseconds(300);
-        fadeOutComponent.CompleteDelay = TimeSpan.FromMilliseconds(300);
         fadeOutComponent.OnComplete = () =>
         {
             _gameStateService.SelectLevel(_selectedLevel);
-            _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld);
+            _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.LoadingScreen);
         };
     }
 }

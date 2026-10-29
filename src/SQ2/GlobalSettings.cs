@@ -43,6 +43,7 @@ internal static class GlobalSettings
     {
         public const string MainMenu = "MainMenu";
         public const string GameWorld = "GameWorld";
+        public const string LoadingScreen = "LoadingScreen";
     }
 
     public static class SpecialEntities

@@ -122,11 +122,10 @@ internal sealed class MainViewComponent : BehaviorComponent
                 var entity = Entity.CreateChildEntity();
                 var fadeOutComponent = entity.CreateComponent<FadeInOutComponent>();
                 fadeOutComponent.Duration = TimeSpan.FromMilliseconds(300);
-                fadeOutComponent.CompleteDelay = TimeSpan.FromMilliseconds(300);
                 fadeOutComponent.OnComplete = () =>
                 {
                     _gameStateService.StartNewGame();
-                    _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld);
+                    _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.LoadingScreen);
                 };
                 break;
             }
@@ -136,11 +135,10 @@ internal sealed class MainViewComponent : BehaviorComponent
                 var entity = Entity.CreateChildEntity();
                 var fadeOutComponent = entity.CreateComponent<FadeInOutComponent>();
                 fadeOutComponent.Duration = TimeSpan.FromMilliseconds(300);
-                fadeOutComponent.CompleteDelay = TimeSpan.FromMilliseconds(300);
                 fadeOutComponent.OnComplete = () =>
                 {
                     _gameStateService.ContinueGame();
-                    _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.GameWorld);
+                    _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.LoadingScreen);
                 };
                 break;
             }
