@@ -63,16 +63,16 @@ internal sealed class MainViewComponent : BehaviorComponent
         var backgroundRenderer = background.CreateComponent<RectangleRendererComponent>();
         backgroundRenderer.SortingLayerName = GlobalSettings.SortingLayers.Menu;
         backgroundRenderer.Color = Color.FromArgb(192, 0, 0, 0);
-        backgroundRenderer.Dimensions = new Vector2(150, 140);
+        backgroundRenderer.Dimensions = new Vector2(160, 140);
         backgroundRenderer.FillInterior = true;
 
-        double menuStartY = 50;
+        double menuStartY = 45;
         const double menuItemSpacing = 20;
         var menuItemsCount = 0;
 
         if (_gameStateService.IsContinueAvailable)
         {
-            menuStartY = 60;
+            menuStartY = 55;
             _menuItems.Add(CreateMenuItem(MenuItemContinueId, "Continue", new Vector2(0, menuStartY - menuItemSpacing * menuItemsCount++)));
         }
 
@@ -180,7 +180,7 @@ internal sealed class MainViewComponent : BehaviorComponent
         var textRenderer = menuItemEntity.CreateComponent<TextRendererComponent>();
         textRenderer.Text = text;
         textRenderer.Color = Color.White;
-        textRenderer.FontSize = FontSize.FromDips(24);
+        textRenderer.FontSize = FontSize.FromDips(12);
         textRenderer.MaxWidth = 300;
         textRenderer.TextAlignment = TextAlignment.Center;
         textRenderer.Pivot = new Vector2(150, 0);

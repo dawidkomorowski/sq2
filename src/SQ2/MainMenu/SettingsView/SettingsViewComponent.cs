@@ -198,7 +198,7 @@ internal sealed class SettingsViewComponent : BehaviorComponent
         textRenderer.TextAlignment = TextAlignment.Leading;
         textRenderer.MaxWidth = 200;
         textRenderer.Pivot = new Vector2(100, 0);
-        textRenderer.FontSize = FontSize.FromDips(22);
+        textRenderer.FontSize = FontSize.FromDips(7);
         textRenderer.SortingLayerName = GlobalSettings.SortingLayers.MenuForeground;
         textRenderer.FontFamilyName = GlobalSettings.Font;
 

@@ -26,14 +26,14 @@ internal sealed class LevelPreviewComponent : BehaviorComponent
     {
         var levelNameEntity = Entity.CreateChildEntity();
         var levelNameTransform = levelNameEntity.CreateComponent<Transform2DComponent>();
-        levelNameTransform.Translation = new Vector2(0, 100);
+        levelNameTransform.Translation = new Vector2(0, 95);
         var levelNameTextRenderer = levelNameEntity.CreateComponent<TextRendererComponent>();
         levelNameTextRenderer.Text = LevelInfo?.Name ?? string.Empty;
         levelNameTextRenderer.Color = Color.White;
         levelNameTextRenderer.TextAlignment = TextAlignment.Center;
         levelNameTextRenderer.MaxWidth = 300;
         levelNameTextRenderer.Pivot = new Vector2(150, 0);
-        levelNameTextRenderer.FontSize = FontSize.FromDips(24);
+        levelNameTextRenderer.FontSize = FontSize.FromDips(12);
         levelNameTextRenderer.SortingLayerName = GlobalSettings.SortingLayers.MenuForeground;
         levelNameTextRenderer.FontFamilyName = GlobalSettings.Font;
 

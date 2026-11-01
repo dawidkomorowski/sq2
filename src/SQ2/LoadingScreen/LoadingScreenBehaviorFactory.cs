@@ -41,7 +41,7 @@ internal sealed class LoadingScreenBehaviorFactory : ISceneBehaviorFactory
             textEntity.CreateComponent<Transform2DComponent>();
             var textRenderer = textEntity.CreateComponent<TextRendererComponent>();
             textRenderer.OrderInLayer = 1;
-            textRenderer.FontSize = FontSize.FromDips(20);
+            textRenderer.FontSize = FontSize.FromDips(12);
             textRenderer.FontFamilyName = GlobalSettings.Font;
             textRenderer.Color = Color.White;
             textRenderer.TextAlignment = TextAlignment.Center;

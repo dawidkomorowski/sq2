@@ -222,7 +222,7 @@ internal sealed class PauseMenuComponent : BehaviorComponent
     // ReSharper disable once InconsistentNaming
     private void BuildUI()
     {
-        var pauseMenuSize = new Vector2(175, 130);
+        var pauseMenuSize = new Vector2(175, 110);
 
         var background = Entity.CreateChildEntity();
         background.CreateComponent<Transform2DComponent>();
@@ -234,7 +234,7 @@ internal sealed class PauseMenuComponent : BehaviorComponent
         _uiElements.Add(backgroundRenderer);
 
 
-        var verticalOffset = 5;
+        var verticalOffset = 10;
         foreach (var menuItem in _menuItems)
         {
             var textEntity = Entity.CreateChildEntity();
@@ -247,12 +247,12 @@ internal sealed class PauseMenuComponent : BehaviorComponent
             textRenderer.Text = menuItem.Text;
             textRenderer.MaxWidth = pauseMenuSize.X;
             textRenderer.TextAlignment = TextAlignment.Center;
-            textRenderer.FontSize = FontSize.FromDips(24);
+            textRenderer.FontSize = FontSize.FromDips(10);
             textRenderer.FontFamilyName = GlobalSettings.Font;
             _uiElements.Add(textRenderer);
             menuItem.TextRendererComponent = textRenderer;
 
-            verticalOffset += 25; // Adjust this value based on your desired spacing
+            verticalOffset += 20; // Adjust this value based on your desired spacing
         }
     }
 }

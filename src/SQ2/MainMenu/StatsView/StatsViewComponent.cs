@@ -72,12 +72,12 @@ internal sealed class StatsViewComponent : BehaviorComponent
         textRenderer.TextAlignment = TextAlignment.Leading;
         textRenderer.MaxWidth = 200;
         textRenderer.Pivot = new Vector2(100, 0);
-        textRenderer.FontSize = FontSize.FromDips(22);
+        textRenderer.FontSize = FontSize.FromDips(7);
         textRenderer.SortingLayerName = GlobalSettings.SortingLayers.MenuForeground;
         textRenderer.FontFamilyName = GlobalSettings.Font;
     }
 
-    private static string FormatPlaytime(TimeSpan playtime) => $"{(int)playtime.TotalHours} h   {playtime.Minutes} min";
+    private static string FormatPlaytime(TimeSpan playtime) => $"{(int)playtime.TotalHours}h {playtime.Minutes}min";
 }
 
 // ReSharper disable once ClassNeverInstantiated.Global

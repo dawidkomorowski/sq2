@@ -33,7 +33,7 @@ internal sealed class CheckPointReachedFlyOutComponent : BehaviorComponent
         _textRenderer.TextAlignment = TextAlignment.Center;
         _textRenderer.MaxWidth = 100;
         _textRenderer.Pivot = new Vector2(50, 0);
-        _textRenderer.FontSize = FontSize.FromDips(10);
+        _textRenderer.FontSize = FontSize.FromDips(8);
         _textRenderer.Color = Color.White;
         _textRenderer.FontFamilyName = GlobalSettings.Font;
     }
