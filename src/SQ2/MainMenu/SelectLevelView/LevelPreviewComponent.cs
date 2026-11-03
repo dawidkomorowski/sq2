@@ -47,6 +47,7 @@ internal sealed class LevelPreviewComponent : BehaviorComponent
         {
             levelSpriteRenderer.Sprite = _assetStore.GetAsset<Sprite>(LevelInfo.PreviewSpriteAssetId);
 
+            CreateCoinInfo();
             CreateDiamondInfo(LevelInfo.DiamondId);
         }
     }
@@ -55,7 +56,7 @@ internal sealed class LevelPreviewComponent : BehaviorComponent
     {
         var diamondInfoEntity = Entity.CreateChildEntity();
         var diamondInfoTransform = diamondInfoEntity.CreateComponent<Transform2DComponent>();
-        diamondInfoTransform.Translation = new Vector2(0, -90);
+        diamondInfoTransform.Translation = new Vector2(40, -90);
 
         var collectedNumberEntity = diamondInfoEntity.CreateChildEntity();
         var collectedNumberTransform = collectedNumberEntity.CreateComponent<Transform2DComponent>();
@@ -88,6 +89,37 @@ internal sealed class LevelPreviewComponent : BehaviorComponent
         diamondSpriteRenderer.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         diamondSpriteRenderer.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("fd94100c-a1fd-4c5b-bc5c-a7337ca94f02"));
         diamondSpriteRenderer.SortingLayerName = GlobalSettings.SortingLayers.MenuForeground;
+    }
+
+    private void CreateCoinInfo()
+    {
+        var coinInfoEntity = Entity.CreateChildEntity();
+        var coinInfoTransform = coinInfoEntity.CreateComponent<Transform2DComponent>();
+        coinInfoTransform.Translation = new Vector2(-40, -90);
+
+        var collectedNumberEntity = coinInfoEntity.CreateChildEntity();
+        var collectedNumberTransform = collectedNumberEntity.CreateComponent<Transform2DComponent>();
+        collectedNumberTransform.Translation = new Vector2(-30, 0);
+        var collectedNumberRenderer = collectedNumberEntity.CreateComponent<NumberRendererComponent>();
+        collectedNumberRenderer.UseDefaultSprites(_assetStore);
+        collectedNumberRenderer.Value = 0;
+        collectedNumberRenderer.SortingLayerName = GlobalSettings.SortingLayers.MenuForeground;
+
+        var timesIconEntity = coinInfoEntity.CreateChildEntity();
+        var timesIconTransform = timesIconEntity.CreateComponent<Transform2DComponent>();
+        timesIconTransform.Translation = new Vector2(0, 0);
+        var timesIconSpriteRenderer = timesIconEntity.CreateComponent<SpriteRendererComponent>();
+        timesIconSpriteRenderer.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("fa82409e-2840-4492-bc9b-4b48e6030430"));
+        timesIconSpriteRenderer.SortingLayerName = GlobalSettings.SortingLayers.MenuForeground;
+        timesIconSpriteRenderer.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
+
+        var coinIconEntity = coinInfoEntity.CreateChildEntity();
+        var coinIconTransform = coinIconEntity.CreateComponent<Transform2DComponent>();
+        coinIconTransform.Translation = new Vector2(20, 0);
+        var coinIconSpriteRenderer = coinIconEntity.CreateComponent<SpriteRendererComponent>();
+        coinIconSpriteRenderer.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("eb06525a-acc2-4593-abc9-506763f077cc"));
+        coinIconSpriteRenderer.SortingLayerName = GlobalSettings.SortingLayers.MenuForeground;
+        coinIconSpriteRenderer.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
     }
 }
 
