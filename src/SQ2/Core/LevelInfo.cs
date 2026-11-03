@@ -4,6 +4,7 @@ namespace SQ2.Core;
 
 internal sealed class LevelInfo
 {
+    public int Index { get; private init; }
     public string Name { get; private init; } = string.Empty;
     public string MapFileName { get; private init; } = string.Empty;
     public AssetId PreviewSpriteAssetId { get; private init; }
@@ -17,6 +18,7 @@ internal sealed class LevelInfo
         {
             new LevelInfo
             {
+                Index = 0,
                 Name = "Level 1",
                 MapFileName = "Level01.tmx",
                 PreviewSpriteAssetId = AssetId.Parse("ffbca60b-d912-499c-b75b-774aea1b05fc"),
@@ -24,6 +26,7 @@ internal sealed class LevelInfo
             },
             new LevelInfo
             {
+                Index = 1,
                 Name = "Level 2",
                 MapFileName = "Level02.tmx",
                 PreviewSpriteAssetId = AssetId.Parse("2ad44ac3-026a-428c-bb60-29205bc4e697"),
@@ -31,6 +34,7 @@ internal sealed class LevelInfo
             },
             new LevelInfo
             {
+                Index = 2,
                 Name = "Level 3",
                 MapFileName = "Level03.tmx",
                 PreviewSpriteAssetId = AssetId.Parse("2ad44ac3-026a-428c-bb60-29205bc4e697"),
@@ -38,6 +42,7 @@ internal sealed class LevelInfo
             },
             new LevelInfo
             {
+                Index = 3,
                 Name = "Level 4",
                 MapFileName = "Level04.tmx",
                 PreviewSpriteAssetId = AssetId.Parse("2ad44ac3-026a-428c-bb60-29205bc4e697"),
@@ -45,6 +50,7 @@ internal sealed class LevelInfo
             },
             new LevelInfo
             {
+                Index = 4,
                 Name = "Level 5",
                 MapFileName = "Level05.tmx",
                 PreviewSpriteAssetId = AssetId.Parse("2ad44ac3-026a-428c-bb60-29205bc4e697"),
@@ -52,6 +58,7 @@ internal sealed class LevelInfo
             },
             new LevelInfo
             {
+                Index = 5,
                 Name = "Level 6",
                 MapFileName = "Level06.tmx",
                 PreviewSpriteAssetId = AssetId.Parse("2ad44ac3-026a-428c-bb60-29205bc4e697"),
@@ -59,6 +66,7 @@ internal sealed class LevelInfo
             },
             new LevelInfo
             {
+                Index = 6,
                 Name = "Level 7",
                 MapFileName = "Level07.tmx",
                 PreviewSpriteAssetId = AssetId.Parse("2ad44ac3-026a-428c-bb60-29205bc4e697"),
@@ -66,6 +74,7 @@ internal sealed class LevelInfo
             },
             new LevelInfo
             {
+                Index = 7,
                 Name = "Level 8",
                 MapFileName = "Level08.tmx",
                 PreviewSpriteAssetId = AssetId.Parse("2ad44ac3-026a-428c-bb60-29205bc4e697"),
@@ -73,6 +82,7 @@ internal sealed class LevelInfo
             },
             new LevelInfo
             {
+                Index = 8,
                 Name = "Level 9",
                 MapFileName = "Level09.tmx",
                 PreviewSpriteAssetId = AssetId.Parse("2ad44ac3-026a-428c-bb60-29205bc4e697"),
@@ -80,6 +90,7 @@ internal sealed class LevelInfo
             },
             new LevelInfo
             {
+                Index = 9,
                 Name = "Level 10",
                 MapFileName = "Level10.tmx",
                 PreviewSpriteAssetId = AssetId.Parse("2ad44ac3-026a-428c-bb60-29205bc4e697"),
@@ -87,6 +98,7 @@ internal sealed class LevelInfo
             },
             new LevelInfo
             {
+                Index = 10,
                 Name = "Level 11",
                 MapFileName = "Level11.tmx",
                 PreviewSpriteAssetId = AssetId.Parse("2ad44ac3-026a-428c-bb60-29205bc4e697"),
@@ -94,6 +106,7 @@ internal sealed class LevelInfo
             },
             new LevelInfo
             {
+                Index = 11,
                 Name = "Level 12",
                 MapFileName = "Level12.tmx",
                 PreviewSpriteAssetId = AssetId.Parse("2ad44ac3-026a-428c-bb60-29205bc4e697"),
@@ -101,6 +114,7 @@ internal sealed class LevelInfo
             },
             new LevelInfo
             {
+                Index = 12,
                 Name = "Level 13",
                 MapFileName = "Level13.tmx",
                 PreviewSpriteAssetId = AssetId.Parse("2ad44ac3-026a-428c-bb60-29205bc4e697"),
@@ -108,6 +122,7 @@ internal sealed class LevelInfo
             },
             new LevelInfo
             {
+                Index = 13,
                 Name = "Level 14",
                 MapFileName = "Level14.tmx",
                 PreviewSpriteAssetId = AssetId.Parse("2ad44ac3-026a-428c-bb60-29205bc4e697"),
@@ -115,6 +130,7 @@ internal sealed class LevelInfo
             },
             new LevelInfo
             {
+                Index = 14,
                 Name = "Level 15",
                 MapFileName = "Level15.tmx",
                 PreviewSpriteAssetId = AssetId.Parse("2ad44ac3-026a-428c-bb60-29205bc4e697"),

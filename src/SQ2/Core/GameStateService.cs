@@ -60,6 +60,8 @@ internal sealed class GameStateService
         _gameSaveService.SaveGame();
     }
 
+    public int GetCollectedCoins(int level) => _gameSaveService.GameSave.CollectedCoins.GetValueOrDefault(level, 0);
+
     public bool IsDiamondCollected(string id)
     {
         return _gameSaveService.GameSave.CollectedDiamondIds.Contains(id);
