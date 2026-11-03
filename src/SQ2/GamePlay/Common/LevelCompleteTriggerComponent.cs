@@ -69,7 +69,7 @@ internal sealed class LevelCompleteTriggerComponent : BehaviorComponent
 
             if (_timer >= TimeSpan.FromSeconds(4.5))
             {
-                _gameStateService.CompleteLevel();
+                _gameStateService.CompleteLevel(_playerComponent.CoinsCollected);
                 _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.LoadingScreen);
             }
 

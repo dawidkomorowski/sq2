@@ -10,6 +10,7 @@ internal sealed class GameSaveData
     public bool NewGameStarted { get; set; }
     public int CurrentLevel { get; set; } = 1;
     public HashSet<string> CollectedDiamondIds { get; init; } = new();
+    public Dictionary<int, int> CollectedCoins { get; init; } = new();
     public GameStats GameStats { get; init; } = new();
 }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace SQ2.Core;
@@ -43,11 +44,19 @@ internal sealed class GameStateService
         _selectedLevel = level;
     }
 
-    public void CompleteLevel()
+    public void CompleteLevel(int collectedCoins)
     {
         var maxLevelIndex = LevelInfo.Levels.Length - 1;
+        var completedLevel = _selectedLevel;
         _selectedLevel = Math.Min(_selectedLevel + 1, maxLevelIndex);
         _gameSaveService.GameSave.CurrentLevel = _selectedLevel;
+
+        var topCollectedCoins = _gameSaveService.GameSave.CollectedCoins.GetValueOrDefault(completedLevel, 0);
+        if (collectedCoins > topCollectedCoins)
+        {
+            _gameSaveService.GameSave.CollectedCoins[completedLevel] = collectedCoins;
+        }
+
         _gameSaveService.SaveGame();
     }
 
