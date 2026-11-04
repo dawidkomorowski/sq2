@@ -110,7 +110,7 @@ internal sealed class LevelPreviewComponent : BehaviorComponent
         totalNumberTransform.Translation = new Vector2(0, 0);
         var totalNumberRenderer = totalNumberEntity.CreateComponent<NumberRendererComponent>();
         totalNumberRenderer.UseDefaultSprites(_assetStore);
-        totalNumberRenderer.Value = diamondId != string.Empty ? 1 : 0;
+        totalNumberRenderer.Value = string.IsNullOrEmpty(diamondId) ? 0 : 1;
         totalNumberRenderer.SortingLayerName = GlobalSettings.SortingLayers.MenuForeground;
 
         var diamondEntity = diamondInfoEntity.CreateChildEntity();

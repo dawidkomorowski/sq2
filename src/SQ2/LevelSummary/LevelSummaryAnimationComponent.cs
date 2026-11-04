@@ -65,9 +65,9 @@ internal sealed class LevelSummaryAnimationComponent : BehaviorComponent
             return;
         }
 
-        var start = new Vector2(-250, -10);
+        var start = new Vector2(-300, -10);
         var center = new Vector2(0, -10);
-        var end = new Vector2(250, -10);
+        var end = new Vector2(300, -10);
 
         var transform = CoinInfo.GetComponent<Transform2DComponent>();
 
@@ -99,9 +99,9 @@ internal sealed class LevelSummaryAnimationComponent : BehaviorComponent
             return;
         }
 
-        var start = new Vector2(-250, -40);
-        var center = new Vector2(-5, -40);
-        var end = new Vector2(250, -40);
+        var start = new Vector2(-300, -40);
+        var center = new Vector2(-10, -40);
+        var end = new Vector2(300, -40);
 
         var transform = DiamondInfo.GetComponent<Transform2DComponent>();
 

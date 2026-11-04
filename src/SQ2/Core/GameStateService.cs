@@ -9,6 +9,7 @@ internal sealed class GameStateService
 {
     private readonly GameSaveService _gameSaveService;
     private int _selectedLevel;
+    private LevelCollectibles _completedLevelCollectibles;
 
     public GameStateService(GameSaveService gameSaveService)
     {
@@ -58,6 +59,13 @@ internal sealed class GameStateService
         }
 
         _gameSaveService.SaveGame();
+
+        _completedLevelCollectibles = new LevelCollectibles
+        {
+            CollectedCoins = collectedCoins,
+            HasDiamond = !string.IsNullOrEmpty(LevelInfo.Levels[completedLevel].DiamondId),
+            IsDiamondCollected = IsDiamondCollected(LevelInfo.Levels[completedLevel].DiamondId)
+        };
     }
 
     public int GetCollectedCoins(int level) => _gameSaveService.GameSave.CollectedCoins.GetValueOrDefault(level, 0);
@@ -72,6 +80,8 @@ internal sealed class GameStateService
         _gameSaveService.GameSave.CollectedDiamondIds.Add(id);
         _gameSaveService.SaveGame();
     }
+
+    public LevelCollectibles GetCompletedLevelCollectibles() => _completedLevelCollectibles;
 
     public void RegisterPlayerDeath()
     {
@@ -94,4 +104,11 @@ internal sealed class GameStateService
     {
         return Path.Combine("Assets", "Maps", mapFileName);
     }
+}
+
+internal readonly record struct LevelCollectibles
+{
+    public int CollectedCoins { get; init; }
+    public bool HasDiamond { get; init; }
+    public bool IsDiamondCollected { get; init; }
 }

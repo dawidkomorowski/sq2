@@ -6,6 +6,7 @@ using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
 using Geisha.Engine.Rendering;
 using Geisha.Engine.Rendering.Components;
+using SQ2.Core;
 using SQ2.UI;
 
 namespace SQ2.LevelSummary;
@@ -14,23 +15,27 @@ internal sealed class LevelSummaryBehaviorFactory : ISceneBehaviorFactory
 {
     private const string SceneBehaviorName = GlobalSettings.SceneNames.LevelSummary;
     private readonly IAssetStore _assetStore;
+    private readonly GameStateService _gameStateService;
 
-    public LevelSummaryBehaviorFactory(IAssetStore assetStore)
+    public LevelSummaryBehaviorFactory(IAssetStore assetStore, GameStateService gameStateService)
     {
         _assetStore = assetStore;
+        _gameStateService = gameStateService;
     }
 
     public string BehaviorName => SceneBehaviorName;
 
-    public SceneBehavior Create(Scene scene) => new LevelSummaryBehavior(scene, _assetStore);
+    public SceneBehavior Create(Scene scene) => new LevelSummaryBehavior(scene, _assetStore, _gameStateService);
 
     private sealed class LevelSummaryBehavior : SceneBehavior
     {
         private readonly IAssetStore _assetStore;
+        private readonly GameStateService _gameStateService;
 
-        public LevelSummaryBehavior(Scene scene, IAssetStore assetStore) : base(scene)
+        public LevelSummaryBehavior(Scene scene, IAssetStore assetStore, GameStateService gameStateService) : base(scene)
         {
             _assetStore = assetStore;
+            _gameStateService = gameStateService;
         }
 
         public override string Name => SceneBehaviorName;
@@ -61,8 +66,10 @@ internal sealed class LevelSummaryBehaviorFactory : ISceneBehaviorFactory
             spriteAnimationComponent.PlaybackSpeed = 3;
             spriteAnimationComponent.PlayAnimation("Walk");
 
-            var coinInfoEntity = CreateCoinInfo(0);
-            var diamondInfoEntity = CreateDiamondInfo(false, true);
+            var levelCollectibles = _gameStateService.GetCompletedLevelCollectibles();
+
+            var coinInfoEntity = CreateCoinInfo(levelCollectibles.CollectedCoins);
+            var diamondInfoEntity = CreateDiamondInfo(levelCollectibles.HasDiamond, levelCollectibles.IsDiamondCollected);
 
             var animationEntity = Scene.CreateEntity();
             var levelSummaryAnimationComponent = animationEntity.CreateComponent<LevelSummaryAnimationComponent>();
@@ -101,7 +108,7 @@ internal sealed class LevelSummaryBehaviorFactory : ISceneBehaviorFactory
             return coinInfoEntity;
         }
 
-        private Entity CreateDiamondInfo(bool isDiamondCollected, bool hasDiamond)
+        private Entity CreateDiamondInfo(bool hasDiamond, bool isDiamondCollected)
         {
             var diamondInfoEntity = Scene.CreateEntity();
             var diamondInfoTransform = diamondInfoEntity.CreateComponent<Transform2DComponent>();
