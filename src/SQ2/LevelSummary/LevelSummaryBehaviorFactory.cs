@@ -98,7 +98,7 @@ internal sealed class LevelSummaryBehaviorFactory : ISceneBehaviorFactory
             coinIconSpriteRenderer.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("eb06525a-acc2-4593-abc9-506763f077cc"));
             coinIconSpriteRenderer.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
 
-            return coinIconEntity;
+            return coinInfoEntity;
         }
 
         private Entity CreateDiamondInfo(bool isDiamondCollected, bool hasDiamond)

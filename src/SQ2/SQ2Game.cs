@@ -42,7 +42,6 @@ internal class SQ2Game : Game
             Core = configuration.Core with
             {
                 StartUpSceneBehavior = DevConfig.MapFile is not null ? GlobalSettings.SceneNames.GameWorld : GlobalSettings.SceneNames.MainMenu,
-                //StartUpSceneBehavior = GlobalSettings.SceneNames.LevelSummary,
                 CustomGameLoopSteps = new[]
                 {
                     "CheckPointSystem",
