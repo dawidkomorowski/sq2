@@ -165,6 +165,9 @@ internal class SQ2Game : Game
         componentsRegistry.RegisterComponentFactory<CheckPointReachedFlyOutComponentFactory>();
         componentsRegistry.RegisterComponentFactory<PlaytimeTrackingComponentFactory>();
 
+        // Level summary
+        componentsRegistry.RegisterComponentFactory<LevelSummaryAnimationComponentFactory>();
+
         // Loading screen
         componentsRegistry.RegisterComponentFactory<LoadGameComponentFactory>();
 

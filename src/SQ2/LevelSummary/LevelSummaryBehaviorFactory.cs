@@ -63,6 +63,12 @@ internal sealed class LevelSummaryBehaviorFactory : ISceneBehaviorFactory
 
             var coinInfoEntity = CreateCoinInfo(0);
             var diamondInfoEntity = CreateDiamondInfo(false, true);
+
+            var animationEntity = Scene.CreateEntity();
+            var levelSummaryAnimationComponent = animationEntity.CreateComponent<LevelSummaryAnimationComponent>();
+            levelSummaryAnimationComponent.PlayerCharacter = playerCharacterEntity;
+            levelSummaryAnimationComponent.CoinInfo = coinInfoEntity;
+            levelSummaryAnimationComponent.DiamondInfo = diamondInfoEntity;
         }
 
         private Entity CreateCoinInfo(int collectedCoins)
