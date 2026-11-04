@@ -10,9 +10,11 @@ namespace SQ2.LevelSummary;
 internal sealed class LevelSummaryAnimationComponent : BehaviorComponent
 {
     private TimeSpan _timer = TimeSpan.Zero;
+    private readonly ISceneManager _sceneManager;
 
-    public LevelSummaryAnimationComponent(Entity entity) : base(entity)
+    public LevelSummaryAnimationComponent(Entity entity, ISceneManager sceneManager) : base(entity)
     {
+        _sceneManager = sceneManager;
     }
 
     public Entity? PlayerCharacter { get; set; }
@@ -32,7 +34,7 @@ internal sealed class LevelSummaryAnimationComponent : BehaviorComponent
 
         if (alpha >= 1)
         {
-            _timer = TimeSpan.Zero;
+            _sceneManager.LoadEmptyScene(GlobalSettings.SceneNames.LoadingScreen);
             return;
         }
 
@@ -127,5 +129,12 @@ internal sealed class LevelSummaryAnimationComponent : BehaviorComponent
 
 internal sealed class LevelSummaryAnimationComponentFactory : ComponentFactory<LevelSummaryAnimationComponent>
 {
-    protected override LevelSummaryAnimationComponent CreateComponent(Entity entity) => new(entity);
+    private readonly ISceneManager _sceneManager;
+
+    public LevelSummaryAnimationComponentFactory(ISceneManager sceneManager)
+    {
+        _sceneManager = sceneManager;
+    }
+
+    protected override LevelSummaryAnimationComponent CreateComponent(Entity entity) => new(entity, _sceneManager);
 }
