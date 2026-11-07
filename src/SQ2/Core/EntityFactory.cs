@@ -913,6 +913,7 @@ internal sealed class EntityFactory
         public AABB2D PlayerChaseEndTrigger { get; init; }
         public Vector2 PlayerChaseRaisePoint { get; init; }
         public Vector2 PlayerChaseHidePoint { get; init; }
+        public AABB2D FightTrigger { get; init; }
     }
 
     public Entity CreateWormBoss(Scene scene, Vector2 position, WormBossProps props)
@@ -935,6 +936,9 @@ internal sealed class EntityFactory
                 props.PlayerChaseEndTrigger,
                 props.PlayerChaseRaisePoint,
                 props.PlayerChaseHidePoint
+            ),
+            WormAI.Fight => new FightWormBossAI(
+                props.FightTrigger
             ),
             _ => throw new InvalidOperationException($"Unsupported worm AI: {props.WormAI}.")
         };

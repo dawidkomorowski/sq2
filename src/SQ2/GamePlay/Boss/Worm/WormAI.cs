@@ -4,5 +4,6 @@ internal enum WormAI
 {
     Nop,
     Demo,
-    PlayerChase
+    PlayerChase,
+    Fight
 }

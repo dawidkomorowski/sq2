@@ -181,6 +181,11 @@
             "id": 35,
             "members": [
                 {
+                    "name": "Fight_Trigger",
+                    "type": "object",
+                    "value": 0
+                },
+                {
                     "name": "PlayerChase_EndTrigger",
                     "type": "object",
                     "value": 0
@@ -645,7 +650,8 @@
             "values": [
                 "Nop",
                 "Demo",
-                "PlayerChase"
+                "PlayerChase",
+                "Fight"
             ],
             "valuesAsFlags": false
         },

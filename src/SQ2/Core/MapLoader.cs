@@ -409,6 +409,22 @@ internal sealed class MapLoader
                         }
                     }
 
+                    var fightTrigger = default(AABB2D);
+                    if (tiledObject.Properties.TryGetProperty("Fight_Trigger", out var fightTriggerProperty))
+                    {
+                        if (fightTriggerProperty.ObjectValue != 0)
+                        {
+                            var trigger = objectLayer.Objects.Single(o => o.Id == fightTriggerProperty.ObjectValue);
+                            if (trigger is TiledObject.Rectangle triggerRectangle)
+                            {
+                                var center = GetWorldCoordinates(triggerRectangle) + new Vector2(triggerRectangle.Width / 2d, -triggerRectangle.Height / 2d);
+                                var size = new SizeD(triggerRectangle.Width, triggerRectangle.Height);
+
+                                fightTrigger = AABB2D.FromCenterAndSize(center, size);
+                            }
+                        }
+                    }
+
                     var props = new EntityFactory.WormBossProps
                     {
                         WormAI = wormAI,
@@ -416,7 +432,8 @@ internal sealed class MapLoader
                         PlayerChaseTrigger = playerChaseTrigger,
                         PlayerChaseEndTrigger = playerChaseEndTrigger,
                         PlayerChaseRaisePoint = playerChaseRaisePoint,
-                        PlayerChaseHidePoint = playerChaseHidePoint
+                        PlayerChaseHidePoint = playerChaseHidePoint,
+                        FightTrigger = fightTrigger
                     };
 
                     _entityFactory.CreateWormBoss(scene, position, props);
