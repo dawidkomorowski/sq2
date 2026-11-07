@@ -69,6 +69,7 @@ internal sealed class WormBossComponent : BehaviorComponent, IWormBossController
 
     public void SetHeadPosition(Vector2 position)
     {
+        _moveToPosition = position;
         _headTransform.Translation = position;
     }
 
