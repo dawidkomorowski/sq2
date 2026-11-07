@@ -60,7 +60,7 @@
 </data>
  </layer>
  <objectgroup id="2" name="GamePlayObjects">
-  <object id="1" name="Player Spawn Point" type="PlayerSpawnPoint" x="3779.53" y="417.818">
+  <object id="1" name="Player Spawn Point" type="PlayerSpawnPoint" x="3780" y="423">
    <point/>
   </object>
   <object id="7" type="BossWorm" gid="189" x="4086" y="522" width="24" height="24">

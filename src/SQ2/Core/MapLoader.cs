@@ -356,74 +356,12 @@ internal sealed class MapLoader
                     }
 
                     var playerChaseSpeed = tiledObject.Properties.GetPropertyOrNull("PlayerChase_Speed")?.FloatValue ?? 30d;
+                    var playerChaseTrigger = GetAABB2D(tiledObject, "PlayerChase_Trigger", objectLayer);
+                    var playerChaseEndTrigger = GetAABB2D(tiledObject, "PlayerChase_EndTrigger", objectLayer);
+                    var playerChaseRaisePoint = GetPoint(tiledObject, "PlayerChase_RaisePoint", objectLayer);
+                    var playerChaseHidePoint = GetPoint(tiledObject, "PlayerChase_HidePoint", objectLayer);
 
-                    var playerChaseTrigger = default(AABB2D);
-                    if (tiledObject.Properties.TryGetProperty("PlayerChase_Trigger", out var triggerProperty))
-                    {
-                        if (triggerProperty.ObjectValue != 0)
-                        {
-                            var trigger = objectLayer.Objects.Single(o => o.Id == triggerProperty.ObjectValue);
-                            if (trigger is TiledObject.Rectangle triggerRectangle)
-                            {
-                                var center = GetWorldCoordinates(triggerRectangle) + new Vector2(triggerRectangle.Width / 2d, -triggerRectangle.Height / 2d);
-                                var size = new SizeD(triggerRectangle.Width, triggerRectangle.Height);
-
-                                playerChaseTrigger = AABB2D.FromCenterAndSize(center, size);
-                            }
-                        }
-                    }
-
-                    var playerChaseEndTrigger = default(AABB2D);
-                    if (tiledObject.Properties.TryGetProperty("PlayerChase_EndTrigger", out var endTriggerProperty))
-                    {
-                        if (endTriggerProperty.ObjectValue != 0)
-                        {
-                            var trigger = objectLayer.Objects.Single(o => o.Id == endTriggerProperty.ObjectValue);
-                            if (trigger is TiledObject.Rectangle triggerRectangle)
-                            {
-                                var center = GetWorldCoordinates(triggerRectangle) + new Vector2(triggerRectangle.Width / 2d, -triggerRectangle.Height / 2d);
-                                var size = new SizeD(triggerRectangle.Width, triggerRectangle.Height);
-
-                                playerChaseEndTrigger = AABB2D.FromCenterAndSize(center, size);
-                            }
-                        }
-                    }
-
-                    var playerChaseRaisePoint = Vector2.Zero;
-                    if (tiledObject.Properties.TryGetProperty("PlayerChase_RaisePoint", out var raisePointProperty))
-                    {
-                        if (raisePointProperty.ObjectValue != 0)
-                        {
-                            var pointObject = objectLayer.Objects.Single(o => o.Id == raisePointProperty.ObjectValue);
-                            playerChaseRaisePoint = GetWorldCoordinates(pointObject);
-                        }
-                    }
-
-                    var playerChaseHidePoint = Vector2.Zero;
-                    if (tiledObject.Properties.TryGetProperty("PlayerChase_HidePoint", out var hidePointProperty))
-                    {
-                        if (hidePointProperty.ObjectValue != 0)
-                        {
-                            var pointObject = objectLayer.Objects.Single(o => o.Id == hidePointProperty.ObjectValue);
-                            playerChaseHidePoint = GetWorldCoordinates(pointObject);
-                        }
-                    }
-
-                    var fightTrigger = default(AABB2D);
-                    if (tiledObject.Properties.TryGetProperty("Fight_Trigger", out var fightTriggerProperty))
-                    {
-                        if (fightTriggerProperty.ObjectValue != 0)
-                        {
-                            var trigger = objectLayer.Objects.Single(o => o.Id == fightTriggerProperty.ObjectValue);
-                            if (trigger is TiledObject.Rectangle triggerRectangle)
-                            {
-                                var center = GetWorldCoordinates(triggerRectangle) + new Vector2(triggerRectangle.Width / 2d, -triggerRectangle.Height / 2d);
-                                var size = new SizeD(triggerRectangle.Width, triggerRectangle.Height);
-
-                                fightTrigger = AABB2D.FromCenterAndSize(center, size);
-                            }
-                        }
-                    }
+                    var fightTrigger = GetAABB2D(tiledObject, "Fight_Trigger", objectLayer);
 
                     var props = new EntityFactory.WormBossProps
                     {
@@ -681,6 +619,42 @@ internal sealed class MapLoader
         }
 
         throw new ArgumentOutOfRangeException(nameof(globalTileId), $"Unsupported tile id '{globalTileId}' for orientation.");
+    }
+
+    private static Vector2 GetPoint(TiledObject tiledObject, string propertyName, ObjectLayer objectLayer)
+    {
+        var point = Vector2.Zero;
+        if (tiledObject.Properties.TryGetProperty(propertyName, out var pointProperty))
+        {
+            if (pointProperty.ObjectValue != 0)
+            {
+                var pointObject = objectLayer.Objects.Single(o => o.Id == pointProperty.ObjectValue);
+                point = GetWorldCoordinates(pointObject);
+            }
+        }
+
+        return point;
+    }
+
+    private static AABB2D GetAABB2D(TiledObject tiledObject, string propertyName, ObjectLayer objectLayer)
+    {
+        var aabb = default(AABB2D);
+        if (tiledObject.Properties.TryGetProperty(propertyName, out var aabbProperty))
+        {
+            if (aabbProperty.ObjectValue != 0)
+            {
+                var aabbObject = objectLayer.Objects.Single(o => o.Id == aabbProperty.ObjectValue);
+                if (aabbObject is TiledObject.Rectangle aabbRectangle)
+                {
+                    var center = GetWorldCoordinates(aabbRectangle) + new Vector2(aabbRectangle.Width / 2d, -aabbRectangle.Height / 2d);
+                    var size = new SizeD(aabbRectangle.Width, aabbRectangle.Height);
+
+                    aabb = AABB2D.FromCenterAndSize(center, size);
+                }
+            }
+        }
+
+        return aabb;
     }
 
     private static void AssertNoFlippingFlags(TileLayer tileLayer, Tile tile, int w, int h)
