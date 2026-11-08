@@ -236,13 +236,13 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="2" name="GamePlayObjects" visible="0">
-  <object id="1" name="Player Spawn Point" type="PlayerSpawnPoint" x="4102" y="710">
+ <objectgroup id="2" name="GamePlayObjects">
+  <object id="1" name="Player Spawn Point" type="PlayerSpawnPoint" x="3720.33" y="420.667">
    <point/>
   </object>
   <object id="7" name="Boss Fight" type="BossWorm" gid="189" x="4104" y="522" width="24" height="24">
    <properties>
-    <property name="Fight_AttackSequence1" type="object" value="134"/>
+    <property name="Fight_AttackSequence1" type="object" value="24"/>
     <property name="Fight_Trigger" type="object" value="16"/>
     <property name="WormAI" propertytype="WormAI" value="Fight"/>
    </properties>
