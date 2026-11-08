@@ -17,12 +17,14 @@ internal sealed class FightWormBossAI : IWormBossAI
     private CameraMovementComponent _cameraMovementComponent = null!;
 
     private State _state = State.WaitingForTrigger;
-    private readonly WaitingForTriggerState _waitingForTriggerState = new();
+    private readonly WaitingForTriggerStateAI _waitingForTriggerStateAI = new();
+    private readonly StraightAttackStateAI _straightAttackStateAI = new();
 
     private enum State
     {
         WaitingForTrigger,
-        Phase1
+        StraightAttack,
+        ToDo
     }
 
     public FightWormBossAI(AABB2D fightTrigger)
@@ -43,30 +45,37 @@ internal sealed class FightWormBossAI : IWormBossAI
         _cameraMovementComponent = Query.GetCameraMovementComponent(entity.Scene);
         _cameraMovementComponent.PointOfInterest = _wormTransform;
 
-        _waitingForTriggerState.Init(controller);
+        _waitingForTriggerStateAI.Init(controller);
+        _straightAttackStateAI.Init(controller, _playerTransform);
     }
 
     public void Reset()
     {
         _state = State.WaitingForTrigger;
 
-        _waitingForTriggerState.Reset();
+        _waitingForTriggerStateAI.Reset();
+        _straightAttackStateAI.Reset();
     }
 
     public void Update(TimeSpan dt)
     {
         if (_state is State.WaitingForTrigger)
         {
-            _waitingForTriggerState.Update(dt);
+            _waitingForTriggerStateAI.Update(dt);
 
             if (_fightTrigger.Contains(_playerTransform.Translation))
             {
-                _state = State.Phase1;
+                _state = State.StraightAttack;
             }
+        }
+
+        if (_state is State.StraightAttack)
+        {
+            _straightAttackStateAI.Update(dt);
         }
     }
 
-    private sealed class WaitingForTriggerState
+    private sealed class WaitingForTriggerStateAI
     {
         private IWormBossController _controller = null!;
 
@@ -92,6 +101,38 @@ internal sealed class FightWormBossAI : IWormBossAI
             var xPos = Math.Sin(_stateTimer.TotalSeconds * 0.5 * speed) * 30;
             var yPos = Math.Cos(_stateTimer.TotalSeconds * speed) * 10;
             _controller.SetHeadPosition(_position + new Vector2(xPos, yPos));
+        }
+    }
+
+    private sealed class StraightAttackStateAI
+    {
+        private IWormBossController _controller = null!;
+        private Transform2DComponent _playerTransform = null!;
+        private Vector2 _targetPosition;
+        private bool _targetAcquired = false;
+
+        public void Init(IWormBossController controller, Transform2DComponent playerTransform)
+        {
+            _controller = controller;
+            _playerTransform = playerTransform;
+        }
+
+        public void Reset()
+        {
+            _targetAcquired = false;
+        }
+
+        public void Update(TimeSpan dt)
+        {
+            if (!_targetAcquired)
+            {
+                _targetPosition = _playerTransform.Translation;
+                _targetAcquired = true;
+                _controller.SetSpeed(150);
+                return;
+            }
+
+            _controller.MoveTo(_targetPosition);
         }
     }
 }
