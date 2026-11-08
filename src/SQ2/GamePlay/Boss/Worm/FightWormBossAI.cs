@@ -83,6 +83,7 @@ internal sealed class FightWormBossAI : IWormBossAI
 
         private TimeSpan _stateTimer = TimeSpan.Zero;
         private Vector2 _position;
+        private TimeSpan _triggeredTimer = TimeSpan.Zero;
 
         public void Init(FightWormBossAI wormBossAI)
         {
@@ -94,6 +95,7 @@ internal sealed class FightWormBossAI : IWormBossAI
         public void Reset()
         {
             _stateTimer = TimeSpan.Zero;
+            _triggeredTimer = TimeSpan.Zero;
         }
 
         public void Update(TimeSpan dt)
@@ -107,7 +109,11 @@ internal sealed class FightWormBossAI : IWormBossAI
 
             if (_wormBossAI._fightTrigger.Contains(_wormBossAI._playerTransform.Translation))
             {
-                _wormBossAI._state = State.StraightAttack;
+                _triggeredTimer += dt;
+                if (_triggeredTimer > TimeSpan.FromSeconds(2))
+                {
+                    _wormBossAI._state = State.StraightAttack;
+                }
             }
         }
     }
