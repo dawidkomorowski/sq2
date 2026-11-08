@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="250" height="50" tilewidth="18" tileheight="18" infinite="0" nextlayerid="3" nextobjectid="17">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="250" height="50" tilewidth="18" tileheight="18" infinite="0" nextlayerid="6" nextobjectid="35">
  <properties>
   <property name="Background" propertytype="Background" value="Desert"/>
  </properties>
@@ -59,12 +59,13 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="2" name="GamePlayObjects">
+ <objectgroup id="2" name="GamePlayObjects" visible="0">
   <object id="1" name="Player Spawn Point" type="PlayerSpawnPoint" x="3780" y="423">
    <point/>
   </object>
-  <object id="7" type="BossWorm" gid="189" x="4086" y="522" width="24" height="24">
+  <object id="7" type="BossWorm" gid="189" x="4104" y="522" width="24" height="24">
    <properties>
+    <property name="Fight_AttackSequence1" type="object" value="24"/>
     <property name="Fight_Trigger" type="object" value="16"/>
     <property name="WormAI" propertytype="WormAI" value="Fight"/>
    </properties>
@@ -88,5 +89,55 @@
   </object>
   <object id="15" name="Worm End Chase Trigger" type="Metadata" x="1782" y="126" width="36" height="468"/>
   <object id="16" name="Worm Fight Trigger" type="Metadata" x="3924" y="450" width="234" height="72"/>
+ </objectgroup>
+ <objectgroup id="4" name="AttackSequence1">
+  <object id="24" name="1" type="Path" x="4068" y="517.5">
+   <properties>
+    <property name="Next" type="object" value="25"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="25" name="2" type="Path" x="3978" y="517.5">
+   <properties>
+    <property name="Next" type="object" value="26"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="26" name="3" type="Path" x="3960" y="495">
+   <properties>
+    <property name="Next" type="object" value="30"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="30" name="4" type="Path" x="3987" y="459">
+   <properties>
+    <property name="Next" type="object" value="31"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="31" name="5" type="Path" x="3969" y="423">
+   <properties>
+    <property name="Next" type="object" value="32"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="32" name="6" type="Path" x="3933" y="427.5">
+   <properties>
+    <property name="Next" type="object" value="33"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="33" name="7" type="Path" x="3933" y="517.5">
+   <properties>
+    <property name="Next" type="object" value="34"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="34" name="8" type="Path" x="4005" y="513">
+   <properties>
+    <property name="Next" type="object" value="0"/>
+   </properties>
+   <point/>
+  </object>
  </objectgroup>
 </map>

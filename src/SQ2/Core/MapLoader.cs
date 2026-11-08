@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Geisha.Engine.Core.Assets;
 using Geisha.Engine.Core.Math;
@@ -59,7 +60,7 @@ internal sealed class MapLoader
 
         foreach (var objectLayer in tileMap.ObjectLayers)
         {
-            LoadObjectLayer(scene, objectLayer);
+            LoadObjectLayer(scene, objectLayer, tileMap);
         }
 
         var playerSpawnPointCount = scene.AllEntities.Count(e => e.HasComponent<PlayerSpawnPointComponent>());
@@ -264,7 +265,7 @@ internal sealed class MapLoader
         }
     }
 
-    private void LoadObjectLayer(Scene scene, ObjectLayer objectLayer)
+    private void LoadObjectLayer(Scene scene, ObjectLayer objectLayer, TileMap tileMap)
     {
         var tileCenterOffset = new Vector2(GlobalSettings.TileSize.Width / 2d, GlobalSettings.TileSize.Height / 2d);
 
@@ -362,6 +363,7 @@ internal sealed class MapLoader
                     var playerChaseHidePoint = GetPoint(tiledObject, "PlayerChase_HidePoint", objectLayer);
 
                     var fightTrigger = GetAABB2D(tiledObject, "Fight_Trigger", objectLayer);
+                    var fightAttackSequence1 = GetPath(tiledObject, "Fight_AttackSequence1", tileMap);
 
                     var props = new EntityFactory.WormBossProps
                     {
@@ -371,7 +373,8 @@ internal sealed class MapLoader
                         PlayerChaseEndTrigger = playerChaseEndTrigger,
                         PlayerChaseRaisePoint = playerChaseRaisePoint,
                         PlayerChaseHidePoint = playerChaseHidePoint,
-                        FightTrigger = fightTrigger
+                        FightTrigger = fightTrigger,
+                        FightAttackSequence1 = fightAttackSequence1
                     };
 
                     _entityFactory.CreateWormBoss(scene, position, props);
@@ -655,6 +658,31 @@ internal sealed class MapLoader
         }
 
         return aabb;
+    }
+
+    private static Vector2[] GetPath(TiledObject tiledObject, string propertyName, TileMap tileMap)
+    {
+        var path = new List<Vector2>();
+
+        var allObjects = tileMap.ObjectLayers.SelectMany(tm => tm.Objects).ToArray();
+
+        TiledObject? nextPoint = null;
+        if (tiledObject.Properties.TryGetProperty(propertyName, out var pointProperty))
+        {
+            if (pointProperty.ObjectValue != 0)
+            {
+                nextPoint = allObjects.Single(o => o.Id == pointProperty.ObjectValue);
+            }
+        }
+
+        while (nextPoint is not null)
+        {
+            path.Add(GetWorldCoordinates(nextPoint));
+            var nextObjectId = nextPoint.Properties.GetPropertyOrNull("Next")?.ObjectValue ?? 0;
+            nextPoint = nextObjectId == 0 ? null : allObjects.Single(o => o.Id == nextObjectId);
+        }
+
+        return path.ToArray();
     }
 
     private static void AssertNoFlippingFlags(TileLayer tileLayer, Tile tile, int w, int h)

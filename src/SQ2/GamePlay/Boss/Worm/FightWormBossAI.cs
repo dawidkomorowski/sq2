@@ -10,6 +10,7 @@ namespace SQ2.GamePlay.Boss.Worm;
 internal sealed class FightWormBossAI : IWormBossAI
 {
     private readonly AABB2D _fightTrigger;
+    private readonly Vector2[] _attackSequence1;
 
     private IWormBossController _controller = null!;
     private Transform2DComponent _wormTransform = null!;
@@ -19,16 +20,16 @@ internal sealed class FightWormBossAI : IWormBossAI
 
     private State _state = State.WaitingForTrigger;
     private readonly WaitingForTriggerStateAI _waitingForTriggerStateAI = new();
-    private readonly StraightAttackStateAI _straightAttackStateAI = new();
+    private readonly AttackSequenceStateAI _attackSequenceStateAI = new();
 
     private enum State
     {
         WaitingForTrigger,
-        StraightAttack,
+        AttackSequence1,
         ToDo
     }
 
-    public FightWormBossAI(AABB2D fightTrigger)
+    public FightWormBossAI(AABB2D fightTrigger, Vector2[] attackSequence1)
     {
         if (fightTrigger == default)
         {
@@ -36,6 +37,7 @@ internal sealed class FightWormBossAI : IWormBossAI
         }
 
         _fightTrigger = fightTrigger;
+        _attackSequence1 = attackSequence1;
     }
 
     public void Init(Entity entity, IWormBossController controller)
@@ -48,7 +50,7 @@ internal sealed class FightWormBossAI : IWormBossAI
         _cameraMovementComponent.PointOfInterest = _wormTransform;
 
         _waitingForTriggerStateAI.Init(this);
-        _straightAttackStateAI.Init(controller, _playerTransform);
+        _attackSequenceStateAI.Init(this);
     }
 
     public void Reset()
@@ -56,7 +58,7 @@ internal sealed class FightWormBossAI : IWormBossAI
         _state = State.WaitingForTrigger;
 
         _waitingForTriggerStateAI.Reset();
-        _straightAttackStateAI.Reset();
+        _attackSequenceStateAI.Reset();
     }
 
     public void Update(TimeSpan dt)
@@ -66,8 +68,8 @@ internal sealed class FightWormBossAI : IWormBossAI
             case State.WaitingForTrigger:
                 _waitingForTriggerStateAI.Update(dt);
                 break;
-            case State.StraightAttack:
-                _straightAttackStateAI.Update(dt);
+            case State.AttackSequence1:
+                _attackSequenceStateAI.Update(dt);
                 break;
             case State.ToDo:
                 break;
@@ -112,41 +114,44 @@ internal sealed class FightWormBossAI : IWormBossAI
                 _triggeredTimer += dt;
                 if (_triggeredTimer > TimeSpan.FromSeconds(2))
                 {
-                    _wormBossAI._state = State.StraightAttack;
+                    _wormBossAI._state = State.AttackSequence1;
                 }
             }
         }
     }
 
-    private sealed class StraightAttackStateAI
+    private sealed class AttackSequenceStateAI
     {
+        private FightWormBossAI _wormBossAI = null!;
         private IWormBossController _controller = null!;
-        private Transform2DComponent _playerTransform = null!;
-        private Vector2 _targetPosition;
-        private bool _targetAcquired = false;
+        private int _sequenceIndex = 0;
 
-        public void Init(IWormBossController controller, Transform2DComponent playerTransform)
+        public void Init(FightWormBossAI wormBossAI)
         {
-            _controller = controller;
-            _playerTransform = playerTransform;
+            _wormBossAI = wormBossAI;
+            _controller = wormBossAI._controller;
         }
 
         public void Reset()
         {
-            _targetAcquired = false;
+            _sequenceIndex = 0;
         }
 
         public void Update(TimeSpan dt)
         {
-            if (!_targetAcquired)
-            {
-                _targetPosition = _playerTransform.Translation;
-                _targetAcquired = true;
-                _controller.SetSpeed(150);
-                return;
-            }
+            var target = _wormBossAI._attackSequence1[_sequenceIndex];
+            _controller.MoveTo(target);
+            _controller.SetSpeed(100);
 
-            _controller.MoveTo(_targetPosition);
+            if (_controller.HasReachedDestination())
+            {
+                _sequenceIndex++;
+                if (_sequenceIndex >= _wormBossAI._attackSequence1.Length)
+                {
+                    _sequenceIndex = 0;
+                    _wormBossAI._state = State.ToDo;
+                }
+            }
         }
     }
 }

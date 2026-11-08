@@ -181,6 +181,11 @@
             "id": 35,
             "members": [
                 {
+                    "name": "Fight_AttackSequence1",
+                    "type": "object",
+                    "value": 0
+                },
+                {
                     "name": "Fight_Trigger",
                     "type": "object",
                     "value": 0
@@ -531,6 +536,24 @@
                 }
             ],
             "name": "MovingPlatform",
+            "type": "class",
+            "useAs": [
+                "object",
+                "project"
+            ]
+        },
+        {
+            "color": "#ffffff00",
+            "drawFill": true,
+            "id": 37,
+            "members": [
+                {
+                    "name": "Next",
+                    "type": "object",
+                    "value": 0
+                }
+            ],
+            "name": "Path",
             "type": "class",
             "useAs": [
                 "object",
