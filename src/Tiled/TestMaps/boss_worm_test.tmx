@@ -91,127 +91,127 @@
   <object id="16" name="Worm Fight Trigger" type="Metadata" x="3924" y="450" width="234" height="72"/>
  </objectgroup>
  <objectgroup id="4" name="AttackSequence1">
-  <object id="24" name="1" type="Path" x="4068" y="517.5">
+  <object id="24" name="1" type="WormPath" x="4068" y="517.5">
    <properties>
     <property name="Next" type="object" value="25"/>
    </properties>
    <point/>
   </object>
-  <object id="25" name="2" type="Path" x="3978" y="517.5">
+  <object id="25" name="2" type="WormPath" x="3978" y="517.5">
    <properties>
     <property name="Next" type="object" value="26"/>
    </properties>
    <point/>
   </object>
-  <object id="26" name="3" type="Path" x="3960" y="495">
+  <object id="26" name="3" type="WormPath" x="3960" y="495">
    <properties>
     <property name="Next" type="object" value="30"/>
    </properties>
    <point/>
   </object>
-  <object id="30" name="4" type="Path" x="3987" y="459">
+  <object id="30" name="4" type="WormPath" x="3987" y="459">
    <properties>
     <property name="Next" type="object" value="31"/>
    </properties>
    <point/>
   </object>
-  <object id="31" name="5" type="Path" x="3969" y="423">
+  <object id="31" name="5" type="WormPath" x="3969" y="423">
    <properties>
     <property name="Next" type="object" value="32"/>
    </properties>
    <point/>
   </object>
-  <object id="32" name="6" type="Path" x="3933" y="427.5">
+  <object id="32" name="6" type="WormPath" x="3933" y="427.5">
    <properties>
     <property name="Next" type="object" value="33"/>
    </properties>
    <point/>
   </object>
-  <object id="33" name="7" type="Path" x="3933" y="517.5">
+  <object id="33" name="7" type="WormPath" x="3933" y="517.5">
    <properties>
     <property name="Next" type="object" value="34"/>
    </properties>
    <point/>
   </object>
-  <object id="34" name="8" type="Path" x="4005" y="513">
+  <object id="34" name="8" type="WormPath" x="4005" y="513">
    <properties>
     <property name="Next" type="object" value="35"/>
    </properties>
    <point/>
   </object>
-  <object id="35" name="9" type="Path" x="4077" y="513">
+  <object id="35" name="9" type="WormPath" x="4077" y="513">
    <properties>
     <property name="Next" type="object" value="36"/>
    </properties>
    <point/>
   </object>
-  <object id="36" name="10" type="Path" x="4113" y="517.5">
+  <object id="36" name="10" type="WormPath" x="4113" y="517.5">
    <properties>
     <property name="Next" type="object" value="37"/>
    </properties>
    <point/>
   </object>
-  <object id="37" name="11" type="Path" x="4131" y="495">
+  <object id="37" name="11" type="WormPath" x="4131" y="495">
    <properties>
     <property name="Next" type="object" value="38"/>
    </properties>
    <point/>
   </object>
-  <object id="38" name="12" type="Path" x="4095" y="441">
+  <object id="38" name="12" type="WormPath" x="4095" y="441">
    <properties>
     <property name="Next" type="object" value="39"/>
    </properties>
    <point/>
   </object>
-  <object id="39" name="13" type="Path" x="4122" y="414">
+  <object id="39" name="13" type="WormPath" x="4122" y="414">
    <properties>
     <property name="Next" type="object" value="40"/>
    </properties>
    <point/>
   </object>
-  <object id="40" name="14" type="Path" x="4149" y="441">
+  <object id="40" name="14" type="WormPath" x="4149" y="441">
    <properties>
     <property name="Next" type="object" value="41"/>
    </properties>
    <point/>
   </object>
-  <object id="41" name="15" type="Path" x="4149" y="517.5">
+  <object id="41" name="15" type="WormPath" x="4149" y="517.5">
    <properties>
     <property name="Next" type="object" value="42"/>
    </properties>
    <point/>
   </object>
-  <object id="42" name="16" type="Path" x="4095" y="513">
+  <object id="42" name="16" type="WormPath" x="4095" y="513">
    <properties>
     <property name="Next" type="object" value="43"/>
    </properties>
    <point/>
   </object>
-  <object id="43" name="17" type="Path" x="4077" y="468">
+  <object id="43" name="17" type="WormPath" x="4077" y="468">
    <properties>
     <property name="Next" type="object" value="44"/>
    </properties>
    <point/>
   </object>
-  <object id="44" name="18" type="Path" x="4041" y="468">
+  <object id="44" name="18" type="WormPath" x="4041" y="468">
    <properties>
     <property name="Next" type="object" value="45"/>
    </properties>
    <point/>
   </object>
-  <object id="45" name="19" type="Path" x="4023" y="513">
+  <object id="45" name="19" type="WormPath" x="4023" y="513">
    <properties>
     <property name="Next" type="object" value="46"/>
    </properties>
    <point/>
   </object>
-  <object id="46" name="20" type="Path" x="3928.5" y="513">
+  <object id="46" name="20" type="WormPath" x="3928.5" y="513">
    <properties>
     <property name="Next" type="object" value="47"/>
    </properties>
    <point/>
   </object>
-  <object id="47" name="21" type="Path" x="3951" y="459">
+  <object id="47" name="21" type="WormPath" x="3951" y="459">
    <properties>
     <property name="Next" type="object" value="0"/>
    </properties>

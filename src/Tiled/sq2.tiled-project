@@ -553,7 +553,7 @@
                     "value": 0
                 }
             ],
-            "name": "Path",
+            "name": "WormPath",
             "type": "class",
             "useAs": [
                 "object",

@@ -508,11 +508,6 @@ internal sealed class MapLoader
                     _entityFactory.CreateMovingPlatform(scene, position, startPosition, endPosition, platformWidth);
                     break;
                 }
-                case "Path":
-                {
-                    // Ignore path objects
-                    break;
-                }
                 case "PlayerSpawnPoint":
                 {
                     _entityFactory.CreatePlayerSpawnPoint(scene, objectPosition);
@@ -544,6 +539,11 @@ internal sealed class MapLoader
                     var activationGroupId = tiledObject.Properties.GetPropertyOrNull("ActivationGroupId")?.IntValue ?? 0;
                     var position = objectPosition + new Vector2(9, 8);
                     _entityFactory.CreateRedEnemy(scene, position, initialMovementDirection, requireActivation: true, activationGroup: activationGroupId);
+                    break;
+                }
+                case "WormPath":
+                {
+                    // Ignore path objects
                     break;
                 }
                 case "YellowWalkingEnemy" when tiledObject is TiledObject.Tile:
