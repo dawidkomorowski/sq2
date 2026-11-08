@@ -682,10 +682,13 @@ internal sealed class MapLoader
 
         while (nextPoint is not null)
         {
+            var destroyConnectedWalls = nextPoint.Properties.GetPropertyOrNull("DestroyConnectedWalls")?.BoolValue ?? false;
+
             var wormPathPoint = new WormPathPoint
             {
                 Position = GetWorldCoordinates(nextPoint),
-                Speed = nextPoint.Properties.GetPropertyOrNull("Speed")?.FloatValue ?? 30
+                Speed = nextPoint.Properties.GetPropertyOrNull("Speed")?.FloatValue ?? 30,
+                ButtonIdForDestructibleWalls = destroyConnectedWalls ? nextPoint.Id : 0
             };
             path.Add(wormPathPoint);
             var nextObjectId = nextPoint.Properties.GetPropertyOrNull("Next")?.ObjectValue ?? 0;

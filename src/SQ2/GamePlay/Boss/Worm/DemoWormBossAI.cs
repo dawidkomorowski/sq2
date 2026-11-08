@@ -1,6 +1,6 @@
-﻿using Geisha.Engine.Core.SceneModel;
-using System;
+﻿using System;
 using Geisha.Engine.Core.Math;
+using Geisha.Engine.Core.SceneModel;
 
 namespace SQ2.GamePlay.Boss.Worm;
 

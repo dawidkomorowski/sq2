@@ -1,7 +1,7 @@
-﻿using Geisha.Engine.Core.SceneModel;
-using System;
+﻿using System;
 using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
+using Geisha.Engine.Core.SceneModel;
 using SQ2.GamePlay.Common;
 using SQ2.GamePlay.Player;
 

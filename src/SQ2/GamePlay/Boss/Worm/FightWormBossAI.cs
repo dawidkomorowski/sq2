@@ -1,9 +1,12 @@
-﻿using Geisha.Engine.Core.Components;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Geisha.Engine.Core.Components;
 using Geisha.Engine.Core.Math;
 using Geisha.Engine.Core.SceneModel;
-using SQ2.GamePlay.Player;
-using System;
 using SQ2.GamePlay.Common;
+using SQ2.GamePlay.LevelGeometry;
+using SQ2.GamePlay.Player;
 
 namespace SQ2.GamePlay.Boss.Worm;
 
@@ -11,6 +14,7 @@ internal sealed class FightWormBossAI : IWormBossAI
 {
     private readonly AABB2D _fightTrigger;
     private readonly WormPathPoint[] _attackSequence1;
+    private readonly List<DestructibleWallComponent> _destructibleWalls = new();
 
     private IWormBossController _controller = null!;
     private Transform2DComponent _wormTransform = null!;
@@ -48,6 +52,12 @@ internal sealed class FightWormBossAI : IWormBossAI
         _playerComponent = Query.GetPlayerComponent(entity.Scene);
         _cameraMovementComponent = Query.GetCameraMovementComponent(entity.Scene);
         _cameraMovementComponent.PointOfInterest = _wormTransform;
+
+        _destructibleWalls.AddRange(
+            entity.Scene.AllEntities
+                .Where(e => e.HasComponent<DestructibleWallComponent>())
+                .Select(e => e.GetComponent<DestructibleWallComponent>())
+        );
 
         _waitingForTriggerStateAI.Init(this);
         _attackSequenceStateAI.Init(this);
@@ -153,6 +163,17 @@ internal sealed class FightWormBossAI : IWormBossAI
             var wormPathPoint = _wormBossAI._attackSequence1[_sequenceIndex];
             _controller.MoveTo(wormPathPoint.Position);
             _controller.SetSpeed(wormPathPoint.Speed);
+
+            if (wormPathPoint.ButtonIdForDestructibleWalls != 0)
+            {
+                foreach (var destructibleWallComponent in _wormBossAI._destructibleWalls)
+                {
+                    if (destructibleWallComponent.ButtonId == wormPathPoint.ButtonIdForDestructibleWalls)
+                    {
+                        destructibleWallComponent.Destroy();
+                    }
+                }
+            }
         }
     }
 }

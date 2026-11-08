@@ -666,6 +666,11 @@
             "id": 37,
             "members": [
                 {
+                    "name": "DestroyConnectedWalls",
+                    "type": "bool",
+                    "value": false
+                },
+                {
                     "name": "Next",
                     "type": "object",
                     "value": 0

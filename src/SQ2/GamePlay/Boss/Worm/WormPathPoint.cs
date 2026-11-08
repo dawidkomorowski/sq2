@@ -6,4 +6,5 @@ internal readonly record struct WormPathPoint
 {
     public Vector2 Position { get; init; }
     public double Speed { get; init; }
+    public int ButtonIdForDestructibleWalls { get; init; }
 }

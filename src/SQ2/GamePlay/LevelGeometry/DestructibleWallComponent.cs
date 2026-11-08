@@ -41,7 +41,7 @@ internal sealed class DestructibleWallComponent : BehaviorComponent, IRespawnabl
         }
     }
 
-    private void Destroy()
+    public void Destroy()
     {
         if (_isDestroyed) return;
 
