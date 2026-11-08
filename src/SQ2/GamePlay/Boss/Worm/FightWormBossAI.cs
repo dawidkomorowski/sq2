@@ -124,7 +124,7 @@ internal sealed class FightWormBossAI : IWormBossAI
     {
         private FightWormBossAI _wormBossAI = null!;
         private IWormBossController _controller = null!;
-        private int _sequenceIndex = 0;
+        private int _sequenceIndex = -1;
 
         public void Init(FightWormBossAI wormBossAI)
         {
@@ -134,24 +134,25 @@ internal sealed class FightWormBossAI : IWormBossAI
 
         public void Reset()
         {
-            _sequenceIndex = 0;
+            _sequenceIndex = -1;
         }
 
         public void Update(TimeSpan dt)
         {
-            var target = _wormBossAI._attackSequence1[_sequenceIndex];
-            _controller.MoveTo(target);
-            _controller.SetSpeed(100);
-
             if (_controller.HasReachedDestination())
             {
                 _sequenceIndex++;
                 if (_sequenceIndex >= _wormBossAI._attackSequence1.Length)
                 {
-                    _sequenceIndex = 0;
+                    _sequenceIndex = -1;
                     _wormBossAI._state = State.ToDo;
+                    return;
                 }
             }
+
+            var target = _wormBossAI._attackSequence1[_sequenceIndex];
+            _controller.MoveTo(target);
+            _controller.SetSpeed(100);
         }
     }
 }
