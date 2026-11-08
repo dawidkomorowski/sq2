@@ -508,6 +508,11 @@ internal sealed class MapLoader
                     _entityFactory.CreateMovingPlatform(scene, position, startPosition, endPosition, platformWidth);
                     break;
                 }
+                case "Path":
+                {
+                    // Ignore path objects
+                    break;
+                }
                 case "PlayerSpawnPoint":
                 {
                     _entityFactory.CreatePlayerSpawnPoint(scene, objectPosition);
