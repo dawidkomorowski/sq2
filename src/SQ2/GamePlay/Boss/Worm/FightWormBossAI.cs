@@ -10,7 +10,7 @@ namespace SQ2.GamePlay.Boss.Worm;
 internal sealed class FightWormBossAI : IWormBossAI
 {
     private readonly AABB2D _fightTrigger;
-    private readonly Vector2[] _attackSequence1;
+    private readonly WormPathPoint[] _attackSequence1;
 
     private IWormBossController _controller = null!;
     private Transform2DComponent _wormTransform = null!;
@@ -29,7 +29,7 @@ internal sealed class FightWormBossAI : IWormBossAI
         ToDo
     }
 
-    public FightWormBossAI(AABB2D fightTrigger, Vector2[] attackSequence1)
+    public FightWormBossAI(AABB2D fightTrigger, WormPathPoint[] attackSequence1)
     {
         if (fightTrigger == default)
         {
@@ -150,9 +150,9 @@ internal sealed class FightWormBossAI : IWormBossAI
                 }
             }
 
-            var target = _wormBossAI._attackSequence1[_sequenceIndex];
-            _controller.MoveTo(target);
-            _controller.SetSpeed(100);
+            var wormPathPoint = _wormBossAI._attackSequence1[_sequenceIndex];
+            _controller.MoveTo(wormPathPoint.Position);
+            _controller.SetSpeed(wormPathPoint.Speed);
         }
     }
 }

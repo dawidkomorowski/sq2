@@ -543,24 +543,6 @@
             ]
         },
         {
-            "color": "#ffffff00",
-            "drawFill": true,
-            "id": 37,
-            "members": [
-                {
-                    "name": "Next",
-                    "type": "object",
-                    "value": 0
-                }
-            ],
-            "name": "WormPath",
-            "type": "class",
-            "useAs": [
-                "object",
-                "project"
-            ]
-        },
-        {
             "color": "#ffff007f",
             "drawFill": true,
             "id": 2,
@@ -677,6 +659,29 @@
                 "Fight"
             ],
             "valuesAsFlags": false
+        },
+        {
+            "color": "#ffffff00",
+            "drawFill": true,
+            "id": 37,
+            "members": [
+                {
+                    "name": "Next",
+                    "type": "object",
+                    "value": 0
+                },
+                {
+                    "name": "Speed",
+                    "type": "float",
+                    "value": 30
+                }
+            ],
+            "name": "WormPath",
+            "type": "class",
+            "useAs": [
+                "object",
+                "project"
+            ]
         },
         {
             "color": "#ffa0a0a4",

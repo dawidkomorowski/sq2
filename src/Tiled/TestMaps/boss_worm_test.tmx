@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="250" height="50" tilewidth="18" tileheight="18" infinite="0" nextlayerid="6" nextobjectid="48">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="250" height="50" tilewidth="18" tileheight="18" infinite="0" nextlayerid="6" nextobjectid="65">
  <properties>
   <property name="Background" propertytype="Background" value="Desert"/>
  </properties>
@@ -94,126 +94,266 @@
   <object id="24" name="1" type="WormPath" x="4068" y="517.5">
    <properties>
     <property name="Next" type="object" value="25"/>
+    <property name="Speed" type="float" value="100"/>
    </properties>
    <point/>
   </object>
   <object id="25" name="2" type="WormPath" x="3978" y="517.5">
    <properties>
     <property name="Next" type="object" value="26"/>
+    <property name="Speed" type="float" value="100"/>
    </properties>
    <point/>
   </object>
   <object id="26" name="3" type="WormPath" x="3960" y="495">
    <properties>
     <property name="Next" type="object" value="30"/>
+    <property name="Speed" type="float" value="100"/>
    </properties>
    <point/>
   </object>
   <object id="30" name="4" type="WormPath" x="3987" y="459">
    <properties>
     <property name="Next" type="object" value="31"/>
+    <property name="Speed" type="float" value="100"/>
    </properties>
    <point/>
   </object>
   <object id="31" name="5" type="WormPath" x="3969" y="423">
    <properties>
     <property name="Next" type="object" value="32"/>
+    <property name="Speed" type="float" value="100"/>
    </properties>
    <point/>
   </object>
   <object id="32" name="6" type="WormPath" x="3933" y="427.5">
    <properties>
     <property name="Next" type="object" value="33"/>
+    <property name="Speed" type="float" value="100"/>
    </properties>
    <point/>
   </object>
   <object id="33" name="7" type="WormPath" x="3933" y="517.5">
    <properties>
     <property name="Next" type="object" value="34"/>
+    <property name="Speed" type="float" value="100"/>
    </properties>
    <point/>
   </object>
   <object id="34" name="8" type="WormPath" x="4005" y="513">
    <properties>
     <property name="Next" type="object" value="35"/>
+    <property name="Speed" type="float" value="100"/>
    </properties>
    <point/>
   </object>
   <object id="35" name="9" type="WormPath" x="4077" y="513">
    <properties>
     <property name="Next" type="object" value="36"/>
+    <property name="Speed" type="float" value="100"/>
    </properties>
    <point/>
   </object>
   <object id="36" name="10" type="WormPath" x="4113" y="517.5">
    <properties>
     <property name="Next" type="object" value="37"/>
+    <property name="Speed" type="float" value="100"/>
    </properties>
    <point/>
   </object>
   <object id="37" name="11" type="WormPath" x="4131" y="495">
    <properties>
     <property name="Next" type="object" value="38"/>
+    <property name="Speed" type="float" value="100"/>
    </properties>
    <point/>
   </object>
   <object id="38" name="12" type="WormPath" x="4095" y="441">
    <properties>
     <property name="Next" type="object" value="39"/>
+    <property name="Speed" type="float" value="100"/>
    </properties>
    <point/>
   </object>
   <object id="39" name="13" type="WormPath" x="4122" y="414">
    <properties>
     <property name="Next" type="object" value="40"/>
+    <property name="Speed" type="float" value="100"/>
    </properties>
    <point/>
   </object>
   <object id="40" name="14" type="WormPath" x="4149" y="441">
    <properties>
     <property name="Next" type="object" value="41"/>
+    <property name="Speed" type="float" value="100"/>
    </properties>
    <point/>
   </object>
   <object id="41" name="15" type="WormPath" x="4149" y="517.5">
    <properties>
     <property name="Next" type="object" value="42"/>
+    <property name="Speed" type="float" value="100"/>
    </properties>
    <point/>
   </object>
   <object id="42" name="16" type="WormPath" x="4095" y="513">
    <properties>
     <property name="Next" type="object" value="43"/>
+    <property name="Speed" type="float" value="100"/>
    </properties>
    <point/>
   </object>
   <object id="43" name="17" type="WormPath" x="4077" y="468">
    <properties>
     <property name="Next" type="object" value="44"/>
+    <property name="Speed" type="float" value="100"/>
    </properties>
    <point/>
   </object>
   <object id="44" name="18" type="WormPath" x="4041" y="468">
    <properties>
     <property name="Next" type="object" value="45"/>
+    <property name="Speed" type="float" value="100"/>
    </properties>
    <point/>
   </object>
   <object id="45" name="19" type="WormPath" x="4023" y="513">
    <properties>
     <property name="Next" type="object" value="46"/>
+    <property name="Speed" type="float" value="100"/>
    </properties>
    <point/>
   </object>
-  <object id="46" name="20" type="WormPath" x="3928.5" y="513">
+  <object id="46" name="20" type="WormPath" x="3924" y="513">
    <properties>
     <property name="Next" type="object" value="47"/>
+    <property name="Speed" type="float" value="100"/>
    </properties>
    <point/>
   </object>
-  <object id="47" name="21" type="WormPath" x="3951" y="459">
+  <object id="47" name="21" type="WormPath" x="3928.5" y="432">
+   <properties>
+    <property name="Next" type="object" value="48"/>
+    <property name="Speed" type="float" value="150"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="48" name="22" type="WormPath" x="3942" y="378">
+   <properties>
+    <property name="Next" type="object" value="49"/>
+    <property name="Speed" type="float" value="150"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="49" name="23" type="WormPath" x="3960" y="432">
+   <properties>
+    <property name="Next" type="object" value="50"/>
+    <property name="Speed" type="float" value="150"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="50" name="24" type="WormPath" x="3969" y="504">
+   <properties>
+    <property name="Next" type="object" value="51"/>
+    <property name="Speed" type="float" value="150"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="51" name="25" type="WormPath" x="3987" y="531">
+   <properties>
+    <property name="Next" type="object" value="52"/>
+    <property name="Speed" type="float" value="150"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="52" name="26" type="WormPath" x="4131" y="513">
+   <properties>
+    <property name="Next" type="object" value="53"/>
+    <property name="Speed" type="float" value="150"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="53" name="27" type="WormPath" x="4153.5" y="432">
+   <properties>
+    <property name="Next" type="object" value="54"/>
+    <property name="Speed" type="float" value="150"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="54" name="28" type="WormPath" x="4140" y="378">
+   <properties>
+    <property name="Next" type="object" value="55"/>
+    <property name="Speed" type="float" value="150"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="55" name="29" type="WormPath" x="4122" y="432">
+   <properties>
+    <property name="Next" type="object" value="56"/>
+    <property name="Speed" type="float" value="150"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="56" name="30" type="WormPath" x="4113" y="504">
+   <properties>
+    <property name="Next" type="object" value="57"/>
+    <property name="Speed" type="float" value="150"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="57" name="31" type="WormPath" x="4095" y="531">
+   <properties>
+    <property name="Next" type="object" value="58"/>
+    <property name="Speed" type="float" value="150"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="58" name="32" type="WormPath" x="3951" y="513">
+   <properties>
+    <property name="Next" type="object" value="59"/>
+    <property name="Speed" type="float" value="150"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="59" name="33" type="WormPath" x="3942" y="432">
+   <properties>
+    <property name="Next" type="object" value="60"/>
+    <property name="Speed" type="float" value="150"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="60" name="34" type="WormPath" x="3978" y="360">
+   <properties>
+    <property name="Next" type="object" value="61"/>
+    <property name="Speed" type="float" value="150"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="61" name="35" type="WormPath" x="4014" y="360">
+   <properties>
+    <property name="Next" type="object" value="62"/>
+    <property name="Speed" type="float" value="150"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="62" name="36" type="WormPath" x="4041" y="378">
+   <properties>
+    <property name="Next" type="object" value="63"/>
+    <property name="Speed" type="float" value="250"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="63" name="37" type="WormPath" x="4041" y="531">
+   <properties>
+    <property name="Next" type="object" value="64"/>
+    <property name="Speed" type="float" value="250"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="64" name="38" type="WormPath" x="4041" y="774">
    <properties>
     <property name="Next" type="object" value="0"/>
+    <property name="Speed" type="float" value="250"/>
    </properties>
    <point/>
   </object>

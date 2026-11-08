@@ -363,7 +363,7 @@ internal sealed class MapLoader
                     var playerChaseHidePoint = GetPoint(tiledObject, "PlayerChase_HidePoint", objectLayer);
 
                     var fightTrigger = GetAABB2D(tiledObject, "Fight_Trigger", objectLayer);
-                    var fightAttackSequence1 = GetPath(tiledObject, "Fight_AttackSequence1", tileMap);
+                    var fightAttackSequence1 = GetWormPath(tiledObject, "Fight_AttackSequence1", tileMap);
 
                     var props = new EntityFactory.WormBossProps
                     {
@@ -665,9 +665,9 @@ internal sealed class MapLoader
         return aabb;
     }
 
-    private static Vector2[] GetPath(TiledObject tiledObject, string propertyName, TileMap tileMap)
+    private static WormPathPoint[] GetWormPath(TiledObject tiledObject, string propertyName, TileMap tileMap)
     {
-        var path = new List<Vector2>();
+        var path = new List<WormPathPoint>();
 
         var allObjects = tileMap.ObjectLayers.SelectMany(tm => tm.Objects).ToArray();
 
@@ -682,7 +682,12 @@ internal sealed class MapLoader
 
         while (nextPoint is not null)
         {
-            path.Add(GetWorldCoordinates(nextPoint));
+            var wormPathPoint = new WormPathPoint
+            {
+                Position = GetWorldCoordinates(nextPoint),
+                Speed = nextPoint.Properties.GetPropertyOrNull("Speed")?.FloatValue ?? 30
+            };
+            path.Add(wormPathPoint);
             var nextObjectId = nextPoint.Properties.GetPropertyOrNull("Next")?.ObjectValue ?? 0;
             nextPoint = nextObjectId == 0 ? null : allObjects.Single(o => o.Id == nextObjectId);
         }

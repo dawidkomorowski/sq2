@@ -914,7 +914,7 @@ internal sealed class EntityFactory
         public Vector2 PlayerChaseRaisePoint { get; init; }
         public Vector2 PlayerChaseHidePoint { get; init; }
         public AABB2D FightTrigger { get; init; }
-        public Vector2[] FightAttackSequence1 { get; init; }
+        public WormPathPoint[] FightAttackSequence1 { get; init; }
     }
 
     public Entity CreateWormBoss(Scene scene, Vector2 position, WormBossProps props)
