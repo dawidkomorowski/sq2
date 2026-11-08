@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="250" height="100" tilewidth="18" tileheight="18" infinite="0" nextlayerid="8" nextobjectid="100">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="250" height="100" tilewidth="18" tileheight="18" infinite="0" nextlayerid="9" nextobjectid="154">
  <properties>
   <property name="Background" propertytype="Background" value="Desert"/>
  </properties>
@@ -55,10 +55,10 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,121,0,0,0,0,0,0,0,0,0,0,0,0,0,121,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,121,0,0,0,0,0,0,0,0,0,0,0,0,0,121,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,121,0,0,0,0,0,0,0,0,0,0,0,0,0,121,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,121,0,0,0,0,0,0,0,0,0,0,0,0,0,121,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,121,0,0,0,0,0,0,0,0,0,0,0,0,0,121,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,121,0,0,0,0,0,0,0,0,0,0,0,0,0,121,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,121,0,0,0,0,0,0,0,0,0,0,0,0,0,121,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,143,143,143,143,143,143,143,143,143,143,143,143,143,143,144,0,0,0,0,0,0,0,0,0,0,0,0,0,142,2147483791,2147483791,2147483791,2147483791,2147483791,2147483791,2147483791,2147483791,2147483791,2147483791,2147483791,2147483791,2147483791,2147483791,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1073741967,1073741967,1073741967,1073741967,1073741967,1073741967,1073741967,1073741967,1073741967,1073741967,1073741967,1073741967,1073741967,1073741967,3221225614,0,0,0,0,0,69,69,69,0,0,0,0,0,3221225616,3221225615,3221225615,3221225615,3221225615,3221225615,3221225615,3221225615,3221225615,3221225615,3221225615,3221225615,3221225615,3221225615,3221225615,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,121,0,0,0,0,0,42,43,44,0,0,0,0,0,121,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,121,0,0,0,0,0,0,0,0,0,0,0,0,0,121,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,121,0,0,0,0,0,0,0,0,0,0,0,0,0,121,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,121,0,0,0,0,0,0,0,0,0,0,0,0,0,121,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -109,13 +109,65 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="2" name="GamePlayObjects">
-  <object id="1" name="Player Spawn Point" type="PlayerSpawnPoint" x="3780" y="423">
+ <objectgroup id="8" name="Arena3">
+  <object id="138" type="DestructibleWall" gid="7" x="3924" y="936" width="18" height="18">
+   <properties>
+    <property name="Button" type="object" value="0"/>
+   </properties>
+  </object>
+  <object id="139" type="DestructibleWall" gid="7" x="3942" y="936" width="18" height="18">
+   <properties>
+    <property name="Button" type="object" value="0"/>
+   </properties>
+  </object>
+  <object id="140" type="DestructibleWall" gid="7" x="3960" y="936" width="18" height="18">
+   <properties>
+    <property name="Button" type="object" value="0"/>
+   </properties>
+  </object>
+  <object id="141" type="DestructibleWall" gid="7" x="3978" y="936" width="18" height="18">
+   <properties>
+    <property name="Button" type="object" value="0"/>
+   </properties>
+  </object>
+  <object id="142" type="DestructibleWall" gid="7" x="3996" y="936" width="18" height="18">
+   <properties>
+    <property name="Button" type="object" value="0"/>
+   </properties>
+  </object>
+  <object id="143" type="DestructibleWall" gid="7" x="4068" y="936" width="18" height="18">
+   <properties>
+    <property name="Button" type="object" value="0"/>
+   </properties>
+  </object>
+  <object id="144" type="DestructibleWall" gid="7" x="4086" y="936" width="18" height="18">
+   <properties>
+    <property name="Button" type="object" value="0"/>
+   </properties>
+  </object>
+  <object id="145" type="DestructibleWall" gid="7" x="4104" y="936" width="18" height="18">
+   <properties>
+    <property name="Button" type="object" value="0"/>
+   </properties>
+  </object>
+  <object id="146" type="DestructibleWall" gid="7" x="4122" y="936" width="18" height="18">
+   <properties>
+    <property name="Button" type="object" value="0"/>
+   </properties>
+  </object>
+  <object id="147" type="DestructibleWall" gid="7" x="4140" y="936" width="18" height="18">
+   <properties>
+    <property name="Button" type="object" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="2" name="GamePlayObjects" visible="0">
+  <object id="1" name="Player Spawn Point" type="PlayerSpawnPoint" x="4102" y="710">
    <point/>
   </object>
-  <object id="7" type="BossWorm" gid="189" x="4104" y="522" width="24" height="24">
+  <object id="7" name="Boss Fight" type="BossWorm" gid="189" x="4104" y="522" width="24" height="24">
    <properties>
-    <property name="Fight_AttackSequence1" type="object" value="24"/>
+    <property name="Fight_AttackSequence1" type="object" value="134"/>
     <property name="Fight_Trigger" type="object" value="16"/>
     <property name="WormAI" propertytype="WormAI" value="Fight"/>
    </properties>
@@ -138,57 +190,57 @@
    <point/>
   </object>
   <object id="15" name="Worm End Chase Trigger" type="Metadata" x="1782" y="126" width="36" height="468"/>
-  <object id="16" name="Worm Fight Trigger" type="Metadata" x="3924" y="450" width="234" height="72"/>
+  <object id="16" name="Worm Fight Trigger" type="Metadata" x="3924" y="450" width="234" height="270"/>
  </objectgroup>
  <objectgroup id="7" name="Arena2">
   <object id="85" type="DestructibleWall" gid="7" x="3942" y="738" width="18" height="18">
    <properties>
-    <property name="Button" type="object" value="0"/>
+    <property name="Button" type="object" value="136"/>
    </properties>
   </object>
   <object id="86" type="DestructibleWall" gid="7" x="3960" y="738" width="18" height="18">
    <properties>
-    <property name="Button" type="object" value="0"/>
+    <property name="Button" type="object" value="136"/>
    </properties>
   </object>
   <object id="87" type="DestructibleWall" gid="7" x="3978" y="738" width="18" height="18">
    <properties>
-    <property name="Button" type="object" value="0"/>
+    <property name="Button" type="object" value="136"/>
    </properties>
   </object>
   <object id="88" type="DestructibleWall" gid="7" x="3996" y="738" width="18" height="18">
    <properties>
-    <property name="Button" type="object" value="0"/>
+    <property name="Button" type="object" value="136"/>
    </properties>
   </object>
   <object id="89" type="DestructibleWall" gid="7" x="4014" y="738" width="18" height="18">
    <properties>
-    <property name="Button" type="object" value="0"/>
+    <property name="Button" type="object" value="136"/>
    </properties>
   </object>
   <object id="90" type="DestructibleWall" gid="7" x="4050" y="738" width="18" height="18">
    <properties>
-    <property name="Button" type="object" value="0"/>
+    <property name="Button" type="object" value="136"/>
    </properties>
   </object>
   <object id="91" type="DestructibleWall" gid="7" x="4068" y="738" width="18" height="18">
    <properties>
-    <property name="Button" type="object" value="0"/>
+    <property name="Button" type="object" value="136"/>
    </properties>
   </object>
   <object id="92" type="DestructibleWall" gid="7" x="4086" y="738" width="18" height="18">
    <properties>
-    <property name="Button" type="object" value="0"/>
+    <property name="Button" type="object" value="136"/>
    </properties>
   </object>
   <object id="93" type="DestructibleWall" gid="7" x="4104" y="738" width="18" height="18">
    <properties>
-    <property name="Button" type="object" value="0"/>
+    <property name="Button" type="object" value="136"/>
    </properties>
   </object>
   <object id="94" type="DestructibleWall" gid="7" x="4122" y="738" width="18" height="18">
    <properties>
-    <property name="Button" type="object" value="0"/>
+    <property name="Button" type="object" value="136"/>
    </properties>
   </object>
  </objectgroup>
@@ -564,6 +616,315 @@
    <point/>
   </object>
   <object id="99" name="44" type="WormPath" x="3978" y="576">
+   <properties>
+    <property name="Next" type="object" value="100"/>
+    <property name="Speed" type="float" value="75"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="100" name="45" type="WormPath" x="4104" y="576">
+   <properties>
+    <property name="Next" type="object" value="101"/>
+    <property name="Speed" type="float" value="75"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="101" name="46" type="WormPath" x="4140" y="612">
+   <properties>
+    <property name="Next" type="object" value="102"/>
+    <property name="Speed" type="float" value="100"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="102" name="47" type="WormPath" x="4140" y="684">
+   <properties>
+    <property name="Next" type="object" value="103"/>
+    <property name="Speed" type="float" value="125"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="103" name="48" type="WormPath" x="4122" y="711">
+   <properties>
+    <property name="Next" type="object" value="104"/>
+    <property name="Speed" type="float" value="150"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="104" name="49" type="WormPath" x="3960" y="711">
+   <properties>
+    <property name="Next" type="object" value="105"/>
+    <property name="Speed" type="float" value="150"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="105" name="50" type="WormPath" x="3933" y="666">
+   <properties>
+    <property name="Next" type="object" value="106"/>
+    <property name="Speed" type="float" value="125"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="106" name="51" type="WormPath" x="3960" y="612">
+   <properties>
+    <property name="Next" type="object" value="107"/>
+    <property name="Speed" type="float" value="125"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="107" name="52" type="WormPath" x="4050" y="594">
+   <properties>
+    <property name="Next" type="object" value="108"/>
+    <property name="Speed" type="float" value="125"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="108" name="53" type="WormPath" x="4113" y="603">
+   <properties>
+    <property name="Next" type="object" value="109"/>
+    <property name="Speed" type="float" value="125"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="109" name="54" type="WormPath" x="4140" y="648">
+   <properties>
+    <property name="Next" type="object" value="110"/>
+    <property name="Speed" type="float" value="125"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="110" name="55" type="WormPath" x="4140" y="702">
+   <properties>
+    <property name="Next" type="object" value="111"/>
+    <property name="Speed" type="float" value="125"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="111" name="56" type="WormPath" x="4068.91" y="708.636">
+   <properties>
+    <property name="Next" type="object" value="112"/>
+    <property name="Speed" type="float" value="125"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="112" name="57" type="WormPath" x="4063.82" y="643.273">
+   <properties>
+    <property name="Next" type="object" value="113"/>
+    <property name="Speed" type="float" value="125"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="113" name="58" type="WormPath" x="4035.73" y="618.818">
+   <properties>
+    <property name="Next" type="object" value="114"/>
+    <property name="Speed" type="float" value="125"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="114" name="59" type="WormPath" x="4002.55" y="641.818">
+   <properties>
+    <property name="Next" type="object" value="115"/>
+    <property name="Speed" type="float" value="125"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="115" name="60" type="WormPath" x="3997" y="701.091">
+   <properties>
+    <property name="Next" type="object" value="116"/>
+    <property name="Speed" type="float" value="125"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="116" name="61" type="WormPath" x="3949.55" y="710.636">
+   <properties>
+    <property name="Next" type="object" value="117"/>
+    <property name="Speed" type="float" value="125"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="117" name="62" type="WormPath" x="3933" y="639">
+   <properties>
+    <property name="Next" type="object" value="118"/>
+    <property name="Speed" type="float" value="125"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="118" name="63" type="WormPath" x="3951" y="567">
+   <properties>
+    <property name="Next" type="object" value="119"/>
+    <property name="Speed" type="float" value="125"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="119" name="64" type="WormPath" x="4104" y="558">
+   <properties>
+    <property name="Next" type="object" value="120"/>
+    <property name="Speed" type="float" value="125"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="120" name="65" type="WormPath" x="4148.73" y="594">
+   <properties>
+    <property name="Next" type="object" value="121"/>
+    <property name="Speed" type="float" value="120"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="121" name="66" type="WormPath" x="4147.82" y="677.273">
+   <properties>
+    <property name="Next" type="object" value="122"/>
+    <property name="Speed" type="float" value="115"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="122" name="67" type="WormPath" x="4130.36" y="710.727">
+   <properties>
+    <property name="Next" type="object" value="123"/>
+    <property name="Speed" type="float" value="110"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="123" name="68" type="WormPath" x="4062.18" y="710.727">
+   <properties>
+    <property name="Next" type="object" value="124"/>
+    <property name="Speed" type="float" value="105"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="124" name="69" type="WormPath" x="4076.18" y="668.909">
+   <properties>
+    <property name="Next" type="object" value="125"/>
+    <property name="Speed" type="float" value="100"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="125" name="70" type="WormPath" x="4056.73" y="632.909">
+   <properties>
+    <property name="Next" type="object" value="126"/>
+    <property name="Speed" type="float" value="95"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="126" name="71" type="WormPath" x="4022" y="640.727">
+   <properties>
+    <property name="Next" type="object" value="127"/>
+    <property name="Speed" type="float" value="90"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="127" name="72" type="WormPath" x="4005.09" y="671.273">
+   <properties>
+    <property name="Next" type="object" value="128"/>
+    <property name="Speed" type="float" value="85"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="128" name="73" type="WormPath" x="4013.64" y="709.273">
+   <properties>
+    <property name="Next" type="object" value="129"/>
+    <property name="Speed" type="float" value="80"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="129" name="74" type="WormPath" x="3944" y="709.455">
+   <properties>
+    <property name="Next" type="object" value="130"/>
+    <property name="Speed" type="float" value="75"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="130" name="75" type="WormPath" x="3933.82" y="683.818">
+   <properties>
+    <property name="Next" type="object" value="131"/>
+    <property name="Speed" type="float" value="75"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="131" name="76" type="WormPath" x="3934.18" y="605.455">
+   <properties>
+    <property name="Next" type="object" value="132"/>
+    <property name="Speed" type="float" value="75"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="132" name="77" type="WormPath" x="3999.09" y="571.091">
+   <properties>
+    <property name="Next" type="object" value="133"/>
+    <property name="Speed" type="float" value="125"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="133" name="78" type="WormPath" x="4068.36" y="571.273">
+   <properties>
+    <property name="Next" type="object" value="134"/>
+    <property name="Speed" type="float" value="175"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="134" name="79" type="WormPath" x="4095" y="603">
+   <properties>
+    <property name="Next" type="object" value="135"/>
+    <property name="Speed" type="float" value="250"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="135" name="80" type="WormPath" x="4095" y="729">
+   <properties>
+    <property name="Next" type="object" value="136"/>
+    <property name="Speed" type="float" value="250"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="136" name="81 - Destroy Ground" type="WormPath" x="4095" y="756">
+   <properties>
+    <property name="DestroyConnectedWalls" type="bool" value="true"/>
+    <property name="Next" type="object" value="137"/>
+    <property name="Speed" type="float" value="250"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="137" name="82" type="WormPath" x="4095" y="864">
+   <properties>
+    <property name="Next" type="object" value="148"/>
+    <property name="Speed" type="float" value="250"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="148" name="83" type="WormPath" x="4068" y="900">
+   <properties>
+    <property name="Next" type="object" value="149"/>
+    <property name="Speed" type="float" value="200"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="149" name="84" type="WormPath" x="4014" y="900">
+   <properties>
+    <property name="Next" type="object" value="150"/>
+    <property name="Speed" type="float" value="150"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="150" name="85" type="WormPath" x="3978" y="864">
+   <properties>
+    <property name="Next" type="object" value="151"/>
+    <property name="Speed" type="float" value="100"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="151" name="86" type="WormPath" x="3942" y="810">
+   <properties>
+    <property name="Next" type="object" value="152"/>
+    <property name="Speed" type="float" value="75"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="152" name="87" type="WormPath" x="3978" y="774">
+   <properties>
+    <property name="Next" type="object" value="153"/>
+    <property name="Speed" type="float" value="75"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="153" name="88" type="WormPath" x="4032" y="774">
    <properties>
     <property name="Next" type="object" value="0"/>
     <property name="Speed" type="float" value="75"/>
