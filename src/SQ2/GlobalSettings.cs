@@ -16,6 +16,7 @@ internal static class GlobalSettings
         public const string Background = "Background";
         public const string DecorBackground = "DecorBackground";
         public const string DecorForeground = "DecorForeground";
+        public const string Atmospherics = "Atmospherics";
         public const string Hud = "Hud";
         public const string UI = "UI";
 

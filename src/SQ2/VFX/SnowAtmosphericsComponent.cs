@@ -60,6 +60,7 @@ internal sealed class SnowAtmosphericsComponent : BehaviorComponent
         transform2DComponent.Translation = position;
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
+        spriteRendererComponent.SortingLayerName = GlobalSettings.SortingLayers.Atmospherics;
         var spriteAnimationComponent = entity.CreateComponent<SpriteAnimationComponent>();
         spriteAnimationComponent.AddAnimation("Animation", Animation);
         spriteAnimationComponent.PlayInLoop = true;
