@@ -63,6 +63,7 @@ internal class SQ2Game : Game
                     GlobalSettings.SortingLayers.DecorBackground,
                     RenderingConfiguration.DefaultSortingLayerName,
                     GlobalSettings.SortingLayers.DecorForeground,
+                    GlobalSettings.SortingLayers.Atmospherics,
                     GlobalSettings.SortingLayers.Hud,
                     GlobalSettings.SortingLayers.UI,
                     GlobalSettings.SortingLayers.MenuAnimatedBackground,
