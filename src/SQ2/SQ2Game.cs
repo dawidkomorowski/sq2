@@ -4,6 +4,7 @@ using Geisha.Engine.Rendering;
 using SQ2.Core;
 using SQ2.Development;
 using SQ2.GamePlay;
+using SQ2.GamePlay.Boss;
 using SQ2.GamePlay.Boss.Bat;
 using SQ2.GamePlay.Boss.Blue;
 using SQ2.GamePlay.Boss.Pumpkin;

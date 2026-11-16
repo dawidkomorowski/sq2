@@ -33,6 +33,7 @@ internal static class GlobalSettings
     {
         public static readonly int WormBossHead = 0;
         public static readonly int WormBossTail = 1;
+        public static readonly int Player = 2;
     }
 
     public static class HudElements

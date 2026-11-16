@@ -212,10 +212,6 @@ internal sealed class MapLoader
                                 _entityFactory.CreateAnimatedDecor(scene, tx, ty, assetId, orientation, RenderingConfiguration.DefaultSortingLayerName, 0);
                                 break;
                             }
-                            case "Key":
-                                AssertNoFlippingFlags(tileLayer, tile, w, h);
-                                _entityFactory.CreateKey(scene, tx, ty, assetId);
-                                break;
                             default:
                                 Logger.Error("Unknown WorldTile: {TileType} at position ({w}, {h}) in tile layer {tileLayer.Name}", tileType, w, h,
                                     tileLayer.Name);

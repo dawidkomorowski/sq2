@@ -11,6 +11,7 @@ using Geisha.Engine.Physics.Components;
 using Geisha.Engine.Rendering;
 using Geisha.Engine.Rendering.Components;
 using SQ2.Development;
+using SQ2.GamePlay.Boss;
 using SQ2.GamePlay.Boss.Bat;
 using SQ2.GamePlay.Boss.Blue;
 using SQ2.GamePlay.Boss.Pumpkin;
@@ -76,6 +77,7 @@ internal sealed class EntityFactory
         transform2DComponent.IsInterpolated = true;
         var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
         rectangleColliderComponent.Dimensions = new Vector2(14, 22);
+        rectangleColliderComponent.CollisionLayer = CollisionBitmask.FromBit(GlobalSettings.CollisionLayers.Player);
         var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
         kinematicRigidBody2DComponent.EnableCollisionResponse = true;
 
@@ -370,14 +372,21 @@ internal sealed class EntityFactory
         return entity;
     }
 
-    public Entity CreateKey(Scene scene, int tx, int ty, AssetId assetId)
+    public Entity CreateKey(Scene scene, Vector2 position, Vector2 velocity)
     {
         var entity = scene.CreateEntity();
         entity.CreateComponent<KeyComponent>();
         var transform2DComponent = entity.CreateComponent<Transform2DComponent>();
-        transform2DComponent.Translation = Geometry.GetWorldCoordinates(tx, ty);
+        transform2DComponent.Translation = position;
+        transform2DComponent.IsInterpolated = true;
+        var rectangleColliderComponent = entity.CreateComponent<RectangleColliderComponent>();
+        rectangleColliderComponent.Dimensions = new Vector2(15, 13);
+        rectangleColliderComponent.CollisionMask = CollisionBitmask.All.WithoutBit(GlobalSettings.CollisionLayers.Player);
+        var kinematicRigidBody2DComponent = entity.CreateComponent<KinematicRigidBody2DComponent>();
+        kinematicRigidBody2DComponent.LinearVelocity = velocity;
+        kinematicRigidBody2DComponent.EnableCollisionResponse = true;
         var spriteRendererComponent = entity.CreateComponent<SpriteRendererComponent>();
-        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(assetId);
+        spriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("d9168910-07b8-4522-87f3-149d04cd509c"));
         spriteRendererComponent.BitmapInterpolationMode = BitmapInterpolationMode.NearestNeighbor;
         return entity;
     }

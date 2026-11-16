@@ -32,13 +32,13 @@ internal sealed class KeyHoleComponent : BehaviorComponent, IRespawnable
         var contacts = _tileColliderComponent.GetContactsAsSpan(_contacts);
         foreach (var contact in contacts)
         {
-            if (contact.OtherCollider.Entity.HasComponent<PlayerComponent>() &&
-                contact.OtherCollider.Entity.GetComponent<PlayerComponent>().KeysCollected >= KeysRequired)
-            {
-                _tileColliderComponent.Enabled = false;
-                _spriteRendererComponent.Visible = false;
-                break;
-            }
+            //if (contact.OtherCollider.Entity.HasComponent<PlayerComponent>() &&
+            //    contact.OtherCollider.Entity.GetComponent<PlayerComponent>().KeysCollected >= KeysRequired)
+            //{
+            //    _tileColliderComponent.Enabled = false;
+            //    _spriteRendererComponent.Visible = false;
+            //    break;
+            //}
         }
     }
 

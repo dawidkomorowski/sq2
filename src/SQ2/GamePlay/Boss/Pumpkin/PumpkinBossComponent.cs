@@ -16,6 +16,7 @@ namespace SQ2.GamePlay.Boss.Pumpkin;
 
 internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
 {
+    private const bool DebugFastKill = false;
     internal static readonly Vector2 SpriteOffset = new(0, 2);
 
     private readonly EntityFactory _entityFactory;
@@ -41,7 +42,8 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
     private int _jumpCountAfterPassingPlayer;
     private double _jumpHorizontalSpeed;
     private bool _damagedThisFrame;
-    private int _health = 3;
+    private const int TotalHealth = 3;
+    private int _health = TotalHealth;
 
     public PumpkinBossComponent(Entity entity, EntityFactory entityFactory, RespawnService respawnService) : base(entity)
     {
@@ -101,12 +103,17 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
             {
                 var playerComponent = contact2D.OtherCollider.Entity.GetComponent<PlayerComponent>();
 
-                if (_state is State.Vulnerable)
+                if (_state is State.Vulnerable || DebugFastKill)
                 {
                     if (contact2D.CollisionNormal.Y < 0)
                     {
                         var playerKinematicComponent = playerComponent.Entity.GetComponent<KinematicRigidBody2DComponent>();
                         playerKinematicComponent.LinearVelocity = playerKinematicComponent.LinearVelocity.WithY(200);
+
+                        if (DebugFastKill)
+                        {
+                            _health = 1;
+                        }
 
                         TakeDamage();
                     }
@@ -375,6 +382,9 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
             Entity.RemoveAfterFixedTimeStep();
             _respawnService.AddOneTimeRespawnAction(() => { _entityFactory.CreatePumpkinBoss(Scene, _initialPosition); });
             _entityFactory.CreatePumpkinBossDeathAnimation(Scene, _transform2DComponent.Translation + SpriteOffset);
+
+            var keyHorizontalVelocity = PlayerIsToTheRight() ? -75 : 75;
+            _entityFactory.CreateKey(Scene, _transform2DComponent.Translation, new Vector2(keyHorizontalVelocity, 200));
         }
     }
 
@@ -387,7 +397,7 @@ internal sealed class PumpkinBossComponent : BehaviorComponent, IRespawnable
         ResetAnimation();
         InitJumpState();
         _damagedThisFrame = false;
-        _health = 3;
+        _health = TotalHealth;
     }
 
     #region Animation

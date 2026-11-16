@@ -72,9 +72,6 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
     private PlayerSpawnPointComponent _playerSpawnPointComponent = null!;
     internal CheckPointComponent? ActiveCheckPoint { get; set; }
 
-    // Keys
-    public int KeysCollected { get; set; }
-
     // Doors
     internal DoorComponent? DoorInRange { get; set; }
     private bool _enterDoorRequested;
@@ -542,7 +539,6 @@ internal sealed class PlayerComponent : BehaviorComponent, IRespawnable
             : ActiveCheckPoint.Entity.GetComponent<Transform2DComponent>().Translation;
         TeleportTo(spawnPosition);
 
-        KeysCollected = 0;
         DoorInRange = null;
         CoinsCollected = CoinsCollectedSavedByCheckPoint;
     }
