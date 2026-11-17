@@ -3,5 +3,6 @@
 internal enum DropType
 {
     None,
-    BlueEnemy
+    BlueEnemy,
+    Key
 }

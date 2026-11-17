@@ -790,6 +790,11 @@ internal sealed class EntityFactory
             dropPreviewSpriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("31fbfb4d-988a-4382-85f9-f41c63bd4f27"));
         }
 
+        if (drop is DropType.Key)
+        {
+            dropPreviewSpriteRendererComponent.Sprite = _assetStore.GetAsset<Sprite>(AssetId.Parse("d9168910-07b8-4522-87f3-149d04cd509c"));
+        }
+
         return entity;
     }
 

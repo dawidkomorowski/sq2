@@ -111,6 +111,11 @@ internal sealed class BatBossComponent : BehaviorComponent, IRespawnable
                 _secondsTimer = 0;
             }
 
+            if (Drop is DropType.Key)
+            {
+                _entityFactory.CreateKey(Scene, _transform2DComponent.Translation, Vector2.Zero);
+            }
+
             _dropPreviewSpriteRendererComponent.Visible = false;
             Drop = DropType.None;
         }

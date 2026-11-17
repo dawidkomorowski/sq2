@@ -140,7 +140,8 @@
             "type": "enum",
             "values": [
                 "None",
-                "BlueEnemy"
+                "BlueEnemy",
+                "Key"
             ],
             "valuesAsFlags": false
         },
