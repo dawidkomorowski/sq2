@@ -111,6 +111,11 @@
                     "value": 0
                 },
                 {
+                    "name": "DropKey",
+                    "type": "bool",
+                    "value": false
+                },
+                {
                     "name": "SpawnAfterSeconds",
                     "type": "float",
                     "value": 0

@@ -2984,6 +2984,7 @@
   </object>
   <object id="1354" type="BossBat" gid="205" x="1989" y="3780" width="24" height="24">
    <properties>
+    <property name="DropKey" type="bool" value="true"/>
     <property name="SpawnAfterSeconds" type="float" value="80"/>
     <property name="TargetPoint" type="object" value="1068"/>
     <property name="Velocity" type="float" value="100"/>
