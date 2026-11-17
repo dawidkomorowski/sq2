@@ -19,6 +19,7 @@ namespace SQ2.GamePlay.Boss.Blue;
 
 internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
 {
+    private const bool DebugFastKill = false;
     internal static readonly Vector2 SpriteOffset1 = new(0, -1);
     private static readonly Vector2 SpriteOffset2 = new(0, 1);
     internal static readonly Vector2 ColliderDimensions1 = new(34, 26);
@@ -117,7 +118,7 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
             {
                 var playerComponent = contact2D.OtherCollider.Entity.GetComponent<PlayerComponent>();
 
-                if (_bossPhase is not BossPhase.Phase6)
+                if (_bossPhase is not BossPhase.Phase6 && !DebugFastKill)
                 {
                     playerComponent.KillPlayer();
                 }
@@ -233,7 +234,12 @@ internal sealed class BlueBossComponent : BehaviorComponent, IRespawnable
 
         var offset = new Vector2(SpriteOffset2.X * _transform2DComponent.Scale.X, SpriteOffset2.Y);
         _entityFactory.CreateBlueBossDeathAnimation(Scene, _transform2DComponent.Translation + offset, _transform2DComponent.Scale);
+
+        var keyHorizontalVelocity = PlayerIsToTheRight() ? -75 : 75;
+        _entityFactory.CreateKey(Scene, _transform2DComponent.Translation, new Vector2(keyHorizontalVelocity, 200));
     }
+
+    private bool PlayerIsToTheRight() => _transform2DComponent.Translation.X < _playerTransform.Translation.X;
 
     private void OnWaitingForPlayer()
     {
