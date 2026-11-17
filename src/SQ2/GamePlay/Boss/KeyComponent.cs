@@ -77,10 +77,21 @@ internal sealed class KeyComponent : BehaviorComponent, IRespawnable
         if (_isFullyDropped)
         {
             var distanceToPlayer = _transform2DComponent.Translation.Distance(_playerTransform.Translation);
-            if (distanceToPlayer < 13)
+            if (distanceToPlayer < 5)
             {
                 _isCollected = true;
-                _spriteRendererComponent.Visible = false;
+
+                Entity.RemoveComponent(_rectangleColliderComponent);
+                Entity.RemoveComponent(_kinematicComponent);
+
+                Entity.Parent = _playerComponent.Entity;
+                _spriteRendererComponent.OrderInLayer = 1;
+
+                _transform2DComponent.SetTransformImmediate(_transform2DComponent.Transform with
+                {
+                    Translation = new Vector2(-12, -5),
+                    Scale = new Vector2(-1, 1)
+                });
 
                 _cinematicCameraComponent.Show();
                 _playerComponent.DisableInput();
